@@ -1,92 +1,40 @@
-import React from "react";
-import { Col, Row, Typography, Button, Checkbox, Form, Input } from "antd";
-import './Login.scss'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const { Title } = Typography;
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-function Login() {
+function Login({ onLogin }) {
+  const [creds, setCreds] = useState({});
+  const navigate = useNavigate();
+
+  function handleLogin() {
+    // For demonstration purposes only. Never use these checks in production!
+    // Use a proper authentication implementation
+    if (creds.username === "admin" && creds.password === "123") {
+      onLogin && onLogin({ username: creds.username });
+      navigate("/");
+    }
+  }
+
   return (
-    <>
-      <Row>
-        <Col xs={24}>
-          <div>
-            <Form
-              name="basic"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              style={{
-                maxWidth: 600,
-                margin: "auto",
-              }}
-              initialValues={{
-                remember: true,
-              }}
-              layout="vertical"
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </Col>
-      </Row>
-    </>
+    <div style={{ padding: 10 }}>
+      <br />
+      <span>Username:</span>
+      <br />
+      <input
+        type="text"
+        onChange={(e) => setCreds({ ...creds, username: e.target.value })}
+      />
+      <br />
+      <span>Password:</span>
+      <br />
+      <input
+        type="password"
+        onChange={(e) => setCreds({ ...creds, password: e.target.value })}
+      />
+      <br />
+      <br />
+      <button onClick={handleLogin}>Login</button>
+    </div>
   );
 }
+
 export default Login;
