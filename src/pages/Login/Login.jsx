@@ -1,91 +1,154 @@
-import React from "react";
-import { Col, Row, Typography, Button, Checkbox, Form, Input } from "antd";
-import './Login.scss'
+import React, { useState, useEffect } from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import HomeIcon from "@mui/icons-material/Home";
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Container,
+  InputAdornment,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  /* Link, */
+  Stack,
+} from "@mui/material";
+import "./Login.css";
+import videoBg from "./nightwall.webm";
 
-const { Title } = Typography;
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+const finalTheme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: ({ theme }) =>
+          theme.unstable_sx({
+            borderRadius: 20,
+          }),
+      },
+    },
+  },
+});
+
 function Login() {
   return (
     <>
-      <Row>
-        <Col xs={24}>
-          <div>
-            <Form
-              name="basic"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              style={{
-                maxWidth: 600,
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <video
+          src={videoBg}
+          autoPlay
+          loop
+          muted
+          style={{
+            position: "absolute",
+            width: "100vw",
+            height: "100vh",
+            objectFit: "cover",
+          }}
+        ></video>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                maxWidth: "500px",
                 margin: "auto",
+                border: "1px solid black",
+                borderRadius: "10px",
+                marginTop: "10px",
+                marginBottom: "10px",
+                backgroundColor: "white",
+                opacity: "90%",
+                position: "relative",
               }}
-              initialValues={{
-                remember: true,
-              }}
-              layout="vertical"
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
             >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  width: "90%",
+                  margin: "auto",
+                  marginTop: "10px",
+                  marginBottom: "10px",
                 }}
               >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </Col>
-      </Row>
+                <ThemeProvider theme={finalTheme}>
+                  <form>
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <HomeIcon sx={{ fontSize: 100 }}></HomeIcon>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Typography variant="h1">Login</Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                      {/* <Typography>Username</Typography> */}
+                      <TextField
+                        id="outlined-basic"
+                        sx={{
+                          width: "100%",
+                          [`& fieldset`]: { borderRadius:8 },
+                          marginTop: "60px",
+                          marginBottom: "30px",
+                        }}
+                        variant="outlined"
+                        label="User Name"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      {/* <Typography>Password</Typography> */}
+                      <TextField
+                        id="outlined-basic"
+                        sx={{
+                          width: "100%",
+                          [`& fieldset`]: { borderRadius:8 },
+                          marginBottom: "60px",
+                        }}
+                        variant="outlined"
+                        label="Password"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box sx={{ width: "100%", display: "flex" }}>
+                        <Button
+                          size="large"
+                          variant="contained"
+                          sx={{ width: "30%", margin: "auto" }}
+                        >
+                          Login
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </form>
+                </ThemeProvider>
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 }
