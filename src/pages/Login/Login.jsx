@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import {
   Grid,
@@ -12,7 +13,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import "./Login.css";
-import videoBg from "./nightwall.webm";
+import videoBg from "../../assets/nightwall.webm";
 
 const finalTheme = createTheme({
   components: {
@@ -159,11 +160,9 @@ function Login() {
                         />
                       </Grid>
                       <Grid item xs={6}>
-                        <Box
-                          className="forgotBox"
-                        >
+                        <Box className="forgotBox">
                           <Typography
-                            onClick={e=>handleForgot(e)}
+                            onClick={(e) => handleForgot(e)}
                             variant="small"
                             className="forgot"
                           >
@@ -189,7 +188,7 @@ function Login() {
                         <Typography variant="small" sx={{ color: "black" }}>
                           Didn't have an account?{" "}
                           <Typography
-                            onClick={(e)=>handleSignUp(e)}
+                            onClick={(e) => handleSignUp(e)}
                             variant="small"
                             sx={{
                               cursor: "pointer",
