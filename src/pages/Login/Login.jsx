@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import HomeIcon from "@mui/icons-material/Home";
 import {
@@ -16,7 +17,7 @@ import {
   Stack,
 } from "@mui/material";
 import "./Login.css";
-import videoBg from "./nightwall.webm";
+import videoBg from "../../assets/nightwall.webm";
 
 const finalTheme = createTheme({
   components: {
@@ -125,7 +126,7 @@ function Login() {
                         sx={{
                           width: "100%",
                           [`& fieldset`]: { borderRadius: 8 },
-                          marginBottom: "60px",
+                          marginBottom: "30px",
                         }}
                         variant="outlined"
                         label="Password"
@@ -136,10 +137,29 @@ function Login() {
                         <Button
                           size="large"
                           variant="contained"
-                          sx={{ width: "30%", margin: "auto" }}
+                          sx={{
+                            width: "30%",
+                            margin: "auto",
+                            marginBottom: "15px",
+                          }}
                         >
                           Login
                         </Button>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Link to="/signup">
+                          <Typography variant="h8">
+                            Don't have an account? Register here.
+                          </Typography>
+                        </Link>
                       </Box>
                     </Grid>
                   </form>
