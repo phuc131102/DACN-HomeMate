@@ -8,13 +8,10 @@ import Job from "../pages/Job/Job";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/job" element={<Job />} />
-
-      {/* <Route path="/topbar" element={<TopBar />} /> */}
-      {/* <Route path="*" element={<NoMatch />} /> */}
     </Routes>
   );
 }

@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f2f1f6;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
