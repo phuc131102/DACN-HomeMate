@@ -1,4 +1,66 @@
 .LoginBox {
-  border: black solid 1px;
+  max-width: 500px;
+  margin: auto;
   border-radius: 10px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  background-color: white;
+  opacity: 90%;
+  position: relative;
+}
+.LoginBox .OutterGrid {
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.LoginBox .OutterGrid .HomeIcon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.LoginBox .OutterGrid .textDisplay {
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
+.LoginBox .OutterGrid .textDisplay2 {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.LoginBox .OutterGrid .buttonBox {
+  width: 100%;
+  display: flex;
+}
+
+.LoginBox .OutterGrid .loginButton {
+  width: 30%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.LoginBox .OutterGrid .remGrid {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+.LoginBox .OutterGrid .remGrid .remember {
+  color: "#000";
+  text-decoration: "none";
+  display: "flex";
+  align-content: "center";
+  text-align: "center";
+  margin-left: 1%;
+}
+.LoginBox .OutterGrid .remGrid .forgotBox {
+  display: flex;
+  justify-content: right;
+}
+.LoginBox .OutterGrid .remGrid .forgotBox .forgot {
+  margin-right: 5%;
+  color: black;
+  line-height: 15px;
+  text-decoration: underline;
+  cursor: pointer;
 }

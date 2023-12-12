@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import {
   Grid,
@@ -8,13 +9,8 @@ import {
   Button,
   Typography,
   Box,
-  Container,
-  InputAdornment,
   Checkbox,
   FormControlLabel,
-  IconButton,
-  /* Link, */
-  Stack,
 } from "@mui/material";
 import "./Login.css";
 import videoBg from "../../assets/nightwall.webm";
@@ -33,6 +29,36 @@ const finalTheme = createTheme({
 });
 
 function Login() {
+  const navigate = useNavigate();
+  const [userName, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [check, setCheck] = useState(false);
+
+  function handleUserName(e) {
+    setUsername(e.target.value);
+    console.log(userName);
+  }
+  function handlePassword(e) {
+    setPassword(e.target.value);
+    console.log(password);
+  }
+  function handleCheck() {
+    setCheck(!check);
+    console.log(check);
+  }
+  function handleSubmit() {
+    console.log(userName);
+    console.log(password);
+  }
+  function handleSignUp(event) {
+    event.preventDefault();
+    navigate("/signup");
+  }
+  function handleForgot(event) {
+    event.preventDefault();
+    navigate("/recovery");
+  }
+
   return (
     <>
       <Box
@@ -58,108 +84,121 @@ function Login() {
         ></video>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Box
-              sx={{
-                maxWidth: "500px",
-                margin: "auto",
-                border: "1px solid black",
-                borderRadius: "10px",
-                marginTop: "10px",
-                marginBottom: "10px",
-                backgroundColor: "white",
-                opacity: "90%",
-                position: "relative",
-              }}
-            >
-              <Grid
-                item
-                xs={12}
-                sx={{
-                  width: "90%",
-                  margin: "auto",
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                }}
-              >
+            <Box className="LoginBox">
+              <Grid item xs={12} className="OutterGrid">
                 <ThemeProvider theme={finalTheme}>
-                  <form>
+                  <form onSubmit={handleSubmit()}>
                     <Grid item xs={12}>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
+                      <Box className="HomeIcon">
                         <HomeIcon sx={{ fontSize: 100 }}></HomeIcon>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
+                      <Box className="HomeIcon">
                         <Typography variant="h1">Login</Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
                       {/* <Typography>Username</Typography> */}
                       <TextField
-                        id="outlined-basic"
                         sx={{
-                          width: "100%",
                           [`& fieldset`]: { borderRadius: 8 },
-                          marginTop: "60px",
-                          marginBottom: "30px",
                         }}
+                        className="textDisplay"
                         variant="outlined"
                         label="User Name"
+                        onChange={(e) => handleUserName(e)}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       {/* <Typography>Password</Typography> */}
                       <TextField
-                        id="outlined-basic"
                         sx={{
-                          width: "100%",
                           [`& fieldset`]: { borderRadius: 8 },
-                          marginBottom: "30px",
                         }}
                         variant="outlined"
+                        className="textDisplay2"
                         label="Password"
+                        onChange={(e) => handlePassword(e)}
                       />
                     </Grid>
+                    <Grid item container xs={12} className="remGrid">
+                      <Grid item xs={6}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={check}
+                              onClick={handleCheck}
+                              //size="small"
+                              sx={{
+                                color: "black",
+                                "&.Mui-checked": {
+                                  color: "black",
+                                },
+                                "& .MuiSvgIcon-root": {
+                                  fontSize: 18,
+                                },
+                                //fontSize: '1em',
+                                height: "8px",
+                                width: "8px",
+                                marginLeft: "9px",
+                              }}
+                            />
+                          }
+                          label={
+                            <Typography
+                              variant="small"
+                              sx={{
+                                lineHeight: "15px",
+                                marginLeft: "3px",
+                              }}
+                            >
+                              Remember me
+                            </Typography>
+                          }
+                          className="remember"
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Box className="forgotBox">
+                          <Typography
+                            onClick={(e) => handleForgot(e)}
+                            variant="small"
+                            className="forgot"
+                          >
+                            Forgot password?{" "}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
                     <Grid item xs={12}>
-                      <Box sx={{ width: "100%", display: "flex" }}>
+                      <Box className="buttonBox">
                         <Button
                           size="large"
                           variant="contained"
-                          sx={{
-                            width: "30%",
-                            margin: "auto",
-                            marginBottom: "15px",
-                          }}
+                          className="loginButton"
+                          onClick={handleSubmit}
                         >
                           Login
                         </Button>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Link to="/signup">
-                          <Typography variant="h8">
-                            Don't have an account? Register here.
+                      <Box className="HomeIcon">
+                        <Typography variant="small" sx={{ color: "black" }}>
+                          Didn't have an account?{" "}
+                          <Typography
+                            onClick={(e) => handleSignUp(e)}
+                            variant="small"
+                            sx={{
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                              color: "black",
+                            }}
+                          >
+                            Sign up
                           </Typography>
-                        </Link>
+                        </Typography>
                       </Box>
                     </Grid>
                   </form>
