@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import "./Login.css";
 import videoBg from "../../assets/nightwall.webm";
+import { sign_in } from "../../services/userAPI";
+import Loading from "../../components/Loading/Loading";
 
 const finalTheme = createTheme({
   components: {
@@ -30,13 +32,15 @@ const finalTheme = createTheme({
 
 function Login() {
   const navigate = useNavigate();
-  const [userName, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [check, setCheck] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   function handleUserName(e) {
-    setUsername(e.target.value);
-    console.log(userName);
+    setEmail(e.target.value);
+    console.log(email);
   }
   function handlePassword(e) {
     setPassword(e.target.value);
@@ -47,7 +51,7 @@ function Login() {
     console.log(check);
   }
   function handleSubmit() {
-    console.log(userName);
+    console.log(email);
     console.log(password);
   }
   function handleSignUp(event) {
@@ -58,7 +62,47 @@ function Login() {
     event.preventDefault();
     navigate("/recovery");
   }
+  ///////////////////////////
 
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
+  const handleSubmit2 = async (e) => {
+    const formData ={email:email, password:password}
+    e.preventDefault();
+    setLoading(true);
+    if (!validateEmail(email)) {
+      setError("Invalid email format.");
+      console.log("invalid email")
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await sign_in(formData);
+      if (response) {
+        navigate("/home");
+        console.log("User signed in:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 404) {
+          setError("All field is required.");
+          setLoading(false);
+        } else if (status === 409) {
+          setError("Email has been used.");
+          setLoading(false);
+        }
+      }
+      console.error("Sign up failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  ////////////////////////////
   return (
     <>
       <Box
@@ -87,7 +131,7 @@ function Login() {
             <Box className="LoginBox">
               <Grid item xs={12} className="OutterGrid">
                 <ThemeProvider theme={finalTheme}>
-                  <form onSubmit={handleSubmit()}>
+                  <form onSubmit={handleSubmit2}>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
                         <HomeIcon sx={{ fontSize: 100 }}></HomeIcon>
@@ -177,7 +221,7 @@ function Login() {
                           size="large"
                           variant="contained"
                           className="loginButton"
-                          onClick={handleSubmit}
+                          onClick={handleSubmit2}
                         >
                           Login
                         </Button>
