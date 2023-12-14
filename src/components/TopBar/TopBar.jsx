@@ -191,6 +191,20 @@ function TopBar() {
                   Sign up
                 </Typography>
               </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography
+                  href="/profile"
+                  textAlign="center"
+                  component="a"
+                  sx={{
+                    fontWeight: 700,
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Profile
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
