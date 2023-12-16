@@ -2,7 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import HomeIcon from "@mui/icons-material/Home";
-import { Grid, TextField, Button, Typography, Box } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
 import "./Signup.css";
 import videoBg from "../../assets/nightwall.webm";
 import { sign_up } from "../../services/userAPI";
@@ -25,6 +35,12 @@ function Signup() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const [age, setAge] = React.useState("");
+
+  const handleChangeRole = (event) => {
+    setAge(event.target.value);
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -65,6 +81,9 @@ function Signup() {
       setLoading(false);
       return;
     }
+
+    formData.role = age;
+
     try {
       const response = await sign_up(formData);
       if (response) {
@@ -158,21 +177,39 @@ function Signup() {
                         <Typography variant="h1">Sign up</Typography>
                       </Box>
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        id="outlined-basic"
-                        sx={{
-                          width: "100%",
-                          [`& fieldset`]: { borderRadius: 8 },
-                          marginTop: "30px",
-                          marginBottom: "15px",
-                        }}
-                        variant="outlined"
-                        label="User Name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                      />
+                    <Grid container spacing={2}>
+                      <Grid item xs={8}>
+                        <TextField
+                          id="outlined-basic"
+                          sx={{
+                            width: "100%",
+                            [`& fieldset`]: { borderRadius: 8 },
+                            marginTop: "30px",
+                            marginBottom: "15px",
+                          }}
+                          variant="outlined"
+                          label="User Name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <FormControl
+                          variant="standard"
+                          sx={{
+                            width: "100%",
+                            marginTop: "30px",
+                            marginBottom: "15px",
+                          }}
+                        >
+                          <InputLabel>Role</InputLabel>
+                          <Select onChange={handleChangeRole}>
+                            <MenuItem value="Homeowner">Homeowner</MenuItem>
+                            <MenuItem value="Worker">Worker</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
@@ -222,21 +259,7 @@ function Signup() {
                         onChange={handleConfirmPasswordChange}
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        id="outlined-basic"
-                        sx={{
-                          width: "100%",
-                          [`& fieldset`]: { borderRadius: 8 },
-                          marginBottom: "15px",
-                        }}
-                        variant="outlined"
-                        label="Role"
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                      />
-                    </Grid>
+
                     {error && (
                       <Typography variant="body2" color="error" align="center">
                         {error}
@@ -260,7 +283,7 @@ function Signup() {
                             marginTop: "15px",
                           }}
                         >
-                          Signup
+                          Sign up
                         </Button>
                       </Box>
                     </Grid>
