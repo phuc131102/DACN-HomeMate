@@ -20,6 +20,11 @@ function TopBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const navigateToProfile = () => {
+    // Điều hướng đến một route khác
+    navigate('/profile');
+  };
+
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -248,7 +253,7 @@ function TopBar() {
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography
-                    onClick={handleLogout}
+                    onClick={navigateToProfile}
                     component="a"
                     sx={{
                       fontWeight: 700,
