@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import HomeIcon from "@mui/icons-material/Home";
-import {
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Box,
-  Container,
-  InputAdornment,
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  /* Link, */
-  Stack,
-} from "@mui/material";
+import { Grid, TextField, Button, Typography, Box } from "@mui/material";
 import "./Signup.css";
 import videoBg from "../../assets/nightwall.webm";
+import { sign_up } from "../../services/userAPI";
+import Loading from "../../components/Loading/Loading";
 
 const finalTheme = createTheme({
   components: {
@@ -33,6 +22,81 @@ const finalTheme = createTheme({
 });
 
 function Signup() {
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("userData") !== null) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (!validateEmail(formData.email)) {
+      setError("Invalid email format.");
+      setLoading(false);
+      return;
+    }
+    if (formData.password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await sign_up(formData);
+      if (response) {
+        navigate("/");
+        console.log("User signed up:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 404) {
+          setError("All field is required.");
+          setLoading(false);
+        } else if (status === 409) {
+          setError("Email has been used.");
+          setLoading(false);
+        }
+      }
+      console.error("Sign up failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
   return (
     <>
       <Box
@@ -82,7 +146,7 @@ function Signup() {
                 }}
               >
                 <ThemeProvider theme={finalTheme}>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <Grid item xs={12}>
                       <Box
                         sx={{
@@ -91,72 +155,110 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <HomeIcon sx={{ fontSize: 100 }}></HomeIcon>
+                        <Typography variant="h1">Sign up</Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="h1">Signup</Typography>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      {/* <Typography>Username</Typography> */}
                       <TextField
                         id="outlined-basic"
                         sx={{
                           width: "100%",
                           [`& fieldset`]: { borderRadius: 8 },
-                          marginTop: "60px",
-                          marginBottom: "30px",
-                        }}
-                        variant="outlined"
-                        label="Email"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      {/* <Typography>Username</Typography> */}
-                      <TextField
-                        id="outlined-basic"
-                        sx={{
-                          width: "100%",
-                          [`& fieldset`]: { borderRadius: 8 },
-                          marginBottom: "30px",
+                          marginTop: "30px",
+                          marginBottom: "15px",
                         }}
                         variant="outlined"
                         label="User Name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      {/* <Typography>Password</Typography> */}
                       <TextField
                         id="outlined-basic"
                         sx={{
                           width: "100%",
                           [`& fieldset`]: { borderRadius: 8 },
-                          marginBottom: "30px",
+
+                          marginBottom: "15px",
+                        }}
+                        variant="outlined"
+                        label="Email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <TextField
+                        id="outlined-basic"
+                        sx={{
+                          width: "100%",
+                          [`& fieldset`]: { borderRadius: 8 },
+                          marginBottom: "15px",
                         }}
                         variant="outlined"
                         label="Password"
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
                       />
                     </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        id="outlined-basic"
+                        sx={{
+                          width: "100%",
+                          [`& fieldset`]: { borderRadius: 8 },
+                          marginBottom: "15px",
+                        }}
+                        variant="outlined"
+                        label="Confirm Password"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        id="outlined-basic"
+                        sx={{
+                          width: "100%",
+                          [`& fieldset`]: { borderRadius: 8 },
+                          marginBottom: "15px",
+                        }}
+                        variant="outlined"
+                        label="Role"
+                        name="role"
+                        value={formData.role}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                    {error && (
+                      <Typography variant="body2" color="error" align="center">
+                        {error}
+                      </Typography>
+                    )}
                     <Grid item xs={12}>
                       <Box
                         sx={{
                           width: "100%",
                           display: "flex",
-                          marginBottom: "15px",
                         }}
                       >
                         <Button
+                          type="submit"
                           size="large"
                           variant="contained"
-                          sx={{ width: "30%", margin: "auto" }}
+                          sx={{
+                            width: "30%",
+                            margin: "auto",
+                            marginBottom: "15px",
+                            marginTop: "15px",
+                          }}
                         >
                           Signup
                         </Button>
@@ -170,7 +272,7 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <Link to="/login">
+                        <Link to="/">
                           <Typography variant="h8">
                             Already have an account? Sign in now.
                           </Typography>

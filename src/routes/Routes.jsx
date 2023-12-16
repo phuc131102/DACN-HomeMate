@@ -9,8 +9,8 @@ import Profile from "../pages/Profile/Profile";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/job" element={<Job />} />
       <Route path="/profile" element={<Profile />} />
