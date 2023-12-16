@@ -171,53 +171,88 @@ function TopBar() {
                 color: "inherit",
               }}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  href="/login"
-                  textAlign="center"
-                  component="a"
-                  sx={{
-                    fontWeight: 700,
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Log in
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  href="/signup"
-                  textAlign="center"
-                  component="a"
-                  sx={{
-                    fontWeight: 700,
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Sign up
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  href="/profile"
-                  textAlign="center"
-                  component="a"
-                  sx={{
-                    fontWeight: 700,
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Profile
-                </Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+              Library App
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Typography
+                variant="h6"
+                noWrap
+                component={Link}
+                to="/home"
+                onClick={() => handleTabClick("home")}
+                sx={{
+                  mr: 4,
+                  ml: 4,
+                  display: { xs: "none", md: "flex" },
+                  fontWeight: 700,
+                  color: activeTab === "home" ? "red" : "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Catalog
+              </Typography>
+            </Box>
+
+            {/* <SearchField /> */}
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  {/* {userInfo !== "" ? (
+                    <Avatar src={userInfo.avatar} />
+                  ) : ( */}
+                  <Avatar src="/broken-image.jpg" />
+                  {/* )} */}
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {userInfo && (
+                  <Box p={2}>
+                    <Typography>
+                      <b>Username:</b> {userInfo.name}
+                    </Typography>
+                    <Typography>
+                      <b>Library Code:</b> {userInfo.lib_code}
+                    </Typography>
+                  </Box>
+                )}
+                <hr />
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography
+                    onClick={handleLogout}
+                    component="a"
+                    sx={{
+                      fontWeight: 700,
+                      color: "inherit",
+                      textDecoration: "none",
+                      width: "100%",
+                    }}
+                  >
+                    Sign out
+                  </Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      {/* )} */}
+    </div>
   );
 }
 export default TopBar;
