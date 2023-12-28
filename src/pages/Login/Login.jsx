@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import PasswordVisibilityToggle from "../../components/passView/passView";
 import {
   Grid,
   TextField,
@@ -38,6 +39,11 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   function handleUserName(e) {
     setEmail(e.target.value);
     console.log(email);
@@ -70,12 +76,12 @@ function Login() {
   };
 
   const handleSubmit2 = async (e) => {
-    const formData ={email:email, password:password}
+    const formData = { email: email, password: password };
     e.preventDefault();
     setLoading(true);
     if (!validateEmail(email)) {
       setError("Invalid email format.");
-      console.log("invalid email")
+      console.log("invalid email");
       setLoading(false);
       return;
     }
@@ -89,10 +95,7 @@ function Login() {
       if (error.response) {
         const { status } = error.response;
         if (status === 404) {
-          setError("All field is required.");
-          setLoading(false);
-        } else if (status === 409) {
-          setError("Email has been used.");
+          setError("Wrong email or password.");
           setLoading(false);
         }
       }
@@ -101,6 +104,10 @@ function Login() {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   ////////////////////////////
   return (
@@ -163,7 +170,16 @@ function Login() {
                         variant="outlined"
                         className="textDisplay2"
                         label="Password"
+                        type={showPassword ? "text" : "password"}
                         onChange={(e) => handlePassword(e)}
+                        InputProps={{
+                          endAdornment: (
+                            <PasswordVisibilityToggle
+                              visible={showPassword}
+                              onToggle={handleTogglePasswordVisibility}
+                            />
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item container xs={12} className="remGrid">
@@ -215,6 +231,11 @@ function Login() {
                         </Box>
                       </Grid>
                     </Grid>
+                    {error && (
+                      <Typography variant="body2" color="error" align="center">
+                        {error}
+                      </Typography>
+                    )}
                     <Grid item xs={12}>
                       <Box className="buttonBox">
                         <Button

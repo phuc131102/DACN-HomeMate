@@ -6,6 +6,7 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import AppRoutes from "./routes/Routes";
 import TopBar from "./components/TopBar/TopBar";
 import Footer from "./components/Footer/Footer";
+import ScrollToTop from "./components/toTop/toTop";
 
 function App() {
   useEffect(() => {
@@ -15,6 +16,7 @@ function App() {
   return (
     <div className="app-wrapper">
       <Router>
+        <ScrollToTop />
         <ConditionalTopBar />
         <AppRoutes />
         <ConditionalFooter />

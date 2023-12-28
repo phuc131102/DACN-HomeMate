@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import HomeIcon from "@mui/icons-material/Home";
+import PasswordVisibilityToggle from "../../components/passView/passView";
 import {
   Grid,
   TextField,
@@ -17,6 +17,7 @@ import "./Signup.css";
 import videoBg from "../../assets/nightwall.webm";
 import { sign_up } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
+import "./Signup.css";
 
 const finalTheme = createTheme({
   components: {
@@ -35,6 +36,19 @@ function Signup() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const handleToggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(
+      (prevShowConfirmPassword) => !prevShowConfirmPassword
+    );
+  };
 
   const [age, setAge] = React.useState("");
 
@@ -115,6 +129,11 @@ function Signup() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
+
+  function handleSignIn(event) {
+    event.preventDefault();
+    navigate("/");
+  }
 
   return (
     <>
@@ -238,10 +257,18 @@ function Signup() {
                         }}
                         variant="outlined"
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
+                        InputProps={{
+                          endAdornment: (
+                            <PasswordVisibilityToggle
+                              visible={showPassword}
+                              onToggle={handleTogglePasswordVisibility}
+                            />
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -254,9 +281,17 @@ function Signup() {
                         }}
                         variant="outlined"
                         label="Confirm Password"
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}
                         value={confirmPassword}
                         onChange={handleConfirmPasswordChange}
+                        InputProps={{
+                          endAdornment: (
+                            <PasswordVisibilityToggle
+                              visible={showConfirmPassword}
+                              onToggle={handleToggleConfirmPasswordVisibility}
+                            />
+                          ),
+                        }}
                       />
                     </Grid>
 
@@ -288,18 +323,21 @@ function Signup() {
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Link to="/">
-                          <Typography variant="h8">
-                            Already have an account? Sign in now.
+                      <Box className="textBottom">
+                        <Typography variant="small" sx={{ color: "black" }}>
+                          Already have an account?{" "}
+                          <Typography
+                            onClick={(e) => handleSignIn(e)}
+                            variant="small"
+                            sx={{
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                              color: "black",
+                            }}
+                          >
+                            Sign in now
                           </Typography>
-                        </Link>
+                        </Typography>
                       </Box>
                     </Grid>
                   </form>
