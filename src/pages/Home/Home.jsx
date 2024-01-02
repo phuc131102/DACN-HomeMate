@@ -69,6 +69,8 @@ const cardData = [
 ];
 
 function Home() {
+  const storedUserData = localStorage.getItem("userData");
+  console.log(storedUserData);
   return (
     <Grid container spacing={2}>
       {cardData.map((card, index) => (

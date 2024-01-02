@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
@@ -56,19 +55,20 @@ function Login() {
     setCheck(!check);
     console.log(check);
   }
-  function handleSubmit() {
-    console.log(email);
-    console.log(password);
-  }
   function handleSignUp(event) {
     event.preventDefault();
     navigate("/signup");
   }
   function handleForgot(event) {
     event.preventDefault();
-    navigate("/recovery");
+    navigate("/");
   }
-  ///////////////////////////
+
+  useEffect(() => {
+    if (localStorage.getItem("userData") !== null) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const validateEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,6 +88,9 @@ function Login() {
     try {
       const response = await sign_in(formData);
       if (response) {
+        const userData = response.data;
+        localStorage.setItem("userData", JSON.stringify(userData));
+
         navigate("/home");
         console.log("User signed in:", response);
       }
@@ -109,7 +112,6 @@ function Login() {
     return <Loading />;
   }
 
-  ////////////////////////////
   return (
     <>
       <Box
@@ -157,7 +159,8 @@ function Login() {
                         }}
                         className="textDisplay"
                         variant="outlined"
-                        label="User Name"
+                        label="Email"
+                        name="email"
                         onChange={(e) => handleUserName(e)}
                       />
                     </Grid>
@@ -170,6 +173,7 @@ function Login() {
                         variant="outlined"
                         className="textDisplay2"
                         label="Password"
+                        name="password"
                         type={showPassword ? "text" : "password"}
                         onChange={(e) => handlePassword(e)}
                         InputProps={{
@@ -242,7 +246,7 @@ function Login() {
                           size="large"
                           variant="contained"
                           className="loginButton"
-                          onClick={handleSubmit2}
+                          type="submit"
                         >
                           Login
                         </Button>

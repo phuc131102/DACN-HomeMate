@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { Link, useNavigate } from "react-router-dom";
-// import { get_user_info } from "../../services/userAPI";
+import { get_user_info } from "../../services/userAPI";
 // import SearchField from "./SearchField";
 
 function TopBar() {
@@ -22,9 +22,8 @@ function TopBar() {
   const [userInfo, setUserInfo] = useState(null);
   const navigateToProfile = () => {
     // Điều hướng đến một route khác
-    navigate('/profile');
+    navigate("/profile");
   };
-
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -34,19 +33,19 @@ function TopBar() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (userData && userData.id) {
-  //     const fetchUserInfo = async () => {
-  //       try {
-  //         const response = await get_user_info(userData.id);
-  //         setUserInfo(response);
-  //       } catch (error) {
-  //         console.error("Error fetching user information:", error);
-  //       }
-  //     };
-  //     fetchUserInfo();
-  //   }
-  // }, [userData]);
+  useEffect(() => {
+    if (userData && userData.id) {
+      const fetchUserInfo = async () => {
+        try {
+          const response = await get_user_info(userData.id);
+          setUserInfo(response);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        }
+      };
+      fetchUserInfo();
+    }
+  }, [userData]);
 
   const navigate = useNavigate();
 
@@ -87,190 +86,225 @@ function TopBar() {
 
   return (
     <div>
-      {/* {userInfo && ( */}
-      <AppBar position="sticky" style={{ background: "#2E3B55" }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <MenuBookIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/home"
-              onClick={() => handleTabClick("home")}
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Home Mate
-            </Typography>
-
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography
-                    href="/home"
-                    onClick={() => handleTabClick("home")}
-                    textAlign="center"
-                    component="a"
-                    sx={{
-                      fontWeight: 700,
-
-                      color: activeTab === "home" ? "red" : "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Home
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-            <MenuBookIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href="/home"
-              onClick={() => handleTabClick("home")}
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              Library App
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+      {userInfo && (
+        <AppBar position="sticky" style={{ background: "#2E3B55" }}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <MenuBookIcon
+                sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+              />
               <Typography
                 variant="h6"
                 noWrap
-                component={Link}
-                to="/home"
+                component="a"
+                href="/home"
                 onClick={() => handleTabClick("home")}
                 sx={{
-                  mr: 4,
-                  ml: 4,
+                  mr: 2,
                   display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
                   fontWeight: 700,
-                  color: activeTab === "home" ? "red" : "inherit",
+                  letterSpacing: ".3rem",
+                  color: "inherit",
                   textDecoration: "none",
                 }}
               >
-                Catalog
+                Home Mate
               </Typography>
-            </Box>
 
-            {/* <SearchField /> */}
-
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* {userInfo !== "" ? (
-                    <Avatar src={userInfo.avatar} />
-                  ) : ( */}
-                  <Avatar src="/broken-image.jpg" />
-                  {/* )} */}
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
                 </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography
+                      href="/home"
+                      onClick={() => handleTabClick("home")}
+                      textAlign="center"
+                      component="a"
+                      sx={{
+                        fontWeight: 700,
+                        color: activeTab === "home" ? "red" : "inherit",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Home
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography
+                      href="/job"
+                      onClick={() => handleTabClick("job")}
+                      textAlign="center"
+                      component="a"
+                      sx={{
+                        fontWeight: 700,
+                        color: activeTab === "job" ? "red" : "inherit",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Job
+                    </Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+              <MenuBookIcon
+                sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+              />
+              <Typography
+                variant="h5"
+                noWrap
+                component="a"
+                href="/home"
+                onClick={() => handleTabClick("home")}
+                sx={{
+                  mr: 2,
+                  display: { xs: "flex", md: "none" },
+                  flexGrow: 1,
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  textDecoration: "none",
+                  color: "inherit",
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
-                {userInfo && (
-                  <Box p={2}>
-                    <Typography>
-                      <b>Username:</b> {userInfo.name}
+                Home Mate
+              </Typography>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component={Link}
+                  to="/home"
+                  onClick={() => handleTabClick("home")}
+                  sx={{
+                    mr: 4,
+                    ml: 4,
+                    display: { xs: "none", md: "flex" },
+                    fontWeight: 700,
+                    color: activeTab === "home" ? "red" : "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Home
+                </Typography>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component={Link}
+                  to="/job"
+                  onClick={() => handleTabClick("job")}
+                  sx={{
+                    mr: 4,
+                    ml: 4,
+                    display: { xs: "none", md: "flex" },
+                    fontWeight: 700,
+                    color: activeTab === "job" ? "red" : "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Job
+                </Typography>
+              </Box>
+
+              {/* <SearchField /> */}
+
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    {userInfo.avatar !== "" ? (
+                      <Avatar src={userInfo.avatar} />
+                    ) : (
+                      <Avatar src="/broken-image.jpg" />
+                    )}
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {userInfo && (
+                    <Box p={2}>
+                      <Typography>
+                        <b>Username:</b> {userInfo.name}
+                      </Typography>
+                      <Typography>
+                        <b>Role:</b> {userInfo.role}
+                      </Typography>
+                    </Box>
+                  )}
+                  <hr />
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      onClick={navigateToProfile}
+                      component="a"
+                      sx={{
+                        fontWeight: 700,
+                        color: "inherit",
+                        textDecoration: "none",
+                        width: "100%",
+                      }}
+                    >
+                      Profile
                     </Typography>
-                    <Typography>
-                      <b>Library Code:</b> {userInfo.lib_code}
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      onClick={handleLogout}
+                      component="a"
+                      sx={{
+                        fontWeight: 700,
+                        color: "inherit",
+                        textDecoration: "none",
+                        width: "100%",
+                      }}
+                    >
+                      Sign out
                     </Typography>
-                  </Box>
-                )}
-                <hr />
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography
-                    onClick={handleLogout}
-                    component="a"
-                    sx={{
-                      fontWeight: 700,
-                      color: "inherit",
-                      textDecoration: "none",
-                      width: "100%",
-                    }}
-                  >
-                    Sign out
-                  </Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography
-                    onClick={navigateToProfile}
-                    component="a"
-                    sx={{
-                      fontWeight: 700,
-                      color: "inherit",
-                      textDecoration: "none",
-                      width: "100%",
-                    }}
-                  >
-                    Profile
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      {/* )} */}
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      )}
     </div>
   );
 }
