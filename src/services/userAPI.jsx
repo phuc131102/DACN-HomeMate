@@ -54,3 +54,14 @@ export const update_user_info = async (data) => {
     throw err;
   }
 };
+
+// GET ALL WORKERS
+export const allWorker = async () => {
+  try {
+    const response = await axios.get(`https://homemateapi.onrender.com/worker`);
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
