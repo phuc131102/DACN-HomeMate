@@ -5,6 +5,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
+import Worker from "../pages/Worker/Worker";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -17,6 +18,13 @@ function AppRoutes() {
   const ProtectedJob = () => {
     return localStorage.getItem("userData") !== null ? (
       <Job />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+  const ProtectedWorker = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <Worker />
     ) : (
       <Navigate to="/" replace />
     );
@@ -35,6 +43,7 @@ function AppRoutes() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
+      <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/profile" element={<ProtectedProfile />} />
     </Routes>
   );

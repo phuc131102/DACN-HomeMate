@@ -171,6 +171,23 @@ function TopBar() {
                       Job
                     </Typography>
                   </MenuItem>
+                  {userInfo === "Homeowner" ? (
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography
+                        href="/worker"
+                        onClick={() => handleTabClick("worker")}
+                        textAlign="center"
+                        component="a"
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "worker" ? "red" : "inherit",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Worker
+                      </Typography>
+                    </MenuItem>
+                  ) : null}
                 </Menu>
               </Box>
               <MenuBookIcon
@@ -230,6 +247,25 @@ function TopBar() {
                 >
                   Job
                 </Typography>
+                {userInfo.role === "Homeowner" ? (
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/worker"
+                    onClick={() => handleTabClick("worker")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "worker" ? "red" : "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Worker
+                  </Typography>
+                ) : null}
               </Box>
 
               {/* <SearchField /> */}
