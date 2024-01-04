@@ -37,12 +37,19 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedCvList = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <CvList />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
 
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/cvlist" element={<CvList />} />
+      <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/worker" element={<ProtectedWorker />} />
