@@ -5,6 +5,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
+import CvList from "../pages/CV_List/CvList";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -33,6 +34,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/cvlist" element={<CvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/profile" element={<ProtectedProfile />} />
