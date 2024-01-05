@@ -1,0 +1,121 @@
+.CreateCV {
+    .pdfdelete{
+      display: none;
+    }
+    .pdflabel{
+      color:white;
+      height: 60px;
+      width:250px;
+      background-color: #f5af09;
+      margin-left: 2px;
+      margin-right: 2px;
+      font-size: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+    }
+    .pdflabel:hover{
+      background-color: #d39609;
+    }
+    .pdfdel:hover{
+      background-color: #d39609;
+    }
+    .pdfdel{
+      color:white;
+      height: 60px;
+      width:50px;
+      background-color: #f5af09;
+      margin-left: 2px;
+      margin-right: 2px;
+      font-size: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+    }
+    
+    .customfile{
+      display: none;
+      width:40%;
+      // border: 5px solid black;
+      margin-top: 16px;
+      margin-bottom: 16px;
+      background: white;
+      box-shadow: 5px 5px 10px black;
+      border-radius: 10px;
+      font-size: 15px;
+      outline:none;
+    }
+    .customfile::-webkit-file-upload-button{
+      background: #206a5d;
+      color: #fff;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+    }
+  
+    .CVForm {
+      
+      width: 100%;
+      margin: auto;
+      display: flex;
+      // border-radius: 10px;
+      // border: 1px solid black;
+      .Container {
+        margin-top:5%;
+        width: 100%;
+        label {
+          text-align: right;
+        }
+  
+      }
+      .parentFlex {
+        display: flex;
+        justify-content: center;
+        .leftFlex {
+          display: flex;
+          flex-wrap: wrap;
+          width:100%;
+          border: black solid 0.5px;
+          padding: 1%;
+          border-radius: 5px;
+          margin-bottom: 4px;
+          .AutocompBox{
+            width: 100%;
+            margin-top: 8px;
+            
+          }
+  
+        }
+      }
+  
+    }
+    .InputForm {
+      align-items: center;
+      justify-content: center;
+    }
+    .AddButton {
+      width: 100px;
+      margin: 10px;
+      background-color: rgb(59, 55, 55);
+      
+    }
+    .AddButton:hover{
+      background-color: black;
+    }
+    .AddCompButton {
+      width: 100px;
+      margin: 10px;
+      border:black solid 1px;
+      color:black;
+    }
+    .AddCompButton:hover{
+      background:rgb(230, 227, 227);
+      border:black solid 1px;
+      color:black;
+    }
+  }
+  

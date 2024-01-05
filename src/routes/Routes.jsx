@@ -7,6 +7,7 @@ import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
 import Worker from "../pages/Worker/Worker";
 import CvList from "../pages/CV_List/CvList";
+import CreateCV from "../pages/CreateCV/CreateCv";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -45,6 +46,14 @@ function AppRoutes() {
     );
   };
 
+  const ProtectedCreateCv = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <CreateCV />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -54,6 +63,7 @@ function AppRoutes() {
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/profile" element={<ProtectedProfile />} />
+      <Route path="/createCv" element={<ProtectedCreateCv />} />
     </Routes>
   );
 }
