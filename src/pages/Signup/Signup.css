@@ -2,3 +2,9 @@
   border: black solid 1px;
   border-radius: 10px;
 }
+.textBottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}

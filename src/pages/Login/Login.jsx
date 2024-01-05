@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import PasswordVisibilityToggle from "../../components/passView/passView";
 import {
   Grid,
   TextField,
@@ -38,6 +38,11 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   function handleUserName(e) {
     setEmail(e.target.value);
     console.log(email);
@@ -50,19 +55,20 @@ function Login() {
     setCheck(!check);
     console.log(check);
   }
-  function handleSubmit() {
-    console.log(email);
-    console.log(password);
-  }
   function handleSignUp(event) {
     event.preventDefault();
     navigate("/signup");
   }
   function handleForgot(event) {
     event.preventDefault();
-    navigate("/recovery");
+    navigate("/");
   }
-  ///////////////////////////
+
+  useEffect(() => {
+    if (localStorage.getItem("userData") !== null) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const validateEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -70,18 +76,21 @@ function Login() {
   };
 
   const handleSubmit2 = async (e) => {
-    const formData ={email:email, password:password}
+    const formData = { email: email, password: password };
     e.preventDefault();
     setLoading(true);
     if (!validateEmail(email)) {
       setError("Invalid email format.");
-      console.log("invalid email")
+      console.log("invalid email");
       setLoading(false);
       return;
     }
     try {
       const response = await sign_in(formData);
       if (response) {
+        const userData = response.data;
+        localStorage.setItem("userData", JSON.stringify(userData));
+
         navigate("/home");
         console.log("User signed in:", response);
       }
@@ -89,10 +98,7 @@ function Login() {
       if (error.response) {
         const { status } = error.response;
         if (status === 404) {
-          setError("All field is required.");
-          setLoading(false);
-        } else if (status === 409) {
-          setError("Email has been used.");
+          setError("Wrong email or password.");
           setLoading(false);
         }
       }
@@ -102,7 +108,10 @@ function Login() {
     }
   };
 
-  ////////////////////////////
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Box
@@ -150,7 +159,8 @@ function Login() {
                         }}
                         className="textDisplay"
                         variant="outlined"
-                        label="User Name"
+                        label="Email"
+                        name="email"
                         onChange={(e) => handleUserName(e)}
                       />
                     </Grid>
@@ -163,7 +173,17 @@ function Login() {
                         variant="outlined"
                         className="textDisplay2"
                         label="Password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
                         onChange={(e) => handlePassword(e)}
+                        InputProps={{
+                          endAdornment: (
+                            <PasswordVisibilityToggle
+                              visible={showPassword}
+                              onToggle={handleTogglePasswordVisibility}
+                            />
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item container xs={12} className="remGrid">
@@ -215,13 +235,18 @@ function Login() {
                         </Box>
                       </Grid>
                     </Grid>
+                    {error && (
+                      <Typography variant="body2" color="error" align="center">
+                        {error}
+                      </Typography>
+                    )}
                     <Grid item xs={12}>
                       <Box className="buttonBox">
                         <Button
                           size="large"
                           variant="contained"
                           className="loginButton"
-                          onClick={handleSubmit2}
+                          type="submit"
                         >
                           Login
                         </Button>
