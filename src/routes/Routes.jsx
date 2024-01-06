@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import CreateNewJob from "../pages/Job/CreateNewJob";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
 import Worker from "../pages/Worker/Worker";
@@ -49,6 +50,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/createnewjob" element={<CreateNewJob />} />
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />

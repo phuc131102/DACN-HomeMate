@@ -9,8 +9,7 @@ import {
   Pagination,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
 
@@ -18,29 +17,37 @@ function Job() {
   const { jobs, loadingJob } = useJobs();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
-
-  if (loadingJob) {
-    return <Loading />;
-  }
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
-
+  const navigate = useNavigate();
+  const navigateAndReload = (path) => {
+    navigate(path);
+    window.location.reload();
+  };
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+  
+  const handleViewNewJob = () => {
+    localStorage.setItem("activeTab", "job");
+
+    navigateAndReload("/createnewjob");
+  };
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
+  if (loadingJob) {
+    return <Loading />;
+  }
 
   return (
     <>
       <br />
       <Grid container sx={{ width: "95%", margin: "auto" }}>
         <Button
+          onClick={handleViewNewJob}
           variant="contained"
           sx={{ width: "15%", marginLeft: "auto", borderRadius: "15px" }}
-          // onClick={handleViewJob}
         >
-          Create New Job
+          Create New Job 
         </Button>
       </Grid>
 
