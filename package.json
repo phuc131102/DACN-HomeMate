@@ -10,6 +10,7 @@
     "@mui/lab": "^5.0.0-alpha.159",
     "@mui/material": "^5.15.3",
     "@mui/styled-engine-sc": "^6.0.0-alpha.5",
+    "@mui/x-date-pickers": "^6.18.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

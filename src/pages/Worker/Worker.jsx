@@ -54,8 +54,8 @@ function Worker() {
                   }}
                 >
                   <CardActionArea
-                  // component={Link}
-                  // to={`/bookinfo/${card._id.$oid}`}
+                    component={Link}
+                    to={`/worker/${card._id.$oid}`}
                   >
                     <CardMedia
                       component="img"

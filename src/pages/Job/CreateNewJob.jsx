@@ -1,51 +1,118 @@
-import React, { useState } from "react";
-import { Grid, TextField, Button, Box } from "@mui/material";
-import { DatePicker } from "react-rainbow-components";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Grid, TextField, Button, Box, Typography } from "@mui/material";
+import { DateTimePicker } from "react-rainbow-components";
+import { create_job } from "../../services/jobAPI";
+import Loading from "../../components/Loading/Loading";
 
 const CreateJobPage = () => {
-  const [jobInfo, setJobInfo] = useState({
-    jobname: "",
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    desc: "",
     address: "",
-    email: "",
-    phoneNumber: "",
-    dateTime: "",
     salary: "",
-    description: "",
+    email: "",
+    phone_num: "",
     requirement: "",
   });
+  const [error, setError] = useState("");
+  const [userData, setUserData] = useState([]);
+
+  const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setJobInfo({ ...jobInfo, [name]: value });
+
+  const handleChange = (e) => {
+    // if (e.target.name === "date") {
+    //   const formattedDate = dayjs(e.target.value).format("MM/DD/YYYY"); // Format the date string as needed
+    //   setFormData({
+    //     ...formData,
+    //     [e.target.name]: formattedDate,
+    //   });
+    // } else {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    // }
   };
 
-  const [date, setDate] = useState(null);
-
-  function onChange(date) {
-    setDate(date);
-  }
-  const updatedJobInfo = {
-    ...jobInfo,
-    avatar: avatarBase64,
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(jobInfo);
-    setJobInfo({
-      jobname: "",
-      address: "",
-      email: "",
-      phoneNumber: "",
-      dateTime: null,
-      salary: "",
-      description: "",
-      requirement: "",
-      image: null,
+  const handleDateTimeChange = (value) => {
+    const formattedDateTime = formatDate(value);
+    setFormData({
+      ...formData,
+      datetime: formattedDateTime,
     });
   };
 
+  const formatDate = (value) => {
+    const date = new Date(value);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${month}/${day}/${year} ${hours}:${minutes}`;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormData = {
+      ...formData,
+      image: avatarBase64,
+      owner_id: userData.id,
+    };
+    console.log(updatedFormData);
+    try {
+      const response = await create_job(updatedFormData);
+      if (response) {
+        navigate("/job");
+        console.log("User create job successfully:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 404) {
+          setError("All field is required.");
+          setLoading(false);
+        }
+      }
+      console.error("Create job failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <form onSubmit={handleSubmit}>
+      <Grid item xs={12}>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1%",
+          }}
+        >
+          <Typography variant="h3">New Job</Typography>
+        </Box>
+      </Grid>
       <Grid
         container
         spacing={2}
@@ -73,9 +140,9 @@ const CreateJobPage = () => {
                 sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                 fullWidth
                 label="Job Name"
-                name="jobname"
-                value={jobInfo.jobname}
-                onChange={handleInputChange}
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
@@ -84,8 +151,8 @@ const CreateJobPage = () => {
                 fullWidth
                 label="Address"
                 name="address"
-                value={jobInfo.address}
-                onChange={handleInputChange}
+                value={formData.address}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -94,8 +161,8 @@ const CreateJobPage = () => {
                 fullWidth
                 label="Email"
                 name="email"
-                value={jobInfo.email}
-                onChange={handleInputChange}
+                value={formData.email}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -103,9 +170,9 @@ const CreateJobPage = () => {
                 sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                 fullWidth
                 label="Phone Number"
-                name="phoneNumber"
-                value={jobInfo.phoneNumber}
-                onChange={handleInputChange}
+                name="phone_num"
+                value={formData.phone_num}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -114,18 +181,19 @@ const CreateJobPage = () => {
                 fullWidth
                 label="Salary"
                 name="salary"
-                value={jobInfo.salary}
-                onChange={handleInputChange}
+                value={formData.salary}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
-              <DatePicker
-                id="datePicker-1"
-                value={date}
-                placeholder="Date and Time"
-                name="dateTime"
-                formatStyle="large"
-                onChange={onChange}
+              <DateTimePicker
+                // value={state.value}
+                name="datetime"
+                label="Date Time"
+                value={formData.datetime}
+                onChange={handleDateTimeChange}
+                className="rainbow-m-around_small"
+                hour24
               />
             </Grid>
           </Grid>
@@ -205,9 +273,9 @@ const CreateJobPage = () => {
                       reader.onloadend = () => {
                         const base64data = reader.result;
                         setAvatarBase64(base64data);
-                        setJobInfo({
-                          ...jobInfo,
-                          avatar: avatarBase64,
+                        setFormData({
+                          ...formData,
+                          image: avatarBase64,
                         });
                       };
                       reader.readAsDataURL(selectedFile);
@@ -229,9 +297,9 @@ const CreateJobPage = () => {
                 multiline
                 rows={8}
                 label="Description"
-                name="description"
-                value={jobInfo.description}
-                onChange={handleInputChange}
+                name="desc"
+                value={formData.desc}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
@@ -242,12 +310,17 @@ const CreateJobPage = () => {
                 rows={8}
                 label="Requirement"
                 name="requirement"
-                value={jobInfo.requirement}
-                onChange={handleInputChange}
+                value={formData.requirement}
+                onChange={handleChange}
               />
             </Grid>
           </Grid>
         </Grid>
+        {error && (
+          <Typography variant="body2" color="error" align="center">
+            {error}
+          </Typography>
+        )}
         <Grid item xs={12}>
           <Button sx={{ marginBottom: "1%" }} variant="contained" type="submit">
             Create Job
