@@ -171,23 +171,21 @@ function TopBar() {
                       Job
                     </Typography>
                   </MenuItem>
-                  {userInfo === "Homeowner" ? (
-                    <MenuItem onClick={handleCloseNavMenu}>
-                      <Typography
-                        href="/worker"
-                        onClick={() => handleTabClick("worker")}
-                        textAlign="center"
-                        component="a"
-                        sx={{
-                          fontWeight: 700,
-                          color: activeTab === "worker" ? "red" : "inherit",
-                          textDecoration: "none",
-                        }}
-                      >
-                        Worker
-                      </Typography>
-                    </MenuItem>
-                  ) : null}
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography
+                      href="/worker"
+                      onClick={() => handleTabClick("worker")}
+                      textAlign="center"
+                      component="a"
+                      sx={{
+                        fontWeight: 700,
+                        color: activeTab === "worker" ? "red" : "inherit",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Worker
+                    </Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
               <MenuBookIcon
@@ -247,28 +245,45 @@ function TopBar() {
                 >
                   Job
                 </Typography>
-                {userInfo.role === "Homeowner" ? (
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component={Link}
-                    to="/worker"
-                    onClick={() => handleTabClick("worker")}
-                    sx={{
-                      mr: 4,
-                      ml: 4,
-                      display: { xs: "none", md: "flex" },
-                      fontWeight: 700,
-                      color: activeTab === "worker" ? "red" : "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Worker
-                  </Typography>
-                ) : null}
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component={Link}
+                  to="/worker"
+                  onClick={() => handleTabClick("worker")}
+                  sx={{
+                    mr: 4,
+                    ml: 4,
+                    display: { xs: "none", md: "flex" },
+                    fontWeight: 700,
+                    color: activeTab === "worker" ? "red" : "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Worker
+                </Typography>
               </Box>
 
               {/* <SearchField /> */}
+
+              <Typography
+                variant="h6"
+                noWrap
+                // component={Link}
+                to="/worker"
+                onClick={() => handleTabClick("worker")}
+                sx={{
+                  mr: "10px",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                }}
+              >
+                {userInfo && (
+                  <Box p={2}>
+                    <Typography>{userInfo.name}</Typography>
+                  </Box>
+                )}
+              </Typography>
 
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
@@ -296,17 +311,6 @@ function TopBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {userInfo && (
-                    <Box p={2}>
-                      <Typography>
-                        <b>Username:</b> {userInfo.name}
-                      </Typography>
-                      <Typography>
-                        <b>Role:</b> {userInfo.role}
-                      </Typography>
-                    </Box>
-                  )}
-                  <hr />
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
                       onClick={navigateToProfile}

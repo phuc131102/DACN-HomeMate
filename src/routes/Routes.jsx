@@ -6,7 +6,9 @@ import Login from "../pages/Login/Login";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
 import Worker from "../pages/Worker/Worker";
+import WorkerInfo from "../pages/Worker/WorkerInfo";
 import CvList from "../pages/CV_List/CvList";
+import CreateJob from "../pages/Job/CreateJob";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -30,6 +32,13 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedWorkerInfo = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <WorkerInfo />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
   const ProtectedProfile = () => {
     return localStorage.getItem("userData") !== null ? (
       <Profile />
@@ -44,6 +53,13 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedCreateJob = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <CreateJob />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
 
   return (
     <Routes>
@@ -53,7 +69,9 @@ function AppRoutes() {
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/worker" element={<ProtectedWorker />} />
+      <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
       <Route path="/profile" element={<ProtectedProfile />} />
+      <Route path="/create-job" element={<ProtectedCreateJob />} />
     </Routes>
   );
 }

@@ -10,3 +10,17 @@ export const allJob = async () => {
     throw err;
   }
 };
+
+// CREATE NEW JOB
+export const create_job = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://homemateapi.onrender.com/create_job",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
