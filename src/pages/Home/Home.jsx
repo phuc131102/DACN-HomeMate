@@ -249,7 +249,7 @@ function Home() {
                             color="text.primary"
                             gutterBottom
                           >
-                            {card.date} {card.time}
+                            {card.datetime}
                           </Typography>
                         </CardContent>
                       </CardActionArea>

@@ -3,12 +3,13 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import CreateNewJob from "../pages/Job/CreateNewJob";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
 import Worker from "../pages/Worker/Worker";
 import WorkerInfo from "../pages/Worker/WorkerInfo";
 import CvList from "../pages/CV_List/CvList";
-import CreateJob from "../pages/Job/CreateJob";
+// import CreateJob from "../pages/Job/CreateJob";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -55,7 +56,7 @@ function AppRoutes() {
   };
   const ProtectedCreateJob = () => {
     return localStorage.getItem("userData") !== null ? (
-      <CreateJob />
+      <CreateNewJob />
     ) : (
       <Navigate to="/" replace />
     );
@@ -65,13 +66,14 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/create-job" element={<ProtectedCreateJob />} />
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
       <Route path="/profile" element={<ProtectedProfile />} />
-      <Route path="/create-job" element={<ProtectedCreateJob />} />
+      {/* <Route path="/create-job" element={<ProtectedCreateJob />} /> */}
     </Routes>
   );
 }

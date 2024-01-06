@@ -10,7 +10,6 @@ import {
   Pagination,
   Button,
 } from "@mui/material";
-
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
 import { get_user_info } from "../../services/userAPI";
@@ -56,6 +55,10 @@ function Job() {
   const handlePageChange = (value) => {
     setCurrentPage(value);
   };
+
+  if (loadingJob) {
+    return <Loading />;
+  }
 
   const handleAddJob = () => {
     navigate("/create-job");
@@ -141,7 +144,7 @@ function Job() {
                         color="text.primary"
                         gutterBottom
                       >
-                        {card.date} {card.time}
+                        {card.datetime}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
