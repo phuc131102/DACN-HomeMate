@@ -205,8 +205,8 @@ function Home() {
                       }}
                     >
                       <CardActionArea
-                      // component={Link}
-                      // to={`/bookinfo/${card._id.$oid}`}
+                        component={Link}
+                        to={`/job/${card._id.$oid}`}
                       >
                         <CardMedia
                           component="img"

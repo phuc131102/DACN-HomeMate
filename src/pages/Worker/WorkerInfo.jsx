@@ -5,7 +5,7 @@ import { get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 
-function Profile() {
+function WorkerInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -261,4 +261,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default WorkerInfo;

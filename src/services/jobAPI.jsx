@@ -24,3 +24,16 @@ export const create_job = async (data) => {
     throw err;
   }
 };
+
+// GET JOB INFORMATION
+export const get_job_info = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://homemateapi.onrender.com/get_job_info/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
