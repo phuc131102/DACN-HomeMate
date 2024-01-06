@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Grid,
   Typography,
@@ -99,10 +99,7 @@ function Job() {
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
-                  <CardActionArea
-                  // component={Link}
-                  // to={`/bookinfo/${card._id.$oid}`}
-                  >
+                  <CardActionArea component={Link} to={`/job/${card._id.$oid}`}>
                     <CardMedia
                       component="img"
                       height="150"

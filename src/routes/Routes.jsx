@@ -9,7 +9,7 @@ import Profile from "../pages/Profile/Profile";
 import Worker from "../pages/Worker/Worker";
 import WorkerInfo from "../pages/Worker/WorkerInfo";
 import CvList from "../pages/CV_List/CvList";
-// import CreateJob from "../pages/Job/CreateJob";
+import JobInfo from "../pages/Job/JobInfo";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -22,6 +22,13 @@ function AppRoutes() {
   const ProtectedJob = () => {
     return localStorage.getItem("userData") !== null ? (
       <Job />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+  const ProtectedJobInfo = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <JobInfo />
     ) : (
       <Navigate to="/" replace />
     );
@@ -70,10 +77,10 @@ function AppRoutes() {
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
+      <Route path="/job/:id" element={<ProtectedJobInfo />} />
       <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
       <Route path="/profile" element={<ProtectedProfile />} />
-      {/* <Route path="/create-job" element={<ProtectedCreateJob />} /> */}
     </Routes>
   );
 }
