@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// GET ALL WORKERS
+// GET ALL JOBS
 export const allJob = async () => {
   try {
     const response = await axios.get(`https://homemateapi.onrender.com/job`);
@@ -30,6 +30,32 @@ export const get_job_info = async (data) => {
   try {
     const response = await axios.get(
       `https://homemateapi.onrender.com/get_job_info/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//DELETE JOBS
+export const deleteJob = async (data) => {
+  try {
+    const response = await axios.delete(
+      `https://homemateapi.onrender.com/delete_job/${data}`
+    );
+    return response.data.message;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// GET MY JOBS
+export const myJob = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://homemateapi.onrender.com/my_job/${data}`
     );
     return response.data.data;
   } catch (err) {
