@@ -12,12 +12,10 @@ import {
 } from "@mui/material";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
-import { get_user_info } from "../../services/userAPI";
 
 function Job() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [userInfo, setUserInfo] = useState([]);
   const { jobs, loadingJob } = useJobs();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -29,20 +27,6 @@ function Job() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-
-  useEffect(() => {
-    if (userData && userData.id) {
-      const fetchUserInfo = async () => {
-        try {
-          const response = await get_user_info(userData.id);
-          setUserInfo(response);
-        } catch (error) {
-          console.error("Error fetching user information:", error);
-        }
-      };
-      fetchUserInfo();
-    }
-  }, [userData]);
 
   if (loadingJob) {
     return <Loading />;
@@ -67,7 +51,7 @@ function Job() {
   return (
     <>
       <br />
-      {userInfo.role === "Homeowner" ? (
+      {userData.role === "Homeowner" ? (
         <Grid container sx={{ width: "95%", margin: "auto" }}>
           <Button
             variant="contained"
