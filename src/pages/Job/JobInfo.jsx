@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Typography, Box } from "@mui/material";
 import { get_job_info } from "../../services/jobAPI";
+import { get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 
 function JobInfo() {
-  const [jobInfo, setJobInfo] = useState(null);
+  const [jobInfo, setJobInfo] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState("");
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -27,6 +29,23 @@ function JobInfo() {
       fetchJobInfo();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (jobInfo && jobInfo.owner_id) {
+      const fetchUserInfo = async () => {
+        setLoading(true);
+        try {
+          const response = await get_user_info(jobInfo.owner_id);
+          setUserInfo(response);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUserInfo();
+    }
+  }, [jobInfo]);
 
   if (loading) {
     return <Loading />;
@@ -79,8 +98,8 @@ function JobInfo() {
                       }}
                       sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                       fullWidth
-                      label="Job Name"
-                      value={jobInfo.name}
+                      label="Home Owner"
+                      value={userInfo.name}
                     />
                   </Grid>
                   <Grid item xs={6}>
