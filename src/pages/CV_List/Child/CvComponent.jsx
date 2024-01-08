@@ -15,6 +15,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import LeftCvComponent from "./LeftCvComponent";
+import RightCvComponent from "./RightCvComponent";
 
 const CvComponent = (comp) => {
   const theme = useTheme();
@@ -98,7 +99,7 @@ const CvComponent = (comp) => {
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src={comp.user.image}
+                  src={comp.user.avatar}
                   sx={{ width: 150, height: 150 }}
                 ></Avatar>
               </Grid>
@@ -156,166 +157,7 @@ const CvComponent = (comp) => {
                 <LeftCvComponent comp={comp.comp} />
               </Grid>
               <Grid container spacing={0} item xs={9}>
-                <Grid item xs={12}>
-                  <Typography
-                    sx={{
-                      margin: "0",
-                      minWidth: "10%",
-                      fontWeight: "bold",
-                      fontSize: 50,
-                    }}
-                  >
-                    {comp.comp.title}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      margin: "0",
-                      minWidth: "10%",
-                      fontSize: 20,
-                    }}
-                  >
-                    {comp.comp.certificateName}
-                  </Typography>
-
-                  <Grid item xs={12}>
-                    {/* <Typography
-                    variant="body1"
-                    sx={{
-                      margin: "0",
-                      minWidth: "10%",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Organize:
-                  </Typography> */}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                      }}
-                    >
-                      {comp.comp.intro}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item container xs={12}>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      From:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      From:
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item container xs={12}>
-                  {comp.comp.expirationDate !== null ? (
-                    <>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            margin: "0",
-                            minWidth: "10%",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          To:
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            margin: "0",
-                            minWidth: "10%",
-                          }}
-                        >
-                          {dayjs(comp.comp.expirationDate).format(
-                            "MMMM D YYYY"
-                          )}
-                        </Typography>
-                      </Grid>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-                <Grid item container xs={12}>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Link:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      {comp.comp.link}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item container xs={12}>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Detail:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        margin: "0",
-                        minWidth: "10%",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      {comp.comp.description}
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <RightCvComponent comp={comp.comp} />
               </Grid>
             </Grid>
           </DialogContent>

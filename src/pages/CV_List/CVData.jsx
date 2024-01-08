@@ -4,7 +4,7 @@ const cvinfo = [
     cvid: 1,
     title: "New Cv",
     intro: "sdasdasd",
-    skills: [{ id: 0, name: "html", skillExperienc: 2 },{ id: 0, name: "html", skillExperienc: 2 },{ id: 0, name: "aaaaaaaaaaaaaaaaaa", skillExperienc: 2 },{ id: 0, name: "html", skillExperienc: 2 }],
+    skills: [{ id: 0, name: "html", skillExperienc: 2 },{ id: 1, name: "html", skillExperienc: 2 },{ id: 2, name: "aaaaaaaaaaaaaaaaaa", skillExperienc: 2 },{ id: 3, name: "html", skillExperienc: 2 }],
     certificates: [
       {
         id: 0,
