@@ -179,6 +179,7 @@ const BaseForm = (prop) => {
                           pt: 2,
                           width: "80%",
                           margin: "auto",
+                          marginTop:"30px"
                         }}
                       >
                         <Button

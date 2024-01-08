@@ -8,8 +8,18 @@ import axios from "axios";
 import { Box } from "@mui/material";
 import { create_cv } from "../../../services/cvAPI";
 import skillInfo from "./fakeSkill";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+// import AlertDialog from "../../../components/AlertDialog/AlertDialog";
 // import ViewCv from "./ViewCv";
 
+const SkillAlert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+const CertAlert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function CVForm() {
   const navigate = useNavigate();
   // fetch Data
@@ -169,6 +179,7 @@ function CVForm() {
     setSkillOpen(false);
   };
 
+  let errormess =""
   async function handleSubmit(e) {
     // const formData = { worker_id: user.id, name: cvtitle, intro: intro, skill: skills, certificate: certs, exp: experience };
     // try {
@@ -257,58 +268,44 @@ function CVForm() {
   //COMPS
   async function preProcessing() {
     const formData = { worker_id: user.id, name: cvtitle, intro: intro, skill: skills, certificate: certs, exp: experience };
-    try {
-      const response = await create_cv(formData);
-      if (response) {
-        const userData = response.data;
-        localStorage.setItem("userData", JSON.stringify(userData));
-
-        navigate("/home");
-        console.log("User signed in:", response);
-      }
-    } catch (error) {
-      if (error.response) {
-        const { status } = error.response;
-        if (status === 404) {
-          setError("Wrong email or password.");
-          setLoading(false);
-        }
-      }
-      console.error("Sign up failed:", error);
-    } finally {
-      setLoading(false);
-      navigate("/cvlist")
+    
+    const messArr = [];
+    if (skills.length === 0) {
+      messArr.push("skill");
     }
-    // const messArr = [];
-    // if (skills.length === 0) {
-    //   messArr.push("skill");
-    // }
-    // if (cvtitle == "") {
-    //   messArr.push("title");
-    // }
-    // if (education == "") {
-    //   messArr.push("education");
-    // }
-    // if (experience == "") {
-    //   messArr.push("work experience");
-    // }
-    // let messString = "";
-    // if (messArr.length > 0) {
-    //   messArr.forEach((x, index) => {
-    //     messString = messString + x;
-    //     if (index < messArr.length - 1) {
-    //       messString = messString + ", ";
-    //     } else {
-    //       messString = messString + ".";
-    //     }
-    //   });
-    //   dispatch({
-    //     type: "error/setError",
-    //     payload: { status: "yes", message: `please fill ${messString}` },
-    //   });
-    // } else {
-    //   setOpenAlert(true);
-    // }
+    if (cvtitle == "") {
+      messArr.push("title");
+    }
+    if(intro ==""){
+      messArr.push("introduction")
+    }
+    let messString = "";
+    if (messArr.length > 0) {
+      messArr.forEach((x, index) => {
+        messString = messString + x;
+        if (index < messArr.length - 1) {
+          messString = messString + ", ";
+        } else {
+          messString = messString + ".";
+        }
+        setErrorSnackbar(true);
+      });
+    } else {
+      setOpenAlert(true);
+      try {
+        const response = await create_cv(formData);
+        if (response) {
+          navigate("/home");
+        }
+      } catch (error) {
+        if (error.response) {
+          const { status } = error.response;
+          console.log(status)
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
   }
   return (
     <>
@@ -382,6 +379,37 @@ function CVForm() {
           </Box>
         </Grid>
       </Grid>
+      <Snackbar
+        open={skillOpen}
+        autoHideDuration={3000}
+        onClose={handleSkillClose}
+      >
+        <SkillAlert
+          onClose={handleSkillClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Wrong skill's name
+        </SkillAlert>
+      </Snackbar>
+      <Snackbar
+        open={errorSnackbar}
+        autoHideDuration={4000}
+        onClose={() => {
+          setErrorSnackbar(false);
+        }}
+      >
+        <Alert
+          variant="filled"
+          onClose={() => {
+            setErrorSnackbar(false);
+          }}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          please fill {skills.length === 0?(cvtitle === ""?(intro === ""?"skill, title and intro.":"skill, title."):"skill."):(cvtitle === ""?(intro === ""?"title, intro.":"title."):(intro === ""?"intro.":""))}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
