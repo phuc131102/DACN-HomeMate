@@ -3,11 +3,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import CreateNewJob from "../pages/Job/CreateNewJob";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
 import Worker from "../pages/Worker/Worker";
+import WorkerInfo from "../pages/Worker/WorkerInfo";
 import CvList from "../pages/CV_List/CvList";
 import CreateCV from "../pages/CreateCV/CreateCv";
+import JobInfo from "../pages/Job/JobInfo";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -24,9 +27,23 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedJobInfo = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <JobInfo />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
   const ProtectedWorker = () => {
     return localStorage.getItem("userData") !== null ? (
       <Worker />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+  const ProtectedWorkerInfo = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <WorkerInfo />
     ) : (
       <Navigate to="/" replace />
     );
@@ -45,6 +62,13 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedCreateJob = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <CreateNewJob />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
 
   const ProtectedCreateCv = () => {
     return localStorage.getItem("userData") !== null ? (
@@ -58,10 +82,13 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/create-job" element={<ProtectedCreateJob />} />
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
+      <Route path="/job/:id" element={<ProtectedJobInfo />} />
       <Route path="/worker" element={<ProtectedWorker />} />
+      <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
       <Route path="/profile" element={<ProtectedProfile />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
     </Routes>

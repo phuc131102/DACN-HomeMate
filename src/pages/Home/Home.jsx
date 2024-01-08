@@ -70,59 +70,64 @@ function Home() {
               <PlayArrowIcon />
               &nbsp;New Worker
             </Typography>
-            <Button
-              onClick={handleViewAll}
-              variant="text"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              View All Workers <NavigateNextIcon />
-            </Button>
+            {workers.length === 0 ? null : (
+              <Button
+                onClick={handleViewAll}
+                variant="text"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                View All Workers <NavigateNextIcon />
+              </Button>
+            )}
           </Grid>
-          <Grid container spacing={5}>
-            {workers
-              .slice(-6)
-              .reverse()
-              .map((card, index) => (
-                <Grid item key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: "white",
-                      borderRadius: "20px",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <CardActionArea
-                    // component={Link}
-                    // to={`/bookinfo/${card._id.$oid}`}
+          {workers.length === 0 ? (
+            "No worker available"
+          ) : (
+            <Grid container spacing={5}>
+              {workers
+                .slice(-6)
+                .reverse()
+                .map((card, index) => (
+                  <Grid item key={index}>
+                    <Card
+                      sx={{
+                        backgroundColor: "white",
+                        borderRadius: "20px",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                      }}
                     >
-                      <CardMedia
-                        component="img"
-                        height="150"
-                        image={
-                          card.avatar === ""
-                            ? "https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
-                            : card.avatar
-                        }
-                        alt={card.name}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.name}
-                        </Typography>
-                        {/* <Typography
+                      <CardActionArea
+                        component={Link}
+                        to={`/worker/${card._id.$oid}`}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="150"
+                          image={
+                            card.avatar === ""
+                              ? "https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
+                              : card.avatar
+                          }
+                          alt={card.name}
+                        />
+                        <CardContent>
+                          <Typography
+                            sx={{
+                              fontSize: 16,
+                              textAlign: "center",
+                              lineHeight: "1.2",
+                              maxHeight: "1.2em",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              display: "block",
+                            }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            {card.name}
+                          </Typography>
+                          {/* <Typography
                           sx={{
                             fontSize: 12,
                             textAlign: "center",
@@ -138,12 +143,13 @@ function Home() {
                         >
                           {card.author}
                         </Typography> */}
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-          </Grid>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
+            </Grid>
+          )}
         </CardContent>
       </Card>
 
@@ -172,80 +178,86 @@ function Home() {
               <PlayArrowIcon />
               &nbsp;New Job
             </Typography>
-            <Button
-              onClick={handleViewJob}
-              variant="text"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              View All Jobs <NavigateNextIcon />
-            </Button>
+            {jobs.length === 0 ? null : (
+              <Button
+                onClick={handleViewJob}
+                variant="text"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                View All Jobs <NavigateNextIcon />
+              </Button>
+            )}
           </Grid>
-          <Grid container spacing={5}>
-            {jobs
-              .slice(-6)
-              .reverse()
-              .map((card, index) => (
-                <Grid item key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: "white",
-                      borderRadius: "20px",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <CardActionArea
-                    // component={Link}
-                    // to={`/bookinfo/${card._id.$oid}`}
+          {jobs.length === 0 ? (
+            "No job available"
+          ) : (
+            <Grid container spacing={5}>
+              {jobs
+                .slice(-6)
+                .reverse()
+                .map((card, index) => (
+                  <Grid item key={index}>
+                    <Card
+                      sx={{
+                        backgroundColor: "white",
+                        borderRadius: "20px",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                      }}
                     >
-                      <CardMedia
-                        component="img"
-                        height="150"
-                        image={
-                          card.image === ""
-                            ? "https://lpm.ulm.ac.id/image/desain/empty.jpg"
-                            : card.image
-                        }
-                        alt={card.position}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.position}
-                        </Typography>
-                        {/* <Typography
-                          sx={{
-                            fontSize: 12,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.author}
-                        </Typography> */}
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-          </Grid>
+                      <CardActionArea
+                        component={Link}
+                        to={`/job/${card._id.$oid}`}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="150"
+                          image={
+                            card.image === ""
+                              ? "https://lpm.ulm.ac.id/image/desain/empty.jpg"
+                              : card.image
+                          }
+                          alt={card.name}
+                        />
+                        <CardContent>
+                          <Typography
+                            sx={{
+                              fontSize: 16,
+                              textAlign: "center",
+                              lineHeight: "1.2",
+                              maxHeight: "1.2em",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              display: "block",
+                            }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            {card.name}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 12,
+                              textAlign: "center",
+                              lineHeight: "1.2",
+                              maxHeight: "1.2em",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              display: "block",
+                            }}
+                            color="text.primary"
+                            gutterBottom
+                          >
+                            {card.datetime}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
+            </Grid>
+          )}
         </CardContent>
       </Card>
 

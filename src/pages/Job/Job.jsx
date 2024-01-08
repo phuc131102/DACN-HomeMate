@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Grid,
   Typography,
@@ -9,15 +10,39 @@ import {
   Pagination,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
+import { get_user_info } from "../../services/userAPI";
 
 function Job() {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
   const { jobs, loadingJob } = useJobs();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userData && userData.id) {
+      const fetchUserInfo = async () => {
+        try {
+          const response = await get_user_info(userData.id);
+          setUserInfo(response);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        }
+      };
+      fetchUserInfo();
+    }
+  }, [userData]);
 
   if (loadingJob) {
     return <Loading />;
@@ -27,22 +52,32 @@ function Job() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (value) => {
     setCurrentPage(value);
+  };
+
+  if (loadingJob) {
+    return <Loading />;
+  }
+
+  const handleAddJob = () => {
+    navigate("/create-job");
   };
 
   return (
     <>
       <br />
-      <Grid container sx={{ width: "95%", margin: "auto" }}>
-        <Button
-          variant="contained"
-          sx={{ width: "15%", marginLeft: "auto", borderRadius: "15px" }}
-          // onClick={handleViewJob}
-        >
-          Create New Job
-        </Button>
-      </Grid>
+      {userInfo.role === "Homeowner" ? (
+        <Grid container sx={{ width: "95%", margin: "auto" }}>
+          <Button
+            variant="contained"
+            sx={{ width: "15%", marginLeft: "auto", borderRadius: "15px" }}
+            onClick={handleAddJob}
+          >
+            Create New Job
+          </Button>
+        </Grid>
+      ) : null}
 
       <Card
         sx={{
@@ -64,10 +99,7 @@ function Job() {
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
-                  <CardActionArea
-                  // component={Link}
-                  // to={`/bookinfo/${card._id.$oid}`}
-                  >
+                  <CardActionArea component={Link} to={`/job/${card._id.$oid}`}>
                     <CardMedia
                       component="img"
                       height="150"
@@ -76,7 +108,7 @@ function Job() {
                           ? "https://lpm.ulm.ac.id/image/desain/empty.jpg"
                           : card.image
                       }
-                      alt={card.position}
+                      alt={card.name}
                     />
                     <CardContent>
                       <Typography
@@ -93,9 +125,9 @@ function Job() {
                         color="text.primary"
                         gutterBottom
                       >
-                        {card.position}
+                        {card.name}
                       </Typography>
-                      {/* <Typography
+                      <Typography
                         sx={{
                           fontSize: 12,
                           textAlign: "center",
@@ -109,8 +141,8 @@ function Job() {
                         color="text.primary"
                         gutterBottom
                       >
-                        {card.author}
-                      </Typography> */}
+                        {card.datetime}
+                      </Typography>
                     </CardContent>
                   </CardActionArea>
                 </Card>
