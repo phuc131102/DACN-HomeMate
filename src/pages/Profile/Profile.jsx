@@ -13,6 +13,9 @@ import {
 } from "@mui/material";
 import { get_user_info, update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
+import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
+import ViewCv from "../ViewCv/ViewCv";
+import BigCard from "../../components/BigCard/BigCard";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -188,7 +191,6 @@ function Profile() {
         <>
           <Box
             sx={{
-              height: "100vh",
               display: "flex",
               alignItems: "center",
             }}
@@ -205,7 +207,7 @@ function Profile() {
                     xs={12}
                     sx={{
                       margin: "auto",
-                      marginBottom: "300px",
+                      marginBottom: "150px",
                     }}
                   >
                     <ThemeProvider theme={finalTheme}>
@@ -413,7 +415,7 @@ function Profile() {
                     backgroundColor: "white",
                     padding: "20px",
                     margin: "auto",
-                    position: "sticky",
+                    // position: "sticky",
                     transform: "translateY(0%)",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                   }}
@@ -679,6 +681,17 @@ function Profile() {
               </Grid>
             </Grid>
           </Box>
+          <Grid container>
+            <Grid item xs={12}>
+              {" "}
+              <ComponentDivider>CV</ComponentDivider>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: "80%", margin: "auto", marginBottom:"50px", marginTop:"10px" }}>
+                  <ViewCv />
+              </Box>
+            </Grid>
+          </Grid>
         </>
       )}
     </div>
