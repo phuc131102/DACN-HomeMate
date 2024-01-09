@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -24,6 +25,8 @@ function Profile() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
+
+  const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -184,6 +187,10 @@ function Profile() {
   if (loading) {
     return <Loading />;
   }
+
+  const handleMyJob = () => {
+    navigate("/my-job");
+  };
 
   return (
     <div>
@@ -398,6 +405,25 @@ function Profile() {
                           </Typography>
                         </Box>
                       </Grid>
+                      {userInfo.role === "Homeowner" ? (
+                        <Grid item xs={12}>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Button
+                              variant="contained"
+                              sx={{ width: "15%", borderRadius: "15px" }}
+                              onClick={handleMyJob}
+                            >
+                              My Job
+                            </Button>
+                          </Box>
+                        </Grid>
+                      ) : null}
                     </ThemeProvider>
                   </Grid>
                 </Box>

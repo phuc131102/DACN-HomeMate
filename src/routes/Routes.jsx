@@ -11,8 +11,12 @@ import WorkerInfo from "../pages/Worker/WorkerInfo";
 import CvList from "../pages/CV_List/CvList";
 import CreateCV from "../pages/CreateCV/CreateCv";
 import JobInfo from "../pages/Job/JobInfo";
+import MyJob from "../pages/Job/MyJob";
+import UserList from "../pages/UserList";
 
 function AppRoutes() {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
   const ProtectedHome = () => {
     return localStorage.getItem("userData") !== null ? (
       <Home />
@@ -30,6 +34,14 @@ function AppRoutes() {
   const ProtectedJobInfo = () => {
     return localStorage.getItem("userData") !== null ? (
       <JobInfo />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+  const ProtectedMyJob = () => {
+    const userData= JSON.parse(localStorage.getItem("userData"))
+    return localStorage.getItem("userData") !== null && userData.role==="Homeowner"? (
+      <MyJob />
     ) : (
       <Navigate to="/" replace />
     );
@@ -63,11 +75,13 @@ function AppRoutes() {
     );
   };
   const ProtectedCreateJob = () => {
-    return localStorage.getItem("userData") !== null ? (
+    console.log("createcv")
+    const userData= JSON.parse(localStorage.getItem("userData"))
+    return (localStorage.getItem("userData")!== null && userData.role === "Homeowner" ? (
       <CreateNewJob />
     ) : (
       <Navigate to="/" replace />
-    );
+    ));
   };
 
   const ProtectedCreateCv = () => {
@@ -77,19 +91,37 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedUserList = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <UserList />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
 
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/create-job" element={<ProtectedCreateJob />} />
-      <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/job/:id" element={<ProtectedJobInfo />} />
+      <Route path="/userlist" element={<ProtectedUserList />} />
+
+
+      {/* {userData && userData.role === "Homeowner" ? ( */}
+        <Route path="/create-job" element={<ProtectedCreateJob />} /> 
+      {/* ) :null} */}
+
       <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
       <Route path="/profile" element={<ProtectedProfile />} />
+
+      {/* {userData && userData.role === "Homeowner" ? ( */}
+        <Route path="/my-job" element={<ProtectedMyJob />}/> 
+      {/* ) : <Route path="/home" element={<ProtectedHome />} />} */}
+
+      <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
     </Routes>
   );

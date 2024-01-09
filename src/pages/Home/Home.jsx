@@ -61,6 +61,7 @@ function Home() {
           borderRadius: "20px",
           width: "95%",
           margin: "auto",
+          marginTop: "5%",
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
         }}
       >

@@ -24,6 +24,10 @@ function TopBar() {
     // Điều hướng đến một route khác
     navigate("/profile");
   };
+  const navigateToUserList = () => {
+    // Điều hướng đến một route khác
+    navigate("/userlist");
+  };
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -87,7 +91,7 @@ function TopBar() {
   return (
     <div>
       {userInfo && (
-        <AppBar position="sticky" style={{ background: "#2E3B55" }}>
+        <AppBar position="fixed" style={{ top: 0, background: "#2E3B55", zIndex: 999 }}>
           <Container maxWidth="100%">
             <Toolbar disableGutters>
               <MenuBookIcon
@@ -337,6 +341,20 @@ function TopBar() {
                       }}
                     >
                       Sign out
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      onClick={navigateToUserList}
+                      component="a"
+                      sx={{
+                        fontWeight: 700,
+                        color: "inherit",
+                        textDecoration: "none",
+                        width: "100%",
+                      }}
+                    >
+                      User List
                     </Typography>
                   </MenuItem>
                 </Menu>
