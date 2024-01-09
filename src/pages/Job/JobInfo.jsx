@@ -110,7 +110,7 @@ function JobInfo() {
   return (
     <>
       <br />
-      <div>
+      <div style={{ marginTop: "5%" }}>
         {jobInfo && (
           <>
             <form>
@@ -132,7 +132,7 @@ function JobInfo() {
                         marginRight: "5%",
                         borderRadius: "15px",
                       }}
-                      // onClick={handleAddJob}
+                      // onClick={handleUpdateJob}
                     >
                       Update Job
                     </Button>

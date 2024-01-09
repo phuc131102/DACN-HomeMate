@@ -14,13 +14,11 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import useJobs from "../../utils/jobUtils/jobUtils";
-// import usePlacelist from "../../utils/placeListUtils";
 import Loading from "../../components/Loading/Loading";
 
 function Home() {
   const { workers, loading } = useWorkers();
   const { jobs, loadingJob } = useJobs();
-  // const { placelist, loadingPlace } = usePlacelist();
 
   const navigate = useNavigate();
 
@@ -37,10 +35,6 @@ function Home() {
     localStorage.setItem("activeTab", "job");
     navigateAndReload("/job");
   };
-  // const handleViewWishlist = () => {
-  //   localStorage.setItem("activeTab", "wishlist");
-  //   navigateAndReload("/wishlist");
-  // };
 
   if (loading) {
     return <Loading />;
@@ -48,9 +42,6 @@ function Home() {
   if (loadingJob) {
     return <Loading />;
   }
-  // if (loadingPlace) {
-  //   return <Loading />;
-  // }
 
   return (
     <>
@@ -128,22 +119,6 @@ function Home() {
                           >
                             {card.name}
                           </Typography>
-                          {/* <Typography
-                          sx={{
-                            fontSize: 12,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.author}
-                        </Typography> */}
                         </CardContent>
                       </CardActionArea>
                     </Card>
@@ -261,266 +236,6 @@ function Home() {
           )}
         </CardContent>
       </Card>
-
-      {/* <Card
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
-          width: "95%",
-          margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <CardContent>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Typography color="text.primary" sx={{ fontSize: 20 }} gutterBottom>
-              <PlayArrowIcon />
-              {` My Books (${placelist.length})`}
-            </Typography>
-            {placelist.length === 0 ? null : (
-              <Button
-                onClick={handleViewPlace}
-                variant="text"
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
-              >
-                View My Books <NavigateNextIcon />
-              </Button>
-            )}
-          </Grid>
-          {placelist.length === 0 ? (
-            "No borrowed book available."
-          ) : (
-            <Grid container spacing={10}>
-              {placelist.slice(0, 6).map((card, index) => (
-                <Grid item xs={6} sm={3} md={2} key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: "white",
-                      borderRadius: "20px",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <CardActionArea
-                      component={Link}
-                      to={`/bookinfo/${card.id}`}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="250"
-                        image={card.image}
-                        alt={card.name}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.name}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: 12,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.author}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </CardContent>
-      </Card>
-
-      <div
-        style={{
-          borderTop: "2px solid black",
-          width: "20%",
-          margin: "10px auto",
-          marginTop: "30px",
-          marginBottom: "30px",
-        }}
-      ></div>
-
-      <Card
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
-          width: "95%",
-          margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <CardContent>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Typography color="text.primary" sx={{ fontSize: 20 }} gutterBottom>
-              <PlayArrowIcon />
-              {` Wishlist (${wishlist.length})`}
-            </Typography>
-            {wishlist.length === 0 ? null : (
-              <Button
-                onClick={handleViewWishlist}
-                variant="text"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                View Wishlist <NavigateNextIcon />
-              </Button>
-            )}
-          </Grid>
-          {wishlist.length === 0 ? (
-            "No wishlist book available."
-          ) : (
-            <Grid container spacing={10}>
-              {wishlist.slice(0, 6).map((card, index) => (
-                <Grid item xs={6} sm={3} md={2} key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: "white",
-                      borderRadius: "20px",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <CardActionArea
-                      component={Link}
-                      to={`/bookinfo/${card._id.$oid}`}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="250"
-                        image={card.image}
-                        alt={card.name}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.name}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: 12,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.author}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </CardContent>
-      </Card>
-
-      <div
-        style={{
-          borderTop: "2px solid black",
-          width: "20%",
-          margin: "10px auto",
-          marginTop: "30px",
-          marginBottom: "30px",
-        }}
-      ></div>
-
-      <Card
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
-          width: "95%",
-          margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <CardContent>
-          <Typography color="text.primary" sx={{ fontSize: 20 }} gutterBottom>
-            <PlayArrowIcon />
-            &nbsp;Categories
-          </Typography>
-          <Grid container spacing={5}>
-            {categoryData.map((card, index) => (
-              <Grid item xs={6} sm={3} md={2} key={index}>
-                <Card
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <CardActionArea component={Link} to={`/category/${card.id}`}>
-                    <CardMedia
-                      component="img"
-                      height="150"
-                      image={card.image}
-                      alt={card.title}
-                    />
-                    <Typography
-                      gutterBottom
-                      variant="h4"
-                      sx={{
-                        position: "absolute",
-                        top: "40%",
-                        width: "100%",
-                        textAlign: "center",
-                        color: "white",
-                        backgroundColor: "none",
-                        fontFamily: "Comic Sans MS",
-                        textShadow: "0 0 5px black",
-                      }}
-                    >
-                      {card.title}
-                    </Typography>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </CardContent>
-      </Card> */}
       <br />
     </>
   );
