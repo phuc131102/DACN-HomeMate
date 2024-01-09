@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid, TextField, Box, Button } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Box,
+  Button,
+  Modal,
+  Typography,
+  Stack,
+} from "@mui/material";
 import { deleteJob, get_job_info } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
@@ -9,6 +17,51 @@ function JobInfo() {
   const [jobInfo, setJobInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const styles = {
+    button: {
+      backgroundColor: "green",
+      color: "#fff",
+      fontWeight: 600,
+      borderRadius: 15,
+      maxWidth: "500px",
+      marginRight: "10px",
+      minWidth: "150px",
+      padding: "5px 10px",
+      fontSize: "1.2rem",
+    },
+    buttonRemove: {
+      backgroundColor: "red",
+      color: "#fff",
+      fontWeight: 600,
+      borderRadius: 15,
+      maxWidth: "500px",
+      marginRight: "10px",
+      minWidth: "150px",
+      padding: "5px 10px",
+      fontSize: "1.2rem",
+    },
+    modal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    },
+  };
 
   const navigate = useNavigate();
 
@@ -46,20 +99,12 @@ function JobInfo() {
 
   const handleDeleteJob = async (jobId) => {
     try {
-      console.log(jobId);
       const deletionMessage = await deleteJob(jobId);
-      // Handle successful deletion, for example, show a success message
-      console.log(deletionMessage); // Job deleted successfully
+      navigate("/job");
+      console.log(deletionMessage);
     } catch (error) {
-      // Handle errors
       console.error("Error:", error.message);
     }
-  };
-
-  const handleClick = () => {
-    const jobIdToDelete = id; // Replace with the actual job ID
-    handleDeleteJob(jobIdToDelete);
-    navigate("/job");
   };
 
   return (
@@ -99,7 +144,7 @@ function JobInfo() {
                         marginLeft: "5%",
                         borderRadius: "15px",
                       }}
-                      onClick={handleClick}
+                      onClick={handleOpenModal}
                     >
                       Delete Job
                     </Button>
@@ -273,6 +318,45 @@ function JobInfo() {
                 </Grid>
               </Grid>
             </form>
+            <Modal
+              open={showModal}
+              onClose={handleCloseModal}
+              aria-labelledby="place-book-modal"
+              aria-describedby="place-book-modal-description"
+            >
+              <Box sx={styles.modal}>
+                <Typography
+                  id="place-book-modal"
+                  variant="h5"
+                  textAlign="center"
+                >
+                  Confirm Deletion
+                </Typography>
+                <Typography variant="body1" textAlign="center" marginTop={2}>
+                  Are you sure you want to delete this job?
+                </Typography>
+                <Stack direction="row" justifyContent="center" marginTop={4}>
+                  <Button
+                    variant="contained"
+                    sx={styles.buttonRemove}
+                    onClick={() => {
+                      handleDeleteJob(id);
+                      // handleCloseModal();
+                    }}
+                  >
+                    Delete
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    sx={styles.button}
+                    onClick={handleCloseModal}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Box>
+            </Modal>
           </>
         )}
       </div>

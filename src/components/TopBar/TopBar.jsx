@@ -88,7 +88,7 @@ function TopBar() {
     <div>
       {userInfo && (
         <AppBar position="sticky" style={{ background: "#2E3B55" }}>
-          <Container maxWidth="xl">
+          <Container maxWidth="100%">
             <Toolbar disableGutters>
               <MenuBookIcon
                 sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
