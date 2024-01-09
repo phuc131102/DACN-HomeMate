@@ -95,19 +95,13 @@ function AppRoutes() {
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/job/:id" element={<ProtectedJobInfo />} />
-
-      {userData.role === "Homeowner" ? (
-        <Route path="/create-job" element={<ProtectedCreateJob />} /> //Homeowner can create job
-      ) : null}
-
+      {/* {userData.role === "Homeowner" ? ( */}
+      <Route path="/create-job" element={<ProtectedCreateJob />} />
       <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
       <Route path="/profile" element={<ProtectedProfile />} />
-
-      {userData.role === "Homeowner" ? (
-        <Route path="/my-job" element={<ProtectedMyJob />} /> //Homeowner can view their created jobs
-      ) : null}
-
+      {/* {userData.role === "Homeowner" ? ( */}
+      <Route path="/my-job" element={<ProtectedMyJob />} />
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
     </Routes>
