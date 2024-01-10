@@ -12,7 +12,7 @@ import CvList from "../pages/CV_List/CvList";
 import CreateCV from "../pages/CreateCV/CreateCv";
 import JobInfo from "../pages/Job/JobInfo";
 import MyJob from "../pages/Job/MyJob";
-import UserList from "../pages/UserList";
+import UserList from "../pages/User/UserList";
 
 function AppRoutes() {
   const ProtectedHome = () => {
