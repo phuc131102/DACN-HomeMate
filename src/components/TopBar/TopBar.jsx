@@ -13,19 +13,12 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
-// import SearchField from "./SearchField";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const navigateToProfile = () => {
-    navigate("/profile");
-  };
-  const navigateToUserList = () => {
-    navigate("/userlist");
-  };
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -342,11 +335,12 @@ function TopBar() {
                 >
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
-                      onClick={navigateToProfile}
-                      component="a"
+                      onClick={() => handleTabClick("profile")}
+                      component={Link}
+                      to="/profile"
                       sx={{
                         fontWeight: 700,
-                        color: "inherit",
+                        color: activeTab === "profile" ? "red" : "inherit",
                         textDecoration: "none",
                         width: "100%",
                       }}
@@ -356,8 +350,8 @@ function TopBar() {
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
-                      onClick={handleLogout}
                       component="a"
+                      onClick={handleLogout}
                       sx={{
                         fontWeight: 700,
                         color: "inherit",
