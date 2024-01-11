@@ -84,22 +84,6 @@ function Worker() {
                       >
                         {card.name}
                       </Typography>
-                      {/* <Typography
-                        sx={{
-                          fontSize: 12,
-                          textAlign: "center",
-                          lineHeight: "1.2",
-                          maxHeight: "1.2em",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          display: "block",
-                        }}
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        {card.author}
-                      </Typography> */}
                     </CardContent>
                   </CardActionArea>
                 </Card>

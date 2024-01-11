@@ -90,7 +90,7 @@ function Login() {
       if (response) {
         const userData = response.data;
         localStorage.setItem("userData", JSON.stringify(userData));
-
+        localStorage.setItem("activeTab", "home");
         navigate("/home");
         console.log("User signed in:", response);
       }

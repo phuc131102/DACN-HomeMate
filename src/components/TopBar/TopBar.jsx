@@ -13,21 +13,12 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
-// import SearchField from "./SearchField";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const navigateToProfile = () => {
-    // Điều hướng đến một route khác
-    navigate("/profile");
-  };
-  const navigateToUserList = () => {
-    // Điều hướng đến một route khác
-    navigate("/userlist");
-  };
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -85,13 +76,17 @@ function TopBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
+    localStorage.removeItem("activeTab");
     navigate("/");
   };
 
   return (
     <div>
       {userInfo && (
-        <AppBar position="fixed" style={{ top: 0, background: "#2E3B55", zIndex: 999 }}>
+        <AppBar
+          position="fixed"
+          style={{ top: 0, background: "#2E3B55", zIndex: 999 }}
+        >
           <Container maxWidth="100%">
             <Toolbar disableGutters>
               <MenuBookIcon
@@ -190,6 +185,23 @@ function TopBar() {
                       Worker
                     </Typography>
                   </MenuItem>
+                  {userData.role === "Admin" ? (
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography
+                        href="/userlist"
+                        onClick={() => handleTabClick("user")}
+                        textAlign="center"
+                        component="a"
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "user" ? "red" : "inherit",
+                          textDecoration: "none",
+                        }}
+                      >
+                        User
+                      </Typography>
+                    </MenuItem>
+                  ) : null}
                 </Menu>
               </Box>
               <MenuBookIcon
@@ -266,28 +278,34 @@ function TopBar() {
                 >
                   Worker
                 </Typography>
+                {userData.role === "Admin" ? (
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/userlist"
+                    onClick={() => handleTabClick("user")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "user" ? "red" : "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    User
+                  </Typography>
+                ) : null}
               </Box>
 
-              {/* <SearchField /> */}
-
-              <Typography
-                variant="h6"
-                noWrap
-                // component={Link}
-                to="/worker"
-                onClick={() => handleTabClick("worker")}
-                sx={{
-                  mr: "10px",
-                  fontWeight: 700,
-                  textDecoration: "none",
-                }}
-              >
-                {userInfo && (
-                  <Box p={2}>
-                    <Typography>{userInfo.name}</Typography>
-                  </Box>
-                )}
-              </Typography>
+              {userInfo && (
+                <Box p={2}>
+                  <Typography>
+                    <b>{userInfo.name}</b>
+                  </Typography>
+                </Box>
+              )}
 
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
@@ -317,11 +335,12 @@ function TopBar() {
                 >
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
-                      onClick={navigateToProfile}
-                      component="a"
+                      onClick={() => handleTabClick("profile")}
+                      component={Link}
+                      to="/profile"
                       sx={{
                         fontWeight: 700,
-                        color: "inherit",
+                        color: activeTab === "profile" ? "red" : "inherit",
                         textDecoration: "none",
                         width: "100%",
                       }}
@@ -331,8 +350,8 @@ function TopBar() {
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
-                      onClick={handleLogout}
                       component="a"
+                      onClick={handleLogout}
                       sx={{
                         fontWeight: 700,
                         color: "inherit",
@@ -341,20 +360,6 @@ function TopBar() {
                       }}
                     >
                       Sign out
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography
-                      onClick={navigateToUserList}
-                      component="a"
-                      sx={{
-                        fontWeight: 700,
-                        color: "inherit",
-                        textDecoration: "none",
-                        width: "100%",
-                      }}
-                    >
-                      User List
                     </Typography>
                   </MenuItem>
                 </Menu>
