@@ -80,7 +80,7 @@ function Job() {
         <CardContent>
           <Grid container spacing={5}>
             {currentJobs.map((card, index) => (
-              <Grid item key={index}>
+              <Grid item xs={6} sm={3} md={2} key={index}>
                 <Card
                   sx={{
                     backgroundColor: "white",

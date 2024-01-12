@@ -77,7 +77,7 @@ function Home() {
           ) : (
             <Grid container spacing={5}>
               {workers
-                .slice(-6)
+                .slice(-7)
                 .reverse()
                 .map((card, index) => (
                   <Grid item key={index}>
@@ -172,7 +172,7 @@ function Home() {
                 .slice(-6)
                 .reverse()
                 .map((card, index) => (
-                  <Grid item key={index}>
+                  <Grid item xs={6} sm={3} md={2} key={index}>
                     <Card
                       sx={{
                         backgroundColor: "white",

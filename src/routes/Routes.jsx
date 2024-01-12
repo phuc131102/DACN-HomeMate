@@ -13,6 +13,7 @@ import CreateCV from "../pages/CreateCV/CreateCv";
 import JobInfo from "../pages/Job/JobInfo";
 import MyJob from "../pages/Job/MyJob";
 import UserList from "../pages/User/UserList";
+import UserInfo from "../pages/User/UserInfo";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -98,6 +99,13 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedUserInfo = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <UserInfo />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
 
   return (
     <Routes>
@@ -108,6 +116,7 @@ function AppRoutes() {
       <Route path="/job/:id" element={<ProtectedJobInfo />} />
 
       <Route path="/userlist" element={<ProtectedUserList />} />
+      <Route path="/user/:id" element={<ProtectedUserInfo />} />
 
       {/* {userData && userData.role === "Homeowner" ? ( */}
       <Route path="/create-job" element={<ProtectedCreateJob />} />

@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Avatar,
-  Button,
+  Paper,
   Pagination,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
 import Loading from "../../components/Loading/Loading";
 
 const UserListPage = () => {
   const { users, loading } = useUsers();
 
-  const itemsPerPage = 4;
+  const navigate = useNavigate();
+
+  const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   if (loading) {
@@ -29,58 +33,61 @@ const UserListPage = () => {
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  const handleRowClick = (userId) => {
+    navigate(`/user/${userId}`);
+  };
+
   return (
     <>
-      <Grid
-        container
-        spacing={2}
+      <TableContainer
+        component={Paper}
         sx={{
           width: "80vw",
-          justifyContent: "center",
-          alignItems: "center",
           margin: "auto",
           marginTop: "5%",
-          marginBottom: "5%",
-          border: "2px solid #000",
-          borderRadius: "20px",
-          background: "#fff",
-          color: "#000",
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: "16px",
         }}
       >
-        {currentUsers.map((card, index) => (
-          <Grid item xs={12} key={index}>
-            <Card
-              style={{
-                width: "40vw",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-                marginTop: "1%",
-                marginBottom: "2%",
-                border: "2px solid #000",
-                borderRadius: "20px",
-                background: "#fff",
-                color: "#000",
-                fontWeight: "bold",
-                textAlign: "center",
-                fontSize: "16px",
-              }}
-            >
-              <CardContent style={{ textAlign: "center" }}>
-                <Avatar src={card.avatar} alt={card.name} />
-                <Typography variant="h6">{card.name}</Typography>
-                <Typography>Email: {card.email}</Typography>
-                <Typography>Address: {card.address}</Typography>
-                <Typography>Phone Number: {card.phone_num}</Typography>
-                <Typography>Role: {card.role}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Avatar</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Phone Number</TableCell>
+              <TableCell>Role</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {currentUsers.map((user, index) => (
+              <TableRow
+                key={index}
+                onClick={() => handleRowClick(user._id.$oid)}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#e0e0e0",
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <TableCell>
+                  <Avatar src={user.avatar} alt={user.name} />
+                </TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  {user.address === "" ? "N/A" : user.address}
+                </TableCell>
+                <TableCell>
+                  {user.phone_num === "" ? "N/A" : user.phone_num}
+                </TableCell>
+                <TableCell>{user.role}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Pagination
         count={Math.ceil(users.length / itemsPerPage)}
         page={currentPage}
@@ -100,4 +107,5 @@ const UserListPage = () => {
     </>
   );
 };
+
 export default UserListPage;

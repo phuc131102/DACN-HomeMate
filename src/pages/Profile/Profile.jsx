@@ -16,7 +16,6 @@ import { get_user_info, update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import ViewCv from "../ViewCv/ViewCv";
-import BigCard from "../../components/BigCard/BigCard";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
 
 function Profile() {
@@ -37,7 +36,7 @@ function Profile() {
         try {
           const response = await get_cv_info(userData.id);
           setCvInfo(response);
-          console.log(response.data)
+          console.log(response.data);
         } catch (error) {
           console.error("Error fetching cv information:", error);
         } finally {
@@ -176,7 +175,6 @@ function Profile() {
     }
   };
 
-
   const handleCancel = () => {
     window.location.reload();
   };
@@ -234,8 +232,6 @@ function Profile() {
   if (loading) {
     return <Loading />;
   }
-
-  
 
   const handleMyJob = () => {
     navigate("/my-job");
@@ -398,8 +394,8 @@ function Profile() {
                               alt={userInfo.avatar}
                               src={userInfo.avatar}
                               style={{
-                                width: "30%",
-                                height: "auto",
+                                width: "auto",
+                                height: "200px",
                                 marginTop: "20%",
                                 marginBottom: "5%",
                                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
@@ -759,72 +755,74 @@ function Profile() {
               </Grid>
             </Grid>
           </Box>
-          <Grid container>
-            <Grid item xs={12}>
-              {" "}
-              <ComponentDivider>CV</ComponentDivider>
-            </Grid>
-            <Grid container item xs={12}>
-              <Box
-                sx={{
-                  width: "80%",
-                  margin: "auto",
-                  marginBottom: "50px",
-                  marginTop: "10px",
-                  display: "flex",
-                  justifyContent: "right",
-                }}
-              >
-                {cvinfo.message === "CV not found" ? (
-                  <>
-                    <Button
-                      size="large"
-                      variant="contained"
-                      onClick={handleCreateCv}
-                      sx={{ arginTop: "15px" }}
-                    >
-                      {" "}
-                      Create CV
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <ViewCv cvinfo={cvinfo.data} />
-                      </Grid>
+          {userInfo.role === "Worker" ? (
+            <Grid container>
+              <Grid item xs={12}>
+                {" "}
+                <ComponentDivider>CV</ComponentDivider>
+              </Grid>
+              <Grid container item xs={12}>
+                <Box
+                  sx={{
+                    width: "80%",
+                    margin: "auto",
+                    marginBottom: "50px",
+                    marginTop: "10px",
+                    display: "flex",
+                    justifyContent: "right",
+                  }}
+                >
+                  {cvinfo.message === "CV not found" ? (
+                    <>
+                      <Button
+                        size="large"
+                        variant="contained"
+                        onClick={handleCreateCv}
+                        sx={{ arginTop: "15px" }}
+                      >
+                        {" "}
+                        Create CV
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <ViewCv cvinfo={cvinfo.data} />
+                        </Grid>
 
-                      <Grid container item xs={12} sx={{}}>
-                        <Grid item xs={8}></Grid>
-                        <Grid item xs={2}>
-                          <Button
-                            size="large"
-                            variant="contained"
-                            onClick={(e)=>handleCvDelete()}
-                            sx={{ marginTop: "15px" }}
-                          >
-                            {" "}
-                            Delete CV
-                          </Button>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <Button
-                            size="large"
-                            variant="contained"
-                            // onClick={handleCreateCv}
-                            sx={{ marginTop: "15px" }}
-                          >
-                            {" "}
-                            Update CV
-                          </Button>
+                        <Grid container item xs={12} sx={{}}>
+                          <Grid item xs={8}></Grid>
+                          <Grid item xs={2}>
+                            <Button
+                              size="large"
+                              variant="contained"
+                              onClick={(e) => handleCvDelete()}
+                              sx={{ marginTop: "15px" }}
+                            >
+                              {" "}
+                              Delete CV
+                            </Button>
+                          </Grid>
+                          <Grid item xs={2}>
+                            <Button
+                              size="large"
+                              variant="contained"
+                              // onClick={handleCreateCv}
+                              sx={{ marginTop: "15px" }}
+                            >
+                              {" "}
+                              Update CV
+                            </Button>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </>
-                )}
-              </Box>
+                    </>
+                  )}
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          ) : null}
         </>
       )}
     </div>
