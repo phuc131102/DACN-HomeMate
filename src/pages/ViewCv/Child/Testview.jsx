@@ -27,7 +27,8 @@ import { useNavigate } from "react-router-dom";
 import cvinfo from "./CVData";
 import NoteField from "./NoteField";
 
-const CV = ({ cvid, page }) => {
+const CV = (prop) => {
+  const cvinfo= prop.cvinfo;
   const navigate = useNavigate();
     const cvinfor= cvinfo
   return (
@@ -38,7 +39,7 @@ const CV = ({ cvid, page }) => {
               <>
                 <Grid item md={12} xs={12}>
                   <Box p="24px 24px 0 24px">
-                    <Grid container>
+                    {/* <Grid container>
                       <Grid
                         item
                         md={3}
@@ -110,14 +111,14 @@ const CV = ({ cvid, page }) => {
                           </Box>
                         </Box>
                       </Grid>
-                    </Grid>
-                    <Box>
+                    </Grid> */}
+                    {/* <Box>
                       <Divider
                         orientation="horizontal"
                         flexItem
                         sx={{ mt: 3, height: "0.5px" }}
                       />
-                    </Box>
+                    </Box> */}
                   </Box>
                 </Grid>
               </>
@@ -156,7 +157,7 @@ const CV = ({ cvid, page }) => {
                   </Box>
                 </Box>
                 <Box sx={{ padding: "16px 0 0 40px" }}>
-                  {cvinfor.skills.map((skill, index) => (
+                  {cvinfor.skill.map((skille, index) => (
                     <Box
                       key={index}
                       sx={{
@@ -168,7 +169,7 @@ const CV = ({ cvid, page }) => {
                       }}
                     >
                       <Box m={0} component="h4">
-                        {skill.name} • 1 năm kinh nghiệm
+                        {skille.name} • 1 năm kinh nghiệm
                       </Box>
                     </Box>
                   ))}
@@ -195,10 +196,9 @@ const CV = ({ cvid, page }) => {
                 </Box>
                 <Box sx={{ padding: "0px 0 0 40px", mt: "16px" }}>
                   <Box>
-
-                    {cvinfor.certificates.map((certificate, index) => (
+                    {cvinfor.certificate.map((certificate, index) => (
                       <Box key={index} sx={{ display: "flex" }}>
-                        <ModalCertificates certificate={certificate} />
+                        <ModalCertificates certificate={certificate.name} />
                       </Box>
                     ))}
                   </Box>

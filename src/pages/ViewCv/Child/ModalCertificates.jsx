@@ -58,19 +58,19 @@ const ModalCertificates = ({ certificate }) => {
             <Box>
               {" "}
               Earn Date:{" "}
-              {certificate.startDate.format("MMM D,YYYY").slice(0, 11)}
+              {certificate.dateEarned.slice(0,10)}
             </Box>
-            <Box>Name: {certificate.name}</Box>
-            <Box>Decription: {certificate.detail}</Box>
+            <Box>Name: {certificate.certificateName}</Box>
+            <Box>Decription: {certificate.description}</Box>
             <Box display={open ? "block" : "none"}>
-              Orgranizationname: {certificate.organize}
+              Orgranizationname: {certificate.organizationName}
             </Box>
-            {certificate.endDate === null ? (
+            {certificate.expirationDate=== null ? (
               <></>
             ) : (
               <Box display={open ? "block" : "none"}>
                 ExpirationDate:{" "}
-                {certificate.endDate.format("MMM D,YYYY").slice(0, 11)}
+                {certificate.expirationDate.slice(0,10)}
               </Box>
             )}
           </Box>
