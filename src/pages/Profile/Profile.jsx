@@ -14,6 +14,10 @@ import {
 } from "@mui/material";
 import { get_user_info, update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
+import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
+import ViewCv from "../ViewCv/ViewCv";
+import BigCard from "../../components/BigCard/BigCard";
+import { get_cv_info, delete_cv } from "../../services/cvAPI";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -23,6 +27,27 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
 
+  //
+  const [haveCv, setHaveCv] = useState(false);
+  const [cvinfo, setCvInfo] = useState({});
+  useEffect(() => {
+    if (userData && userData.id) {
+      const fetchCvInfo = async () => {
+        setLoading(true);
+        try {
+          const response = await get_cv_info(userData.id);
+          setCvInfo(response);
+          console.log(response.data)
+        } catch (error) {
+          console.error("Error fetching cv information:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCvInfo();
+    }
+  }, [userData]);
+  //
   const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
@@ -127,6 +152,31 @@ function Profile() {
     }
   };
 
+  const handleCvDelete = async (e) => {
+    setLoading(true);
+    try {
+      const response = await delete_cv(userData.id);
+      if (response) {
+        console.log("delete cv");
+        window.location.reload();
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 404) {
+          setError("Wrong user");
+          setLoading(false);
+        }
+        if (status === 405) {
+          setError("Invalid request method");
+          setLoading(false);
+        }
+      }
+    } finally {
+    }
+  };
+
+
   const handleCancel = () => {
     window.location.reload();
   };
@@ -185,8 +235,13 @@ function Profile() {
     return <Loading />;
   }
 
+  
+
   const handleMyJob = () => {
     navigate("/my-job");
+  };
+  const handleCreateCv = () => {
+    navigate("/createCv");
   };
 
   return (
@@ -195,7 +250,6 @@ function Profile() {
         <>
           <Box
             sx={{
-              height: "100vh",
               display: "flex",
               alignItems: "center",
             }}
@@ -212,7 +266,7 @@ function Profile() {
                     xs={12}
                     sx={{
                       margin: "auto",
-                      marginBottom: "300px",
+                      marginBottom: "150px",
                     }}
                   >
                     <ThemeProvider theme={finalTheme}>
@@ -439,7 +493,7 @@ function Profile() {
                     backgroundColor: "white",
                     padding: "20px",
                     margin: "auto",
-                    position: "sticky",
+                    // position: "sticky",
                     transform: "translateY(0%)",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                   }}
@@ -705,6 +759,72 @@ function Profile() {
               </Grid>
             </Grid>
           </Box>
+          <Grid container>
+            <Grid item xs={12}>
+              {" "}
+              <ComponentDivider>CV</ComponentDivider>
+            </Grid>
+            <Grid container item xs={12}>
+              <Box
+                sx={{
+                  width: "80%",
+                  margin: "auto",
+                  marginBottom: "50px",
+                  marginTop: "10px",
+                  display: "flex",
+                  justifyContent: "right",
+                }}
+              >
+                {cvinfo.message === "CV not found" ? (
+                  <>
+                    <Button
+                      size="large"
+                      variant="contained"
+                      onClick={handleCreateCv}
+                      sx={{ arginTop: "15px" }}
+                    >
+                      {" "}
+                      Create CV
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <ViewCv cvinfo={cvinfo.data} />
+                      </Grid>
+
+                      <Grid container item xs={12} sx={{}}>
+                        <Grid item xs={8}></Grid>
+                        <Grid item xs={2}>
+                          <Button
+                            size="large"
+                            variant="contained"
+                            onClick={(e)=>handleCvDelete()}
+                            sx={{ marginTop: "15px" }}
+                          >
+                            {" "}
+                            Delete CV
+                          </Button>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Button
+                            size="large"
+                            variant="contained"
+                            // onClick={handleCreateCv}
+                            sx={{ marginTop: "15px" }}
+                          >
+                            {" "}
+                            Update CV
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
+              </Box>
+            </Grid>
+          </Grid>
         </>
       )}
     </div>

@@ -100,6 +100,7 @@ function CVForm() {
     } else {
       const newSkill = {
         cvSkillsId: Sid,
+        name: sname,
         skillId: skillId,
         experienceYear: SExp,
       };
@@ -295,7 +296,7 @@ function CVForm() {
       try {
         const response = await create_cv(formData);
         if (response) {
-          navigate("/home");
+          navigate("/profile");
         }
       } catch (error) {
         if (error.response) {
