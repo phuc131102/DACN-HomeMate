@@ -267,7 +267,26 @@ function WorkerInfo() {
             </Grid>
           </Box>
           {cvInfo && cvInfo.message === "CV not found" ? (
-            <></>
+            <>
+              <Grid container>
+                <Grid item xs={12}>
+                  {" "}
+                  <ComponentDivider>CV</ComponentDivider>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      justifyContent: "center",
+                      marginBottom: "50px",
+                      marginTop: "10px",
+                      display: "flex",
+                    }}
+                  >
+                    No CV available.
+                  </Box>
+                </Grid>
+              </Grid>
+            </>
           ) : (
             <>
               <Grid container>

@@ -45,7 +45,7 @@ const UserListPage = () => {
         sx={{
           width: "80vw",
           margin: "auto",
-          marginTop: "5%",
+          marginTop: "7%",
         }}
       >
         <Table>

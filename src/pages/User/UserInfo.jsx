@@ -52,7 +52,6 @@ function UserInfo() {
         <>
           <Box
             sx={{
-              height: "100vh",
               display: "flex",
               alignItems: "center",
             }}
@@ -69,7 +68,7 @@ function UserInfo() {
                     xs={12}
                     sx={{
                       margin: "auto",
-                      marginBottom: "300px",
+                      marginBottom: "100px",
                     }}
                   >
                     <ThemeProvider theme={finalTheme}>
