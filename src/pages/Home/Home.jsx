@@ -236,6 +236,15 @@ function Home() {
           )}
         </CardContent>
       </Card>
+      <div
+        style={{
+          borderTop: "2px solid black",
+          width: "20%",
+          margin: "10px auto",
+          marginTop: "30px",
+          marginBottom: "30px",
+        }}
+      ></div>
       <br />
     </>
   );
