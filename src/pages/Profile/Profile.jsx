@@ -29,24 +29,8 @@ function Profile() {
 
   //
   const [haveCv, setHaveCv] = useState(false);
-  const [cvinfo, setCvInfo] = useState({});
-  useEffect(() => {
-    if (userData && userData.id) {
-      const fetchCvInfo = async () => {
-        setLoading(true);
-        try {
-          const response = await get_cv_info(userData.id);
-          setCvInfo(response);
-          console.log(response.data)
-        } catch (error) {
-          console.error("Error fetching cv information:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchCvInfo();
-    }
-  }, [userData]);
+  const [cvinfo, setCvInfo] = useState(null);
+
   //
   const navigate = useNavigate();
 
@@ -224,13 +208,37 @@ function Profile() {
         } catch (error) {
           console.error("Error fetching user information:", error);
         } finally {
-          setLoading(false);
+          try {
+            const response = await get_cv_info(userData.id);
+            setCvInfo(response);
+            console.log(response.data)
+          } catch (error) {
+            console.error("Error fetching cv information:", error);
+          } finally {
+            setLoading(false);
+          }
         }
       };
       fetchUserInfo();
     }
   }, [userData]);
-
+  // useEffect(() => {
+  //   if (userData && userData.id) {
+  //     const fetchCvInfo = async () => {
+  //       setLoading(true);
+  //       try {
+  //         const response = await get_cv_info(userData.id);
+  //         setCvInfo(response);
+  //         console.log(response.data)
+  //       } catch (error) {
+  //         console.error("Error fetching cv information:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+  //     fetchCvInfo();
+  //   }
+  // }, [userData]);
   if (loading) {
     return <Loading />;
   }
@@ -775,7 +783,7 @@ function Profile() {
                   justifyContent: "right",
                 }}
               >
-                {cvinfo.message === "CV not found" ? (
+                {cvinfo && cvinfo.message === "CV not found" ? (
                   <>
                     <Button
                       size="large"
