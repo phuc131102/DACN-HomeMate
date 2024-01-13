@@ -4,10 +4,14 @@ import { Grid, TextField, Typography, Box } from "@mui/material";
 import { get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
+import ViewCv from "../ViewCv/ViewCv";
+import { get_cv_info } from "../../services/cvAPI";
+import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 
 function WorkerInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [cvInfo, setCvInfo] = useState(null);
 
   const finalTheme = createTheme({
     components: {
@@ -35,7 +39,15 @@ function WorkerInfo() {
         } catch (error) {
           console.error("Error fetching user information:", error);
         } finally {
-          setLoading(false);
+          try {
+            const response = await get_cv_info(id);
+            setCvInfo(response);
+            console.log(response.data);
+          } catch (error) {
+            console.error("Error fetching cv information:", error);
+          } finally {
+            setLoading(false);
+          }
         }
       };
       fetchUserInfo();
@@ -52,7 +64,6 @@ function WorkerInfo() {
         <>
           <Box
             sx={{
-              height: "100vh",
               display: "flex",
               alignItems: "center",
             }}
@@ -69,7 +80,7 @@ function WorkerInfo() {
                     xs={12}
                     sx={{
                       margin: "auto",
-                      marginBottom: "300px",
+                      marginBottom: "100px",
                     }}
                   >
                     <ThemeProvider theme={finalTheme}>
@@ -255,6 +266,40 @@ function WorkerInfo() {
               </Grid>
             </Grid>
           </Box>
+          {cvInfo && cvInfo.message === "CV not found" ? (
+            <></>
+          ) : (
+            <>
+              <Grid container>
+                <Grid item xs={12}>
+                  {" "}
+                  <ComponentDivider>CV</ComponentDivider>
+                </Grid>
+                <Grid container item xs={12}>
+                  <Box
+                    sx={{
+                      width: "80%",
+                      margin: "auto",
+                      marginBottom: "50px",
+                      marginTop: "10px",
+                      display: "flex",
+                      justifyContent: "right",
+                    }}
+                  >
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <ViewCv cvinfo={cvInfo.data} />
+                      </Grid>
+
+                      <Grid container item xs={12} sx={{}}>
+                        <Grid item xs={8}></Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Grid>
+              </Grid>
+            </>
+          )}
         </>
       )}
     </div>
