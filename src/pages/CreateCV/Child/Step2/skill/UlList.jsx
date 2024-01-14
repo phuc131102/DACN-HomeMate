@@ -6,7 +6,7 @@ const UlList = (prop) => {
       {prop.comps.map((comp) => (
         <Chip
           key={comp.cvSkillsId}
-          label={prop.skillData.filter((compp)=>compp.skillId===comp.skillId)[0].skillName +" (experience: " +comp.experienceYear+")"}
+          label={prop.skillData.filter((compp)=>compp._id===comp.skillId)[0].name +" (experience: " +comp.experienceYear+")"}
           sx={{
             m: 0.5,
             height:"40px"
