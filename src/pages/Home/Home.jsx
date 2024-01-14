@@ -10,7 +10,6 @@ import {
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import useJobs from "../../utils/jobUtils/jobUtils";
@@ -59,8 +58,7 @@ function Home() {
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
             <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
-              <PlayArrowIcon />
-              &nbsp;New Worker
+              &nbsp;<b>New Worker</b>
             </Typography>
             {workers.length === 0 ? null : (
               <Button
@@ -151,8 +149,7 @@ function Home() {
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
             <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
-              <PlayArrowIcon />
-              &nbsp;New Job
+              &nbsp;<b>New Job</b>
             </Typography>
             {jobs.length === 0 ? null : (
               <Button
