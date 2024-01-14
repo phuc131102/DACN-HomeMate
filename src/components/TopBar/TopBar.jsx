@@ -95,8 +95,8 @@ function TopBar() {
               <Typography
                 variant="h6"
                 noWrap
-                component="a"
-                href="/home"
+                component={Link}
+                to="/home"
                 onClick={() => handleTabClick("home")}
                 sx={{
                   mr: 2,
@@ -142,10 +142,10 @@ function TopBar() {
                 >
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography
-                      href="/home"
+                      component={Link}
+                      to="/home"
                       onClick={() => handleTabClick("home")}
                       textAlign="center"
-                      component="a"
                       sx={{
                         fontWeight: 700,
                         color: activeTab === "home" ? "red" : "inherit",
@@ -157,10 +157,10 @@ function TopBar() {
                   </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography
-                      href="/job"
+                      component={Link}
+                      to="/job"
                       onClick={() => handleTabClick("job")}
                       textAlign="center"
-                      component="a"
                       sx={{
                         fontWeight: 700,
                         color: activeTab === "job" ? "red" : "inherit",
@@ -172,10 +172,10 @@ function TopBar() {
                   </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography
-                      href="/worker"
+                      component={Link}
+                      to="/worker"
                       onClick={() => handleTabClick("worker")}
                       textAlign="center"
-                      component="a"
                       sx={{
                         fontWeight: 700,
                         color: activeTab === "worker" ? "red" : "inherit",
@@ -188,10 +188,10 @@ function TopBar() {
                   {userData.role === "Admin" ? (
                     <MenuItem onClick={handleCloseNavMenu}>
                       <Typography
-                        href="/userlist"
+                        component={Link}
+                        to="/userlist"
                         onClick={() => handleTabClick("user")}
                         textAlign="center"
-                        component="a"
                         sx={{
                           fontWeight: 700,
                           color: activeTab === "user" ? "red" : "inherit",
@@ -210,8 +210,8 @@ function TopBar() {
               <Typography
                 variant="h5"
                 noWrap
-                component="a"
-                href="/home"
+                component={Link}
+                to="/home"
                 onClick={() => handleTabClick("home")}
                 sx={{
                   mr: 2,
