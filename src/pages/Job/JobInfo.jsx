@@ -8,6 +8,7 @@ import {
   Modal,
   Typography,
   Stack,
+  InputAdornment,
 } from "@mui/material";
 import { deleteJob, get_job_info } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
@@ -190,11 +191,16 @@ function JobInfo() {
                         InputProps={{
                           readOnly: true,
                           style: { color: "black" },
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              VNĐ / hour
+                            </InputAdornment>
+                          ),
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                         fullWidth
-                        label="Date Time"
-                        value={jobInfo.datetime}
+                        label="Salary"
+                        value={jobInfo.salary}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -221,6 +227,7 @@ function JobInfo() {
                         value={jobInfo.phone_num}
                       />
                     </Grid>
+
                     <Grid item xs={12}>
                       <TextField
                         InputProps={{
@@ -229,8 +236,8 @@ function JobInfo() {
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                         fullWidth
-                        label="Salary"
-                        value={jobInfo.salary}
+                        label="Date Time"
+                        value={jobInfo.datetime}
                       />
                     </Grid>
                     <Grid item xs={12}>

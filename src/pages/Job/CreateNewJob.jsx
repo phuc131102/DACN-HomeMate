@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid, TextField, Button, Box, Typography } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  InputAdornment,
+} from "@mui/material";
 import { DateTimePicker } from "react-rainbow-components";
 import { create_job } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
@@ -32,13 +39,6 @@ const CreateJobPage = () => {
   const [avatarBase64, setAvatarBase64] = useState("");
 
   const handleChange = (e) => {
-    // if (e.target.name === "date") {
-    //   const formattedDate = dayjs(e.target.value).format("MM/DD/YYYY"); // Format the date string as needed
-    //   setFormData({
-    //     ...formData,
-    //     [e.target.name]: formattedDate,
-    //   });
-    // } else {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -69,6 +69,22 @@ const CreateJobPage = () => {
     e.preventDefault();
     setLoading(true);
 
+    if (!validateEmail(formData.email)) {
+      setError("Invalid email format.");
+      setLoading(false);
+      return;
+    }
+    if (!validatePhonenum(formData.phone_num)) {
+      setError("Invalid phone number format.");
+      setLoading(false);
+      return;
+    }
+    if (!validateSalary(formData.salary)) {
+      setError("Invalid salary format.");
+      setLoading(false);
+      return;
+    }
+
     const updatedFormData = {
       ...formData,
       image: avatarBase64,
@@ -98,6 +114,21 @@ const CreateJobPage = () => {
   if (loading) {
     return <Loading />;
   }
+
+  const validateEmail = (email) => {
+    const emailPattern = /^\s*$|^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
+  const validatePhonenum = (phone_num) => {
+    const phonePattern = /^\d*$/;
+    return phonePattern.test(phone_num);
+  };
+
+  const validateSalary = (salary) => {
+    const salaryPattern = /^\d*$/;
+    return salaryPattern.test(salary);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -145,14 +176,20 @@ const CreateJobPage = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                 fullWidth
-                label="Address"
-                name="address"
-                value={formData.address}
+                label="Salary"
+                name="salary"
+                value={formData.salary}
                 onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">VNĐ / hour</InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -179,21 +216,20 @@ const CreateJobPage = () => {
               <TextField
                 sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                 fullWidth
-                label="Salary"
-                name="salary"
-                value={formData.salary}
+                label="Address"
+                name="address"
+                value={formData.address}
                 onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
               <DateTimePicker
-                // value={state.value}
                 name="datetime"
-                label="Date Time"
                 value={formData.datetime}
                 onChange={handleDateTimeChange}
                 className="rainbow-m-around_small"
                 hour24
+                placeholder="Date/Time"
               />
             </Grid>
           </Grid>
