@@ -169,7 +169,7 @@ const CV = (prop) => {
                       }}
                     >
                       <Box m={0} component="h4">
-                        {skille.name} • 1 năm kinh nghiệm
+                        {skille.name} • {skille.experienceYear} năm kinh nghiệm
                       </Box>
                     </Box>
                   ))}
@@ -185,6 +185,7 @@ const CV = (prop) => {
             </Grid>
             <Grid item md={12} xs={12}>
               <Box px={3}>
+              {cvinfor.certificate.length >0?<>
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                   <EmojiEvents sx={{ mr: "15px" }} />
                   <Box
@@ -195,6 +196,7 @@ const CV = (prop) => {
                   </Box>
                 </Box>
                 <Box sx={{ padding: "0px 0 0 40px", mt: "16px" }}>
+                  
                   <Box>
                     {cvinfor.certificate.map((certificate, index) => (
                       <Box key={index} sx={{ display: "flex" }}>
@@ -203,6 +205,7 @@ const CV = (prop) => {
                     ))}
                   </Box>
                 </Box>
+                
                 <Box>
                   <Divider
                     orientation="horizontal"
@@ -210,10 +213,12 @@ const CV = (prop) => {
                     sx={{ mt: 3, height: "0.5px" }}
                   />
                 </Box>
+                </>:<></>}
               </Box>
             </Grid>
 
             <Grid item md={12} xs={12}>
+              {cvinfor.exp ===""?<></>:<>
               <Box px={3}>
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                   <AssignmentTurnedIn sx={{ mr: "15px" }} />
@@ -225,7 +230,7 @@ const CV = (prop) => {
                   </Box>
                 </Box>
                 <Box sx={{ padding: "10px 0 0 40px" }}>
-                  <NoteField note={cvinfor.experience} />
+                  <NoteField note={cvinfor.exp} />
                 </Box>
                 <Box>
                   <Divider
@@ -235,6 +240,7 @@ const CV = (prop) => {
                   />
                 </Box>
               </Box>
+              </>}
             </Grid>
             
           </Grid>

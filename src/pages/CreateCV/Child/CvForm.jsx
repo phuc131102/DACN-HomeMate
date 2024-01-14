@@ -11,6 +11,8 @@ import skillInfo from "./fakeSkill";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { get_skill } from "../../../services/skillAPI";
+import Loading from "../../../components/Loading/Loading";
 // import AlertDialog from "../../../components/AlertDialog/AlertDialog";
 // import ViewCv from "./ViewCv";
 
@@ -28,6 +30,7 @@ function CVForm() {
   ////////////////////////////////////////////////////
   const [skillData, setSkillData] = useState(skillInfo);
   const [skillOption, setSkillOption] = useState(skillInfo);
+  console.log(skillOption)
   const [languageData, setLanguage] = useState([]);
   const [cvtitle, setTitle] = useState("");
   const [intro, setIntro] = useState("");
@@ -62,14 +65,32 @@ function CVForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
+  
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
-
     if (storedUserData) {
       const parsedUserData = JSON.parse(storedUserData);
       setUser(parsedUserData);
     }
   }, []);
+  console.log(skillId)
+  useEffect(() => {
+      const fetchSkill = async () => {
+        setLoading(true);
+        try {
+          const response = await get_skill();
+          setSkillOption(response.data);
+          setSkillData(response.data)
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching cv information:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchSkill();
+  },[]);
+  
   //FUNCTION
   function handleSExp(event) {
     let midleScore =
@@ -106,7 +127,7 @@ function CVForm() {
       };
 
       setSkills([...skills, newSkill]);
-      setSkillOption(skillOption.filter((prop) => prop.skillId !== skillId));
+      setSkillOption(skillOption.filter((prop) => prop._id !== skillId));
       setSkillId(null);
       setSName("");
       setSInputValue("");
@@ -117,7 +138,7 @@ function CVForm() {
   function handleSkilltDelete(id) {
     let delReq = skills.filter((component) => component.cvSkillsId === id);
     let newSkill = skillData.filter(
-      (prop) => prop.skillId === delReq[0].skillId
+      (prop) => prop._id === delReq[0].skillId
     );
     setSkills(skills.filter((component) => component.cvSkillsId !== id));
     setSkillOption([...skillOption, newSkill[0]]);
@@ -307,6 +328,9 @@ function CVForm() {
         setLoading(false);
       }
     }
+  }
+  if (loading) {
+    return <Loading />;
   }
   return (
     <>

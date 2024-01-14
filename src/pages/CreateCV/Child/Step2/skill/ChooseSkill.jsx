@@ -40,13 +40,13 @@ export default function ChooseSkill(prop) {
                 if (typeof newValue === "string") {
                   return () =>
                     prop.setValue({
-                      skillName: newValue,
+                      name: newValue,
                     });
                 } else if (newValue && newValue.inputValue) {
                   prop.setSInputValue({
-                    skillName: newValue.inputValue,
+                    name: newValue.inputValue,
                   });
-                  // console.log(newValue.skillName);
+                  // console.log(newValue.name);
                   if (newValue !== null) {
                     // console.log(newValue);
                     prop.handleState(newValue);
@@ -57,10 +57,10 @@ export default function ChooseSkill(prop) {
                     // console.log(newValue);
                     prop.setSkillId(
                       prop.skillData.filter(
-                        (comp) => comp.skillName === newValue.skillName
-                      )[0].skillId
+                        (comp) => comp.name === newValue.name
+                      )[0]._id
                     );
-                    prop.handleState(newValue.skillName);
+                    prop.handleState(newValue.name);
                   }
                 }
               }}
@@ -69,12 +69,12 @@ export default function ChooseSkill(prop) {
                 const filtered = filter(options, params);
                 const { inputValue } = params;
                 const isExisting = options.some(
-                  (option) => inputValue === option.skillName
+                  (option) => inputValue === option.name
                 );
                 if (inputValue.trim() !== "" && !isExisting) {
                   filtered.push({
                     inputValue,
-                    skillName: `${inputValue}`,
+                    name: `${inputValue}`,
                   });
                 }
                 return filtered;
@@ -91,10 +91,10 @@ export default function ChooseSkill(prop) {
                 if (option.inputValue) {
                   return option.inputValue;
                 }
-                return option.skillName;
+                return option.name;
               }}
               renderOption={(props, option) => (
-                <li {...props}>{option.skillName}</li>
+                <li {...props}>{option.name}</li>
               )}
               sx={{
                 "& > :not(style)": {
