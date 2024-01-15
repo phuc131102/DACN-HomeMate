@@ -821,6 +821,7 @@ function Profile() {
                             <Button
                               size="large"
                               variant="contained"
+                              color="error"
                               onClick={(e) => handleCvDelete()}
                               sx={{ marginTop: "15px" }}
                             >
