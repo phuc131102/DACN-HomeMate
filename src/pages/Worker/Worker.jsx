@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import Loading from "../../components/Loading/Loading";
+import avtEmpty from "../../assets/avt_empty.png";
 
 function Worker() {
   const { workers, loading } = useWorkers();
@@ -33,6 +34,14 @@ function Worker() {
   return (
     <>
       <br />
+      <div
+        style={{
+          width: "20%",
+          margin: "10px auto",
+          marginTop: "75px",
+          marginBottom: "30px",
+        }}
+      ></div>
       <Card
         sx={{
           backgroundColor: "white",
@@ -45,7 +54,7 @@ function Worker() {
         <CardContent>
           <Grid container spacing={5}>
             {currentWorkers.map((card, index) => (
-              <Grid item key={index}>
+              <Grid item xs={6} sm={3} md={2} key={index}>
                 <Card
                   sx={{
                     backgroundColor: "white",
@@ -60,11 +69,7 @@ function Worker() {
                     <CardMedia
                       component="img"
                       height="150"
-                      image={
-                        card.avatar === ""
-                          ? "https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
-                          : card.avatar
-                      }
+                      image={card.avatar === "" ? avtEmpty : card.avatar}
                       alt={card.name}
                     />
                     <CardContent>
