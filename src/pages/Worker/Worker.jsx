@@ -36,10 +36,9 @@ function Worker() {
       <br />
       <div
         style={{
-          width: "20%",
           margin: "10px auto",
-          marginTop: "75px",
-          marginBottom: "30px",
+          marginTop: "40px",
+          marginBottom: "40px",
         }}
       ></div>
       <Card
@@ -97,21 +96,32 @@ function Worker() {
           </Grid>
         </CardContent>
       </Card>
-      <Pagination
-        count={Math.ceil(workers.length / itemsPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-        shape="rounded"
-        size="large"
-        color="primary"
-        showFirstButton
-        showLastButton
-        sx={{
-          marginTop: "20px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      />
+      {workers.length > 12 ? (
+        <Pagination
+          count={Math.ceil(workers.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          shape="rounded"
+          size="large"
+          color="primary"
+          showFirstButton
+          showLastButton
+          sx={{
+            marginTop: "20px",
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            margin: "10px auto",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        ></div>
+      )}
       <br />
     </>
   );
