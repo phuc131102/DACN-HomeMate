@@ -14,6 +14,8 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import useWorkers from "../../utils/userUtils/workerUtils";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
+import jobEmpty from "../../assets/job_empty.png";
+import avtEmpty from "../../assets/avt_empty.png";
 
 function Home() {
   const { workers, loading } = useWorkers();
@@ -94,11 +96,7 @@ function Home() {
                         <CardMedia
                           component="img"
                           height="150"
-                          image={
-                            card.avatar === ""
-                              ? "https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
-                              : card.avatar
-                          }
+                          image={card.avatar === "" ? avtEmpty : card.avatar}
                           alt={card.name}
                         />
                         <CardContent>
@@ -185,11 +183,7 @@ function Home() {
                         <CardMedia
                           component="img"
                           height="150"
-                          image={
-                            card.image === ""
-                              ? "https://lpm.ulm.ac.id/image/desain/empty.jpg"
-                              : card.image
-                          }
+                          image={card.image === "" ? jobEmpty : card.image}
                           alt={card.name}
                         />
                         <CardContent>

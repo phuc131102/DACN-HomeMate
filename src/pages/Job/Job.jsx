@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
+import jobEmpty from "../../assets/job_empty.png";
 
 function Job() {
   const navigate = useNavigate();
@@ -51,6 +52,14 @@ function Job() {
   return (
     <>
       <br />
+      <div
+        style={{
+          width: "20%",
+          margin: "10px auto",
+          marginTop: "75px",
+          marginBottom: "30px",
+        }}
+      ></div>
       <Card
         sx={{
           backgroundColor: "white",
@@ -92,11 +101,7 @@ function Job() {
                     <CardMedia
                       component="img"
                       height="150"
-                      image={
-                        card.image === ""
-                          ? "https://lpm.ulm.ac.id/image/desain/empty.jpg"
-                          : card.image
-                      }
+                      image={card.image === "" ? jobEmpty : card.image}
                       alt={card.name}
                     />
                     <CardContent>

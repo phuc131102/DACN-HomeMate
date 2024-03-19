@@ -17,6 +17,7 @@ import Loading from "../../components/Loading/Loading";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
+import avtEmpty from "../../assets/avt_empty.png";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -322,7 +323,7 @@ function Profile() {
                               >
                                 <img
                                   alt="Kisspng computer"
-                                  src="https://cdn.animaapp.com/projects/655784b48c17a2032c616f6c/releases/655814d9b8c98c421b16e0c1/img/kisspng-computer-icons-portable-network-graphics-vector-gr-perso.png"
+                                  src={avtEmpty}
                                   style={{
                                     width: "30%",
                                     height: "auto",
@@ -438,7 +439,7 @@ function Profile() {
                           >
                             <img
                               alt="Kisspng computer"
-                              src="https://cdn.animaapp.com/projects/655784b48c17a2032c616f6c/releases/655814d9b8c98c421b16e0c1/img/kisspng-computer-icons-portable-network-graphics-vector-gr-perso.png"
+                              src={avtEmpty}
                               style={{
                                 width: "30%",
                                 height: "auto",
