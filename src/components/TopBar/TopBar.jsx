@@ -75,6 +75,7 @@ function TopBar() {
   };
 
   const handleLogout = () => {
+    setAnchorElUser(null);
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
     navigate("/");
@@ -89,9 +90,6 @@ function TopBar() {
         >
           <Container maxWidth="100%">
             <Toolbar disableGutters>
-              <MenuBookIcon
-                sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-              />
               <Typography
                 variant="h6"
                 noWrap
@@ -101,7 +99,6 @@ function TopBar() {
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
                   color: "inherit",
@@ -140,10 +137,12 @@ function TopBar() {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to="/home"
+                  >
                     <Typography
-                      component={Link}
-                      to="/home"
                       onClick={() => handleTabClick("home")}
                       textAlign="center"
                       sx={{
@@ -155,10 +154,12 @@ function TopBar() {
                       Home
                     </Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to="/job"
+                  >
                     <Typography
-                      component={Link}
-                      to="/job"
                       onClick={() => handleTabClick("job")}
                       textAlign="center"
                       sx={{
@@ -170,10 +171,12 @@ function TopBar() {
                       Job
                     </Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to="/worker"
+                  >
                     <Typography
-                      component={Link}
-                      to="/worker"
                       onClick={() => handleTabClick("worker")}
                       textAlign="center"
                       sx={{
@@ -186,10 +189,12 @@ function TopBar() {
                     </Typography>
                   </MenuItem>
                   {userData.role === "Admin" ? (
-                    <MenuItem onClick={handleCloseNavMenu}>
+                    <MenuItem
+                      onClick={handleCloseNavMenu}
+                      component={Link}
+                      to="/userlist"
+                    >
                       <Typography
-                        component={Link}
-                        to="/userlist"
                         onClick={() => handleTabClick("user")}
                         textAlign="center"
                         sx={{
@@ -204,9 +209,6 @@ function TopBar() {
                   ) : null}
                 </Menu>
               </Box>
-              <MenuBookIcon
-                sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-              />
               <Typography
                 variant="h5"
                 noWrap
@@ -217,7 +219,6 @@ function TopBar() {
                   mr: 2,
                   display: { xs: "flex", md: "none" },
                   flexGrow: 1,
-                  fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
                   textDecoration: "none",
@@ -333,11 +334,13 @@ function TopBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    onClick={handleCloseUserMenu}
+                    component={Link}
+                    to="/profile"
+                  >
                     <Typography
                       onClick={() => handleTabClick("profile")}
-                      component={Link}
-                      to="/profile"
                       sx={{
                         fontWeight: 700,
                         color: activeTab === "profile" ? "red" : "inherit",
@@ -348,10 +351,9 @@ function TopBar() {
                       Profile
                     </Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
+                  <MenuItem onClick={handleLogout}>
                     <Typography
                       component="a"
-                      onClick={handleLogout}
                       sx={{
                         fontWeight: 700,
                         color: "inherit",
