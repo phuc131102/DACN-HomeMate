@@ -18,12 +18,12 @@ export default function Footer() {
       }}
     >
       <h5 style={{ textAlign: "center" }}>
-        <WorkIcon />
         <br />
         Copyright © 2024 HomeMate Website, Inc.
       </h5>
       <BottomNavigation showLabels style={{ backgroundColor: "#2E3B55" }}>
         <BottomNavigationAction
+          href="https://www.facebook.com/TranPhamMinhDang"
           label="Fanpage"
           icon={<FacebookIcon />}
           style={{ color: "white" }}
