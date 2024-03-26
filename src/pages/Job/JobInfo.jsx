@@ -10,7 +10,7 @@ import {
   Stack,
   InputAdornment,
 } from "@mui/material";
-import { deleteJob, get_job_info } from "../../services/jobAPI";
+import { deleteJob, get_job_info, update_job } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 
@@ -18,8 +18,30 @@ function JobInfo() {
   const [jobInfo, setJobInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
-
   const [showModal, setShowModal] = useState(false);
+
+  const params = useParams();
+  const id = params.id.split("/").pop();
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  const [editMode, setEditMode] = useState(false);
+  const [editedValues, setEditedValues] = useState({
+    name: "",
+    salary: "",
+    email: "",
+    phone_num: "",
+    datetime: "",
+    address: "",
+    desc: "",
+    requirement: "",
+  });
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -66,17 +88,6 @@ function JobInfo() {
 
   const navigate = useNavigate();
 
-  const params = useParams();
-  const id = params.id.split("/").pop();
-
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
-
   useEffect(() => {
     if (id) {
       const fetchJobInfo = async () => {
@@ -108,6 +119,46 @@ function JobInfo() {
     }
   };
 
+  const handleUpdateJob = async () => {
+    try {
+      const updatedValues = {
+        id: id,
+        name: editedValues.name,
+        salary: editedValues.salary,
+        email: editedValues.email,
+        phone_num: editedValues.phone_num,
+        datetime: editedValues.datetime,
+        address: editedValues.address,
+        desc: editedValues.desc,
+        requirement: editedValues.requirement,
+      };
+      await update_job(updatedValues);
+      setJobInfo(editedValues);
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error updating job:", error);
+    }
+  };
+
+  const toggleEditMode = () => {
+    setEditMode((prevEditMode) => !prevEditMode);
+    if (!editMode) {
+      setEditedValues(jobInfo);
+    }
+  };
+
+  const handleCancelEditMode = () => {
+    setEditMode(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEditedValues((prevEditedValues) => ({
+      ...prevEditedValues,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
       <br />
@@ -117,7 +168,7 @@ function JobInfo() {
             <form>
               {userData.role === "Homeowner" &&
               userData.id === jobInfo.owner_id ? (
-                <Grid item spacing={2}>
+                <Grid container spacing={2}>
                   <Box
                     sx={{
                       width: "100%",
@@ -133,9 +184,15 @@ function JobInfo() {
                         marginRight: "5%",
                         borderRadius: "15px",
                       }}
-                      // onClick={handleUpdateJob}
+                      onClick={() => {
+                        if (editMode) {
+                          handleUpdateJob();
+                        } else {
+                          toggleEditMode();
+                        }
+                      }}
                     >
-                      Update Job
+                      {editMode ? "Save" : "Update Job"}
                     </Button>
                     <Button
                       variant="contained"
@@ -145,9 +202,15 @@ function JobInfo() {
                         marginLeft: "5%",
                         borderRadius: "15px",
                       }}
-                      onClick={handleOpenModal}
+                      onClick={() => {
+                        if (editMode) {
+                          handleCancelEditMode();
+                        } else {
+                          handleOpenModal();
+                        }
+                      }}
                     >
-                      Delete Job
+                      {editMode ? "Cancel" : "Delete Job"}
                     </Button>
                   </Box>
                 </Grid>
@@ -177,19 +240,22 @@ function JobInfo() {
                     <Grid item xs={6}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Job Name"
-                        value={jobInfo.name}
+                        name="name"
+                        value={editMode ? editedValues.name : jobInfo.name}
+                        onChange={handleInputChange}
                       />
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                           endAdornment: (
                             <InputAdornment position="end">
@@ -198,58 +264,79 @@ function JobInfo() {
                           ),
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Salary"
-                        value={jobInfo.salary}
+                        name="salary"
+                        value={editMode ? editedValues.salary : jobInfo.salary}
+                        onChange={handleInputChange}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Email"
-                        value={jobInfo.email}
+                        name="email"
+                        value={editMode ? editedValues.email : jobInfo.email}
+                        onChange={handleInputChange}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Phone Number"
-                        value={jobInfo.phone_num}
+                        name="phone_num"
+                        value={
+                          editMode ? editedValues.phone_num : jobInfo.phone_num
+                        }
+                        onChange={handleInputChange}
                       />
                     </Grid>
 
                     <Grid item xs={12}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Date Time"
-                        value={jobInfo.datetime}
+                        name="datetime"
+                        value={
+                          editMode ? editedValues.datetime : jobInfo.datetime
+                        }
+                        onChange={handleInputChange}
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Address"
-                        value={jobInfo.address}
+                        name="address"
+                        value={
+                          editMode ? editedValues.address : jobInfo.address
+                        }
+                        onChange={handleInputChange}
                       />
                     </Grid>
                   </Grid>
@@ -293,32 +380,44 @@ function JobInfo() {
                     <Grid item xs={6}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         multiline
                         rows={8}
                         label="Description"
-                        value={jobInfo.desc}
+                        name="desc"
+                        value={editMode ? editedValues.desc : jobInfo.desc}
+                        onChange={handleInputChange}
                       />
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
                         InputProps={{
-                          readOnly: true,
+                          readOnly: !editMode,
                           style: { color: "black" },
                         }}
                         sx={{
                           mb: "1%",
                           [`& fieldset`]: { borderRadius: 8 },
                         }}
+                        variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         multiline
                         rows={8}
                         label="Requirement"
-                        value={jobInfo.requirement}
+                        name="requirement"
+                        value={
+                          editMode
+                            ? editedValues.requirement
+                            : jobInfo.requirement === ""
+                            ? "No requirement."
+                            : jobInfo.requirement
+                        }
+                        onChange={handleInputChange}
                       />
                     </Grid>
                   </Grid>

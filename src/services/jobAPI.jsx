@@ -38,6 +38,20 @@ export const get_job_info = async (data) => {
   }
 };
 
+// UPDATE JOB
+export const update_job = async (data) => {
+  try {
+    const response = await axios.put(
+      "https://homemateapi.onrender.com/update_job",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 //DELETE JOBS
 export const deleteJob = async (data) => {
   try {
