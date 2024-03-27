@@ -69,22 +69,6 @@ const CreateJobPage = () => {
     e.preventDefault();
     setLoading(true);
 
-    if (!validateEmail(formData.email)) {
-      setError("Invalid email format.");
-      setLoading(false);
-      return;
-    }
-    if (!validatePhonenum(formData.phone_num)) {
-      setError("Invalid phone number format.");
-      setLoading(false);
-      return;
-    }
-    if (!validateSalary(formData.salary)) {
-      setError("Invalid salary format.");
-      setLoading(false);
-      return;
-    }
-
     const updatedFormData = {
       ...formData,
       image: avatarBase64,
@@ -115,255 +99,310 @@ const CreateJobPage = () => {
     return <Loading />;
   }
 
-  const validateEmail = (email) => {
-    const emailPattern = /^\s*$|^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const validatePhonenum = (phone_num) => {
-    const phonePattern = /^\d*$/;
-    return phonePattern.test(phone_num);
-  };
-
-  const validateSalary = (salary) => {
-    const salaryPattern = /^\d*$/;
-    return salaryPattern.test(salary);
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid item xs={12}>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "1%",
-          }}
-        >
-          <Typography variant="h3">New Job</Typography>
-        </Box>
-      </Grid>
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          width: "80vw",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-          marginTop: "1%",
-          marginBottom: "5%",
-          border: "2px solid #000",
-          borderRadius: "20px",
-          background: "#fff",
-          color: "#000",
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: "16px",
-        }}
-      >
-        {/* Left Side */}
-        <Grid item xs={6}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                label="Job Name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                label="Salary"
-                name="salary"
-                value={formData.salary}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">VNĐ / hour</InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                label="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                label="Phone Number"
-                name="phone_num"
-                value={formData.phone_num}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                label="Address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <DateTimePicker
-                name="datetime"
-                value={formData.datetime}
-                onChange={handleDateTimeChange}
-                className="rainbow-m-around_small"
-                hour24
-                placeholder="Date/Time"
-              />
-            </Grid>
+    <>
+      <br />
+      <div style={{ marginTop: "3%" }}>
+        <form onSubmit={handleSubmit}>
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "1%",
+              }}
+            >
+              <Typography variant="h3">New Job</Typography>
+            </Box>
           </Grid>
-        </Grid>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              width: "80vw",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "auto",
+              marginTop: "1%",
+              marginBottom: "5%",
+              border: "2px solid #000",
+              borderRadius: "20px",
+              background: "#fff",
+              color: "#000",
+              fontWeight: "bold",
+              textAlign: "center",
+              fontSize: "16px",
+            }}
+          >
+            <Grid item xs={6}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    label="Job Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </Grid>
 
-        {/* Right Side - Image Upload */}
-        <Grid item xs={6}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              {avatarBase64 ? (
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <img
-                    alt={avatarBase64}
-                    src={avatarBase64}
-                    style={{
-                      width: "60%",
-                      height: "auto",
+                <Grid item xs={6}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    label="Salary"
+                    name="salary"
+                    type="number"
+                    value={formData.salary}
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          VNĐ / hour
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={
+                      !!formData.email && !/\S+@\S+\.\S+/.test(formData.email)
+                    }
+                    helperText={
+                      !!formData.email && !/\S+@\S+\.\S+/.test(formData.email)
+                        ? "Please enter a valid email address."
+                        : ""
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    label="Phone Number"
+                    name="phone_num"
+                    type="number"
+                    value={formData.phone_num}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    label="Address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <DateTimePicker
+                    required
+                    name="datetime"
+                    value={formData.datetime}
+                    onChange={handleDateTimeChange}
+                    className="rainbow-m-around_small"
+                    hour24
+                    placeholder="Date/Time *"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {/* Right Side - Image Upload */}
+            <Grid item xs={6}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  {avatarBase64 ? (
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <img
+                        alt={avatarBase64}
+                        src={avatarBase64}
+                        style={{
+                          width: "60%",
+                          height: "auto",
+                          display: "flex",
+                          justifyContent: "center",
+                          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                        }}
+                      />
+                    </Box>
+                  ) : (
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    ></Box>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      width: "100%",
                       display: "flex",
                       justifyContent: "center",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                     }}
-                  />
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                ></Box>
-              )}
+                  >
+                    <label
+                      htmlFor="avatar-upload"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        padding: "12px 24px",
+                        border: "2px solid #000",
+                        borderRadius: "20px",
+                        background: "#fff",
+                        color: "#000",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        textTransform: "uppercase",
+                        fontSize: "16px",
+                        letterSpacing: "1px",
+                        transition: "all 0.3s ease",
+                      }}
+                    >
+                      <input
+                        id="avatar-upload"
+                        style={{
+                          display: "none",
+                        }}
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const selectedFile = e.target.files[0];
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            const base64data = reader.result;
+                            setAvatarBase64(base64data);
+                            setFormData({
+                              ...formData,
+                              image: avatarBase64,
+                            });
+                          };
+                          reader.readAsDataURL(selectedFile);
+                        }}
+                      />
+                      Upload image
+                    </label>
+                  </Box>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <label
-                  htmlFor="avatar-upload"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    padding: "12px 24px",
-                    border: "2px solid #000",
-                    borderRadius: "20px",
-                    background: "#fff",
-                    color: "#000",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    textTransform: "uppercase",
-                    fontSize: "16px",
-                    letterSpacing: "1px",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  <input
-                    id="avatar-upload"
-                    style={{
-                      display: "none",
-                    }}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const selectedFile = e.target.files[0];
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        const base64data = reader.result;
-                        setAvatarBase64(base64data);
-                        setFormData({
-                          ...formData,
-                          image: avatarBase64,
-                        });
-                      };
-                      reader.readAsDataURL(selectedFile);
-                    }}
-                  />
-                  Upload image
-                </label>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
 
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                multiline
-                rows={8}
-                label="Description"
-                name="desc"
-                value={formData.desc}
-                onChange={handleChange}
-              />
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    multiline
+                    rows={8}
+                    label="Description"
+                    name="desc"
+                    value={formData.desc}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                    fullWidth
+                    multiline
+                    rows={8}
+                    label="Requirement"
+                    name="requirement"
+                    value={formData.requirement}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                fullWidth
-                multiline
-                rows={8}
-                label="Requirement"
-                name="requirement"
-                value={formData.requirement}
-                onChange={handleChange}
-              />
+            {error && (
+              <Typography variant="body2" color="error" align="center">
+                {error}
+              </Typography>
+            )}
+            <Grid item xs={12}>
+              <Button
+                sx={{ marginBottom: "1%" }}
+                variant="contained"
+                type="submit"
+              >
+                Create Job
+              </Button>
             </Grid>
           </Grid>
-        </Grid>
-        {error && (
-          <Typography variant="body2" color="error" align="center">
-            {error}
-          </Typography>
-        )}
-        <Grid item xs={12}>
-          <Button sx={{ marginBottom: "1%" }} variant="contained" type="submit">
-            Create Job
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
+        </form>
+      </div>
+    </>
   );
 };
 

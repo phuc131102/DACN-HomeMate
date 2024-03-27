@@ -132,6 +132,7 @@ function JobInfo() {
         desc: editedValues.desc,
         requirement: editedValues.requirement,
       };
+      console.log(updatedValues);
       await update_job(updatedValues);
       setJobInfo(editedValues);
       setEditMode(false);
