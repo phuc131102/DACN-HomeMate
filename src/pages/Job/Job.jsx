@@ -80,7 +80,6 @@ function Job() {
           borderRadius: "20px",
           width: "95%",
           margin: "auto",
-
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
         }}
       >
