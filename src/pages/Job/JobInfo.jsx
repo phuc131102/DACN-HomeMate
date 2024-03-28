@@ -10,11 +10,13 @@ import {
   Stack,
   InputAdornment,
 } from "@mui/material";
+import { DateTimePicker } from "react-rainbow-components";
 import { deleteJob, get_job_info, update_job } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 
 function JobInfo() {
+  const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
@@ -37,7 +39,6 @@ function JobInfo() {
     salary: "",
     email: "",
     phone_num: "",
-    datetime: "",
     address: "",
     desc: "",
     requirement: "",
@@ -120,24 +121,42 @@ function JobInfo() {
   };
 
   const handleUpdateJob = async () => {
-    try {
-      const updatedValues = {
-        id: id,
-        name: editedValues.name,
-        salary: editedValues.salary,
-        email: editedValues.email,
-        phone_num: editedValues.phone_num,
-        datetime: editedValues.datetime,
-        address: editedValues.address,
-        desc: editedValues.desc,
-        requirement: editedValues.requirement,
-      };
-      console.log(updatedValues);
-      await update_job(updatedValues);
-      setJobInfo(editedValues);
-      setEditMode(false);
-    } catch (error) {
-      console.error("Error updating job:", error);
+    const requiredFields = [
+      "name",
+      "salary",
+      "email",
+      "phone_num",
+      "datetime",
+      "address",
+      "desc",
+    ];
+    const emptyFields = requiredFields.filter((field) => !editedValues[field]);
+
+    if (emptyFields.length > 0) {
+      setError("Please fill in all required fields.");
+    } else {
+      setLoading(true);
+      try {
+        const updatedValues = {
+          id: id,
+          name: editedValues.name,
+          salary: editedValues.salary,
+          email: editedValues.email,
+          phone_num: editedValues.phone_num,
+          datetime: editedValues.datetime,
+          address: editedValues.address,
+          desc: editedValues.desc,
+          requirement: editedValues.requirement,
+        };
+        console.log(updatedValues);
+        await update_job(updatedValues);
+        setJobInfo(editedValues);
+        setEditMode(false);
+        setError("");
+        setLoading(false);
+      } catch (error) {
+        console.error("Error updating job:", error);
+      }
     }
   };
 
@@ -158,6 +177,25 @@ function JobInfo() {
       ...prevEditedValues,
       [name]: value,
     }));
+  };
+
+  const handleDateTimeChange = (value) => {
+    const formattedDateTime = formatDate(value);
+    setEditedValues((prevEditedValues) => ({
+      ...prevEditedValues,
+      datetime: formattedDateTime,
+    }));
+  };
+
+  const formatDate = (value) => {
+    const date = new Date(value);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${month}/${day}/${year} ${hours}:${minutes}`;
   };
 
   return (
@@ -216,6 +254,11 @@ function JobInfo() {
                   </Box>
                 </Grid>
               ) : null}
+              {error && (
+                <Typography variant="body2" color="error" align="center">
+                  {error}
+                </Typography>
+              )}
               <Grid
                 container
                 spacing={2}
@@ -244,9 +287,17 @@ function JobInfo() {
                           readOnly: !editMode,
                           style: { color: "black" },
                         }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
                         variant={editMode ? "outlined" : "standard"}
                         fullWidth
+                        required={editMode}
                         label="Job Name"
                         name="name"
                         value={editMode ? editedValues.name : jobInfo.name}
@@ -264,7 +315,16 @@ function JobInfo() {
                             </InputAdornment>
                           ),
                         }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        required={editMode}
+                        type="number"
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
                         variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         label="Salary"
@@ -279,13 +339,36 @@ function JobInfo() {
                           readOnly: !editMode,
                           style: { color: "black" },
                         }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
                         variant={editMode ? "outlined" : "standard"}
+                        required={editMode}
                         fullWidth
                         label="Email"
                         name="email"
+                        type="email"
                         value={editMode ? editedValues.email : jobInfo.email}
                         onChange={handleInputChange}
+                        error={
+                          editMode
+                            ? !!editedValues.email &&
+                              !/\S+@\S+\.\S+/.test(editedValues.email)
+                            : null
+                        }
+                        helperText={
+                          editMode
+                            ? !!editedValues.email &&
+                              !/\S+@\S+\.\S+/.test(editedValues.email)
+                              ? "Please enter a valid email address."
+                              : ""
+                            : null
+                        }
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -294,8 +377,17 @@ function JobInfo() {
                           readOnly: !editMode,
                           style: { color: "black" },
                         }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        type="number"
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
                         variant={editMode ? "outlined" : "standard"}
+                        required={editMode}
                         fullWidth
                         label="Phone Number"
                         name="phone_num"
@@ -307,21 +399,30 @@ function JobInfo() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                        variant={editMode ? "outlined" : "standard"}
-                        fullWidth
-                        label="Date Time"
-                        name="datetime"
-                        value={
-                          editMode ? editedValues.datetime : jobInfo.datetime
-                        }
-                        onChange={handleInputChange}
-                      />
+                      {editMode ? (
+                        <DateTimePicker
+                          name="datetime"
+                          value={editedValues.datetime}
+                          onChange={handleDateTimeChange}
+                          className="rainbow-m-around_small"
+                          hour24
+                          placeholder="Date/Time *"
+                        />
+                      ) : (
+                        <TextField
+                          InputProps={{
+                            readOnly: true,
+                            style: { color: "black" },
+                          }}
+                          sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                          variant="standard"
+                          fullWidth
+                          label="Date Time"
+                          // name="datetime"
+                          value={jobInfo.datetime}
+                          // onChange={handleInputChange}
+                        />
+                      )}
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
@@ -329,8 +430,16 @@ function JobInfo() {
                           readOnly: !editMode,
                           style: { color: "black" },
                         }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
                         variant={editMode ? "outlined" : "standard"}
+                        required={editMode}
                         fullWidth
                         label="Address"
                         name="address"
@@ -384,8 +493,16 @@ function JobInfo() {
                           readOnly: !editMode,
                           style: { color: "black" },
                         }}
-                        sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
                         variant={editMode ? "outlined" : "standard"}
+                        required={editMode}
                         fullWidth
                         multiline
                         rows={8}
