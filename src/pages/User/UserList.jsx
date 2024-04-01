@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -9,6 +9,8 @@ import {
   Avatar,
   Paper,
   Pagination,
+  Grid,
+  Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
@@ -16,6 +18,15 @@ import Loading from "../../components/Loading/Loading";
 
 const UserListPage = () => {
   const { users, loading } = useUsers();
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   const navigate = useNavigate();
 
@@ -40,12 +51,35 @@ const UserListPage = () => {
 
   return (
     <>
+      <br />
+      <div
+        style={{
+          margin: "10px auto",
+          marginTop: "40px",
+          marginBottom: "40px",
+        }}
+      ></div>
+      {userData.role === "Admin" ? (
+        <Grid container sx={{ width: "80vw", margin: "auto" }}>
+          <Button
+            variant="contained"
+            sx={{
+              width: "15%",
+              marginLeft: "auto",
+              borderRadius: "15px",
+            }}
+            // onClick={handleAddUser}
+          >
+            Create New User
+          </Button>
+        </Grid>
+      ) : null}
       <TableContainer
         component={Paper}
         sx={{
           width: "80vw",
           margin: "auto",
-          marginTop: "7%",
+          marginTop: "3%",
         }}
       >
         <Table>
