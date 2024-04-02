@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info } from "../../services/cvAPI";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
+import avtEmpty from "../../assets/avt_empty.png";
 
 function WorkerInfo() {
   const [userInfo, setUserInfo] = useState(null);
@@ -96,7 +97,7 @@ function WorkerInfo() {
                             >
                               <img
                                 alt="Kisspng computer"
-                                src="https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
+                                src={avtEmpty}
                                 style={{
                                   width: "30%",
                                   height: "auto",

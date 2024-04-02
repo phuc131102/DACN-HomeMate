@@ -4,6 +4,7 @@ import { Grid, TextField, Typography, Box } from "@mui/material";
 import { get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
+import avtEmpty from "../../assets/avt_empty.png";
 
 function UserInfo() {
   const [userInfo, setUserInfo] = useState(null);
@@ -84,7 +85,7 @@ function UserInfo() {
                             >
                               <img
                                 alt="Kisspng computer"
-                                src="https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
+                                src={avtEmpty}
                                 style={{
                                   width: "30%",
                                   height: "auto",

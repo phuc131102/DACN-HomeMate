@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import PasswordVisibilityToggle from "../../components/passView/passView";
@@ -13,8 +13,6 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import "./Signup.css";
-import videoBg from "../../assets/nightwall.webm";
 import { sign_up } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 
@@ -31,7 +29,7 @@ const finalTheme = createTheme({
   },
 });
 
-function Signup() {
+function AddUser() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -68,12 +66,6 @@ function Signup() {
     setConfirmPassword(e.target.value);
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -84,11 +76,6 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (!validateEmail(formData.email)) {
-      setError("Invalid email format.");
-      setLoading(false);
-      return;
-    }
     if (formData.password !== confirmPassword) {
       setError("Passwords do not match.");
       setLoading(false);
@@ -100,7 +87,7 @@ function Signup() {
     try {
       const response = await sign_up(formData);
       if (response) {
-        navigate("/");
+        navigate("/userlist");
         console.log("User signed up:", response);
       }
     } catch (error) {
@@ -124,15 +111,9 @@ function Signup() {
     return <Loading />;
   }
 
-  const validateEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
+  const handleCancel = () => {
+    navigate("/userlist");
   };
-
-  function handleSignIn(event) {
-    event.preventDefault();
-    navigate("/");
-  }
 
   return (
     <>
@@ -145,18 +126,6 @@ function Signup() {
           alignItems: "center",
         }}
       >
-        <video
-          src={videoBg}
-          autoPlay
-          loop
-          muted
-          style={{
-            position: "absolute",
-            width: "100vw",
-            height: "100vh",
-            objectFit: "cover",
-          }}
-        ></video>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box
@@ -192,7 +161,7 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h1">Sign up</Typography>
+                        <Typography variant="h5">Add New User</Typography>
                       </Box>
                     </Grid>
                     <Grid container spacing={2}>
@@ -225,6 +194,7 @@ function Signup() {
                           <Select onChange={handleChangeRole}>
                             <MenuItem value="Homeowner">Homeowner</MenuItem>
                             <MenuItem value="Worker">Worker</MenuItem>
+                            <MenuItem value="Admin">Admin</MenuItem>
                           </Select>
                         </FormControl>
                       </Grid>
@@ -241,7 +211,18 @@ function Signup() {
                         variant="outlined"
                         label="Email"
                         name="email"
+                        type="email"
                         value={formData.email}
+                        error={
+                          !!formData.email &&
+                          !/\S+@\S+\.\S+/.test(formData.email)
+                        }
+                        helperText={
+                          !!formData.email &&
+                          !/\S+@\S+\.\S+/.test(formData.email)
+                            ? "Please enter a valid email address."
+                            : ""
+                        }
                         onChange={handleChange}
                       />
                     </Grid>
@@ -307,6 +288,22 @@ function Signup() {
                         }}
                       >
                         <Button
+                          onClick={() => {
+                            handleCancel();
+                          }}
+                          size="large"
+                          variant="contained"
+                          color="error"
+                          sx={{
+                            width: "30%",
+                            margin: "auto",
+                            marginBottom: "15px",
+                            marginTop: "15px",
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
                           type="submit"
                           size="large"
                           variant="contained"
@@ -317,26 +314,8 @@ function Signup() {
                             marginTop: "15px",
                           }}
                         >
-                          Sign up
+                          Add User
                         </Button>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Box className="textBottom">
-                        <Typography variant="small" sx={{ color: "black" }}>
-                          Already have an account?{" "}
-                          <Typography
-                            onClick={(e) => handleSignIn(e)}
-                            variant="small"
-                            sx={{
-                              cursor: "pointer",
-                              textDecoration: "underline",
-                              color: "black",
-                            }}
-                          >
-                            Sign in now
-                          </Typography>
-                        </Typography>
                       </Box>
                     </Grid>
                   </form>
@@ -350,4 +329,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default AddUser;
