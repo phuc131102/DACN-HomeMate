@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, TextField, Typography, Box } from "@mui/material";
+import { Grid, TextField, Typography, Box, Rating, Button } from "@mui/material";
 import { get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
@@ -12,6 +12,8 @@ function WorkerInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cvInfo, setCvInfo] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [ratingSubmitted, setRatingSubmitted] = useState(false);
 
   const finalTheme = createTheme({
     components: {
@@ -53,6 +55,29 @@ function WorkerInfo() {
       fetchUserInfo();
     }
   }, [id]);
+
+  const handleRatingChange = (event, newValue) => {
+    setRating(newValue);
+    // You can add code here to send the rating data to your backend server
+    
+  };
+
+  const handleSubmitRating = async () => {
+    try {
+      // Send rating data to server
+      // Replace 'your-api-endpoint' with your actual API endpoint
+      await fetch('your-api-endpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ rating: rating, userId: id }),
+      });
+      setRatingSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting rating:", error);
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -265,6 +290,18 @@ function WorkerInfo() {
                 </Box>
               </Grid>
             </Grid>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Typography variant="h6">Rating: </Typography>
+            <Rating
+              value={rating}
+              onChange={handleRatingChange}
+              max={5}
+              precision={0.5}
+            />
+            <Button variant="contained" color="primary" onClick={handleSubmitRating} disabled={ratingSubmitted}>
+              Submit
+            </Button>
           </Box>
           {cvInfo && cvInfo.message === "CV not found" ? (
             <>
