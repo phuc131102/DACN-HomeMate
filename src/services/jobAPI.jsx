@@ -77,3 +77,17 @@ export const myJob = async (data) => {
     throw err;
   }
 };
+
+//HIRE WORKER
+export const hire_worker = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://homemateapi.onrender.com/hire_worker",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
