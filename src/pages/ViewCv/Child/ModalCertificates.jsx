@@ -14,6 +14,7 @@ import {
 import dayjs from "dayjs";
 
 const ModalCertificates = ({ certificate }) => {
+  // console.log(certificate)
   const [open, setOpen] = React.useState(true);
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
@@ -86,7 +87,7 @@ const ModalCertificates = ({ certificate }) => {
             </a>
           </Box>
         </Box>
-        {console.log(isMd)}
+        {/* {console.log(isMd)} */}
         <Box display="flex" flexDirection="column" justifyContent="flex-end">
           <Box
             sx={{ display: isMd ? "none" : "block", cursor: "pointer" }}

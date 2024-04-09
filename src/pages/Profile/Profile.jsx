@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Avt from "./Child/Avt";
 import {
   Grid,
   TextField,
@@ -18,6 +19,8 @@ import ComponentDivider from "../../components/ComponentDivider/ComponentDivider
 import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
 import avtEmpty from "../../assets/avt_empty.png";
+import LeftSide from "./Child/LeftSide";
+import Rating from "./Child/Rating";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -37,7 +40,7 @@ function Profile() {
         try {
           const response = await get_cv_info(userData.id);
           setCvInfo(response);
-          console.log(response.data);
+          // console.log(response.data);
         } catch (error) {
           console.error("Error fetching cv information:", error);
         } finally {
@@ -62,7 +65,6 @@ function Profile() {
     address: "",
     phone_num: "",
   });
-
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -226,7 +228,7 @@ function Profile() {
           try {
             const response = await get_cv_info(userData.id);
             setCvInfo(response);
-            console.log(response.data);
+            // console.log(response.data);
           } catch (error) {
             console.error("Error fetching cv information:", error);
           } finally {
@@ -258,11 +260,12 @@ function Profile() {
     return <Loading />;
   }
 
-  const handleMyJob = () => {
-    navigate("/my-job");
-  };
   const handleCreateCv = () => {
     navigate("/createCv");
+  };
+
+  const handleUpdateCv = () => {
+    navigate(`/updateCv/${userData.id}`);
   };
 
   return (
@@ -271,584 +274,130 @@ function Profile() {
         <>
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
+              // display: "flex",
+              // alignItems: "center",
+              width: "60%",
+              margin: "auto",
+              marginTop: "100px",
             }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    position: "relative",
-                  }}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{
-                      margin: "auto",
-                      marginBottom: "150px",
-                    }}
-                  >
-                    <ThemeProvider theme={finalTheme}>
-                      {editing ? (
-                        <>
-                          <Grid item xs={12}>
-                            {avatarBase64 ? (
-                              <Box
-                                sx={{
-                                  width: "100%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <img
-                                  alt={avatarBase64}
-                                  src={avatarBase64}
-                                  style={{
-                                    width: "30%",
-                                    height: "auto",
-                                    marginTop: "20%",
-                                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                                  }}
-                                />
-                              </Box>
-                            ) : userInfo.avatar === "" ? (
-                              <Box
-                                sx={{
-                                  width: "100%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <img
-                                  alt="Kisspng computer"
-                                  src={avtEmpty}
-                                  style={{
-                                    width: "30%",
-                                    height: "auto",
-                                    marginTop: "20%",
-                                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                                  }}
-                                />
-                              </Box>
-                            ) : (
-                              <Box
-                                sx={{
-                                  width: "100%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <img
-                                  alt={userInfo.avatar}
-                                  src={userInfo.avatar}
-                                  style={{
-                                    width: "30%",
-                                    height: "auto",
-                                    marginTop: "20%",
-                                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                                  }}
-                                />
-                              </Box>
-                            )}
-                          </Grid>
-                          <Grid item xs={12}>
-                            <Box
-                              sx={{
-                                width: "100%",
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <label
-                                htmlFor="avatar-upload"
-                                style={{
-                                  cursor: "pointer",
-                                  marginTop: "1%",
-                                  marginBottom: "5%",
-                                  padding: "12px 24px",
-                                  border: "2px solid #000",
-                                  borderRadius: "8px",
-                                  background: "#fff",
-                                  color: "#000",
-                                  fontWeight: "bold",
-                                  textAlign: "center",
-                                  textTransform: "uppercase",
-                                  fontSize: "16px",
-                                  letterSpacing: "1px",
-                                  transition: "all 0.3s ease",
-                                }}
-                              >
-                                <input
-                                  id="avatar-upload"
-                                  style={{
-                                    display: "none",
-                                  }}
-                                  type="file"
-                                  accept="image/*"
-                                  onChange={(e) => {
-                                    const selectedFile = e.target.files[0];
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                      const base64data = reader.result;
-                                      setAvatarBase64(base64data);
-                                      setFormData({
-                                        ...formData,
-                                        avatar: avatarBase64,
-                                      });
-                                    };
-                                    reader.readAsDataURL(selectedFile);
-                                  }}
-                                />
-                                Change Avatar
-                              </label>
-                            </Box>
-                          </Grid>
-                        </>
-                      ) : userInfo.avatar !== "" ? (
-                        <Grid item xs={12}>
-                          <Box
-                            sx={{
-                              width: "100%",
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <img
-                              alt={userInfo.avatar}
-                              src={userInfo.avatar}
-                              style={{
-                                width: "auto",
-                                height: "200px",
-                                marginTop: "20%",
-                                marginBottom: "5%",
-                                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                              }}
-                            />
-                          </Box>
-                        </Grid>
-                      ) : (
-                        <Grid item xs={12}>
-                          <Box
-                            sx={{
-                              width: "100%",
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <img
-                              alt="Kisspng computer"
-                              src={avtEmpty}
-                              style={{
-                                width: "30%",
-                                height: "auto",
-                                marginTop: "20%",
-                                marginBottom: "5%",
-                                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                              }}
-                            />
-                          </Box>
-                        </Grid>
-                      )}
-
-                      <Grid item xs={12}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography variant="h3">
-                            <b>{userInfo.name}</b>
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography variant="h5">
-                            Role: {userInfo.role}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      {userInfo.role === "Homeowner" ? (
-                        <Grid item xs={12}>
-                          <Box
-                            sx={{
-                              width: "100%",
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <Button
-                              variant="contained"
-                              sx={{ width: "15%", borderRadius: "15px" }}
-                              onClick={handleMyJob}
-                            >
-                              My Job
-                            </Button>
-                          </Box>
-                        </Grid>
-                      ) : null}
-                    </ThemeProvider>
-                  </Grid>
-                </Box>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    maxWidth: "500px",
-                    border: "1px solid black",
-                    borderRadius: "10px",
-                    backgroundColor: "white",
-                    padding: "20px",
-                    margin: "auto",
-                    // position: "sticky",
-                    transform: "translateY(0%)",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{
-                      width: "90%",
-                      margin: "auto",
-                      marginTop: "10px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <ThemeProvider theme={finalTheme}>
-                      <form onSubmit={handleUpdate}>
-                        <br />
-                        {editing ? (
-                          <>
-                            <Grid item xs={12}>
-                              <TextField
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                id="outlined-basic"
-                                label="User Name"
-                                placeholder={userInfo.name}
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                id="outlined-basic"
-                                label="Email"
-                                placeholder={userInfo.email}
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                id="outlined-basic"
-                                label="Password"
-                                type={showPassword ? "text" : "password"}
-                                placeholder={userInfo.password}
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                InputProps={{
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <IconButton
-                                        onClick={handleTogglePasswordVisibility}
-                                        edge="end"
-                                      >
-                                        {showPassword ? (
-                                          <VisibilityOff />
-                                        ) : (
-                                          <Visibility />
-                                        )}
-                                      </IconButton>
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                id="outlined-basic"
-                                label="Address"
-                                placeholder={userInfo.address}
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                id="outlined-basic"
-                                label="Phone Number"
-                                placeholder={userInfo.phone_num}
-                                name="phone_num"
-                                value={formData.phone_num}
-                                onChange={handleChange}
-                              />
-                            </Grid>
-                          </>
-                        ) : (
-                          <>
-                            <Grid item xs={12}>
-                              <TextField
-                                InputProps={{
-                                  readOnly: true,
-                                  style: { color: "black" },
-                                }}
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                label="User Name"
-                                defaultValue={userInfo.name}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                InputProps={{
-                                  readOnly: true,
-                                  style: { color: "black" },
-                                }}
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                label="Email"
-                                defaultValue={userInfo.email}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                InputProps={{
-                                  readOnly: true,
-                                  style: { color: "black" },
-                                }}
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                label="Password"
-                                defaultValue={userInfo.password}
-                                type="password"
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                InputProps={{
-                                  readOnly: true,
-                                  style: { color: "black" },
-                                }}
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                label="Address"
-                                defaultValue={
-                                  userInfo.address === ""
-                                    ? "N/A"
-                                    : userInfo.address
-                                }
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextField
-                                InputProps={{
-                                  readOnly: true,
-                                  style: { color: "black" },
-                                }}
-                                sx={{
-                                  width: "100%",
-                                  [`& fieldset`]: { borderRadius: 8 },
-                                  marginBottom: "15px",
-                                }}
-                                label="Phone Number"
-                                defaultValue={
-                                  userInfo.address === ""
-                                    ? "N/A"
-                                    : userInfo.phone_num
-                                }
-                              />
-                            </Grid>
-                          </>
-                        )}
-                        {error && (
-                          <Typography
-                            variant="body2"
-                            color="error"
-                            align="center"
-                          >
-                            {error}
-                          </Typography>
-                        )}
-                        <Grid item xs={12}>
-                          <Box sx={{ width: "100%", display: "flex" }}>
-                            {editing ? (
-                              <>
-                                <Button
-                                  type="submit"
-                                  size="large"
-                                  variant="contained"
-                                  sx={{
-                                    width: "30%",
-                                    margin: "auto",
-                                    marginTop: "15px",
-                                  }}
-                                >
-                                  Update
-                                </Button>
-                                <Button
-                                  onClick={handleCancel}
-                                  size="large"
-                                  variant="contained"
-                                  color="error"
-                                  sx={{
-                                    width: "30%",
-                                    margin: "auto",
-                                    marginTop: "15px",
-                                  }}
-                                >
-                                  Cancel
-                                </Button>
-                              </>
-                            ) : (
-                              <Button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  setEditing(true);
-                                }}
-                                size="large"
-                                variant="contained"
-                                sx={{
-                                  width: "40%",
-                                  margin: "auto",
-                                  marginTop: "15px",
-                                }}
-                              >
-                                Edit Profile
-                              </Button>
-                            )}
-                          </Box>
-                        </Grid>
-                      </form>
-                    </ThemeProvider>
-                  </Grid>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-          {userInfo.role === "Worker" ? (
             <Grid container>
               <Grid item xs={12}>
-                {" "}
-                <ComponentDivider>CV</ComponentDivider>
-              </Grid>
-              <Grid container item xs={12}>
                 <Box
-                  sx={{
-                    width: "80%",
-                    margin: "auto",
-                    marginBottom: "50px",
-                    marginTop: "10px",
-                    display: "flex",
-                    justifyContent: "right",
-                  }}
+                // sx={{
+                //   position: "relative",
+                // }}
                 >
-                  {cvinfo.message === "CV not found" ? (
-                    <>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      margin: "auto",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <Avt
+                      finalTheme={finalTheme}
+                      avatarBase64={avatarBase64}
+                      userInfo={userInfo}
+                      avtEmpty={avtEmpty}
+                      setAvatarBase64={setAvatarBase64}
+                      setFormData={setFormData}
+                      formData={formData}
+                      editing={editing}
+                    />
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid container item xs={12}>
+                <Grid item xs={4}>
+                  <Grid item xs={12} sx={{marginBottom:"20px"}}>
+                    <LeftSide profile={userInfo} handleChange={handleChange} formData={formData}  handleUpdate={handleUpdate}/>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Rating/>
+                  </Grid>
+                </Grid>
+                <Grid item xs={8}>
+                  {userInfo.role === "Worker" ? (
+                    <Grid container>
+                      {/* <Grid item xs={12}>
+                      {" "}
+                      <ComponentDivider>CV</ComponentDivider>
+                    </Grid> */}
+                      <Grid container item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            marginLeft: "20px",
+
+                            display: "flex",
+                            justifyContent: "right",
+                          }}
+                        >
+                          {cvinfo.message === "CV not found" ? (
+                            <>
+                              <Button
+                                size="large"
+                                variant="contained"
+                                onClick={handleCreateCv}
+                                sx={{ arginTop: "15px" }}
+                              >
+                                {" "}
+                                Create CV
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Grid container>
+                                <Grid item xs={12}>
+                                  <ViewCv cvinfo={cvinfo.data} />
+                                </Grid>
+                              </Grid>
+                            </>
+                          )}
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  ) : null}
+                </Grid>
+              </Grid>
+              {userInfo.role === "Worker" ? (
+                cvinfo.message === "CV not found" ? (
+                  <></>
+                ) : (
+                  <Grid container item xs={12} sx={{ marginBottom: "20px" }}>
+                    <Grid item xs={8}></Grid>
+                    <Grid item xs={2}>
                       <Button
                         size="large"
                         variant="contained"
-                        onClick={handleCreateCv}
-                        sx={{ arginTop: "15px" }}
+                        color="error"
+                        onClick={(e) => handleCvDelete()}
+                        sx={{ marginTop: "15px" }}
                       >
                         {" "}
-                        Create CV
+                        Delete CV
                       </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Grid container>
-                        <Grid item xs={12}>
-                          <ViewCv cvinfo={cvinfo.data} />
-                        </Grid>
-
-                        <Grid container item xs={12} sx={{}}>
-                          <Grid item xs={8}></Grid>
-                          <Grid item xs={2}>
-                            <Button
-                              size="large"
-                              variant="contained"
-                              color="error"
-                              onClick={(e) => handleCvDelete()}
-                              sx={{ marginTop: "15px" }}
-                            >
-                              {" "}
-                              Delete CV
-                            </Button>
-                          </Grid>
-                          <Grid item xs={2}>
-                            <Button
-                              size="large"
-                              variant="contained"
-                              // onClick={handleCreateCv}
-                              sx={{ marginTop: "15px" }}
-                            >
-                              {" "}
-                              Update CV
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </>
-                  )}
-                </Box>
-              </Grid>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button
+                        size="large"
+                        variant="contained"
+                        onClick={handleUpdateCv}
+                        sx={{ marginTop: "15px" }}
+                      >
+                        {" "}
+                        Update CV
+                      </Button>
+                    </Grid>
+                  </Grid>
+                )
+              ) : null}
             </Grid>
-          ) : null}
+          </Box>
         </>
       )}
     </div>
