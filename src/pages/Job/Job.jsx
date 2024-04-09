@@ -59,32 +59,30 @@ function Job() {
           marginBottom: "40px",
         }}
       ></div>
+      {userData.role === "Homeowner" ? (
+        <Grid container sx={{ width: "95%", margin: "auto" }}>
+          <Button
+            variant="contained"
+            sx={{
+              width: "15%",
+              marginLeft: "auto",
+              borderRadius: "15px",
+            }}
+            onClick={handleAddJob}
+          >
+            Create New Job
+          </Button>
+        </Grid>
+      ) : null}
       <Card
         sx={{
           backgroundColor: "white",
           borderRadius: "20px",
           width: "95%",
           margin: "auto",
-          marginTop: "5%",
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
         }}
       >
-        {userData.role === "Homeowner" ? (
-          <Grid container sx={{ width: "95%", margin: "auto" }}>
-            <Button
-              variant="contained"
-              sx={{
-                width: "15%",
-                marginLeft: "auto",
-                borderRadius: "15px",
-                marginTop: "1%",
-              }}
-              onClick={handleAddJob}
-            >
-              Create New Job
-            </Button>
-          </Grid>
-        ) : null}
         <CardContent>
           <Grid container spacing={5}>
             {currentJobs.map((card, index) => (

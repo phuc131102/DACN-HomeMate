@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Loading from "../../components/Loading/Loading";
 import { myJob } from "../../services/jobAPI";
+import jobEmpty from "../../assets/job_empty.png";
 
 function MyJob() {
   const [userData, setUserData] = useState([]);
@@ -76,7 +77,7 @@ function MyJob() {
           ) : (
             <Grid container spacing={5}>
               {currentJobs.map((card, index) => (
-                <Grid item key={index}>
+                <Grid item xs={6} sm={3} md={2} key={index}>
                   <Card
                     sx={{
                       backgroundColor: "white",
@@ -91,11 +92,7 @@ function MyJob() {
                       <CardMedia
                         component="img"
                         height="150"
-                        image={
-                          card.image === ""
-                            ? "https://lpm.ulm.ac.id/image/desain/empty.jpg"
-                            : card.image
-                        }
+                        image={card.image === "" ? jobEmpty : card.image}
                         alt={card.name}
                       />
                       <CardContent>

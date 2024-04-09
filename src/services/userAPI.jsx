@@ -76,3 +76,16 @@ export const allUser = async () => {
     throw err;
   }
 };
+
+//DELETE USERS
+export const deleteUser = async (data) => {
+  try {
+    const response = await axios.delete(
+      `https://homemateapi.onrender.com/delete_user/${data}`
+    );
+    return response.data.message;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
