@@ -15,6 +15,7 @@ import MyJob from "../pages/Job/MyJob";
 import UserList from "../pages/User/UserList";
 import UserInfo from "../pages/User/UserInfo";
 import AddUser from "../pages/User/AddUser";
+import UpdateCV from "../pages/UpdateCV/UpdateCV";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -92,6 +93,13 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
+  const ProtectedUpdateCv = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <UpdateCV />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
   const ProtectedUserList = () => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     return localStorage.getItem("userData") !== null &&
@@ -147,6 +155,7 @@ function AppRoutes() {
 
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
+      <Route path="/UpdateCv/:id" element={<ProtectedUpdateCv />} />
     </Routes>
   );
 }
