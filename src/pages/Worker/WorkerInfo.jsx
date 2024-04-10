@@ -24,7 +24,7 @@ import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info } from "../../services/cvAPI";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import avtEmpty from "../../assets/avt_empty.png";
-import { myJob, hire_worker } from "../../services/jobAPI";
+import { myJob, hire_worker, return_worker } from "../../services/jobAPI";
 
 function WorkerInfo() {
   const [userData, setUserData] = useState([]);
@@ -152,7 +152,32 @@ function WorkerInfo() {
     } catch (error) {
       if (error.response) {
       }
-      console.error("Create job failed:", error);
+      console.error("Hire failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRating = async (jobId, e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormData = {
+      homeownerId: userData.id,
+      workerId: id,
+      jobId: jobId,
+    };
+    console.log(updatedFormData);
+    try {
+      const response = await return_worker(updatedFormData);
+      if (response) {
+        window.location.reload();
+        console.log("Rating worker successfully:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+      }
+      console.error("Rating failed:", error);
     } finally {
       setLoading(false);
     }
@@ -245,44 +270,77 @@ function WorkerInfo() {
                           </Typography>
                         </Box>
                       </Grid>
-                      <Grid item xs={12}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "center",
-                            marginTop: "1%",
-                          }}
-                        >
-                          {userInfo.status === "Hired" ? (
-                            userInfo.working_detail.homeownerId ===
-                            userData.id ? (
-                              <Button
-                                variant="contained"
-                                color="success"
-                                // onClick={() => {
-                                //   handleOpenModal();
-                                // }}
-                              >
-                                Rating
-                              </Button>
-                            ) : (
-                              <Button variant="contained" color="error">
-                                Not Available
-                              </Button>
-                            )
-                          ) : (
-                            <Button
-                              variant="contained"
-                              onClick={() => {
-                                handleOpenModal();
+                      {userData.role === "Homeowner" ? (
+                        <>
+                          <Grid item xs={12}>
+                            <Box
+                              sx={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
                               }}
                             >
-                              Hire
-                            </Button>
-                          )}
-                        </Box>
-                      </Grid>
+                              <Typography variant="h5">
+                                <b
+                                  style={{
+                                    color:
+                                      userInfo.status !== "Hired"
+                                        ? "green"
+                                        : "red",
+                                  }}
+                                >
+                                  Status:{" "}
+                                  {userInfo.status !== "Hired"
+                                    ? "Available"
+                                    : "Hired"}
+                                </b>
+                              </Typography>
+                            </Box>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Box
+                              sx={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                marginTop: "1%",
+                              }}
+                            >
+                              {userInfo.status === "Hired" ? (
+                                userInfo.working_detail.homeownerId ===
+                                userData.id ? (
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleRating(
+                                        userInfo.working_detail.jobId,
+                                        e
+                                      );
+                                    }}
+                                  >
+                                    Rating
+                                  </Button>
+                                ) : (
+                                  <Button variant="contained" color="error">
+                                    Not Available
+                                  </Button>
+                                )
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  onClick={() => {
+                                    handleOpenModal();
+                                  }}
+                                >
+                                  Hire
+                                </Button>
+                              )}
+                            </Box>
+                          </Grid>
+                        </>
+                      ) : null}
                     </ThemeProvider>
                   </Grid>
                 </Box>
