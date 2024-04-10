@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -16,8 +16,17 @@ import avtEmpty from "../../assets/avt_empty.png";
 
 function Worker() {
   const { workers, loading } = useWorkers();
+  const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -74,7 +83,7 @@ function Worker() {
                     <CardContent>
                       <Typography
                         sx={{
-                          fontSize: 16,
+                          fontSize: 18,
                           textAlign: "center",
                           lineHeight: "1.2",
                           maxHeight: "1.2em",
@@ -86,8 +95,26 @@ function Worker() {
                         color="text.primary"
                         gutterBottom
                       >
-                        {card.name}
+                        <b>{card.name}</b>
                       </Typography>
+                      {userData.role === "Homeowner" ? (
+                        <Typography
+                          sx={{
+                            fontSize: 14,
+                            textAlign: "center",
+                            lineHeight: "1.2",
+                            maxHeight: "1.2em",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            display: "block",
+                          }}
+                          color={card.status !== "Hired" ? "green" : "red"}
+                          gutterBottom
+                        >
+                          {card.status !== "Hired" ? "Available" : "Hired"}
+                        </Typography>
+                      ) : null}
                     </CardContent>
                   </CardActionArea>
                 </Card>
