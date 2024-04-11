@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, TextField, Typography, Box } from "@mui/material";
-import { get_user_info } from "../../services/userAPI";
+import {
+  Grid,
+  TextField,
+  Typography,
+  Box,
+  Button,
+  Modal,
+  Stack,
+} from "@mui/material";
+import { deleteUser, get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
+import avtEmpty from "../../assets/avt_empty.png";
 
 function UserInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const navigate = useNavigate();
 
   const finalTheme = createTheme({
     components: {
@@ -21,6 +34,41 @@ function UserInfo() {
       },
     },
   });
+
+  const styles = {
+    button: {
+      backgroundColor: "green",
+      color: "#fff",
+      fontWeight: 600,
+      borderRadius: 15,
+      maxWidth: "500px",
+      marginRight: "10px",
+      minWidth: "150px",
+      padding: "5px 10px",
+      fontSize: "1.2rem",
+    },
+    buttonRemove: {
+      backgroundColor: "red",
+      color: "#fff",
+      fontWeight: 600,
+      borderRadius: 15,
+      maxWidth: "500px",
+      marginRight: "10px",
+      minWidth: "150px",
+      padding: "5px 10px",
+      fontSize: "1.2rem",
+    },
+    modal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    },
+  };
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -41,6 +89,24 @@ function UserInfo() {
       fetchUserInfo();
     }
   }, [id]);
+
+  const handleDeleteUser = async (id) => {
+    try {
+      const deletionMessage = await deleteUser(id);
+      navigate("/userlist");
+      console.log(deletionMessage);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   if (loading) {
     return <Loading />;
@@ -84,7 +150,7 @@ function UserInfo() {
                             >
                               <img
                                 alt="Kisspng computer"
-                                src="https://www.homekeepermaidagency.com/wp-content/uploads/2019/10/male-avatar.png"
+                                src={avtEmpty}
                                 style={{
                                   width: "30%",
                                   height: "auto",
@@ -246,6 +312,29 @@ function UserInfo() {
                               }
                             />
                           </Grid>
+                          <Grid item xs={12}>
+                            <Box
+                              sx={{
+                                width: "100%",
+                                display: "flex",
+                              }}
+                            >
+                              <Button
+                                variant="contained"
+                                color="error"
+                                sx={{
+                                  width: "30%",
+                                  borderRadius: "15px",
+                                  margin: "auto",
+                                }}
+                                onClick={() => {
+                                  handleOpenModal();
+                                }}
+                              >
+                                Delete User
+                              </Button>
+                            </Box>
+                          </Grid>
                         </>
                       </form>
                     </ThemeProvider>
@@ -254,6 +343,40 @@ function UserInfo() {
               </Grid>
             </Grid>
           </Box>
+          <Modal
+            open={showModal}
+            onClose={handleCloseModal}
+            aria-labelledby="place-book-modal"
+            aria-describedby="place-book-modal-description"
+          >
+            <Box sx={styles.modal}>
+              <Typography id="place-book-modal" variant="h5" textAlign="center">
+                Confirm Deletion
+              </Typography>
+              <Typography variant="body1" textAlign="center" marginTop={2}>
+                Are you sure you want to delete this user?
+              </Typography>
+              <Stack direction="row" justifyContent="center" marginTop={4}>
+                <Button
+                  variant="contained"
+                  sx={styles.buttonRemove}
+                  onClick={() => {
+                    handleDeleteUser(id);
+                  }}
+                >
+                  Delete
+                </Button>
+
+                <Button
+                  variant="contained"
+                  sx={styles.button}
+                  onClick={handleCloseModal}
+                >
+                  Cancel
+                </Button>
+              </Stack>
+            </Box>
+          </Modal>
         </>
       )}
     </div>

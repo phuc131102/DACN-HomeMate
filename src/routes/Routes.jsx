@@ -14,6 +14,8 @@ import JobInfo from "../pages/Job/JobInfo";
 import MyJob from "../pages/Job/MyJob";
 import UserList from "../pages/User/UserList";
 import UserInfo from "../pages/User/UserInfo";
+import AddUser from "../pages/User/AddUser";
+import UpdateCV from "../pages/UpdateCV/UpdateCV";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -75,7 +77,6 @@ function AppRoutes() {
     );
   };
   const ProtectedCreateJob = () => {
-    console.log("createcv");
     const userData = JSON.parse(localStorage.getItem("userData"));
     return localStorage.getItem("userData") !== null &&
       userData.role === "Homeowner" ? (
@@ -92,16 +93,37 @@ function AppRoutes() {
       <Navigate to="/" replace />
     );
   };
-  const ProtectedUserList = () => {
+  const ProtectedUpdateCv = () => {
     return localStorage.getItem("userData") !== null ? (
+      <UpdateCV />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+  const ProtectedUserList = () => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    return localStorage.getItem("userData") !== null &&
+      userData.role === "Admin" ? (
       <UserList />
     ) : (
       <Navigate to="/" replace />
     );
   };
   const ProtectedUserInfo = () => {
-    return localStorage.getItem("userData") !== null ? (
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    return localStorage.getItem("userData") !== null &&
+      userData.role === "Admin" ? (
       <UserInfo />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+
+  const ProtectedAddUser = () => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    return localStorage.getItem("userData") !== null &&
+      userData.role === "Admin" ? (
+      <AddUser />
     ) : (
       <Navigate to="/" replace />
     );
@@ -116,6 +138,7 @@ function AppRoutes() {
       <Route path="/job/:id" element={<ProtectedJobInfo />} />
 
       <Route path="/userlist" element={<ProtectedUserList />} />
+      <Route path="/add-user" element={<ProtectedAddUser />} />
       <Route path="/user/:id" element={<ProtectedUserInfo />} />
 
       {/* {userData && userData.role === "Homeowner" ? ( */}
@@ -132,6 +155,7 @@ function AppRoutes() {
 
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
+      <Route path="/UpdateCv/:id" element={<ProtectedUpdateCv />} />
     </Routes>
   );
 }

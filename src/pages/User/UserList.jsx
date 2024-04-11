@@ -49,6 +49,10 @@ const UserListPage = () => {
     navigate(`/user/${userId}`);
   };
 
+  const handleAddUser = () => {
+    navigate("/add-user");
+  };
+
   return (
     <>
       <br />
@@ -68,7 +72,7 @@ const UserListPage = () => {
               marginLeft: "auto",
               borderRadius: "15px",
             }}
-            // onClick={handleAddUser}
+            onClick={handleAddUser}
           >
             Create New User
           </Button>

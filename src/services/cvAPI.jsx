@@ -14,6 +14,19 @@ export const create_cv = async (data) => {
   }
 };
 
+export const update_cv = async (data) => {
+  try {
+    const response = await axios.put(
+      "https://homemateapi.onrender.com/update_cv",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const get_cv_info = async (data) => {
   try {
     const response = await axios.get(
