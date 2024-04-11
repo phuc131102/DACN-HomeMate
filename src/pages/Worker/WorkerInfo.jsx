@@ -453,18 +453,6 @@ function WorkerInfo() {
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography variant="h6">Rating: </Typography>
-            <Rating
-              value={rating}
-              onChange={handleRatingChange}
-              max={5}
-              precision={0.5}
-            />
-            <Button variant="contained" color="primary" onClick={handleSubmitRating} disabled={ratingSubmitted}>
-              Submit
-            </Button>
-          </Box>
           {cvInfo && cvInfo.message === "CV not found" ? (
             <>
               <Grid container>
