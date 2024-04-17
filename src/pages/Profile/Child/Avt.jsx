@@ -15,7 +15,7 @@ function Avt(prop) {
   return (
     <BigCard>
       <ThemeProvider theme={prop.finalTheme}>
-        <Grid container sx={{marginTop:"10%", marginBottom:"5%"}}>
+        <Grid container sx={{ marginTop: "10%", marginBottom: "5%" }}>
           <Grid item xs={4}>
             {prop.editing ? (
               <>
@@ -70,8 +70,8 @@ function Avt(prop) {
                         alt={prop.userInfo.avatar}
                         src={prop.userInfo.avatar}
                         style={{
-                          width: "30%",
-                          height: "auto",
+                          width: "200px",
+                          height: "200px",
                           // marginTop: "20%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
@@ -145,7 +145,7 @@ function Avt(prop) {
                     alt={prop.userInfo.avatar}
                     src={prop.userInfo.avatar}
                     style={{
-                      width: "auto",
+                      width: "200px",
                       height: "200px",
                       // marginTop: "20%",
                       marginBottom: "5%",
@@ -172,8 +172,7 @@ function Avt(prop) {
                 <Box
                   sx={{
                     width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
+                    marginTop: "1%",
                   }}
                 >
                   <Button
