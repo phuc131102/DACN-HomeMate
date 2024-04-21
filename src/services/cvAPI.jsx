@@ -3,7 +3,10 @@ import axios from "axios";
 // SIGN UP
 export const create_cv = async (data) => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/create_cv", data);
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/create_cv",
+      data
+    );
     return response.data;
   } catch (err) {
     console.error(err);
@@ -13,7 +16,10 @@ export const create_cv = async (data) => {
 
 export const update_cv = async (data) => {
   try {
-    const response = await axios.put("http://127.0.0.1:8000/update_cv", data);
+    const response = await axios.put(
+      "https://projectapi-g9ba.onrender.com/update_cv",
+      data
+    );
     return response.data;
   } catch (err) {
     console.error(err);
@@ -24,7 +30,7 @@ export const update_cv = async (data) => {
 export const get_cv_info = async (data) => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/get_cv_info/${data}`
+      `https://projectapi-g9ba.onrender.com/get_cv_info/${data}`
     );
     return response.data;
   } catch (err) {
@@ -36,7 +42,7 @@ export const get_cv_info = async (data) => {
 export const delete_cv = async (data) => {
   try {
     const response = await axios.delete(
-      `http://127.0.0.1:8000/delete_cv/${data}`
+      `https://projectapi-g9ba.onrender.com/delete_cv/${data}`
     );
     return response.data;
   } catch (err) {
