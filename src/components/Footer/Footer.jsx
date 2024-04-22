@@ -4,7 +4,6 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import EmailIcon from "@mui/icons-material/Email";
-import WorkIcon from "@mui/icons-material/Work";
 import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 
 export default function Footer() {
