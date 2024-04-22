@@ -32,9 +32,9 @@ function Avt(prop) {
                         alt={prop.avatarBase64}
                         src={prop.avatarBase64}
                         style={{
-                          width: "30%",
-                          height: "auto",
-                          marginTop: "20%",
+                          width: "55%",
+                          height: "55%",
+                          // marginTop: "20%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
                       />
@@ -70,8 +70,8 @@ function Avt(prop) {
                         alt={prop.userInfo.avatar}
                         src={prop.userInfo.avatar}
                         style={{
-                          width: "200px",
-                          height: "200px",
+                          width: "55%",
+                          height: "55%",
                           // marginTop: "20%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
@@ -145,8 +145,8 @@ function Avt(prop) {
                     alt={prop.userInfo.avatar}
                     src={prop.userInfo.avatar}
                     style={{
-                      width: "200px",
-                      height: "200px",
+                      width: "55%",
+                      height: "55%",
                       // marginTop: "20%",
                       marginBottom: "5%",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",

@@ -25,18 +25,14 @@ import { get_cv_info } from "../../services/cvAPI";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import avtEmpty from "../../assets/avt_empty.png";
 import { myJob, hire_worker, return_worker } from "../../services/jobAPI";
-import Avt from "./Child/Avt";
-import LeftSide from "./Child/LeftSide";
-import Rating from "./Child/Rating";
-import BigCard from "../../components/BigCard/BigCard";
 
-function WorkerInfo() {
+function WorkerInfo2() {
   const [userData, setUserData] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [cvInfo, setCvInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [cvinfo, setCvInfo] = useState({});
 
   const finalTheme = createTheme({
     components: {
@@ -95,7 +91,7 @@ function WorkerInfo() {
   }, []);
 
   useEffect(() => {
-    if (userData && userData.id && id) {
+    if (userData && userData.id) {
       const fetchData = async () => {
         try {
           const fetchedJobs = await myJob(userData.id);
@@ -104,22 +100,7 @@ function WorkerInfo() {
           console.error("Error fetching jobs:", error);
           setLoading(false);
         } finally {
-          try {
-            const response = await get_user_info(id);
-            setUserInfo(response);
-          } catch (error) {
-            console.error("Error fetching user information:", error);
-          } finally {
-            try {
-              const response = await get_cv_info(id);
-              setCvInfo(response);
-              console.log(response.data);
-            } catch (error) {
-              console.error("Error fetching cv information:", error);
-            } finally {
-              setLoading(false);
-            }
-          }
+          setLoading(false);
         }
       };
 
@@ -152,7 +133,6 @@ function WorkerInfo() {
     }
   }, [id]);
 
-  console.log(cvinfo);
   const handleHire = async (jobId, e) => {
     e.preventDefault();
     setLoading(true);
@@ -213,37 +193,91 @@ function WorkerInfo() {
         <>
           <Box
             sx={{
-              width: "60%",
-              margin: "auto",
-              marginTop: "100px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <Grid
-              container
-              sx={{
-                margin: "auto",
-                marginBottom: "20px",
-              }}
-            >
-              <BigCard>
-                <ThemeProvider theme={finalTheme}>
-                  <Grid container sx={{ marginTop: "10%", marginBottom: "5%" }}>
-                    <Grid item xs={4}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    position: "relative",
+                  }}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      margin: "auto",
+                      marginBottom: "100px",
+                    }}
+                  >
+                    <ThemeProvider theme={finalTheme}>
                       <>
-                        <Avt avtEmpty={avtEmpty} userInfo={userInfo} />
+                        <Grid item xs={12}>
+                          {userInfo.avatar === "" ? (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <img
+                                alt="Kisspng computer"
+                                src={avtEmpty}
+                                style={{
+                                  width: "30%",
+                                  height: "auto",
+                                  marginTop: "20%",
+                                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                                }}
+                              />
+                            </Box>
+                          ) : (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <img
+                                alt={userInfo.avatar}
+                                src={userInfo.avatar}
+                                style={{
+                                  width: "30%",
+                                  height: "auto",
+                                  marginTop: "20%",
+                                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                                }}
+                              />
+                            </Box>
+                          )}
+                        </Grid>
                       </>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography variant="h3">
-                        <b>{userInfo.name}</b>
-                      </Typography>
 
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography variant="h3">
+                            <b>{userInfo.name}</b>
+                          </Typography>
+                        </Box>
+                      </Grid>
                       {userData.role === "Homeowner" ? (
                         <>
                           <Grid item xs={12}>
                             <Box
                               sx={{
                                 width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
                               }}
                             >
                               <Typography variant="h5">
@@ -267,6 +301,8 @@ function WorkerInfo() {
                             <Box
                               sx={{
                                 width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
                                 marginTop: "1%",
                               }}
                             >
@@ -305,72 +341,171 @@ function WorkerInfo() {
                           </Grid>
                         </>
                       ) : null}
-                    </Grid>
+                    </ThemeProvider>
                   </Grid>
-                </ThemeProvider>
-              </BigCard>
-            </Grid>
-            <Grid container sx={{ marginBottom: "20px" }}>
-              <Grid item xs={4}>
-                <Grid item xs={12} sx={{ marginBottom: "20px" }}>
-                  <LeftSide profile={userInfo} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Rating />
-                </Grid>
+                </Box>
               </Grid>
-              <Grid item xs={8}>
-                <Grid container>
-                  {/* <Grid item xs={12}>
-                      {" "}
-                      <ComponentDivider>CV</ComponentDivider>
-                    </Grid> */}
-                  <Grid container item xs={12}>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        marginLeft: "20px",
-
-                        display: "flex",
-                        justifyContent: "right",
-                      }}
-                    >
-                      {cvinfo.message === "CV not found" ? (
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    maxWidth: "500px",
+                    border: "1px solid black",
+                    borderRadius: "10px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    margin: "auto",
+                    position: "sticky",
+                    transform: "translateY(0%)",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      width: "90%",
+                      margin: "auto",
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <ThemeProvider theme={finalTheme}>
+                      <form>
+                        <br />
                         <>
-                          <Grid container>
-                            <Grid item xs={12}>
-                              {" "}
-                              <ComponentDivider>CV</ComponentDivider>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Box
-                                sx={{
-                                  justifyContent: "center",
-                                  marginBottom: "50px",
-                                  marginTop: "10px",
-                                  display: "flex",
-                                }}
-                              >
-                                No CV available.
-                              </Box>
-                            </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                                style: { color: "black" },
+                              }}
+                              sx={{
+                                width: "100%",
+                                [`& fieldset`]: { borderRadius: 8 },
+                                marginBottom: "15px",
+                              }}
+                              label="User Name"
+                              defaultValue={userInfo.name}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                                style: { color: "black" },
+                              }}
+                              sx={{
+                                width: "100%",
+                                [`& fieldset`]: { borderRadius: 8 },
+                                marginBottom: "15px",
+                              }}
+                              label="Email"
+                              defaultValue={userInfo.email}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                                style: { color: "black" },
+                              }}
+                              sx={{
+                                width: "100%",
+                                [`& fieldset`]: { borderRadius: 8 },
+                                marginBottom: "15px",
+                              }}
+                              label="Address"
+                              defaultValue={
+                                userInfo.address === ""
+                                  ? "N/A"
+                                  : userInfo.address
+                              }
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                                style: { color: "black" },
+                              }}
+                              sx={{
+                                width: "100%",
+                                [`& fieldset`]: { borderRadius: 8 },
+                                marginBottom: "15px",
+                              }}
+                              label="Phone Number"
+                              defaultValue={
+                                userInfo.address === ""
+                                  ? "N/A"
+                                  : userInfo.phone_num
+                              }
+                            />
                           </Grid>
                         </>
-                      ) : (
-                        <>
-                          <Grid container>
-                            <Grid item xs={12}>
-                              <ViewCv cvinfo={cvinfo.data} />
-                            </Grid>
-                          </Grid>
-                        </>
-                      )}
-                    </Box>
+                      </form>
+                    </ThemeProvider>
                   </Grid>
-                </Grid>
+                </Box>
               </Grid>
             </Grid>
           </Box>
+          {cvInfo && cvInfo.message === "CV not found" ? (
+            <>
+              <Grid container>
+                <Grid item xs={12}>
+                  {" "}
+                  <ComponentDivider>CV</ComponentDivider>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      justifyContent: "center",
+                      marginBottom: "50px",
+                      marginTop: "10px",
+                      display: "flex",
+                    }}
+                  >
+                    No CV available.
+                  </Box>
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid container>
+                <Grid item xs={12}>
+                  {" "}
+                  <ComponentDivider>CV</ComponentDivider>
+                </Grid>
+                {/* <Grid container item xs={12}>
+                  <Box
+                    sx={{
+                      width: "80%",
+                      margin: "auto",
+                      marginBottom: "50px",
+                      marginTop: "10px",
+                      display: "flex",
+                      justifyContent: "right",
+                    }}
+                  >
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <ViewCv cvinfo={cvInfo.data} />
+                      </Grid>
+
+                      <Grid container item xs={12} sx={{}}>
+                        <Grid item xs={8}></Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Grid> */}
+              </Grid>
+            </>
+          )}
           <Modal
             open={showModal}
             onClose={handleCloseModal}
@@ -436,4 +571,4 @@ function WorkerInfo() {
   );
 }
 
-export default WorkerInfo;
+export default WorkerInfo2;
