@@ -31,11 +31,11 @@ const CV = (prop) => {
   const cvinfo = prop.cvinfo;
   const navigate = useNavigate();
   const cvinfor = cvinfo;
-  console.log();
+  console.log(cvinfo);
   return (
     <>
       <Box>
-        <BigCard>
+        
           <Grid container spacing={3}>
             <>
               <Grid item md={12} xs={12}>
@@ -172,7 +172,7 @@ const CV = (prop) => {
               )}
             </Grid>
           </Grid>
-        </BigCard>
+        
         {/* <Box mt={3}>
             {page === "profile_cv" && (
             <Box
