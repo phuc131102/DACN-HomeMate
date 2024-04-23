@@ -29,7 +29,6 @@ function EditForm(prop) {
       },
     },
   });
-  console.log(prop.profile)
   return (
     <>
       <ThemeProvider theme={finalTheme}>

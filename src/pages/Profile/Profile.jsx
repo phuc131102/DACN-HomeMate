@@ -203,7 +203,9 @@ function Profile() {
   };
 
   const [editing, setEditing] = useState(false);
-
+  const handleEdit =()=>{
+    setEditing(true);
+  }
   const finalTheme = createTheme({
     components: {
       MuiTextField: {
@@ -315,6 +317,8 @@ function Profile() {
                       setFormData={setFormData}
                       formData={formData}
                       editing={editing}
+                      handleEdit={handleEdit}
+                      handleUpdate={handleUpdate}
                     />
                   </Grid>
                 </Box>

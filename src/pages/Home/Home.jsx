@@ -72,17 +72,17 @@ function Home() {
           ) : (
             <Grid container spacing={5}>
               {workers
-                .slice(-4)
+                .slice(-6)
                 .reverse()
                 .map((card, index) => (
-                  <Grid item xs={3} key={index} sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                  <Grid item xs={2} key={index} sx={{display:"flex", justifyContent:"center"}}>
                     <Card
                       sx={{
                         backgroundColor: "#f2f1f6",
                         borderRadius: "20px",
                         boxShadow: "0px 0px 0px rgba(0, 0, 0, 0.5)",
-                        width: "300px",
-                        height:"400px",
+                        width: "200px",
+                        height:"250px",
                         ":hover":""
                       }}
                     >
@@ -93,7 +93,7 @@ function Home() {
                         <Box sx={{width:"90%", margin:"auto"}}>
                         <CardMedia
                           component="img"
-                          height="300"
+                          height="200"
                           image={card.avatar === "" ? avtEmpty : card.avatar}
                           alt={card.name}
                           sx={{borderRadius:"10px"}}
@@ -102,7 +102,7 @@ function Home() {
                         <CardContent>
                           <Typography
                             sx={{
-                              fontSize: 16,
+                              fontSize: 20,
                               textAlign: "center",
                               lineHeight: "1.2",
                               maxHeight: "1.2em",

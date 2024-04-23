@@ -12,6 +12,7 @@ import {
 import "./Hero.css";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
+
 function Hero() {
   return (
     <Box sx={{ backgroundColor: "rgb(77, 75, 75)" }}>
