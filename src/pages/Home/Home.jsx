@@ -17,6 +17,8 @@ import Loading from "../../components/Loading/Loading";
 import jobEmpty from "../../assets/job_empty.png";
 import avtEmpty from "../../assets/avt_empty.png";
 
+import Hero from "./Child/Hero";
+
 function Home() {
   const { workers, loading } = useWorkers();
   const { jobs, loadingJob } = useJobs();
@@ -47,6 +49,7 @@ function Home() {
   return (
     <>
       <br />
+      <Hero/>
       <Card
         sx={{
           backgroundColor: "white",
