@@ -27,16 +27,17 @@ function Hero() {
                   transition={{ duration: "2", type: "spring" }}
                 >
                   Discovery <br />
-                  Most suitable <br />
-                  Property
+                  Most Suitable <br />
+                  Domestic Worker
                 </motion.h1>
               </Box>
               <Box className="flexColStart hero-des">
-                <span className="secondaryText">
-                  Find a variet of properties that suit you very easily
+                <span>
+                  Find a domestic worker that suit you very easily
                 </span>
-                <span className="secondaryText">
-                  Find a variet of properties that suit you very easily
+                <span>
+                  Empowering Homes, Empowering Lives: Find Your Perfect Domestic
+                  Match Today!
                 </span>
               </Box>
 
@@ -70,8 +71,8 @@ function Hero() {
                 initial={{ x: "7rem", opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{
-                    duration:2,
-                    type: "spring"
+                  duration: 2,
+                  type: "spring",
                 }}
                 className="image-container"
               >

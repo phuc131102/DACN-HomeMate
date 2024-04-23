@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   CardActionArea,
+  Box,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
@@ -49,17 +50,8 @@ function Home() {
   return (
     <>
       <br />
-      <Hero/>
-      <Card
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
-          width: "95%",
-          margin: "auto",
-          marginTop: "5%",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-        }}
-      >
+      <Hero />
+      <Box sx={{width:"80%", margin:"auto"}}>
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
             <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
@@ -80,28 +72,33 @@ function Home() {
           ) : (
             <Grid container spacing={5}>
               {workers
-                .slice(-7)
+                .slice(-4)
                 .reverse()
                 .map((card, index) => (
-                  <Grid item key={index}>
+                  <Grid item xs={3} key={index} sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                     <Card
                       sx={{
-                        backgroundColor: "white",
+                        backgroundColor: "#f2f1f6",
                         borderRadius: "20px",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                        width: "150px",
+                        boxShadow: "0px 0px 0px rgba(0, 0, 0, 0.5)",
+                        width: "300px",
+                        height:"400px",
+                        ":hover":""
                       }}
                     >
                       <CardActionArea
                         component={Link}
                         to={`/worker/${card._id.$oid}`}
                       >
+                        <Box sx={{width:"90%", margin:"auto"}}>
                         <CardMedia
                           component="img"
-                          height="150"
+                          height="300"
                           image={card.avatar === "" ? avtEmpty : card.avatar}
                           alt={card.name}
+                          sx={{borderRadius:"10px"}}
                         />
+                        </Box>
                         <CardContent>
                           <Typography
                             sx={{
@@ -127,118 +124,122 @@ function Home() {
             </Grid>
           )}
         </CardContent>
-      </Card>
 
-      <div
-        style={{
-          borderTop: "2px solid black",
-          width: "20%",
-          margin: "10px auto",
-          marginTop: "30px",
-          marginBottom: "30px",
-        }}
-      ></div>
+        <div
+          style={{
+            borderTop: "2px solid black",
+            width: "20%",
+            margin: "10px auto",
+            marginTop: "30px",
+            marginBottom: "30px",
+          }}
+        ></div>
 
-      <Card
-        sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
-          width: "95%",
-          margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <CardContent>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
-              &nbsp;<b>New Job</b>
-            </Typography>
-            {jobs.length === 0 ? null : (
-              <Button
-                onClick={handleViewJob}
-                variant="text"
-                style={{ textDecoration: "none", color: "inherit" }}
+        <Card
+          sx={{
+            backgroundColor: "white",
+            borderRadius: "20px",
+            width: "95%",
+            margin: "auto",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <CardContent>
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Typography
+                sx={{ fontSize: 20 }}
+                color="text.primary"
+                gutterBottom
               >
-                View All Jobs <NavigateNextIcon />
-              </Button>
-            )}
-          </Grid>
-          {jobs.length === 0 ? (
-            "No job available"
-          ) : (
-            <Grid container spacing={5}>
-              {jobs
-                .slice(-6)
-                .reverse()
-                .map((card, index) => (
-                  <Grid item xs={6} sm={3} md={2} key={index}>
-                    <Card
-                      sx={{
-                        backgroundColor: "white",
-                        borderRadius: "20px",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                      }}
-                    >
-                      <CardActionArea
-                        component={Link}
-                        to={`/job/${card._id.$oid}`}
-                      >
-                        <CardMedia
-                          component="img"
-                          height="150"
-                          image={card.image === "" ? jobEmpty : card.image}
-                          alt={card.name}
-                        />
-                        <CardContent>
-                          <Typography
-                            sx={{
-                              fontSize: 16,
-                              textAlign: "center",
-                              lineHeight: "1.2",
-                              maxHeight: "1.2em",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              display: "block",
-                            }}
-                            color="text.primary"
-                            gutterBottom
-                          >
-                            {card.name}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              fontSize: 12,
-                              textAlign: "center",
-                              lineHeight: "1.2",
-                              maxHeight: "1.2em",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              display: "block",
-                            }}
-                            color="text.primary"
-                            gutterBottom
-                          >
-                            {card.datetime}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                ))}
+                &nbsp;<b>New Job</b>
+              </Typography>
+              {jobs.length === 0 ? null : (
+                <Button
+                  onClick={handleViewJob}
+                  variant="text"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  View All Jobs <NavigateNextIcon />
+                </Button>
+              )}
             </Grid>
-          )}
-        </CardContent>
-      </Card>
-      <div
-        style={{
-          margin: "10px auto",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      ></div>
-      <br />
+            {jobs.length === 0 ? (
+              "No job available"
+            ) : (
+              <Grid container spacing={5}>
+                {jobs
+                  .slice(-6)
+                  .reverse()
+                  .map((card, index) => (
+                    <Grid item xs={6} sm={3} md={2} key={index}>
+                      <Card
+                        sx={{
+                          backgroundColor: "white",
+                          borderRadius: "20px",
+                          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                        }}
+                      >
+                        <CardActionArea
+                          component={Link}
+                          to={`/job/${card._id.$oid}`}
+                        >
+                          <CardMedia
+                            component="img"
+                            height="150"
+                            image={card.image === "" ? jobEmpty : card.image}
+                            alt={card.name}
+                          />
+                          <CardContent>
+                            <Typography
+                              sx={{
+                                fontSize: 16,
+                                textAlign: "center",
+                                lineHeight: "1.2",
+                                maxHeight: "1.2em",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                display: "block",
+                              }}
+                              color="text.primary"
+                              gutterBottom
+                            >
+                              {card.name}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: 12,
+                                textAlign: "center",
+                                lineHeight: "1.2",
+                                maxHeight: "1.2em",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                display: "block",
+                              }}
+                              color="text.primary"
+                              gutterBottom
+                            >
+                              {card.datetime}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  ))}
+              </Grid>
+            )}
+          </CardContent>
+        </Card>
+        <div
+          style={{
+            margin: "10px auto",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        ></div>
+        <br />
+      </Box>
     </>
   );
 }
