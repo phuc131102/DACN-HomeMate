@@ -16,18 +16,18 @@ import { motion } from "framer-motion";
 function Hero() {
   return (
     <Box sx={{ backgroundColor: "rgb(77, 75, 75)" }}>
-      <Box sx={{ width: "70%", margin: "auto" }}>
+      <Box sx={{ width: "80%", margin: "auto" }}>
         <Box className="hero-wrapper">
           <Box className="paddings innerWidth flexCenter hero-container">
             <Box className="flexColStart hero-left">
-              <Box className="hero-title">
-                <Box className="orange-circle" />
+              <Box className="hero-titles">
+                <Box className="orange-circles"/>
                 <motion.h1
                   initial={{ y: "2rem", opacity: "0" }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: "2", type: "spring" }}
                 >
-                  Discovery <br />
+                  Discover <br />
                   Most Suitable <br />
                   Domestic Worker
                 </motion.h1>
