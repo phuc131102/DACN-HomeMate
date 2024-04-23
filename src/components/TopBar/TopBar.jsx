@@ -63,7 +63,7 @@ function TopBar() {
     setAnchorElUser(null);
   };
 
-  const [activeTab, setActiveTab] = React.useState("catalog");
+  const [activeTab, setActiveTab] = React.useState("home");
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
@@ -151,7 +151,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "home" ? "red" : "black",
+                        color: activeTab === "home" ? "orange" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -168,7 +168,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "job" ? "red" : "black",
+                        color: activeTab === "job" ? "orange" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -185,7 +185,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "worker" ? "red" : "black",
+                        color: activeTab === "worker" ? "orange" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -203,7 +203,7 @@ function TopBar() {
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === "user" ? "red" : "black",
+                          color: activeTab === "user" ? "orange" : "black",
                           textDecoration: "none",
                         }}
                       >
@@ -232,75 +232,150 @@ function TopBar() {
                 Home Mate
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component={Link}
-                  to="/home"
-                  onClick={() => handleTabClick("home")}
-                  sx={{
-                    mr: 4,
-                    ml: 4,
-                    display: { xs: "none", md: "flex" },
-                    fontWeight: 700,
-                    color: activeTab === "home" ? "red" : "black",
-                    textDecoration: "none",
-                  }}
-                >
-                  Home
-                </Typography>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component={Link}
-                  to="/job"
-                  onClick={() => handleTabClick("job")}
-                  sx={{
-                    mr: 4,
-                    ml: 4,
-                    display: { xs: "none", md: "flex" },
-                    fontWeight: 700,
-                    color: activeTab === "job" ? "red" : "black",
-                    textDecoration: "none",
-                  }}
-                >
-                  Job
-                </Typography>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component={Link}
-                  to="/worker"
-                  onClick={() => handleTabClick("worker")}
-                  sx={{
-                    mr: 4,
-                    ml: 4,
-                    display: { xs: "none", md: "flex" },
-                    fontWeight: 700,
-                    color: activeTab === "worker" ? "red" : "black",
-                    textDecoration: "none",
-                  }}
-                >
-                  Worker
-                </Typography>
-                {userData.role === "Admin" ? (
+                <Box>
                   <Typography
                     variant="h6"
                     noWrap
                     component={Link}
-                    to="/userlist"
-                    onClick={() => handleTabClick("user")}
+                    to="/home"
+                    onClick={() => handleTabClick("home")}
                     sx={{
                       mr: 4,
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "user" ? "red" : "black",
+                      color: activeTab === "home" ? "orange" : "black",
                       textDecoration: "none",
                     }}
                   >
-                    User
+                    Home
                   </Typography>
+                  {activeTab === "home" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                        left: activeTab === "home" ? "0%" : "-100%",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/job"
+                    onClick={() => handleTabClick("job")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "job" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Job
+                  </Typography>
+                  {activeTab === "job" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/worker"
+                    onClick={() => handleTabClick("worker")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "worker" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Worker
+                  </Typography>
+                  {activeTab === "worker" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                {userData.role === "Admin" && activeTab === "user" ? (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component={Link}
+                      to="/userlist"
+                      onClick={() => handleTabClick("user")}
+                      sx={{
+                        mr: 4,
+                        ml: 4,
+                        display: { xs: "none", md: "flex" },
+                        fontWeight: 700,
+                        color: "orange",
+                        textDecoration: "none",
+                      }}
+                    >
+                      User
+                    </Typography>
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  </Box>
+                ) : userData.role === "Admin" && activeTab !== "user" ? (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component={Link}
+                      to="/userlist"
+                      onClick={() => handleTabClick("user")}
+                      sx={{
+                        mr: 4,
+                        ml: 4,
+                        display: { xs: "none", md: "flex" },
+                        fontWeight: 700,
+                        color: "black",
+                        textDecoration: "none",
+                      }}
+                    >
+                      User
+                    </Typography>
+                  </Box>
                 ) : null}
               </Box>
 
@@ -311,9 +386,9 @@ function TopBar() {
                       <ReactTyped
                         strings={[`Hi, ${userInfo.name}`]}
                         typeSpeed={100}
+                        showCursor={false}
                       />
                     </b>
-                    {/* <b>Hi, {userInfo.name}</b> */}
                   </Typography>
                 </Box>
               )}
