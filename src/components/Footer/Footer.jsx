@@ -1,8 +1,10 @@
-import * as React from 'react';
-import { Box, BottomNavigation, BottomNavigationAction, Typography, Container, IconButton, useTheme } from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 
 export default function Footer() {
   const theme = useTheme();

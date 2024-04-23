@@ -3,7 +3,9 @@ import axios from "axios";
 // GET ALL JOBS
 export const allJob = async () => {
   try {
-    const response = await axios.get(`https://homemateapi.onrender.com/job`);
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/job`
+    );
     return response.data.data;
   } catch (err) {
     console.error(err);
@@ -15,7 +17,7 @@ export const allJob = async () => {
 export const create_job = async (data) => {
   try {
     const response = await axios.post(
-      "https://homemateapi.onrender.com/create_job",
+      "https://projectapi-g9ba.onrender.com/create_job",
       data
     );
     return response.data;
@@ -29,7 +31,7 @@ export const create_job = async (data) => {
 export const get_job_info = async (data) => {
   try {
     const response = await axios.get(
-      `https://homemateapi.onrender.com/get_job_info/${data}`
+      `https://projectapi-g9ba.onrender.com/get_job_info/${data}`
     );
     return response.data.data;
   } catch (err) {
@@ -42,7 +44,7 @@ export const get_job_info = async (data) => {
 export const update_job = async (data) => {
   try {
     const response = await axios.put(
-      "https://homemateapi.onrender.com/update_job",
+      "https://projectapi-g9ba.onrender.com/update_job",
       data
     );
     return response.data;
@@ -56,7 +58,7 @@ export const update_job = async (data) => {
 export const deleteJob = async (data) => {
   try {
     const response = await axios.delete(
-      `https://homemateapi.onrender.com/delete_job/${data}`
+      `https://projectapi-g9ba.onrender.com/delete_job/${data}`
     );
     return response.data.message;
   } catch (err) {
@@ -69,7 +71,7 @@ export const deleteJob = async (data) => {
 export const myJob = async (data) => {
   try {
     const response = await axios.get(
-      `https://homemateapi.onrender.com/my_job/${data}`
+      `https://projectapi-g9ba.onrender.com/my_job/${data}`
     );
     return response.data.data;
   } catch (err) {
@@ -82,7 +84,7 @@ export const myJob = async (data) => {
 export const hire_worker = async (data) => {
   try {
     const response = await axios.post(
-      "https://homemateapi.onrender.com/hire_worker",
+      "https://projectapi-g9ba.onrender.com/hire_worker",
       data
     );
     return response.data;
@@ -96,7 +98,7 @@ export const hire_worker = async (data) => {
 export const return_worker = async (data) => {
   try {
     const response = await axios.post(
-      "https://homemateapi.onrender.com/return_worker",
+      "https://projectapi-g9ba.onrender.com/return_worker",
       data
     );
     return response.data;

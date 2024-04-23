@@ -4,7 +4,7 @@ import axios from "axios";
 export const sign_up = async (data) => {
   try {
     const response = await axios.post(
-      "https://homemateapi.onrender.com/sign_up",
+      "https://projectapi-g9ba.onrender.com/sign_up",
       data
     );
     return response.data;
@@ -18,7 +18,7 @@ export const sign_up = async (data) => {
 export const sign_in = async (data) => {
   try {
     const response = await axios.post(
-      "https://homemateapi.onrender.com/sign_in",
+      "https://projectapi-g9ba.onrender.com/sign_in",
       data
     );
     return response.data;
@@ -32,7 +32,7 @@ export const sign_in = async (data) => {
 export const get_user_info = async (data) => {
   try {
     const response = await axios.get(
-      `https://homemateapi.onrender.com/get_user_info/${data}`
+      `https://projectapi-g9ba.onrender.com/get_user_info/${data}`
     );
     return response.data.data;
   } catch (err) {
@@ -45,7 +45,7 @@ export const get_user_info = async (data) => {
 export const update_user_info = async (data) => {
   try {
     const response = await axios.post(
-      "https://homemateapi.onrender.com/update_user_info",
+      "https://projectapi-g9ba.onrender.com/update_user_info",
       data
     );
     return response.data;
@@ -58,7 +58,9 @@ export const update_user_info = async (data) => {
 // GET ALL WORKERS
 export const allWorker = async () => {
   try {
-    const response = await axios.get(`https://homemateapi.onrender.com/worker`);
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/worker`
+    );
     return response.data.data;
   } catch (err) {
     console.error(err);
@@ -69,7 +71,9 @@ export const allWorker = async () => {
 // GET ALL USERS
 export const allUser = async () => {
   try {
-    const response = await axios.get(`https://homemateapi.onrender.com/user`);
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/user`
+    );
     return response.data.data;
   } catch (err) {
     console.error(err);
@@ -81,7 +85,7 @@ export const allUser = async () => {
 export const deleteUser = async (data) => {
   try {
     const response = await axios.delete(
-      `https://homemateapi.onrender.com/delete_user/${data}`
+      `https://projectapi-g9ba.onrender.com/delete_user/${data}`
     );
     return response.data.message;
   } catch (err) {

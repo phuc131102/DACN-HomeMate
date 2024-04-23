@@ -129,6 +129,7 @@ function JobInfo() {
       "datetime",
       "address",
       "desc",
+      "max_num",
     ];
     const emptyFields = requiredFields.filter((field) => !editedValues[field]);
 
@@ -147,6 +148,7 @@ function JobInfo() {
           address: editedValues.address,
           desc: editedValues.desc,
           requirement: editedValues.requirement,
+          max_num: editedValues.max_num,
         };
         console.log(updatedValues);
         await update_job(updatedValues);
@@ -279,7 +281,11 @@ function JobInfo() {
                 }}
               >
                 {/* Left Side */}
-                <Grid item xs={6}>
+                <Grid
+                  item
+                  xs={6}
+                  sx={{ marginTop: "50px", marginBottom: "50px" }}
+                >
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <TextField
@@ -333,7 +339,7 @@ function JobInfo() {
                         onChange={handleInputChange}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                       <TextField
                         InputProps={{
                           readOnly: !editMode,
@@ -371,7 +377,7 @@ function JobInfo() {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                       <TextField
                         InputProps={{
                           readOnly: !editMode,
@@ -398,7 +404,7 @@ function JobInfo() {
                       />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item xs={4.5}>
                       {editMode ? (
                         <DateTimePicker
                           name="datetime"
@@ -424,7 +430,7 @@ function JobInfo() {
                         />
                       )}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={4.5}>
                       <TextField
                         InputProps={{
                           readOnly: !editMode,
@@ -449,11 +455,37 @@ function JobInfo() {
                         onChange={handleInputChange}
                       />
                     </Grid>
+                    <Grid item xs={3}>
+                      <TextField
+                        InputProps={{
+                          readOnly: !editMode,
+                          style: { color: "black" },
+                        }}
+                        type="number"
+                        sx={{
+                          [`& fieldset`]: {
+                            borderRadius: 8,
+                          },
+                          "& .MuiInputLabel-asterisk": {
+                            color: "red",
+                          },
+                        }}
+                        variant={editMode ? "outlined" : "standard"}
+                        required={editMode}
+                        fullWidth
+                        label="Required Worker"
+                        name="max_num"
+                        value={
+                          editMode ? editedValues.max_num : jobInfo.max_num
+                        }
+                        onChange={handleInputChange}
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
 
                 {/* Right Side - Image Upload */}
-                <Grid item xs={6}>
+                <Grid item xs={6} sx={{ marginTop: "50px" }}>
                   {jobInfo.image === "" ? (
                     <Box
                       sx={{
@@ -485,7 +517,7 @@ function JobInfo() {
                   )}
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} sx={{ marginBottom: "50px" }}>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <TextField
@@ -505,7 +537,7 @@ function JobInfo() {
                         required={editMode}
                         fullWidth
                         multiline
-                        rows={8}
+                        // rows={8}
                         label="Description"
                         name="desc"
                         value={editMode ? editedValues.desc : jobInfo.desc}
@@ -525,7 +557,7 @@ function JobInfo() {
                         variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         multiline
-                        rows={8}
+                        // rows={8}
                         label="Requirement"
                         name="requirement"
                         value={
