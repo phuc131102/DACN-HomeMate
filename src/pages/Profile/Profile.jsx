@@ -21,6 +21,13 @@ import { get_cv_info, delete_cv } from "../../services/cvAPI";
 import avtEmpty from "../../assets/avt_empty.png";
 import LeftSide from "./Child/LeftSide";
 import Rating from "./Child/Rating";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import ProfileCv from "./Child/ProfileCv";
+import BigCard from "../../components/BigCard/BigCard";
+import MyJob from "./Child/Myjob";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -29,7 +36,7 @@ function Profile() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
-
+  const [value, setValue] = useState("1");
   //
   const [haveCv, setHaveCv] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
@@ -78,6 +85,9 @@ function Profile() {
     }
   }, []);
 
+  const handleChangeTab = (event, newValue) => {
+    setValue(newValue);
+  };
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -313,20 +323,69 @@ function Profile() {
             <Grid container>
               <Grid container item xs={12}>
                 <Grid item xs={4}>
-                  <Grid item xs={12} sx={{marginBottom:"20px"}}>
-                    <LeftSide profile={userInfo} handleChange={handleChange} formData={formData}  handleUpdate={handleUpdate}/>
+                  <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+                    <LeftSide
+                      profile={userInfo}
+                      handleChange={handleChange}
+                      formData={formData}
+                      handleUpdate={handleUpdate}
+                    />
                   </Grid>
                   <Grid item xs={12}>
-                    <Rating/>
+                    <Rating />
                   </Grid>
                 </Grid>
+
                 <Grid item xs={8}>
-                  {userInfo.role === "Worker" ? (
+                  <Box sx={{ marginLeft: "20px", marginBottom: "20px" }}>
+                    <BigCard>
+                      {userInfo.role === "Worker" ? (
+                        <TabContext value={value}>
+                          <Box>
+                            <TabList
+                              onChange={handleChangeTab}
+                              aria-label="lab API tabs example"
+                            >
+                              <Tab label="Your CV" value="1" />
+                              <Tab label="Apply History" value="2" />
+                              <Tab label="Work History" value="3" />
+                            </TabList>
+                          </Box>
+                          <TabPanel value="1">
+                            <ProfileCv
+                              userInfo={userInfo}
+                              cvinfo={cvinfo}
+                              handleCvDelete={handleCvDelete}
+                              handleUpdateCv={handleUpdateCv}
+                              handleCreateCv={handleCreateCv}
+                            />
+                          </TabPanel>
+                          <TabPanel value="2">Item Two</TabPanel>
+                          <TabPanel value="3">Item Three</TabPanel>
+                        </TabContext>
+                      ) : (
+                        <>
+                          <TabContext value={value}>
+                            <Box>
+                              <TabList
+                                onChange={handleChangeTab}
+                                aria-label="lab API tabs example"
+                              >
+                                <Tab label="Your Job" value="1" />
+                                <Tab label="Worker" value="2" />
+                              </TabList>
+                            </Box>
+                            <TabPanel value="1">
+                              <MyJob />
+                            </TabPanel>
+                            <TabPanel value="2">Item Two</TabPanel>
+                          </TabContext>
+                        </>
+                      )}
+                    </BigCard>
+                  </Box>
+                  {/* {userInfo.role === "Worker" ? (
                     <Grid container>
-                      {/* <Grid item xs={12}>
-                      {" "}
-                      <ComponentDivider>CV</ComponentDivider>
-                    </Grid> */}
                       <Grid container item xs={12}>
                         <Box
                           sx={{
@@ -362,40 +421,45 @@ function Profile() {
                       </Grid>
                     </Grid>
                   ) : null}
+                  {userInfo.role === "Worker" ? (
+                    cvinfo.message === "CV not found" ? (
+                      <></>
+                    ) : (
+                      <Grid
+                        container
+                        item
+                        xs={12}
+                        sx={{ marginBottom: "20px" }}
+                      >
+                        <Grid item xs={6}></Grid>
+                        <Grid item xs={3}>
+                          <Button
+                            size="large"
+                            variant="contained"
+                            color="error"
+                            onClick={(e) => handleCvDelete()}
+                            sx={{ marginTop: "15px" }}
+                          >
+                            {" "}
+                            Delete CV
+                          </Button>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Button
+                            size="large"
+                            variant="contained"
+                            onClick={handleUpdateCv}
+                            sx={{ marginTop: "15px" }}
+                          >
+                            {" "}
+                            Update CV
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )
+                  ) : null} */}
                 </Grid>
               </Grid>
-              {userInfo.role === "Worker" ? (
-                cvinfo.message === "CV not found" ? (
-                  <></>
-                ) : (
-                  <Grid container item xs={12} sx={{ marginBottom: "20px" }}>
-                    <Grid item xs={8}></Grid>
-                    <Grid item xs={2}>
-                      <Button
-                        size="large"
-                        variant="contained"
-                        color="error"
-                        onClick={(e) => handleCvDelete()}
-                        sx={{ marginTop: "15px" }}
-                      >
-                        {" "}
-                        Delete CV
-                      </Button>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Button
-                        size="large"
-                        variant="contained"
-                        onClick={handleUpdateCv}
-                        sx={{ marginTop: "15px" }}
-                      >
-                        {" "}
-                        Update CV
-                      </Button>
-                    </Grid>
-                  </Grid>
-                )
-              ) : null}
             </Grid>
           </Box>
         </>

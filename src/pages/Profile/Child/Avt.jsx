@@ -8,10 +8,6 @@ import EmptyAvt from "./EmptyAvt";
 import BigCard from "../../../components/BigCard/BigCard";
 
 function Avt(prop) {
-  const navigate = useNavigate();
-  const handleMyJob = () => {
-    navigate("/my-job");
-  };
   return (
     <BigCard>
       <ThemeProvider theme={prop.finalTheme}>
@@ -51,8 +47,8 @@ function Avt(prop) {
                         alt="Kisspng computer"
                         src={prop.avtEmpty}
                         style={{
-                          width: "30%",
-                          height: "auto",
+                          width: "55%",
+                          height: "55%",
                           // marginTop: "20%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
@@ -72,7 +68,6 @@ function Avt(prop) {
                         style={{
                           width: "55%",
                           height: "55%",
-                          // marginTop: "20%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
                       />
@@ -167,24 +162,6 @@ function Avt(prop) {
             <Grid item xs={12}>
               <UserInfor userInfo={prop.userInfo} />
             </Grid>
-            {prop.userInfo.role === "Homeowner" ? (
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    width: "100%",
-                    marginTop: "1%",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    sx={{ width: "15%", borderRadius: "15px" }}
-                    onClick={handleMyJob}
-                  >
-                    My Job
-                  </Button>
-                </Box>
-              </Grid>
-            ) : null}
           </Grid>
         </Grid>
       </ThemeProvider>

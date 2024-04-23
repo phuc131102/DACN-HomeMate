@@ -320,54 +320,58 @@ function WorkerInfo() {
                 </Grid>
               </Grid>
               <Grid item xs={8}>
-                <Grid container>
-                  {/* <Grid item xs={12}>
+                <Box sx={{ marginLeft: "20px", marginBottom:"20px" }}>
+                  <BigCard>
+                    <Grid container>
+                      {/* <Grid item xs={12}>
                       {" "}
                       <ComponentDivider>CV</ComponentDivider>
                     </Grid> */}
-                  <Grid container item xs={12}>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        marginLeft: "20px",
+                      <Grid container item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            marginLeft: "20px",
 
-                        display: "flex",
-                        justifyContent: "right",
-                      }}
-                    >
-                      {cvinfo.message === "CV not found" ? (
-                        <>
-                          <Grid container>
-                            <Grid item xs={12}>
-                              {" "}
-                              <ComponentDivider>CV</ComponentDivider>
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Box
-                                sx={{
-                                  justifyContent: "center",
-                                  marginBottom: "50px",
-                                  marginTop: "10px",
-                                  display: "flex",
-                                }}
-                              >
-                                No CV available.
-                              </Box>
-                            </Grid>
-                          </Grid>
-                        </>
-                      ) : (
-                        <>
-                          <Grid container>
-                            <Grid item xs={12}>
-                              <ViewCv cvinfo={cvinfo.data} />
-                            </Grid>
-                          </Grid>
-                        </>
-                      )}
-                    </Box>
-                  </Grid>
-                </Grid>
+                            display: "flex",
+                            justifyContent: "right",
+                          }}
+                        >
+                          {cvinfo.message === "CV not found" ? (
+                            <>
+                              <Grid container>
+                                <Grid item xs={12}>
+                                  {" "}
+                                  <ComponentDivider>CV</ComponentDivider>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Box
+                                    sx={{
+                                      justifyContent: "center",
+                                      marginBottom: "50px",
+                                      marginTop: "10px",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    No CV available.
+                                  </Box>
+                                </Grid>
+                              </Grid>
+                            </>
+                          ) : (
+                            <>
+                              <Grid container>
+                                <Grid item xs={12}>
+                                  <ViewCv cvinfo={cvinfo.data} />
+                                </Grid>
+                              </Grid>
+                            </>
+                          )}
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </BigCard>
+                </Box>
               </Grid>
             </Grid>
           </Box>
