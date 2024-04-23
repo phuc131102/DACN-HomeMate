@@ -1,43 +1,79 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import {
+  Box,
+  BottomNavigation,
+  BottomNavigationAction,
+  Typography,
+} from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 
 export default function Footer() {
   return (
-    <Box
-      style={{
-        marginTop: "auto",
-        borderTop: "black solid 1px",
-        backgroundColor: "#2E3B55",
-        color: "white",
-      }}
-    >
-      <h5 style={{ textAlign: "center" }}>
-        <br />
-        Copyright © 2024 HomeMate Website, Inc.
-      </h5>
-      <BottomNavigation showLabels style={{ backgroundColor: "#2E3B55" }}>
-        <BottomNavigationAction
-          href="https://www.facebook.com/TranPhamMinhDang"
-          label="Fanpage"
-          icon={<FacebookIcon />}
-          style={{ color: "white" }}
-        />
-        <BottomNavigationAction
-          label="Email"
-          icon={<EmailIcon />}
-          style={{ color: "white" }}
-        />
-        <BottomNavigationAction
-          label="Contact"
-          icon={<PhoneForwardedIcon />}
-          style={{ color: "white" }}
-        />
-      </BottomNavigation>
-    </Box>
+    <>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "white",
+          color: "black",
+          alignItems: "center",
+          padding: "20px",
+        }}
+      >
+        <Box>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "black",
+              textDecoration: "none",
+            }}
+          >
+            Home Mate
+          </Typography>
+        </Box>
+        <Box
+          style={{
+            backgroundColor: "white",
+            color: "black",
+          }}
+        >
+          <Typography variant="body1" style={{ textAlign: "center" }}>
+            Copyright © 2024 HomeMate Website, Inc.
+          </Typography>
+        </Box>
+        <Box style={{ alignSelf: "flex-end" }}>
+          <BottomNavigation
+            showLabels
+            style={{
+              backgroundColor: "white",
+            }}
+          >
+            <BottomNavigationAction
+              href="https://www.facebook.com/TranPhamMinhDang"
+              label="Fanpage"
+              icon={<FacebookIcon />}
+              style={{
+                color: "black",
+              }}
+            />
+            <BottomNavigationAction
+              label="Email"
+              icon={<EmailIcon />}
+              style={{ color: "black" }}
+            />
+            <BottomNavigationAction
+              label="Contact"
+              icon={<PhoneForwardedIcon />}
+              style={{ color: "black" }}
+            />
+          </BottomNavigation>
+        </Box>
+      </Box>
+    </>
   );
 }

@@ -25,6 +25,7 @@
     "react-rainbow-components": "^1.32.0",
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
+    "react-typed": "^2.0.12",
     "sass": "^1.69.7",
     "sass-loader": "^13.3.3",
     "styled-components": "^6.1.1",

@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Tooltip,
+  MenuItem,
+  Badge,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
+import { ReactTyped } from "react-typed";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -86,7 +90,7 @@ function TopBar() {
       {userInfo && (
         <AppBar
           position="fixed"
-          style={{ top: 0, background: "#2E3B55", zIndex: 999 }}
+          style={{ top: 0, background: "white", zIndex: 999 }}
         >
           <Container maxWidth="100%">
             <Toolbar disableGutters>
@@ -101,7 +105,7 @@ function TopBar() {
                   display: { xs: "none", md: "flex" },
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "inherit",
+                  color: "black",
                   textDecoration: "none",
                 }}
               >
@@ -115,7 +119,7 @@ function TopBar() {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
-                  color="inherit"
+                  color="black"
                 >
                   <MenuIcon />
                 </IconButton>
@@ -147,7 +151,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "home" ? "red" : "inherit",
+                        color: activeTab === "home" ? "red" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -164,7 +168,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "job" ? "red" : "inherit",
+                        color: activeTab === "job" ? "red" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -181,7 +185,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "worker" ? "red" : "inherit",
+                        color: activeTab === "worker" ? "red" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -199,7 +203,7 @@ function TopBar() {
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === "user" ? "red" : "inherit",
+                          color: activeTab === "user" ? "red" : "black",
                           textDecoration: "none",
                         }}
                       >
@@ -222,7 +226,7 @@ function TopBar() {
                   fontWeight: 700,
                   letterSpacing: ".3rem",
                   textDecoration: "none",
-                  color: "inherit",
+                  color: "black",
                 }}
               >
                 Home Mate
@@ -239,7 +243,7 @@ function TopBar() {
                     ml: 4,
                     display: { xs: "none", md: "flex" },
                     fontWeight: 700,
-                    color: activeTab === "home" ? "red" : "inherit",
+                    color: activeTab === "home" ? "red" : "black",
                     textDecoration: "none",
                   }}
                 >
@@ -256,7 +260,7 @@ function TopBar() {
                     ml: 4,
                     display: { xs: "none", md: "flex" },
                     fontWeight: 700,
-                    color: activeTab === "job" ? "red" : "inherit",
+                    color: activeTab === "job" ? "red" : "black",
                     textDecoration: "none",
                   }}
                 >
@@ -273,7 +277,7 @@ function TopBar() {
                     ml: 4,
                     display: { xs: "none", md: "flex" },
                     fontWeight: 700,
-                    color: activeTab === "worker" ? "red" : "inherit",
+                    color: activeTab === "worker" ? "red" : "black",
                     textDecoration: "none",
                   }}
                 >
@@ -291,7 +295,7 @@ function TopBar() {
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "user" ? "red" : "inherit",
+                      color: activeTab === "user" ? "red" : "black",
                       textDecoration: "none",
                     }}
                   >
@@ -302,8 +306,14 @@ function TopBar() {
 
               {userInfo && (
                 <Box p={2}>
-                  <Typography>
-                    <b>{userInfo.name}</b>
+                  <Typography sx={{ color: "black" }}>
+                    <b>
+                      <ReactTyped
+                        strings={[`Hi, ${userInfo.name}`]}
+                        typeSpeed={100}
+                      />
+                    </b>
+                    {/* <b>Hi, {userInfo.name}</b> */}
                   </Typography>
                 </Box>
               )}
@@ -366,6 +376,15 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
+              <IconButton aria-label="notification">
+                <Badge
+                  badgeContent={4}
+                  color="primary"
+                  sx={{ marginLeft: "15px", marginRight: "15px" }}
+                >
+                  <NotificationsIcon color="black" />
+                </Badge>
+              </IconButton>
             </Toolbar>
           </Container>
         </AppBar>
