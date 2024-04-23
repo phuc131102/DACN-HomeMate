@@ -1,10 +1,8 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import EmailIcon from "@mui/icons-material/Email";
-import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
+import * as React from 'react';
+import { Box, BottomNavigation, BottomNavigationAction, Typography, Container, IconButton, useTheme } from '@mui/material';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
 
 export default function Footer() {
   const theme = useTheme();
@@ -16,14 +14,15 @@ export default function Footer() {
         borderTop: '1px solid',
         borderColor: 'divider',
         background: 'linear-gradient(135deg, black, cyan)',
-        color: 'common.white',
-        pt: 2,
-        pb: 2,
+        color: theme.palette.common.white,
+        pt: 1, 
+        pb: 1,
+        px: 3   
       }}
     >
       <Container maxWidth="lg">
-        <Typography variant="body1" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
-          Connect with us!
+        <Typography variant="body2" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
+          Connect with Us!
         </Typography>
         <BottomNavigation
           showLabels
@@ -33,12 +32,17 @@ export default function Footer() {
             '& .MuiBottomNavigationAction-root': {
               maxWidth: 'none',
               '&:hover': {
-                transform: 'scale(1.2)',
+                transform: 'scale(1.1)',  
               },
               transition: theme.transitions.create(['transform'], {
                 duration: theme.transitions.duration.short,
               }),
             },
+            '& .MuiBottomNavigationAction-label': {
+              fontSize: '0.75rem',  
+            },
+            '& .MuiSvgIcon-root': {  
+            }
           }}
         >
           <BottomNavigationAction
@@ -46,7 +50,7 @@ export default function Footer() {
             href="https://www.facebook.com/TranPhamMinhDang"
             label="Facebook"
             icon={<FacebookIcon />}
-            sx={{ color: 'common.white' }}
+            sx={{ color: theme.palette.common.white }}
           />
           <BottomNavigationAction
             label="Email"
@@ -65,7 +69,7 @@ export default function Footer() {
             }
           />
         </BottomNavigation>
-        <Typography variant="caption" display="block" align="center" mt={2}>
+        <Typography variant="caption" display="block" align="center" mt={1}>
           © 2024 HomeMate Website, Inc. All rights reserved.
         </Typography>
       </Container>
