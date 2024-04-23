@@ -15,10 +15,6 @@ function ProfileCv(prop) {
     <>
       {prop.userInfo.role === "Worker" ? (
         <Grid container>
-          {/* <Grid item xs={12}>
-                      {" "}
-                      <ComponentDivider>CV</ComponentDivider>
-                    </Grid> */}
           <Grid container item xs={12}>
             <Box
               sx={{

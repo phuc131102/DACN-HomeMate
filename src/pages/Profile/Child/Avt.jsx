@@ -6,13 +6,60 @@ import UserName from "./UserName";
 import UserInfor from "./UserInfor";
 import EmptyAvt from "./EmptyAvt";
 import BigCard from "../../../components/BigCard/BigCard";
+import "./AvtEdit.css";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 function Avt(prop) {
+  const handleFileInputChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      prop.setAvatarBase64(base64data);
+      prop.setFormData({
+        ...prop.formData,
+        avatar: base64data,
+      });
+    };
+    reader.readAsDataURL(selectedFile);
+  };
+  const handleClick = () => {
+    prop.handleEdit();
+    document.getElementById("avatar-upload").click();
+  };
   return (
     <BigCard>
       <ThemeProvider theme={prop.finalTheme}>
         <Grid container sx={{ marginTop: "10%", marginBottom: "5%" }}>
           <Grid item xs={4}>
+            <Box className="hero-title">
+              <Box
+                className="orange-circle"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "rgba(110, 107, 107, 0.78)",
+                    borderColor: "#0062cc",
+                    boxShadow: "none",
+                  },
+                }}
+                onClick={handleClick}
+              >
+                <CameraAltIcon fontSize="large" />
+                <input
+                  id="avatar-upload"
+                  style={{
+                    display: "none",
+                  }}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileInputChange}
+                />
+              </Box>
+            </Box>
             {prop.editing ? (
               <>
                 <Grid item xs={12}>
@@ -23,6 +70,7 @@ function Avt(prop) {
                         display: "flex",
                         justifyContent: "center",
                       }}
+                      htmlFor="avatar-upload"
                     >
                       <img
                         alt={prop.avatarBase64}
@@ -30,7 +78,8 @@ function Avt(prop) {
                         style={{
                           width: "55%",
                           height: "55%",
-                          // marginTop: "20%",
+                          marginTop: "3%",
+                          marginBottom: "5%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
                       />
@@ -49,7 +98,8 @@ function Avt(prop) {
                         style={{
                           width: "55%",
                           height: "55%",
-                          // marginTop: "20%",
+                          marginTop: "3%",
+                          marginBottom: "5%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
                       />
@@ -68,6 +118,8 @@ function Avt(prop) {
                         style={{
                           width: "55%",
                           height: "55%",
+                          marginTop: "3%",
+                          marginBottom: "5%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                         }}
                       />
@@ -82,48 +134,21 @@ function Avt(prop) {
                       justifyContent: "center",
                     }}
                   >
-                    <label
-                      htmlFor="avatar-upload"
-                      style={{
-                        cursor: "pointer",
-                        marginTop: "1%",
-                        marginBottom: "5%",
-                        padding: "12px 24px",
-                        border: "2px solid #000",
-                        borderRadius: "8px",
-                        background: "#fff",
-                        color: "#000",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        textTransform: "uppercase",
-                        fontSize: "16px",
-                        letterSpacing: "1px",
-                        transition: "all 0.3s ease",
+                    <Button
+                      onClick={prop.handleUpdate}
+                      variant="outlined"
+                      sx={{
+                        color: "black",
+                        borderColor: "black",
+                        "&:hover": {
+                          backgroundColor: "rgba(110, 107, 107, 0.78)",
+                          borderColor: "rgba(110, 107, 107, 0.78)",
+                          boxShadow: "none",
+                        },
                       }}
                     >
-                      <input
-                        id="avatar-upload"
-                        style={{
-                          display: "none",
-                        }}
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const selectedFile = e.target.files[0];
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            const base64data = reader.result;
-                            prop.setAvatarBase64(base64data);
-                            prop.setFormData({
-                              ...prop.formData,
-                              avatar: prop.avatarBase64,
-                            });
-                          };
-                          reader.readAsDataURL(selectedFile);
-                        }}
-                      />
                       Change Avatar
-                    </label>
+                    </Button>
                   </Box>
                 </Grid>
               </>
@@ -142,7 +167,7 @@ function Avt(prop) {
                     style={{
                       width: "55%",
                       height: "55%",
-                      // marginTop: "20%",
+                      marginTop: "3%",
                       marginBottom: "5%",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                     }}
@@ -155,6 +180,7 @@ function Avt(prop) {
               </Grid>
             )}
           </Grid>
+          {/* <Box><Button onClick={prop.handleEdit}>dasd</Button></Box> */}
           <Grid item xs={8}>
             <Grid item xs={12}>
               <UserName userInfo={prop.userInfo} />

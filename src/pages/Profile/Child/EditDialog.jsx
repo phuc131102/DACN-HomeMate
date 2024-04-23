@@ -25,7 +25,19 @@ export default function EditDialog(prop) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        sx={{
+          color: "black",
+          borderColor: "black",
+          "&:hover": {
+            backgroundColor: "rgba(110, 107, 107, 0.78)",
+            borderColor: "rgba(110, 107, 107, 0.78)",
+            boxShadow: "none",
+          },
+        }}
+        onClick={handleClickOpen}
+      >
         Edit Profile
       </Button>
       <Dialog
@@ -37,7 +49,13 @@ export default function EditDialog(prop) {
       >
         <DialogTitle>{"Edit Profile"}</DialogTitle>
         <DialogContent>
-            <EditForm profile={prop.profile} handleChange={prop.handleChange} formData={prop.formData} handleUpdate={prop.handleUpdate} handleClose={handleClose}/>
+          <EditForm
+            profile={prop.profile}
+            handleChange={prop.handleChange}
+            formData={prop.formData}
+            handleUpdate={prop.handleUpdate}
+            handleClose={handleClose}
+          />
         </DialogContent>
       </Dialog>
     </React.Fragment>
