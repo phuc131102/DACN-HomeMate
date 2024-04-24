@@ -9,6 +9,7 @@ import {
   CardActionArea,
   Pagination,
   Button,
+  Box,
 } from "@mui/material";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
@@ -51,38 +52,33 @@ function Job() {
 
   return (
     <>
-      <br />
-      <div
-        style={{
-          margin: "10px auto",
-          marginTop: "40px",
-          marginBottom: "40px",
-        }}
-      ></div>
-      {userData.role === "Homeowner" ? (
-        <Grid container sx={{ width: "95%", margin: "auto" }}>
-          <Button
-            variant="contained"
-            sx={{
-              width: "15%",
-              marginLeft: "auto",
-              borderRadius: "15px",
-            }}
-            onClick={handleAddJob}
-          >
-            Create New Job
-          </Button>
-        </Grid>
-      ) : null}
-      <Card
+      <Box
         sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
           width: "95%",
           margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+          marginTop: "7%",
         }}
       >
+        {userData.role === "Homeowner" ? (
+          <Grid container sx={{ width: "95%", margin: "auto" }}>
+            <Button
+              variant="contained"
+              sx={{
+                width: "15%",
+                marginLeft: "auto",
+                borderRadius: "15px",
+              }}
+              onClick={handleAddJob}
+            >
+              Create New Job
+            </Button>
+          </Grid>
+        ) : null}
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            &nbsp;<b>All Job</b>
+          </Typography>
+        </Grid>
         <CardContent>
           <Grid container spacing={5}>
             {currentJobs.map((card, index) => (
@@ -141,7 +137,7 @@ function Job() {
             ))}
           </Grid>
         </CardContent>
-      </Card>
+      </Box>
       {jobs.length > 12 ? (
         <Pagination
           count={Math.ceil(jobs.length / itemsPerPage)}

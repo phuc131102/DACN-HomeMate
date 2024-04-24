@@ -7,6 +7,7 @@ import {
   CardMedia,
   CardActionArea,
   Pagination,
+  Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -42,23 +43,16 @@ function Worker() {
 
   return (
     <>
-      <br />
-      <div
-        style={{
-          margin: "10px auto",
-          marginTop: "40px",
-          marginBottom: "40px",
-        }}
-      ></div>
-      <Card
+      <Box
         sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
           width: "95%",
           margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+          marginTop: "7%",
         }}
       >
+        <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+          &nbsp;<b>All Worker</b>
+        </Typography>
         <CardContent>
           <Grid container spacing={5}>
             {currentWorkers.map((card, index) => (
@@ -70,6 +64,11 @@ function Worker() {
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                   }}
                 >
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  ></Grid>
                   <CardActionArea
                     component={Link}
                     to={`/worker/${card._id.$oid}`}
@@ -122,7 +121,7 @@ function Worker() {
             ))}
           </Grid>
         </CardContent>
-      </Card>
+      </Box>
       {workers.length > 12 ? (
         <Pagination
           count={Math.ceil(workers.length / itemsPerPage)}

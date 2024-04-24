@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   CardActionArea,
+  Box,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
@@ -49,20 +50,17 @@ function Home() {
   return (
     <>
       <br />
-      <Hero/>
-      <Card
+      <Hero />
+      <Box
         sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
           width: "95%",
           margin: "auto",
-          marginTop: "5%",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+          marginTop: "2%",
         }}
       >
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
+            <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
               &nbsp;<b>New Worker</b>
             </Typography>
             {workers.length === 0 ? null : (
@@ -89,7 +87,7 @@ function Home() {
                         backgroundColor: "white",
                         borderRadius: "20px",
                         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                        width: "150px",
+                        width: "160px",
                       }}
                     >
                       <CardActionArea
@@ -127,30 +125,27 @@ function Home() {
             </Grid>
           )}
         </CardContent>
-      </Card>
+      </Box>
 
       <div
         style={{
           borderTop: "2px solid black",
           width: "20%",
           margin: "10px auto",
-          marginTop: "30px",
-          marginBottom: "30px",
+          marginTop: "20px",
+          marginBottom: "10px",
         }}
       ></div>
 
-      <Card
+      <Box
         sx={{
-          backgroundColor: "white",
-          borderRadius: "20px",
           width: "95%",
           margin: "auto",
-          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
         }}
       >
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Typography sx={{ fontSize: 20 }} color="text.primary" gutterBottom>
+            <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
               &nbsp;<b>New Job</b>
             </Typography>
             {jobs.length === 0 ? null : (
@@ -168,15 +163,16 @@ function Home() {
           ) : (
             <Grid container spacing={5}>
               {jobs
-                .slice(-6)
+                .slice(-7)
                 .reverse()
                 .map((card, index) => (
-                  <Grid item xs={6} sm={3} md={2} key={index}>
+                  <Grid item key={index}>
                     <Card
                       sx={{
                         backgroundColor: "white",
                         borderRadius: "20px",
                         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                        width: "160px",
                       }}
                     >
                       <CardActionArea
@@ -230,7 +226,7 @@ function Home() {
             </Grid>
           )}
         </CardContent>
-      </Card>
+      </Box>
       <div
         style={{
           margin: "10px auto",

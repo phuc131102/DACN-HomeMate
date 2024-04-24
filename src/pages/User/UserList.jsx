@@ -11,6 +11,8 @@ import {
   Pagination,
   Grid,
   Button,
+  Typography,
+  Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
@@ -55,77 +57,85 @@ const UserListPage = () => {
 
   return (
     <>
-      <br />
-      <div
-        style={{
-          margin: "10px auto",
-          marginTop: "40px",
-          marginBottom: "40px",
-        }}
-      ></div>
-      {userData.role === "Admin" ? (
-        <Grid container sx={{ width: "80vw", margin: "auto" }}>
-          <Button
-            variant="contained"
-            sx={{
-              width: "15%",
-              marginLeft: "auto",
-              borderRadius: "15px",
-            }}
-            onClick={handleAddUser}
-          >
-            Create New User
-          </Button>
-        </Grid>
-      ) : null}
-      <TableContainer
-        component={Paper}
+      <Box
         sx={{
-          width: "80vw",
+          width: "95%",
           margin: "auto",
-          marginTop: "3%",
+          marginTop: "7%",
         }}
       >
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Avatar</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Role</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentUsers.map((user, index) => (
-              <TableRow
-                key={index}
-                onClick={() => handleRowClick(user._id.$oid)}
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "#e0e0e0",
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <TableCell>
-                  <Avatar src={user.avatar} alt={user.name} />
-                </TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  {user.address === "" ? "N/A" : user.address}
-                </TableCell>
-                <TableCell>
-                  {user.phone_num === "" ? "N/A" : user.phone_num}
-                </TableCell>
-                <TableCell>{user.role}</TableCell>
+        {userData.role === "Admin" ? (
+          <Grid container sx={{ width: "80vw", margin: "auto" }}>
+            <Button
+              variant="contained"
+              sx={{
+                width: "15%",
+                marginLeft: "auto",
+                borderRadius: "15px",
+              }}
+              onClick={handleAddUser}
+            >
+              Create New User
+            </Button>
+          </Grid>
+        ) : null}
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Typography
+            sx={{ fontSize: 30, marginLeft: "7%" }}
+            color="text.primary"
+            gutterBottom
+          >
+            <b>All User</b>
+          </Typography>
+        </Grid>
+        <TableContainer
+          component={Paper}
+          sx={{
+            width: "80vw",
+            margin: "auto",
+          }}
+        >
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Avatar</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell>Phone Number</TableCell>
+                <TableCell>Role</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {currentUsers.map((user, index) => (
+                <TableRow
+                  key={index}
+                  onClick={() => handleRowClick(user._id.$oid)}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#e0e0e0",
+                      cursor: "pointer",
+                    },
+                  }}
+                >
+                  <TableCell>
+                    <Avatar src={user.avatar} alt={user.name} />
+                  </TableCell>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    {user.address === "" ? "N/A" : user.address}
+                  </TableCell>
+                  <TableCell>
+                    {user.phone_num === "" ? "N/A" : user.phone_num}
+                  </TableCell>
+                  <TableCell>{user.role}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
       <Pagination
         count={Math.ceil(users.length / itemsPerPage)}
         page={currentPage}

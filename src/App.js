@@ -7,6 +7,7 @@ import AppRoutes from "./routes/Routes";
 import TopBar from "./components/TopBar/TopBar";
 import Footer from "./components/Footer/Footer";
 import ScrollToTop from "./components/toTop/toTop";
+import BackToTopButton from "./components/Button/BackToTopButton/BackToTopButton";
 
 function App() {
   useEffect(() => {
@@ -16,6 +17,7 @@ function App() {
   return (
     <div className="app-wrapper">
       <Router>
+        <BackToTopButton />
         <ScrollToTop />
         <ConditionalTopBar />
         <AppRoutes />

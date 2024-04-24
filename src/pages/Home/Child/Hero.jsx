@@ -21,7 +21,7 @@ function Hero() {
           <Box className="paddings innerWidth flexCenter hero-container">
             <Box className="flexColStart hero-left">
               <Box className="hero-titles">
-                <Box className="orange-circles"/>
+                <Box className="orange-circles" />
                 <motion.h1
                   initial={{ y: "2rem", opacity: "0" }}
                   animate={{ y: 0, opacity: 1 }}
@@ -33,9 +33,7 @@ function Hero() {
                 </motion.h1>
               </Box>
               <Box className="flexColStart hero-des">
-                <span>
-                  Find a domestic worker that suit you very easily
-                </span>
+                <span>Find a domestic worker that suit you very easily</span>
                 <span>
                   Empowering Homes, Empowering Lives: Find Your Perfect Domestic
                   Match Today!
@@ -45,24 +43,24 @@ function Hero() {
               <Box className="flexCenter stats">
                 <Box className="flexColStart stat">
                   <span>
-                    <CountUp start={8888} end={9000} duration={4} />
+                    <CountUp start={0} end={500} duration={3} />
                     <span>+</span>
                   </span>
-                  <span className="secondaryText">Premium Product</span>
+                  <span className="secondaryText">Jobs</span>
                 </Box>
                 <Box className="flexColStart stat">
                   <span>
-                    <CountUp start={1950} end={2000} duration={4} />
+                    <CountUp start={0} end={200} duration={3} />
                     <span>+</span>
                   </span>
-                  <span className="secondaryText">Happy Customers</span>
+                  <span className="secondaryText">Homeowners</span>
                 </Box>
                 <Box className="flexColStart stat">
                   <span>
-                    <CountUp end={28} />
+                    <CountUp start={0} end={250} duration={3} />
                     <span>+</span>
                   </span>
-                  <span className="secondaryText">Awards</span>
+                  <span className="secondaryText">Workers</span>
                 </Box>
               </Box>
             </Box>
