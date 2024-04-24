@@ -28,9 +28,9 @@ export default function Footer() {
             noWrap
             sx={{
               fontWeight: 700,
-              letterSpacing: ".3rem",
               color: "black",
               textDecoration: "none",
+              fontFamily: "cursive",
             }}
           >
             Home Mate

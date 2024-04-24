@@ -104,9 +104,12 @@ function TopBar() {
                   mr: 2,
                   display: { xs: "none", md: "flex" },
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
                   color: "black",
                   textDecoration: "none",
+                  backgroundColor: "orange",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  fontFamily: "cursive",
                 }}
               >
                 Home Mate
@@ -222,11 +225,13 @@ function TopBar() {
                 sx={{
                   mr: 2,
                   display: { xs: "flex", md: "none" },
-                  flexGrow: 1,
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
                   textDecoration: "none",
                   color: "black",
+                  backgroundColor: "orange",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  fontFamily: "cursive",
                 }}
               >
                 Home Mate
