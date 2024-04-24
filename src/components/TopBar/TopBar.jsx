@@ -11,10 +11,12 @@ import {
   Tooltip,
   MenuItem,
   Badge,
+  TextField,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
+import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
@@ -398,6 +400,27 @@ function TopBar() {
                   </Typography>
                 </Box>
               )}
+              <Box sx={{ marginRight: "2%" }}>
+                <form>
+                  <TextField
+                    id="search-bar"
+                    className="text"
+                    // onInput={(e) => {
+                    //   setSearchQuery(e.target.value);
+                    // }}
+                    label="Enter a job name"
+                    variant="outlined"
+                    placeholder="Search..."
+                    size="small"
+                  />
+                  <IconButton
+                    // type="submit"
+                    aria-label="search"
+                  >
+                    <SearchIcon style={{ fill: "blue" }} />
+                  </IconButton>
+                </form>
+              </Box>
               <Tooltip title="Open notification">
                 <IconButton aria-label="notification">
                   <Badge badgeContent={4} color="primary">
