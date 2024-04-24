@@ -1,67 +1,52 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Tooltip,
+  MenuItem,
+  Badge,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
 
 function TopBar() {
-    const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
-    const [navValue, setNavValue] = useState("home");
-    const navRef = useRef({});
-    const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [userData, setUserData] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
-    useEffect(() => {
-        const storedUserData = localStorage.getItem("userData");
-        if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userData && userData.id) {
+      const fetchUserInfo = async () => {
+        try {
+          const response = await get_user_info(userData.id);
+          setUserInfo(response);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
         }
-    }, []);
+      };
+      fetchUserInfo();
+    }
+  }, [userData]);
 
-    useEffect(() => {
-        if (userData && userData.id) {
-            const fetchUserInfo = async () => {
-                try {
-                    const response = await get_user_info(userData.id);
-                    setUserInfo(response);
-                } catch (error) {
-                    console.error("Error fetching user information:", error);
-                }
-            };
-            fetchUserInfo();
-        }
-    }, [userData]);
-
-    useEffect(() => {
-        if (navRef.current[navValue]) {
-            const { offsetLeft, clientWidth } = navRef.current[navValue];
-            setIndicatorStyle({
-                left: offsetLeft,
-                width: clientWidth,
-                opacity: 1,
-            });
-        }
-    }, [navValue]);
-
-    const navigate = useNavigate();
-
-    const handleNavItemClick = (event, newValue) => {
-        setNavValue(newValue);
-        handleCloseNavMenu();
-    };
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -78,7 +63,7 @@ function TopBar() {
     setAnchorElUser(null);
   };
 
-  const [activeTab, setActiveTab] = React.useState("catalog");
+  const [activeTab, setActiveTab] = React.useState("home");
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
@@ -93,18 +78,19 @@ function TopBar() {
     localStorage.setItem("activeTab", tab);
   };
 
-    const handleLogout = () => {
-        handleCloseUserMenu();
-        localStorage.clear();
-        navigate("/");
-    };
+  const handleLogout = () => {
+    setAnchorElUser(null);
+    localStorage.removeItem("userData");
+    localStorage.removeItem("activeTab");
+    navigate("/");
+  };
 
   return (
     <div>
       {userInfo && (
         <AppBar
           position="fixed"
-          style={{ top: 0, background: "#2E3B55", zIndex: 999 }}
+          style={{ top: 0, background: "white", zIndex: 999 }}
         >
           <Container maxWidth="100%">
             <Toolbar disableGutters>
@@ -119,7 +105,7 @@ function TopBar() {
                   display: { xs: "none", md: "flex" },
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "inherit",
+                  color: "black",
                   textDecoration: "none",
                 }}
               >
@@ -133,7 +119,7 @@ function TopBar() {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
-                  color="inherit"
+                  color="black"
                 >
                   <MenuIcon />
                 </IconButton>
@@ -165,7 +151,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "home" ? "red" : "inherit",
+                        color: activeTab === "home" ? "orange" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -182,7 +168,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "job" ? "red" : "inherit",
+                        color: activeTab === "job" ? "orange" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -199,7 +185,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "worker" ? "red" : "inherit",
+                        color: activeTab === "worker" ? "orange" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -217,7 +203,7 @@ function TopBar() {
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === "user" ? "red" : "inherit",
+                          color: activeTab === "user" ? "orange" : "black",
                           textDecoration: "none",
                         }}
                       >
@@ -240,88 +226,169 @@ function TopBar() {
                   fontWeight: 700,
                   letterSpacing: ".3rem",
                   textDecoration: "none",
-                  color: "inherit",
+                  color: "black",
                 }}
               >
                 Home Mate
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component={Link}
-                  to="/home"
-                  onClick={() => handleTabClick("home")}
-                  sx={{
-                    mr: 4,
-                    ml: 4,
-                    display: { xs: "none", md: "flex" },
-                    fontWeight: 700,
-                    color: activeTab === "home" ? "red" : "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Home
-                </Typography>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component={Link}
-                  to="/job"
-                  onClick={() => handleTabClick("job")}
-                  sx={{
-                    mr: 4,
-                    ml: 4,
-                    display: { xs: "none", md: "flex" },
-                    fontWeight: 700,
-                    color: activeTab === "job" ? "red" : "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Job
-                </Typography>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component={Link}
-                  to="/worker"
-                  onClick={() => handleTabClick("worker")}
-                  sx={{
-                    mr: 4,
-                    ml: 4,
-                    display: { xs: "none", md: "flex" },
-                    fontWeight: 700,
-                    color: activeTab === "worker" ? "red" : "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  Worker
-                </Typography>
-                {userData.role === "Admin" ? (
+                <Box>
                   <Typography
                     variant="h6"
                     noWrap
                     component={Link}
-                    to="/userlist"
-                    onClick={() => handleTabClick("user")}
+                    to="/home"
+                    onClick={() => handleTabClick("home")}
                     sx={{
                       mr: 4,
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "user" ? "red" : "inherit",
+                      color: activeTab === "home" ? "orange" : "black",
                       textDecoration: "none",
                     }}
                   >
-                    User
+                    Home
                   </Typography>
+                  {activeTab === "home" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                        left: activeTab === "home" ? "0%" : "-100%",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/job"
+                    onClick={() => handleTabClick("job")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "job" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Job
+                  </Typography>
+                  {activeTab === "job" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/worker"
+                    onClick={() => handleTabClick("worker")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "worker" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Worker
+                  </Typography>
+                  {activeTab === "worker" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                {userData.role === "Admin" && activeTab === "user" ? (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component={Link}
+                      to="/userlist"
+                      onClick={() => handleTabClick("user")}
+                      sx={{
+                        mr: 4,
+                        ml: 4,
+                        display: { xs: "none", md: "flex" },
+                        fontWeight: 700,
+                        color: "orange",
+                        textDecoration: "none",
+                      }}
+                    >
+                      User
+                    </Typography>
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  </Box>
+                ) : userData.role === "Admin" && activeTab !== "user" ? (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component={Link}
+                      to="/userlist"
+                      onClick={() => handleTabClick("user")}
+                      sx={{
+                        mr: 4,
+                        ml: 4,
+                        display: { xs: "none", md: "flex" },
+                        fontWeight: 700,
+                        color: "black",
+                        textDecoration: "none",
+                      }}
+                    >
+                      User
+                    </Typography>
+                  </Box>
                 ) : null}
               </Box>
 
               {userInfo && (
                 <Box p={2}>
-                  <Typography>
-                    <b>{userInfo.name}</b>
+                  <Typography sx={{ color: "black" }}>
+                    <b>
+                      <ReactTyped
+                        strings={[`Hi, ${userInfo.name}`]}
+                        typeSpeed={100}
+                        showCursor={false}
+                      />
+                    </b>
                   </Typography>
                 </Box>
               )}
@@ -384,6 +451,15 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
+              <IconButton aria-label="notification">
+                <Badge
+                  badgeContent={4}
+                  color="primary"
+                  sx={{ marginLeft: "15px", marginRight: "15px" }}
+                >
+                  <NotificationsIcon color="black" />
+                </Badge>
+              </IconButton>
             </Toolbar>
           </Container>
         </AppBar>
@@ -391,5 +467,4 @@ function TopBar() {
     </div>
   );
 }
-
 export default TopBar;

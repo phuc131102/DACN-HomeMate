@@ -10,8 +10,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 
 export default function Footer() {
-  const theme = useTheme();
-
   return (
     <>
       <Box
