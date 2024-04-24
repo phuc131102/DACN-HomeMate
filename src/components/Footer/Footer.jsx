@@ -19,7 +19,7 @@ export default function Footer() {
           backgroundColor: "white",
           color: "black",
           alignItems: "center",
-          padding: "20px",
+          padding: "10px",
         }}
       >
         <Box>
