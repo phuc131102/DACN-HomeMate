@@ -11,7 +11,6 @@ import {
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import Carousel from "react-material-ui-carousel";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import useJobs from "../../utils/jobUtils/jobUtils";

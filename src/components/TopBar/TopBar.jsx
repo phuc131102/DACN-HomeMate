@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
@@ -389,7 +390,7 @@ function TopBar() {
                   <Typography sx={{ color: "black" }}>
                     <b>
                       <ReactTyped
-                        strings={[`Hi, ${userInfo.name}`]}
+                        strings={[`Hi, ${userInfo.name} !`]}
                         typeSpeed={100}
                         showCursor={false}
                       />
@@ -397,9 +398,23 @@ function TopBar() {
                   </Typography>
                 </Box>
               )}
+              <Tooltip title="Open notification">
+                <IconButton aria-label="notification">
+                  <Badge badgeContent={4} color="primary">
+                    <NotificationsIcon color="black" />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Open setting">
+                <IconButton aria-label="notification">
+                  <Badge color="primary">
+                    <SettingsIcon color="black" />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
 
               <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
+                <Tooltip title="Open profile">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     {userInfo.avatar !== "" ? (
                       <Avatar src={userInfo.avatar} />
@@ -456,15 +471,6 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
-              <IconButton aria-label="notification">
-                <Badge
-                  badgeContent={4}
-                  color="primary"
-                  sx={{ marginLeft: "15px", marginRight: "15px" }}
-                >
-                  <NotificationsIcon color="black" />
-                </Badge>
-              </IconButton>
             </Toolbar>
           </Container>
         </AppBar>
