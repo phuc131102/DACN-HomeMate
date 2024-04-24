@@ -151,7 +151,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "home" ? "orange" : "black",
+                        color: activeTab === "home" ? "blue" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -168,7 +168,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "job" ? "orange" : "black",
+                        color: activeTab === "job" ? "blue" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -185,7 +185,7 @@ function TopBar() {
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "worker" ? "orange" : "black",
+                        color: activeTab === "worker" ? "blue" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -203,7 +203,7 @@ function TopBar() {
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === "user" ? "orange" : "black",
+                          color: activeTab === "user" ? "blue" : "black",
                           textDecoration: "none",
                         }}
                       >
@@ -244,7 +244,7 @@ function TopBar() {
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "home" ? "orange" : "black",
+                      color: activeTab === "home" ? "blue" : "black",
                       textDecoration: "none",
                     }}
                   >
@@ -257,7 +257,7 @@ function TopBar() {
                         width: "50%",
                         margin: "auto",
                         height: "3px",
-                        backgroundColor: "orange",
+                        backgroundColor: "cyan",
                         transition: "left 0.1s ease-in-out",
                         left: activeTab === "home" ? "0%" : "-100%",
                       }}
@@ -276,7 +276,7 @@ function TopBar() {
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "job" ? "orange" : "black",
+                      color: activeTab === "job" ? "blue" : "black",
                       textDecoration: "none",
                     }}
                   >
@@ -289,7 +289,7 @@ function TopBar() {
                         width: "50%",
                         margin: "auto",
                         height: "3px",
-                        backgroundColor: "orange",
+                        backgroundColor: "cyan",
                         transition: "left 0.1s ease-in-out",
                       }}
                     ></div>
@@ -307,7 +307,7 @@ function TopBar() {
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "worker" ? "orange" : "black",
+                      color: activeTab === "worker" ? "blue" : "black",
                       textDecoration: "none",
                     }}
                   >
@@ -320,7 +320,7 @@ function TopBar() {
                         width: "50%",
                         margin: "auto",
                         height: "3px",
-                        backgroundColor: "orange",
+                        backgroundColor: "cyan",
                         transition: "left 0.1s ease-in-out",
                       }}
                     ></div>
@@ -339,7 +339,7 @@ function TopBar() {
                         ml: 4,
                         display: { xs: "none", md: "flex" },
                         fontWeight: 700,
-                        color: "orange",
+                        color: "cyan",
                         textDecoration: "none",
                       }}
                     >
@@ -351,7 +351,7 @@ function TopBar() {
                         width: "50%",
                         margin: "auto",
                         height: "3px",
-                        backgroundColor: "orange",
+                        backgroundColor: "cyan",
                         transition: "left 0.1s ease-in-out",
                       }}
                     ></div>
