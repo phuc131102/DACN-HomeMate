@@ -73,7 +73,13 @@ function TopBar() {
 
     if (storedActiveTab) {
       setActiveTab(storedActiveTab);
+    } else {
+      setActiveTab("home");
+      localStorage.setItem("activeTab", "home");
     }
+    return () => {
+      localStorage.removeItem("activeTab");
+    };
   }, []);
 
   const handleTabClick = (tab) => {
