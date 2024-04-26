@@ -31,6 +31,7 @@ const CreateJobPage = () => {
     email: "",
     phone_num: "",
     requirement: "",
+    max_num: "",
   });
   const [error, setError] = useState("");
   const [userData, setUserData] = useState([]);
@@ -74,7 +75,7 @@ const CreateJobPage = () => {
       image: avatarBase64,
       owner_id: userData.id,
     };
-    console.log(updatedFormData);
+    // console.log(updatedFormData);
     try {
       const response = await create_job(updatedFormData);
       if (response) {
@@ -120,7 +121,7 @@ const CreateJobPage = () => {
             container
             spacing={2}
             sx={{
-              width: "80vw",
+              width: "80%",
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
@@ -182,7 +183,7 @@ const CreateJobPage = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -209,7 +210,7 @@ const CreateJobPage = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -246,55 +247,42 @@ const CreateJobPage = () => {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={8}>
                   <DateTimePicker
                     required
+                    fullWidth
                     name="datetime"
                     value={formData.datetime}
                     onChange={handleDateTimeChange}
-                    className="rainbow-m-around_small"
                     hour24
                     placeholder="Date/Time *"
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    sx={{
+                      [`& fieldset`]: {
+                        borderRadius: 8,
+                      },
+                      "& .MuiInputLabel-asterisk": {
+                        color: "red",
+                      },
+                    }}
+                    required
+                    fullWidth
+                    type="number"
+                    label="Required Worker"
+                    name="max_num"
+                    value={formData.max_num}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
             </Grid>
 
-            {/* Right Side - Image Upload */}
             <Grid item xs={6}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  {avatarBase64 ? (
-                    <Box
-                      sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <img
-                        alt={avatarBase64}
-                        src={avatarBase64}
-                        style={{
-                          width: "60%",
-                          height: "auto",
-                          display: "flex",
-                          justifyContent: "center",
-                          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                        }}
-                      />
-                    </Box>
-                  ) : (
-                    <Box
-                      sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    ></Box>
-                  )}
-                </Grid>
-                <Grid item xs={12}>
+              <Grid item xs={12}>
+                {avatarBase64 ? (
                   <Box
                     sx={{
                       width: "100%",
@@ -302,50 +290,79 @@ const CreateJobPage = () => {
                       justifyContent: "center",
                     }}
                   >
-                    <label
-                      htmlFor="avatar-upload"
+                    <img
+                      alt={avatarBase64}
+                      src={avatarBase64}
                       style={{
+                        width: "60%",
+                        height: "auto",
                         display: "flex",
                         justifyContent: "center",
-                        cursor: "pointer",
-                        padding: "12px 24px",
-                        border: "2px solid #000",
-                        borderRadius: "20px",
-                        background: "#fff",
-                        color: "#000",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        textTransform: "uppercase",
-                        fontSize: "16px",
-                        letterSpacing: "1px",
-                        transition: "all 0.3s ease",
+                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
                       }}
-                    >
-                      <input
-                        id="avatar-upload"
-                        style={{
-                          display: "none",
-                        }}
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const selectedFile = e.target.files[0];
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            const base64data = reader.result;
-                            setAvatarBase64(base64data);
-                            setFormData({
-                              ...formData,
-                              image: avatarBase64,
-                            });
-                          };
-                          reader.readAsDataURL(selectedFile);
-                        }}
-                      />
-                      Upload image
-                    </label>
+                    />
                   </Box>
-                </Grid>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  ></Box>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <label
+                    htmlFor="avatar-upload"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      padding: "12px 24px",
+                      border: "2px solid #000",
+                      borderRadius: "20px",
+                      background: "#fff",
+                      color: "#000",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      textTransform: "uppercase",
+                      fontSize: "16px",
+                      letterSpacing: "1px",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    <input
+                      id="avatar-upload"
+                      style={{
+                        display: "none",
+                      }}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const selectedFile = e.target.files[0];
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          const base64data = reader.result;
+                          setAvatarBase64(base64data);
+                          setFormData({
+                            ...formData,
+                            image: avatarBase64,
+                          });
+                        };
+                        reader.readAsDataURL(selectedFile);
+                      }}
+                    />
+                    Upload image
+                  </label>
+                </Box>
               </Grid>
             </Grid>
 
@@ -371,7 +388,7 @@ const CreateJobPage = () => {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} sx={{ pr: 2 }}>
                   <TextField
                     sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                     fullWidth

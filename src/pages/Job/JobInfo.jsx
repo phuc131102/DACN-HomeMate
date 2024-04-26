@@ -265,7 +265,7 @@ function JobInfo() {
                 container
                 spacing={2}
                 sx={{
-                  width: "80vw",
+                  width: "80%",
                   justifyContent: "center",
                   alignItems: "center",
                   margin: "auto",
@@ -404,33 +404,7 @@ function JobInfo() {
                       />
                     </Grid>
 
-                    <Grid item xs={4.5}>
-                      {editMode ? (
-                        <DateTimePicker
-                          name="datetime"
-                          value={editedValues.datetime}
-                          onChange={handleDateTimeChange}
-                          className="rainbow-m-around_small"
-                          hour24
-                          placeholder="Date/Time *"
-                        />
-                      ) : (
-                        <TextField
-                          InputProps={{
-                            readOnly: true,
-                            style: { color: "black" },
-                          }}
-                          sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                          variant="standard"
-                          fullWidth
-                          label="Date Time"
-                          // name="datetime"
-                          value={jobInfo.datetime}
-                          // onChange={handleInputChange}
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={4.5}>
+                    <Grid item xs={12}>
                       <TextField
                         InputProps={{
                           readOnly: !editMode,
@@ -455,7 +429,31 @@ function JobInfo() {
                         onChange={handleInputChange}
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={8}>
+                      {editMode ? (
+                        <DateTimePicker
+                          name="datetime"
+                          value={editedValues.datetime}
+                          onChange={handleDateTimeChange}
+                          className="rainbow-m-around_small"
+                          hour24
+                          placeholder="Date/Time *"
+                        />
+                      ) : (
+                        <TextField
+                          InputProps={{
+                            readOnly: true,
+                            style: { color: "black" },
+                          }}
+                          sx={{ [`& fieldset`]: { borderRadius: 8 } }}
+                          variant="standard"
+                          fullWidth
+                          label="Date Time"
+                          value={jobInfo.datetime}
+                        />
+                      )}
+                    </Grid>
+                    <Grid item xs={4}>
                       <TextField
                         InputProps={{
                           readOnly: !editMode,
@@ -537,14 +535,13 @@ function JobInfo() {
                         required={editMode}
                         fullWidth
                         multiline
-                        // rows={8}
                         label="Description"
                         name="desc"
                         value={editMode ? editedValues.desc : jobInfo.desc}
                         onChange={handleInputChange}
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sx={{ pr: 2 }}>
                       <TextField
                         InputProps={{
                           readOnly: !editMode,
@@ -557,7 +554,6 @@ function JobInfo() {
                         variant={editMode ? "outlined" : "standard"}
                         fullWidth
                         multiline
-                        // rows={8}
                         label="Requirement"
                         name="requirement"
                         value={
