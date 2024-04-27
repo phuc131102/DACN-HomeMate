@@ -202,29 +202,78 @@ function TopBar() {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  {["home", "job", "worker"].map((tab) => (
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to="/home"
+                  >
+                    <Typography
+                      onClick={() => handleTabClick("home")}
+                      textAlign="center"
+                      sx={{
+                        fontWeight: 700,
+                        color: activeTab === "home" ? "orange" : "black",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Home
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to="/job"
+                  >
+                    <Typography
+                      onClick={() => handleTabClick("job")}
+                      textAlign="center"
+                      sx={{
+                        fontWeight: 700,
+                        color: activeTab === "job" ? "orange" : "black",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Job
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    to="/worker"
+                  >
+                    <Typography
+                      onClick={() => handleTabClick("worker")}
+                      textAlign="center"
+                      sx={{
+                        fontWeight: 700,
+                        color: activeTab === "worker" ? "orange" : "black",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Worker
+                    </Typography>
+                  </MenuItem>
+                  {userData.role === "Admin" ? (
                     <MenuItem
-                      key={tab}
                       onClick={handleCloseNavMenu}
                       component={Link}
-                      to={`/${tab}`}
+                      to="/userlist"
                     >
                       <Typography
-                        onClick={() => handleTabClick(tab)}
+                        onClick={() => handleTabClick("user")}
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === tab ? "blue" : "black",
+                          color: activeTab === "user" ? "orange" : "black",
                           textDecoration: "none",
                         }}
                       >
-                        {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                        User
                       </Typography>
                     </MenuItem>
-                  ))}
+                  ) : null}
                 </Menu>
               </Box>
-
               <Typography
                 variant="h5"
                 noWrap
@@ -245,42 +294,101 @@ function TopBar() {
               >
                 Home Mate
               </Typography>
-
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {["home", "job", "worker"].map((tab) => (
-                  <Box key={tab} className={`tab-${tab}`}>
-                    <Typography
-                      variant="h6"
-                      noWrap
-                      component={Link}
-                      to={`/${tab}`}
-                      onClick={() => handleTabClick(tab)}
-                      sx={{
-                        mr: 4,
-                        ml: 4,
-                        fontWeight: 700,
-                        color: activeTab === tab ? "blue" : "black",
-                        textDecoration: "none",
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/home"
+                    onClick={() => handleTabClick("home")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "home" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Home
+                  </Typography>
+                  {activeTab === "home" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                        left: activeTab === "home" ? "0%" : "-100%",
                       }}
-                    >
-                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                    </Typography>
-                    {activeTab === tab && (
-                      <div
-                        className="active-tab-indicator"
-                        style={{
-                          bottom: "8px",
-                          width: "50%",
-                          margin: "auto",
-                          height: "3px",
-                          backgroundColor: "cyan",
-                          transition:
-                            "left 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), background-color 0.3s ease-in-out",
-                        }}
-                      ></div>
-                    )}
-                  </Box>
-                ))}
+                    ></div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/job"
+                    onClick={() => handleTabClick("job")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "job" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Job
+                  </Typography>
+                  {activeTab === "job" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component={Link}
+                    to="/worker"
+                    onClick={() => handleTabClick("worker")}
+                    sx={{
+                      mr: 4,
+                      ml: 4,
+                      display: { xs: "none", md: "flex" },
+                      fontWeight: 700,
+                      color: activeTab === "worker" ? "orange" : "black",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Worker
+                  </Typography>
+                  {activeTab === "worker" ? (
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  ) : null}
+                </Box>
               </Box>
 
               {userInfo && (
