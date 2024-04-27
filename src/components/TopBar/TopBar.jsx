@@ -13,23 +13,47 @@ import {
   Badge,
   TextField,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
+import Search from "../TopBar/Search";
 
 function TopBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [activeTab, setActiveTab] = React.useState("home");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+  const navigate = useNavigate();
+
+  // Mock job data
+  const jobData = [
+    "Software Engineer",
+    "Data Scientist",
+    "Product Manager",
+    "Graphic Designer",
+    "Systems Analyst",
+    "Database Administrator",
+    "Web Developer",
+    "UX Designer",
+    "Compliance Officer",
+    "Sales Representative",
+    "Marketing Coordinator",
+    "Human Resources Specialist",
+    "Financial Analyst",
+    "Operations Manager",
+    "Project Coordinator",
+  ];
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
-
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
@@ -49,11 +73,25 @@ function TopBar() {
     }
   }, [userData]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const storedActiveTab = localStorage.getItem("activeTab");
+    if (storedActiveTab) {
+      setActiveTab(storedActiveTab);
+    }
+  }, []);
+
+  useEffect(() => {
+    const activeTabIndicator = document.querySelector(".active-tab-indicator");
+    if (activeTab && activeTabIndicator) {
+      const newLeft = document.querySelector(`.tab-${activeTab}`).offsetLeft;
+      activeTabIndicator.style.left = `${newLeft}px`;
+    }
+  }, [activeTab]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -65,8 +103,6 @@ function TopBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const [activeTab, setActiveTab] = React.useState("home");
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
@@ -88,10 +124,23 @@ function TopBar() {
   };
 
   const handleLogout = () => {
-    setAnchorElUser(null);
+    handleCloseUserMenu();
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
     navigate("/");
+  };
+
+  const handleSearchInput = (event) => {
+    const input = event.target.value;
+    setSearchQuery(input);
+    if (input.length > 0) {
+      const filtered = jobData.filter((job) =>
+        job.toLowerCase().startsWith(input.toLowerCase())
+      );
+      setFilteredJobs(filtered);
+    } else {
+      setFilteredJobs([]);
+    }
   };
 
   return (
@@ -408,25 +457,7 @@ function TopBar() {
               )}
 
               <Box sx={{ marginRight: "2%" }}>
-                <form>
-                  <TextField
-                    id="search-bar"
-                    className="text"
-                    // onInput={(e) => {
-                    //   setSearchQuery(e.target.value);
-                    // }}
-                    label="Enter a job name"
-                    variant="outlined"
-                    placeholder="Search..."
-                    size="small"
-                  />
-                  <IconButton
-                    // type="submit"
-                    aria-label="search"
-                  >
-                    <SearchIcon style={{ fill: "blue" }} />
-                  </IconButton>
-                </form>
+                <Search placeholder="Enter a job name" width="300px" />
               </Box>
               <Tooltip title="Open notification">
                 <IconButton aria-label="notification">
@@ -501,6 +532,8 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
+
+              {/* Remaining code */}
             </Toolbar>
           </Container>
         </AppBar>
