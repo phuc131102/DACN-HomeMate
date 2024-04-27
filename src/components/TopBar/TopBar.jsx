@@ -389,6 +389,57 @@ function TopBar() {
                     ></div>
                   ) : null}
                 </Box>
+                {userData.role === "Admin" && activeTab === "user" ? (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component={Link}
+                      to="/userlist"
+                      onClick={() => handleTabClick("user")}
+                      sx={{
+                        mr: 4,
+                        ml: 4,
+                        display: { xs: "none", md: "flex" },
+                        fontWeight: 700,
+                        color: "orange",
+                        textDecoration: "none",
+                      }}
+                    >
+                      User
+                    </Typography>
+                    <div
+                      style={{
+                        bottom: "8px",
+                        width: "50%",
+                        margin: "auto",
+                        height: "3px",
+                        backgroundColor: "orange",
+                        transition: "left 0.1s ease-in-out",
+                      }}
+                    ></div>
+                  </Box>
+                ) : userData.role === "Admin" && activeTab !== "user" ? (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component={Link}
+                      to="/userlist"
+                      onClick={() => handleTabClick("user")}
+                      sx={{
+                        mr: 4,
+                        ml: 4,
+                        display: { xs: "none", md: "flex" },
+                        fontWeight: 700,
+                        color: "black",
+                        textDecoration: "none",
+                      }}
+                    >
+                      User
+                    </Typography>
+                  </Box>
+                ) : null}
               </Box>
 
               {userInfo && (
