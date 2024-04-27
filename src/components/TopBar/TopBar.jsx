@@ -20,6 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
+import Search from "../TopBar/Search";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -27,8 +28,29 @@ function TopBar() {
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [activeTab, setActiveTab] = useState("home");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredJobs, setFilteredJobs] = useState([]);
 
   const navigate = useNavigate();
+
+  // Mock job data
+  const jobData = [
+    'Software Engineer',
+    'Data Scientist',
+    'Product Manager',
+    'Graphic Designer',
+    'Systems Analyst',
+    'Database Administrator',
+    'Web Developer',
+    'UX Designer',
+    'Compliance Officer',
+    'Sales Representative',
+    'Marketing Coordinator',
+    'Human Resources Specialist',
+    'Financial Analyst',
+    'Operations Manager',
+    'Project Coordinator'
+  ];
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -94,13 +116,24 @@ function TopBar() {
     navigate("/");
   };
 
+  const handleSearchInput = (event) => {
+    const input = event.target.value;
+    setSearchQuery(input);
+    if (input.length > 0) {
+      const filtered = jobData.filter(job => job.toLowerCase().startsWith(input.toLowerCase()));
+      setFilteredJobs(filtered);
+    } else {
+      setFilteredJobs([]);
+    }
+  };
+
   return (
     <div>
       {userInfo && (
         <AppBar position="fixed" style={{ top: 0, background: "white", zIndex: 999 }}>
           <Container maxWidth="100%">
             <Toolbar disableGutters>
-              <Typography
+            <Typography
                 variant="h6"
                 noWrap
                 component={Link}
@@ -240,26 +273,9 @@ function TopBar() {
                   </Typography>
                   </Box>
               )}
+              
               <Box sx={{ marginRight: "2%" }}>
-                <form>
-                  <TextField
-                    id="search-bar"
-                    className="text"
-                    // onInput={(e) => {
-                    //   setSearchQuery(e.target.value);
-                    // }}
-                    label="Enter a job name"
-                    variant="outlined"
-                    placeholder="Search..."
-                    size="small"
-                  />
-                  <IconButton
-                    // type="submit"
-                    aria-label="search"
-                  >
-                    <SearchIcon style={{ fill: "blue" }} />
-                  </IconButton>
-                </form>
+                <Search placeholder="Enter a job name" width="300px" />
               </Box>
               <Tooltip title="Open notification">
                 <IconButton aria-label="notification">
@@ -334,6 +350,8 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
+
+              {/* Remaining code */}
             </Toolbar>
           </Container>
         </AppBar>
@@ -342,4 +360,3 @@ function TopBar() {
   );
 }
 export default TopBar;
-

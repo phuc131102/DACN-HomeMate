@@ -5,9 +5,9 @@ import {
   BottomNavigationAction,
   Typography,
 } from "@mui/material";
-import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
+import FacebookIcon from "@mui/icons-material/Facebook";
 import EmailIcon from "@mui/icons-material/Email";
-import PermPhoneMsgTwoToneIcon from '@mui/icons-material/PermPhoneMsgTwoTone';
+import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 
 export default function Footer() {
   return (
@@ -19,7 +19,7 @@ export default function Footer() {
           backgroundColor: "white",
           color: "black",
           alignItems: "center",
-          padding: "10px",
+          padding: "20px",
         }}
       >
         <Box>
@@ -56,21 +56,19 @@ export default function Footer() {
             <BottomNavigationAction
               href="https://www.facebook.com/TranPhamMinhDang"
               label="Fanpage"
-              icon={<FacebookTwoToneIcon />}
+              icon={<FacebookIcon />}
               style={{
                 color: "black",
               }}
             />
             <BottomNavigationAction
-              href="mailto: dang.tranbeduahau@hcmut.edu.vn"
               label="Email"
               icon={<EmailIcon />}
               style={{ color: "black" }}
             />
             <BottomNavigationAction
-              href="tel: 0912816466"
               label="Contact"
-              icon={<PermPhoneMsgTwoToneIcon />}
+              icon={<PhoneForwardedIcon />}
               style={{ color: "black" }}
             />
           </BottomNavigation>
