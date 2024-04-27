@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
@@ -457,7 +456,7 @@ function TopBar() {
               )}
 
               <Box sx={{ marginRight: "2%" }}>
-                <Search placeholder="Enter a job name" width="300px" />
+                <Search />
               </Box>
               <Tooltip title="Open notification">
                 <IconButton aria-label="notification">
