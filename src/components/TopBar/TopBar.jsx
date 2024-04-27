@@ -16,6 +16,7 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
@@ -26,6 +27,7 @@ function TopBar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [activeTab, setActiveTab] = React.useState("home");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
 
@@ -101,8 +103,6 @@ function TopBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const [activeTab, setActiveTab] = React.useState("home");
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
