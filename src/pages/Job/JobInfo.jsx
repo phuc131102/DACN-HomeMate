@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 
 function JobInfo() {
   const [error, setError] = useState("");
-  const [jobInfo, setJobInfo] = useState("");
+  const [jobInfo, setJobInfo] =  useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +32,22 @@ function JobInfo() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-
+  useEffect(() => {
+    if (id) {
+        const fetchJobInfo = async () => {
+            setLoading(true);
+            try {
+                const response = await get_job_info(id);
+                setJobInfo(response); // Save to context
+            } catch (error) {
+                console.error("Error fetching job information:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchJobInfo();
+    }
+}, [id, setJobInfo]);
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
     name: "",

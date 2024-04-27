@@ -13,23 +13,45 @@ import {
   Badge,
   TextField,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
+import Search from "../TopBar/Search";
 
 function TopBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+  const navigate = useNavigate();
+
+  // Mock job data
+  const jobData = [
+    "Software Engineer",
+    "Data Scientist",
+    "Product Manager",
+    "Graphic Designer",
+    "Systems Analyst",
+    "Database Administrator",
+    "Web Developer",
+    "UX Designer",
+    "Compliance Officer",
+    "Sales Representative",
+    "Marketing Coordinator",
+    "Human Resources Specialist",
+    "Financial Analyst",
+    "Operations Manager",
+    "Project Coordinator",
+  ];
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
-
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
@@ -49,11 +71,25 @@ function TopBar() {
     }
   }, [userData]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const storedActiveTab = localStorage.getItem("activeTab");
+    if (storedActiveTab) {
+      setActiveTab(storedActiveTab);
+    }
+  }, []);
+
+  useEffect(() => {
+    const activeTabIndicator = document.querySelector(".active-tab-indicator");
+    if (activeTab && activeTabIndicator) {
+      const newLeft = document.querySelector(`.tab-${activeTab}`).offsetLeft;
+      activeTabIndicator.style.left = `${newLeft}px`;
+    }
+  }, [activeTab]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -88,10 +124,23 @@ function TopBar() {
   };
 
   const handleLogout = () => {
-    setAnchorElUser(null);
+    handleCloseUserMenu();
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
     navigate("/");
+  };
+
+  const handleSearchInput = (event) => {
+    const input = event.target.value;
+    setSearchQuery(input);
+    if (input.length > 0) {
+      const filtered = jobData.filter((job) =>
+        job.toLowerCase().startsWith(input.toLowerCase())
+      );
+      setFilteredJobs(filtered);
+    } else {
+      setFilteredJobs([]);
+    }
   };
 
   return (
@@ -153,78 +202,29 @@ function TopBar() {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  <MenuItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    to="/home"
-                  >
-                    <Typography
-                      onClick={() => handleTabClick("home")}
-                      textAlign="center"
-                      sx={{
-                        fontWeight: 700,
-                        color: activeTab === "home" ? "orange" : "black",
-                        textDecoration: "none",
-                      }}
-                    >
-                      Home
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    to="/job"
-                  >
-                    <Typography
-                      onClick={() => handleTabClick("job")}
-                      textAlign="center"
-                      sx={{
-                        fontWeight: 700,
-                        color: activeTab === "job" ? "orange" : "black",
-                        textDecoration: "none",
-                      }}
-                    >
-                      Job
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    to="/worker"
-                  >
-                    <Typography
-                      onClick={() => handleTabClick("worker")}
-                      textAlign="center"
-                      sx={{
-                        fontWeight: 700,
-                        color: activeTab === "worker" ? "orange" : "black",
-                        textDecoration: "none",
-                      }}
-                    >
-                      Worker
-                    </Typography>
-                  </MenuItem>
-                  {userData.role === "Admin" ? (
+                  {["home", "job", "worker"].map((tab) => (
                     <MenuItem
+                      key={tab}
                       onClick={handleCloseNavMenu}
                       component={Link}
-                      to="/userlist"
+                      to={`/${tab}`}
                     >
                       <Typography
-                        onClick={() => handleTabClick("user")}
+                        onClick={() => handleTabClick(tab)}
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === "user" ? "orange" : "black",
+                          color: activeTab === tab ? "blue" : "black",
                           textDecoration: "none",
                         }}
                       >
-                        User
+                        {tab.charAt(0).toUpperCase() + tab.slice(1)}
                       </Typography>
                     </MenuItem>
-                  ) : null}
+                  ))}
                 </Menu>
               </Box>
+
               <Typography
                 variant="h5"
                 noWrap
@@ -245,152 +245,42 @@ function TopBar() {
               >
                 Home Mate
               </Typography>
+
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                <Box>
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component={Link}
-                    to="/home"
-                    onClick={() => handleTabClick("home")}
-                    sx={{
-                      mr: 4,
-                      ml: 4,
-                      display: { xs: "none", md: "flex" },
-                      fontWeight: 700,
-                      color: activeTab === "home" ? "orange" : "black",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Home
-                  </Typography>
-                  {activeTab === "home" ? (
-                    <div
-                      style={{
-                        bottom: "8px",
-                        width: "50%",
-                        margin: "auto",
-                        height: "3px",
-                        backgroundColor: "orange",
-                        transition: "left 0.1s ease-in-out",
-                        left: activeTab === "home" ? "0%" : "-100%",
-                      }}
-                    ></div>
-                  ) : null}
-                </Box>
-                <Box>
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component={Link}
-                    to="/job"
-                    onClick={() => handleTabClick("job")}
-                    sx={{
-                      mr: 4,
-                      ml: 4,
-                      display: { xs: "none", md: "flex" },
-                      fontWeight: 700,
-                      color: activeTab === "job" ? "orange" : "black",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Job
-                  </Typography>
-                  {activeTab === "job" ? (
-                    <div
-                      style={{
-                        bottom: "8px",
-                        width: "50%",
-                        margin: "auto",
-                        height: "3px",
-                        backgroundColor: "orange",
-                        transition: "left 0.1s ease-in-out",
-                      }}
-                    ></div>
-                  ) : null}
-                </Box>
-                <Box>
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component={Link}
-                    to="/worker"
-                    onClick={() => handleTabClick("worker")}
-                    sx={{
-                      mr: 4,
-                      ml: 4,
-                      display: { xs: "none", md: "flex" },
-                      fontWeight: 700,
-                      color: activeTab === "worker" ? "orange" : "black",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Worker
-                  </Typography>
-                  {activeTab === "worker" ? (
-                    <div
-                      style={{
-                        bottom: "8px",
-                        width: "50%",
-                        margin: "auto",
-                        height: "3px",
-                        backgroundColor: "orange",
-                        transition: "left 0.1s ease-in-out",
-                      }}
-                    ></div>
-                  ) : null}
-                </Box>
-                {userData.role === "Admin" && activeTab === "user" ? (
-                  <Box>
+                {["home", "job", "worker"].map((tab) => (
+                  <Box key={tab} className={`tab-${tab}`}>
                     <Typography
                       variant="h6"
                       noWrap
                       component={Link}
-                      to="/userlist"
-                      onClick={() => handleTabClick("user")}
+                      to={`/${tab}`}
+                      onClick={() => handleTabClick(tab)}
                       sx={{
                         mr: 4,
                         ml: 4,
-                        display: { xs: "none", md: "flex" },
                         fontWeight: 700,
-                        color: "orange",
+                        color: activeTab === tab ? "blue" : "black",
                         textDecoration: "none",
                       }}
                     >
-                      User
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
                     </Typography>
-                    <div
-                      style={{
-                        bottom: "8px",
-                        width: "50%",
-                        margin: "auto",
-                        height: "3px",
-                        backgroundColor: "orange",
-                        transition: "left 0.1s ease-in-out",
-                      }}
-                    ></div>
+                    {activeTab === tab && (
+                      <div
+                        className="active-tab-indicator"
+                        style={{
+                          bottom: "8px",
+                          width: "50%",
+                          margin: "auto",
+                          height: "3px",
+                          backgroundColor: "cyan",
+                          transition:
+                            "left 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), background-color 0.3s ease-in-out",
+                        }}
+                      ></div>
+                    )}
                   </Box>
-                ) : userData.role === "Admin" && activeTab !== "user" ? (
-                  <Box>
-                    <Typography
-                      variant="h6"
-                      noWrap
-                      component={Link}
-                      to="/userlist"
-                      onClick={() => handleTabClick("user")}
-                      sx={{
-                        mr: 4,
-                        ml: 4,
-                        display: { xs: "none", md: "flex" },
-                        fontWeight: 700,
-                        color: "black",
-                        textDecoration: "none",
-                      }}
-                    >
-                      User
-                    </Typography>
-                  </Box>
-                ) : null}
+                ))}
               </Box>
 
               {userInfo && (
@@ -408,25 +298,7 @@ function TopBar() {
               )}
 
               <Box sx={{ marginRight: "2%" }}>
-                <form>
-                  <TextField
-                    id="search-bar"
-                    className="text"
-                    // onInput={(e) => {
-                    //   setSearchQuery(e.target.value);
-                    // }}
-                    label="Enter a job name"
-                    variant="outlined"
-                    placeholder="Search..."
-                    size="small"
-                  />
-                  <IconButton
-                    // type="submit"
-                    aria-label="search"
-                  >
-                    <SearchIcon style={{ fill: "blue" }} />
-                  </IconButton>
-                </form>
+                <Search placeholder="Enter a job name" width="300px" />
               </Box>
               <Tooltip title="Open notification">
                 <IconButton aria-label="notification">
@@ -501,6 +373,8 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
+
+              {/* Remaining code */}
             </Toolbar>
           </Container>
         </AppBar>
