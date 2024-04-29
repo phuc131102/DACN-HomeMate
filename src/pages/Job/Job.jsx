@@ -14,13 +14,79 @@ import {
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
 import jobEmpty from "../../assets/job_empty.png";
+import { get_skill } from "../../services/skillAPI";
+import JobFilter from "./Child/Job_filter";
+import { Salary } from "./Child/Salary";
+import { Flex } from "antd";
 
 function Job() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const { jobs, loadingJob } = useJobs();
+  const [filterItems, setFilterItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+  const [skills, setSkills] = useState([]);
+  const [chooseSkill, setChooseSkill] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [filterSalaryItems, setFilterSalaryItems] = useState([]);
+  const [chooseSalary, setChooseSalary] = useState([]);
+  useEffect(() => {
+    setFilterItems(jobs);
+    setFilterSalaryItems(jobs);
+  }, [jobs]);
+
+  useEffect(() => {
+    if (chooseSalary.length > 0) {
+      let tempItems = chooseSalary.map((selectedSalary) => {
+        let tempSalary = Salary.filter((item) => item.name === selectedSalary);
+        let temp = jobs.filter((jobItem) => {
+          let tempArray =
+            tempSalary[0].min <= parseInt(jobItem.salary) &&
+            parseInt(jobItem.salary) <= tempSalary[0].max;
+          return tempArray;
+        });
+        return temp;
+      });
+      setFilterSalaryItems(tempItems.flat());
+    } else {
+      setFilterSalaryItems(jobs);
+    }
+  }, [chooseSalary]);
+
+  useEffect(() => {
+    if (chooseSkill.length > 0) {
+      // console.log("run effect")
+      let tempItems = chooseSkill.map((selectedSkill) => {
+        let temp = jobs.filter((jobItem) => {
+          let tempArray = jobItem.skill.includes(selectedSkill);
+          return tempArray;
+        });
+        return temp;
+      });
+      // let finalArray =
+      setFilterItems([...new Set(tempItems.flat())]);
+    } else {
+      setFilterItems(jobs);
+    }
+   
+  }, [chooseSkill]);
+
+  useEffect(() => {
+    const fetchSkill = async () => {
+      setLoading(true);
+      try {
+        const response = await get_skill();
+        // console.log(response.data);
+        setSkills(response.data);
+      } catch (error) {
+        console.error("Error fetching skill information:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSkill();
+  }, []);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -30,19 +96,23 @@ function Job() {
     }
   }, []);
 
-  if (loadingJob) {
+  if (loadingJob && loading) {
     return <Loading />;
   }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
+  const jobArray= filterSalaryItems.filter(item=>filterItems.includes(item))
+  const currentJobs = jobArray.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageChange = (value) => {
     setCurrentPage(value);
   };
 
-  if (loadingJob) {
+  if (loadingJob && loading) {
     return <Loading />;
   }
 
@@ -74,6 +144,20 @@ function Job() {
             </Button>
           </Grid>
         ) : null}
+        <Box sx={{display:"flex", alignItems:"center", justifyContent:"center", gap:"50px"}}>
+          <JobFilter
+            option={Salary}
+            chooseOption={chooseSalary}
+            setChooseOption={setChooseSalary}
+            label="Salary"
+          />
+          <JobFilter
+            option={skills}
+            chooseOption={chooseSkill}
+            setChooseOption={setChooseSkill}
+            label="Skill"
+          />
+        </Box>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
             &nbsp;<b>All Job</b>
