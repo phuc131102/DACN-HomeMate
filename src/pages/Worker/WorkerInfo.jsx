@@ -152,7 +152,6 @@ function WorkerInfo() {
     }
   }, [id]);
 
-  console.log(cvinfo);
   const handleHire = async (jobId, e) => {
     e.preventDefault();
     setLoading(true);
@@ -320,7 +319,7 @@ function WorkerInfo() {
                 </Grid>
               </Grid>
               <Grid item xs={8}>
-                <Box sx={{ marginLeft: "20px", marginBottom:"20px" }}>
+                <Box sx={{ marginLeft: "20px", marginBottom: "20px" }}>
                   <BigCard>
                     <Grid container>
                       {/* <Grid item xs={12}>

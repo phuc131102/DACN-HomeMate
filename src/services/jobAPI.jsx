@@ -107,3 +107,43 @@ export const return_worker = async (data) => {
     throw err;
   }
 };
+
+//APPLY JOB
+export const apply_job = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/apply_job",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//WORKING LIST
+export const working_info = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/working_info`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//WAITING LIST
+export const waiting_list = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/waiting_list/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
