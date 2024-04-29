@@ -31,7 +31,8 @@ import { get_skill } from "../../services/skillAPI";
 import avt_empty from "../../assets/avt_empty.png";
 import AcceptButton from "../../components/Button/AcceptButton/AcceptButton";
 import RejectButton from "../../components/Button/AcceptButton/RejectButton";
-
+import JobDetail from "./Child/JobDetail";
+import JobUpdate from "./Child/JobUpdate";
 function JobInfo() {
   const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
@@ -116,6 +117,7 @@ function JobInfo() {
           const response = await get_job_info(id);
           const response2 = await waiting_list(id);
           setJobInfo(response);
+          setChooseSkill(response.skill);
           setWaiting(response2);
         } catch (error) {
           console.error("Error fetching job information:", error);
@@ -236,11 +238,12 @@ function JobInfo() {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
       setEditedValues(jobInfo);
-      setChooseSkill(jobInfo.skill);
+      // setChooseSkill(jobInfo.skill);
     }
   };
 
   const handleCancelEditMode = () => {
+    setChooseSkill(jobInfo.skill);
     setEditMode(false);
   };
 
@@ -349,390 +352,68 @@ function JobInfo() {
                   {error}
                 </Typography>
               )}
-              <Grid
-                container
-                spacing={2}
-                sx={{
-                  width: "80%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "auto",
-                  marginTop: "1%",
-                  marginBottom: "5%",
-                  border: "2px solid #000",
-                  borderRadius: "20px",
-                  background: "#fff",
-                  color: "#000",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  fontSize: "16px",
-                }}
-              >
-                {/* Left Side */}
-                <Grid
-                  item
-                  xs={6}
-                  sx={{ marginTop: "50px", marginBottom: "50px" }}
-                >
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        fullWidth
-                        required={editMode}
-                        label="Job Name"
-                        name="name"
-                        value={editMode ? editedValues.name : jobInfo.name}
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              VNĐ / hour
-                            </InputAdornment>
-                          ),
-                        }}
-                        required={editMode}
-                        type="number"
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        fullWidth
-                        label="Salary"
-                        name="salary"
-                        value={editMode ? editedValues.salary : jobInfo.salary}
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        required={editMode}
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={editMode ? editedValues.email : jobInfo.email}
-                        onChange={handleInputChange}
-                        error={
-                          editMode
-                            ? !!editedValues.email &&
-                              !/\S+@\S+\.\S+/.test(editedValues.email)
-                            : null
-                        }
-                        helperText={
-                          editMode
-                            ? !!editedValues.email &&
-                              !/\S+@\S+\.\S+/.test(editedValues.email)
-                              ? "Please enter a valid email address."
-                              : ""
-                            : null
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        type="number"
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        required={editMode}
-                        fullWidth
-                        label="Phone Number"
-                        name="phone_num"
-                        value={
-                          editMode ? editedValues.phone_num : jobInfo.phone_num
-                        }
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        required={editMode}
-                        fullWidth
-                        label="Address"
-                        name="address"
-                        value={
-                          editMode ? editedValues.address : jobInfo.address
-                        }
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      {editMode ? (
-                        <JobFilter
-                          option={skills}
-                          chooseOption={chooseSkill}
-                          setChooseOption={setChooseSkill}
-                          label="Skill"
-                        />
-                      ) : (
-                        <TextField
-                          InputProps={{
-                            readOnly: !editMode,
-                            style: { color: "black" },
-                          }}
-                          sx={{
-                            [`& fieldset`]: {
-                              borderRadius: 8,
-                            },
-                            "& .MuiInputLabel-asterisk": {
-                              color: "red",
-                            },
-                          }}
-                          variant={"standard"}
-                          fullWidth
-                          label="Require Skill"
-                          name="Require Skill"
-                          multiline
-                          value={jobInfo.skill.join(", ")}
-                          onChange={handleInputChange}
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={8}>
-                      {editMode ? (
-                        <DateTimePicker
-                          name="datetime"
-                          value={editedValues.datetime}
-                          onChange={handleDateTimeChange}
-                          className="rainbow-m-around_small"
-                          hour24
-                          placeholder="Date/Time *"
-                        />
-                      ) : (
-                        <TextField
-                          InputProps={{
-                            readOnly: true,
-                            style: { color: "black" },
-                          }}
-                          sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                          variant="standard"
-                          fullWidth
-                          label="Date Time"
-                          value={jobInfo.datetime}
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        type="number"
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        required={editMode}
-                        fullWidth
-                        label="Required Worker"
-                        name="max_num"
-                        value={
-                          editMode ? editedValues.max_num : jobInfo.max_num
-                        }
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-
-                {/* Right Side - Image Upload */}
-                <Grid item xs={6} sx={{ marginTop: "50px" }}>
-                  {jobInfo.image === "" ? (
-                    <Box
+              {!editMode ? (
+                <JobDetail
+                  editMode={editMode}
+                  jobInfo={jobInfo}
+                  chooseSkill={chooseSkill}
+                ></JobDetail>
+              ) : (
+                <JobUpdate
+                  editMode={editMode}
+                  jobInfo={jobInfo}
+                  chooseSkill={chooseSkill}
+                  editedValues={editedValues}
+                  handleInputChange={handleInputChange}
+                  skills={skills}
+                  setChooseSkill={setChooseSkill}
+                  handleDateTimeChange={handleDateTimeChange}
+                />
+              )}
+              {userData.role === "Worker" ? (
+                <Grid>
+                  {!isWaiting && !isWorking ? (
+                    <Button
+                      variant="contained"
+                      color="success"
                       sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
+                        width: "15%",
+                        borderRadius: "15px",
+                        marginTop: "2%",
                       }}
-                    ></Box>
-                  ) : (
-                    <Box
+                      onClick={handleApply}
+                    >
+                      Apply
+                    </Button>
+                  ) : null}
+                  {isWorking ? (
+                    <Button
+                      variant="contained"
+                      color="success"
                       sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
+                        width: "15%",
+                        borderRadius: "15px",
+                        marginTop: "2%",
                       }}
                     >
-                      <img
-                        alt={jobInfo.name}
-                        src={jobInfo.image}
-                        style={{
-                          width: "60%",
-                          height: "auto",
-                          display: "flex",
-                          justifyContent: "center",
-                          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                        }}
-                      />
-                    </Box>
-                  )}
-                </Grid>
-
-                <Grid item xs={12} sx={{ marginBottom: "50px" }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        sx={{
-                          [`& fieldset`]: {
-                            borderRadius: 8,
-                          },
-                          "& .MuiInputLabel-asterisk": {
-                            color: "red",
-                          },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        required={editMode}
-                        fullWidth
-                        multiline
-                        label="Description"
-                        name="desc"
-                        value={editMode ? editedValues.desc : jobInfo.desc}
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                    <Grid item xs={6} sx={{ pr: 2 }}>
-                      <TextField
-                        InputProps={{
-                          readOnly: !editMode,
-                          style: { color: "black" },
-                        }}
-                        sx={{
-                          mb: "1%",
-                          [`& fieldset`]: { borderRadius: 8 },
-                        }}
-                        variant={editMode ? "outlined" : "standard"}
-                        fullWidth
-                        multiline
-                        label="Requirement"
-                        name="requirement"
-                        value={
-                          editMode
-                            ? editedValues.requirement
-                            : jobInfo.requirement === ""
-                            ? "No requirement."
-                            : jobInfo.requirement
-                        }
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                  </Grid>
-                  {userData.role === "Worker" ? (
-                    <Grid>
-                      {!isWaiting && !isWorking ? (
-                        <Button
-                          variant="contained"
-                          color="success"
-                          sx={{
-                            width: "15%",
-                            borderRadius: "15px",
-                            marginTop: "2%",
-                          }}
-                          onClick={handleApply}
-                        >
-                          Apply
-                        </Button>
-                      ) : null}
-                      {isWorking ? (
-                        <Button
-                          variant="contained"
-                          color="success"
-                          sx={{
-                            width: "15%",
-                            borderRadius: "15px",
-                            marginTop: "2%",
-                          }}
-                        >
-                          Apply is accepted !
-                        </Button>
-                      ) : null}
-                      {isWaiting ? (
-                        <Button
-                          variant="contained"
-                          color="warning"
-                          sx={{
-                            width: "15%",
-                            borderRadius: "15px",
-                            marginTop: "2%",
-                          }}
-                        >
-                          Apply sent ! Waiting...
-                        </Button>
-                      ) : null}
-                    </Grid>
+                      Apply is accepted !
+                    </Button>
+                  ) : null}
+                  {isWaiting ? (
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      sx={{
+                        width: "15%",
+                        borderRadius: "15px",
+                        marginTop: "2%",
+                      }}
+                    >
+                      Apply sent ! Waiting...
+                    </Button>
                   ) : null}
                 </Grid>
-              </Grid>
+              ) : null}
             </form>
 
             {userData.role === "Homeowner" &&
