@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Grid,
   TextField,
@@ -9,6 +9,11 @@ import {
   Typography,
   Stack,
   InputAdornment,
+  Card,
+  CardContent,
+  CardMedia,
+  CardActionArea,
+  CardActions,
 } from "@mui/material";
 import { DateTimePicker } from "react-rainbow-components";
 import {
@@ -16,14 +21,19 @@ import {
   deleteJob,
   get_job_info,
   update_job,
+  waiting_list,
   working_info,
 } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
+import avt_empty from "../../assets/avt_empty.png";
+import AcceptButton from "../../components/Button/AcceptButton/AcceptButton";
+import RejectButton from "../../components/Button/AcceptButton/RejectButton";
 
 function JobInfo() {
   const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
+  const [waiting, setWaiting] = useState("");
   const [working, setWorking] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
@@ -101,7 +111,9 @@ function JobInfo() {
         setLoading(true);
         try {
           const response = await get_job_info(id);
+          const response2 = await waiting_list(id);
           setJobInfo(response);
+          setWaiting(response2);
         } catch (error) {
           console.error("Error fetching job information:", error);
         } finally {
@@ -126,8 +138,6 @@ function JobInfo() {
 
     fetchData();
   }, []);
-
-  console.log(working);
 
   if (loading) {
     return <Loading />;
@@ -249,12 +259,19 @@ function JobInfo() {
   };
 
   var isWaiting = false;
+  var isWorking = false;
   if (working) {
     isWaiting = working.some(
       (item) =>
         item.worker._id.$oid === userData.id &&
         item.job._id.$oid === id &&
         item.status === "Waiting"
+    );
+    isWorking = working.some(
+      (item) =>
+        item.worker._id.$oid === userData.id &&
+        item.job._id.$oid === id &&
+        item.status === "Active"
     );
   }
 
@@ -627,7 +644,7 @@ function JobInfo() {
                   </Grid>
                   {userData.role === "Worker" ? (
                     <Grid>
-                      {!isWaiting ? (
+                      {!isWaiting && !isWorking ? (
                         <Button
                           variant="contained"
                           color="success"
@@ -640,7 +657,21 @@ function JobInfo() {
                         >
                           Apply
                         </Button>
-                      ) : (
+                      ) : null}
+                      {isWorking ? (
+                        <Button
+                          variant="contained"
+                          color="success"
+                          sx={{
+                            width: "15%",
+                            borderRadius: "15px",
+                            marginTop: "2%",
+                          }}
+                        >
+                          Apply is accepted !
+                        </Button>
+                      ) : null}
+                      {isWaiting ? (
                         <Button
                           variant="contained"
                           color="warning"
@@ -649,16 +680,99 @@ function JobInfo() {
                             borderRadius: "15px",
                             marginTop: "2%",
                           }}
-                          // onClick={handleApply}
                         >
                           Apply sent ! Waiting...
                         </Button>
-                      )}
+                      ) : null}
                     </Grid>
                   ) : null}
                 </Grid>
               </Grid>
             </form>
+
+            {userData.role === "Homeowner" &&
+            userData.id === jobInfo.owner_id &&
+            waiting.length > 0 ? (
+              <>
+                <div
+                  style={{
+                    borderTop: "2px solid black",
+                    width: "20%",
+                    margin: "10px auto",
+                  }}
+                ></div>
+                <Box
+                  sx={{
+                    width: "85%",
+                    margin: "auto",
+                  }}
+                >
+                  <Typography
+                    sx={{ fontSize: 30 }}
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    &nbsp;<b>New Apply</b>
+                  </Typography>
+                  <CardContent>
+                    <Grid container spacing={5}>
+                      {waiting.map((card, index) => (
+                        <Grid item xs={6} sm={3} md={2} key={index}>
+                          <Card
+                            sx={{
+                              backgroundColor: "white",
+                              borderRadius: "20px",
+                              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                            }}
+                          >
+                            <Grid
+                              container
+                              justifyContent="space-between"
+                              alignItems="center"
+                            ></Grid>
+                            <CardActionArea
+                              component={Link}
+                              to={`/worker/${card._id.$oid}`}
+                            >
+                              <CardMedia
+                                component="img"
+                                height="150"
+                                image={
+                                  card.avatar === "" ? avt_empty : card.avatar
+                                }
+                                alt={card.name}
+                              />
+                              <CardContent>
+                                <Typography
+                                  sx={{
+                                    fontSize: 18,
+                                    textAlign: "center",
+                                    lineHeight: "1.2",
+                                    maxHeight: "1.2em",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    display: "block",
+                                  }}
+                                  color="text.primary"
+                                  gutterBottom
+                                >
+                                  <b>{card.name}</b>
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                            <CardActions>
+                              <AcceptButton />
+                              <RejectButton />
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </CardContent>
+                </Box>
+              </>
+            ) : null}
             <Modal
               open={showModal}
               onClose={handleCloseModal}

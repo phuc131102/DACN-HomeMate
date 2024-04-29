@@ -134,3 +134,16 @@ export const working_info = async () => {
     throw err;
   }
 };
+
+//WAITING LIST
+export const waiting_list = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/waiting_list/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

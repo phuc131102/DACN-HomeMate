@@ -11,12 +11,11 @@ import {
   Tooltip,
   MenuItem,
   Badge,
-  TextField,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
@@ -27,29 +26,9 @@ function TopBar() {
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredJobs, setFilteredJobs] = useState([]);
 
   const navigate = useNavigate();
-
-  // Mock job data
-  const jobData = [
-    "Software Engineer",
-    "Data Scientist",
-    "Product Manager",
-    "Graphic Designer",
-    "Systems Analyst",
-    "Database Administrator",
-    "Web Developer",
-    "UX Designer",
-    "Compliance Officer",
-    "Sales Representative",
-    "Marketing Coordinator",
-    "Human Resources Specialist",
-    "Financial Analyst",
-    "Operations Manager",
-    "Project Coordinator",
-  ];
+  const location = useLocation();
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -76,16 +55,25 @@ function TopBar() {
     const storedActiveTab = localStorage.getItem("activeTab");
     if (storedActiveTab) {
       setActiveTab(storedActiveTab);
+    } else {
+      setActiveTab("");
     }
   }, []);
 
   useEffect(() => {
-    const activeTabIndicator = document.querySelector(".active-tab-indicator");
-    if (activeTab && activeTabIndicator) {
-      const newLeft = document.querySelector(`.tab-${activeTab}`).offsetLeft;
-      activeTabIndicator.style.left = `${newLeft}px`;
-    }
-  }, [activeTab]);
+    const pathname = location.pathname;
+    const tab = pathname.split("/")[1];
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
+  }, [location.pathname]);
+
+  // useEffect(() => {
+  //   const activeTabIndicator = document.querySelector(".active-tab-indicator");
+  //   if (activeTab && activeTabIndicator) {
+  //     const newLeft = document.querySelector(`.tab-${activeTab}`).offsetLeft;
+  //     activeTabIndicator.style.left = `${newLeft}px`;
+  //   }
+  // }, [activeTab]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -127,19 +115,6 @@ function TopBar() {
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
     navigate("/");
-  };
-
-  const handleSearchInput = (event) => {
-    const input = event.target.value;
-    setSearchQuery(input);
-    if (input.length > 0) {
-      const filtered = jobData.filter((job) =>
-        job.toLowerCase().startsWith(input.toLowerCase())
-      );
-      setFilteredJobs(filtered);
-    } else {
-      setFilteredJobs([]);
-    }
   };
 
   return (
