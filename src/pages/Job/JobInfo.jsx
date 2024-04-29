@@ -26,6 +26,8 @@ import {
 } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
+import JobFilter from "./Child/Job_filter";
+import { get_skill } from "../../services/skillAPI";
 import avt_empty from "../../assets/avt_empty.png";
 import AcceptButton from "../../components/Button/AcceptButton/AcceptButton";
 import RejectButton from "../../components/Button/AcceptButton/RejectButton";
@@ -38,7 +40,8 @@ function JobInfo() {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+  const [skills, setSkills] = useState([]);
+  const [chooseSkill, setChooseSkill] = useState([]);
   const params = useParams();
   const id = params.id.split("/").pop();
 
@@ -117,12 +120,19 @@ function JobInfo() {
         } catch (error) {
           console.error("Error fetching job information:", error);
         } finally {
-          setLoading(false);
+          try {
+            const response = await get_skill();
+            setSkills(response.data);
+          } catch (error) {
+            console.error("Error fetching skill information:", error);
+          } finally {
+            setLoading(false);
+          }
         }
       };
       fetchJobInfo();
     }
-  }, [id]);
+  }, [id, setJobInfo]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,6 +173,7 @@ function JobInfo() {
       "address",
       "desc",
       "max_num",
+      "skill",
     ];
     const emptyFields = requiredFields.filter((field) => !editedValues[field]);
 
@@ -182,6 +193,7 @@ function JobInfo() {
           desc: editedValues.desc,
           requirement: editedValues.requirement,
           max_num: editedValues.max_num,
+          skill: chooseSkill,
         };
         console.log(updatedValues);
         await update_job(updatedValues);
@@ -224,6 +236,7 @@ function JobInfo() {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
       setEditedValues(jobInfo);
+      setChooseSkill(jobInfo.skill);
     }
   };
 
@@ -503,6 +516,38 @@ function JobInfo() {
                         }
                         onChange={handleInputChange}
                       />
+                    </Grid>
+                    <Grid item xs={12}>
+                      {editMode ? (
+                        <JobFilter
+                          option={skills}
+                          chooseOption={chooseSkill}
+                          setChooseOption={setChooseSkill}
+                          label="Skill"
+                        />
+                      ) : (
+                        <TextField
+                          InputProps={{
+                            readOnly: !editMode,
+                            style: { color: "black" },
+                          }}
+                          sx={{
+                            [`& fieldset`]: {
+                              borderRadius: 8,
+                            },
+                            "& .MuiInputLabel-asterisk": {
+                              color: "red",
+                            },
+                          }}
+                          variant={"standard"}
+                          fullWidth
+                          label="Require Skill"
+                          name="Require Skill"
+                          multiline
+                          value={jobInfo.skill.join(", ")}
+                          onChange={handleInputChange}
+                        />
+                      )}
                     </Grid>
                     <Grid item xs={8}>
                       {editMode ? (
