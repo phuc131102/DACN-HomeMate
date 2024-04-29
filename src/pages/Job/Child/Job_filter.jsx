@@ -31,7 +31,7 @@ function JobFilter(prop) {
   };
   return (
     <Box>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ width:"100%" }}>
         <InputLabel id="demo-multiple-checkbox-label">{prop.label}</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
@@ -42,6 +42,11 @@ function JobFilter(prop) {
           input={<OutlinedInput label={prop.label} />}
           renderValue={(selected) => selected.join(", ")}
           MenuProps={MenuProps}
+          sx={{
+            [`& fieldset`]: {
+              borderRadius: 8,
+            },
+          }}
         >
           {prop.option.map((name) => (
             <MenuItem key={name.name} value={name.name}>

@@ -69,7 +69,6 @@ function Job() {
     } else {
       setFilterItems(jobs);
     }
-   
   }, [chooseSkill]);
 
   useEffect(() => {
@@ -102,11 +101,10 @@ function Job() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const jobArray= filterSalaryItems.filter(item=>filterItems.includes(item))
-  const currentJobs = jobArray.slice(
-    indexOfFirstItem,
-    indexOfLastItem
+  const jobArray = filterSalaryItems.filter((item) =>
+    filterItems.includes(item)
   );
+  const currentJobs = jobArray.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (value) => {
     setCurrentPage(value);
@@ -144,19 +142,30 @@ function Job() {
             </Button>
           </Grid>
         ) : null}
-        <Box sx={{display:"flex", alignItems:"center", justifyContent:"center", gap:"50px"}}>
-          <JobFilter
-            option={Salary}
-            chooseOption={chooseSalary}
-            setChooseOption={setChooseSalary}
-            label="Salary"
-          />
-          <JobFilter
-            option={skills}
-            chooseOption={chooseSkill}
-            setChooseOption={setChooseSkill}
-            label="Skill"
-          />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "50px",
+          }}
+        >
+          <Box sx={{ width: "300px" }}>
+            <JobFilter
+              option={Salary}
+              chooseOption={chooseSalary}
+              setChooseOption={setChooseSalary}
+              label="Salary"
+            />
+          </Box>
+          <Box sx={{ width: "300px" }}>
+            <JobFilter
+              option={skills}
+              chooseOption={chooseSkill}
+              setChooseOption={setChooseSkill}
+              label="Skill"
+            />
+          </Box>
         </Box>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>

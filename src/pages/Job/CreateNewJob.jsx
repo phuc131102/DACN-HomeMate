@@ -11,6 +11,8 @@ import {
 import { DateTimePicker } from "react-rainbow-components";
 import { create_job } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
+import JobFilter from "./Child/Job_filter";
+import { get_skill } from "../../services/skillAPI";
 
 const CreateJobPage = () => {
   const navigate = useNavigate();
@@ -21,6 +23,19 @@ const CreateJobPage = () => {
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
+    const fetchSkill = async () => {
+      setLoading(true);
+      try {
+        const response = await get_skill();
+        // console.log(response.data);
+        setSkills(response.data);
+      } catch (error) {
+        console.error("Error fetching skill information:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSkill();
   }, []);
 
   const [formData, setFormData] = useState({
@@ -38,7 +53,8 @@ const CreateJobPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
-
+  const [skills, setSkills] = useState([]);
+  const [chooseSkill, setChooseSkill] = useState([]);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -74,6 +90,7 @@ const CreateJobPage = () => {
       ...formData,
       image: avatarBase64,
       owner_id: userData.id,
+      skill:chooseSkill,
     };
     // console.log(updatedFormData);
     try {
@@ -245,6 +262,15 @@ const CreateJobPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
+                  />
+                </Grid>
+                
+                <Grid item xs={12}>
+                  <JobFilter
+                    option={skills}
+                    chooseOption={chooseSkill}
+                    setChooseOption={setChooseSkill}
+                    label="Skill"
                   />
                 </Grid>
                 <Grid item xs={8}>
