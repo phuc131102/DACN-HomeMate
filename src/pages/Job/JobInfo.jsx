@@ -353,11 +353,59 @@ function JobInfo() {
                 </Typography>
               )}
               {!editMode ? (
-                <JobDetail
-                  editMode={editMode}
-                  jobInfo={jobInfo}
-                  chooseSkill={chooseSkill}
-                ></JobDetail>
+                <Box sx={{ width: "100%" }}>
+                  <JobDetail
+                    editMode={editMode}
+                    jobInfo={jobInfo}
+                    chooseSkill={chooseSkill}
+                  ></JobDetail>
+                  {userData.role === "Worker" ? (
+                    <>
+                      <Box sx={{ width: "100%", display:"flex", justifyContent:"center" }}>
+                        {!isWaiting && !isWorking ? (
+                          <Button
+                            variant="contained"
+                            color="success"
+                            sx={{
+                              width: "15%",
+                              borderRadius: "15px",
+                              marginBottom: "2%",
+                            }}
+                            onClick={handleApply}
+                          >
+                            Apply
+                          </Button>
+                        ) : null}
+                        {isWorking ? (
+                          <Button
+                            variant="contained"
+                            color="success"
+                            sx={{
+                              width: "15%",
+                              borderRadius: "15px",
+                              marginBottom: "2%",
+                            }}
+                          >
+                            Apply is accepted !
+                          </Button>
+                        ) : null}
+                        {isWaiting ? (
+                          <Button
+                            variant="contained"
+                            color="warning"
+                            sx={{
+                              width: "15%",
+                              borderRadius: "15px",
+                              marginBottom: "2%",
+                            }}
+                          >
+                            Apply sent ! Waiting...
+                          </Button>
+                        ) : null}
+                      </Box>
+                    </>
+                  ) : null}
+                </Box>
               ) : (
                 <JobUpdate
                   editMode={editMode}
@@ -370,50 +418,6 @@ function JobInfo() {
                   handleDateTimeChange={handleDateTimeChange}
                 />
               )}
-              {userData.role === "Worker" ? (
-                <Grid>
-                  {!isWaiting && !isWorking ? (
-                    <Button
-                      variant="contained"
-                      color="success"
-                      sx={{
-                        width: "15%",
-                        borderRadius: "15px",
-                        marginTop: "2%",
-                      }}
-                      onClick={handleApply}
-                    >
-                      Apply
-                    </Button>
-                  ) : null}
-                  {isWorking ? (
-                    <Button
-                      variant="contained"
-                      color="success"
-                      sx={{
-                        width: "15%",
-                        borderRadius: "15px",
-                        marginTop: "2%",
-                      }}
-                    >
-                      Apply is accepted !
-                    </Button>
-                  ) : null}
-                  {isWaiting ? (
-                    <Button
-                      variant="contained"
-                      color="warning"
-                      sx={{
-                        width: "15%",
-                        borderRadius: "15px",
-                        marginTop: "2%",
-                      }}
-                    >
-                      Apply sent ! Waiting...
-                    </Button>
-                  ) : null}
-                </Grid>
-              ) : null}
             </form>
 
             {userData.role === "Homeowner" &&

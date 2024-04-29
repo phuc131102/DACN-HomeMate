@@ -30,7 +30,7 @@ function Avt(prop) {
   return (
     <BigCard>
       <ThemeProvider theme={prop.finalTheme}>
-        <Grid container sx={{ marginTop: "10%", marginBottom: "5%" }}>
+        <Grid container sx={{ marginTop: "5%", marginBottom: "5%" }}>
           <Grid item xs={4}>
             <Box className="hero-title">
               <Box
