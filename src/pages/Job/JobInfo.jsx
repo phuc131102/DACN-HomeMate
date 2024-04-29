@@ -11,13 +11,20 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { DateTimePicker } from "react-rainbow-components";
-import { deleteJob, get_job_info, update_job } from "../../services/jobAPI";
+import {
+  apply_job,
+  deleteJob,
+  get_job_info,
+  update_job,
+  working_info,
+} from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 
 function JobInfo() {
   const [error, setError] = useState("");
-  const [jobInfo, setJobInfo] =  useState("");
+  const [jobInfo, setJobInfo] = useState("");
+  const [working, setWorking] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -32,22 +39,6 @@ function JobInfo() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-  useEffect(() => {
-    if (id) {
-        const fetchJobInfo = async () => {
-            setLoading(true);
-            try {
-                const response = await get_job_info(id);
-                setJobInfo(response); // Save to context
-            } catch (error) {
-                console.error("Error fetching job information:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchJobInfo();
-    }
-}, [id, setJobInfo]);
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
     name: "",
@@ -121,6 +112,23 @@ function JobInfo() {
     }
   }, [id]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const fetchedWorking = await working_info();
+        setWorking(fetchedWorking);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(working);
+
   if (loading) {
     return <Loading />;
   }
@@ -177,6 +185,31 @@ function JobInfo() {
     }
   };
 
+  const handleApply = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormData = {
+      homeownerId: jobInfo.owner_id,
+      workerId: userData.id,
+      jobId: id,
+    };
+
+    try {
+      const response = await apply_job(updatedFormData);
+      if (response) {
+        window.location.reload();
+        console.log("Apply Job successfully:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+      }
+      console.error("Hire failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const toggleEditMode = () => {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
@@ -214,6 +247,16 @@ function JobInfo() {
 
     return `${month}/${day}/${year} ${hours}:${minutes}`;
   };
+
+  var isWaiting = false;
+  if (working) {
+    isWaiting = working.some(
+      (item) =>
+        item.worker._id.$oid === userData.id &&
+        item.job._id.$oid === id &&
+        item.status === "Waiting"
+    );
+  }
 
   return (
     <>
@@ -582,6 +625,37 @@ function JobInfo() {
                       />
                     </Grid>
                   </Grid>
+                  {userData.role === "Worker" ? (
+                    <Grid>
+                      {!isWaiting ? (
+                        <Button
+                          variant="contained"
+                          color="success"
+                          sx={{
+                            width: "15%",
+                            borderRadius: "15px",
+                            marginTop: "2%",
+                          }}
+                          onClick={handleApply}
+                        >
+                          Apply
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          color="warning"
+                          sx={{
+                            width: "15%",
+                            borderRadius: "15px",
+                            marginTop: "2%",
+                          }}
+                          // onClick={handleApply}
+                        >
+                          Apply sent ! Waiting...
+                        </Button>
+                      )}
+                    </Grid>
+                  ) : null}
                 </Grid>
               </Grid>
             </form>
