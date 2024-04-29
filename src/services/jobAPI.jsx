@@ -147,3 +147,30 @@ export const waiting_list = async (data) => {
     throw err;
   }
 };
+
+//ACCEPT APPLY
+export const accept_apply = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/accept_apply",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//ACCEPT LIST
+export const accept_list = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/accept_list/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

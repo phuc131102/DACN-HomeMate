@@ -95,7 +95,7 @@ function Job() {
     }
   }, []);
 
-  if (loadingJob && loading) {
+  if (loadingJob || loading) {
     return <Loading />;
   }
 
@@ -109,10 +109,6 @@ function Job() {
   const handlePageChange = (value) => {
     setCurrentPage(value);
   };
-
-  if (loadingJob && loading) {
-    return <Loading />;
-  }
 
   const handleAddJob = () => {
     navigate("/create-job");
@@ -174,60 +170,65 @@ function Job() {
         </Grid>
         <CardContent>
           <Grid container spacing={5}>
-            {currentJobs.map((card, index) => (
-              <Grid item xs={6} sm={3} md={2} key={index}>
-                <Card
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <CardActionArea component={Link} to={`/job/${card._id.$oid}`}>
-                    <CardMedia
-                      component="img"
-                      height="150"
-                      image={card.image === "" ? jobEmpty : card.image}
-                      alt={card.name}
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          textAlign: "center",
-                          lineHeight: "1.2",
-                          maxHeight: "1.2em",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          display: "block",
-                        }}
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        {card.name}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: 12,
-                          textAlign: "center",
-                          lineHeight: "1.2",
-                          maxHeight: "1.2em",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          display: "block",
-                        }}
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        {card.datetime}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
+            {currentJobs
+              .filter((card) => card.status !== "In Progress")
+              .map((card, index) => (
+                <Grid item xs={6} sm={3} md={2} key={index}>
+                  <Card
+                    sx={{
+                      backgroundColor: "white",
+                      borderRadius: "20px",
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                    }}
+                  >
+                    <CardActionArea
+                      component={Link}
+                      to={`/job/${card._id.$oid}`}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="150"
+                        image={card.image === "" ? jobEmpty : card.image}
+                        alt={card.name}
+                      />
+                      <CardContent>
+                        <Typography
+                          sx={{
+                            fontSize: 16,
+                            textAlign: "center",
+                            lineHeight: "1.2",
+                            maxHeight: "1.2em",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            display: "block",
+                          }}
+                          color="text.primary"
+                          gutterBottom
+                        >
+                          {card.name}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: 12,
+                            textAlign: "center",
+                            lineHeight: "1.2",
+                            maxHeight: "1.2em",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            display: "block",
+                          }}
+                          color="text.primary"
+                          gutterBottom
+                        >
+                          {card.datetime}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
           </Grid>
         </CardContent>
       </Box>

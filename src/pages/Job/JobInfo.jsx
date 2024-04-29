@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { DateTimePicker } from "react-rainbow-components";
 import {
+  accept_list,
   apply_job,
   deleteJob,
   get_job_info,
@@ -36,6 +37,7 @@ function JobInfo() {
   const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
   const [waiting, setWaiting] = useState("");
+  const [accept, setAccept] = useState("");
   const [working, setWorking] = useState("");
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
@@ -115,8 +117,10 @@ function JobInfo() {
         try {
           const response = await get_job_info(id);
           const response2 = await waiting_list(id);
+          const response3 = await accept_list(id);
           setJobInfo(response);
           setWaiting(response2);
+          setAccept(response3);
         } catch (error) {
           console.error("Error fetching job information:", error);
         } finally {
@@ -807,7 +811,11 @@ function JobInfo() {
                               </CardContent>
                             </CardActionArea>
                             <CardActions>
-                              <AcceptButton />
+                              <AcceptButton
+                                owner_id={userData.id}
+                                job_id={id}
+                                worker_id={card._id.$oid}
+                              />
                               <RejectButton />
                             </CardActions>
                           </Card>
@@ -818,6 +826,95 @@ function JobInfo() {
                 </Box>
               </>
             ) : null}
+
+            {userData.role === "Homeowner" &&
+            userData.id === jobInfo.owner_id &&
+            accept.length > 0 ? (
+              <>
+                <div
+                  style={{
+                    borderTop: "2px solid black",
+                    width: "20%",
+                    margin: "10px auto",
+                  }}
+                ></div>
+                <Box
+                  sx={{
+                    width: "85%",
+                    margin: "auto",
+                  }}
+                >
+                  <Typography
+                    sx={{ fontSize: 30 }}
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    &nbsp;<b>Working list</b>
+                  </Typography>
+                  <CardContent>
+                    <Grid container spacing={5}>
+                      {accept.map((card, index) => (
+                        <Grid item xs={6} sm={3} md={2} key={index}>
+                          <Card
+                            sx={{
+                              backgroundColor: "white",
+                              borderRadius: "20px",
+                              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                            }}
+                          >
+                            <Grid
+                              container
+                              justifyContent="space-between"
+                              alignItems="center"
+                            ></Grid>
+                            <CardActionArea
+                              component={Link}
+                              to={`/worker/${card._id.$oid}`}
+                            >
+                              <CardMedia
+                                component="img"
+                                height="150"
+                                image={
+                                  card.avatar === "" ? avt_empty : card.avatar
+                                }
+                                alt={card.name}
+                              />
+                              <CardContent>
+                                <Typography
+                                  sx={{
+                                    fontSize: 18,
+                                    textAlign: "center",
+                                    lineHeight: "1.2",
+                                    maxHeight: "1.2em",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    display: "block",
+                                  }}
+                                  color="text.primary"
+                                  gutterBottom
+                                >
+                                  <b>{card.name}</b>
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                            <CardActions>
+                              {/* <AcceptButton
+                                owner_id={userData.id}
+                                job_id={id}
+                                worker_id={card._id.$oid}
+                              />
+                              <RejectButton /> */}
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </CardContent>
+                </Box>
+              </>
+            ) : null}
+
             <Modal
               open={showModal}
               onClose={handleCloseModal}
