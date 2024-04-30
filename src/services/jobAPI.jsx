@@ -189,11 +189,24 @@ export const reject_apply = async (data) => {
   }
 };
 
-//MY WORKER LIST
+//MY WORKER LIST (homeowner)
 export const my_worker = async (data) => {
   try {
     const response = await axios.get(
       `https://projectapi-g9ba.onrender.com/my_worker/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//MY WORKING HISTORY (worker)
+export const working_history = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/working_history/${data}`
     );
     return response.data.data;
   } catch (err) {
