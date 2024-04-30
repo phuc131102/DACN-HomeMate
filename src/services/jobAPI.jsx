@@ -174,3 +174,17 @@ export const accept_list = async (data) => {
     throw err;
   }
 };
+
+//REJECT APPLY
+export const reject_apply = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/reject_apply",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

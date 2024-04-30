@@ -31,7 +31,6 @@ export default function AcceptButton({ owner_id, worker_id, job_id }) {
       color="success"
       sx={{
         width: "100%",
-
         borderRadius: "15px",
       }}
       onClick={handleAccept}

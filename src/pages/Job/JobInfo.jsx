@@ -816,7 +816,11 @@ function JobInfo() {
                                 job_id={id}
                                 worker_id={card._id.$oid}
                               />
-                              <RejectButton />
+                              <RejectButton
+                                owner_id={userData.id}
+                                job_id={id}
+                                worker_id={card._id.$oid}
+                              />
                             </CardActions>
                           </Card>
                         </Grid>
@@ -938,7 +942,6 @@ function JobInfo() {
                     sx={styles.buttonRemove}
                     onClick={() => {
                       handleDeleteJob(id);
-                      // handleCloseModal();
                     }}
                   >
                     Delete
