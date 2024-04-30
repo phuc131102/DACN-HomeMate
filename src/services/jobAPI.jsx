@@ -188,3 +188,16 @@ export const reject_apply = async (data) => {
     throw err;
   }
 };
+
+//MY WORKER LIST
+export const my_worker = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/my_worker/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
