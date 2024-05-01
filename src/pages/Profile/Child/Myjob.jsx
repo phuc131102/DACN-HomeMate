@@ -126,7 +126,7 @@ function MyJob() {
                         display: "block",
                       }}
                       color={
-                        card.status === "Available"
+                        card.status === "Available" || card.status === "Working"
                           ? "green"
                           : card.status === "In Progress"
                           ? "orange"

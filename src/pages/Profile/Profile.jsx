@@ -16,7 +16,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import ProfileCv from "./Child/ProfileCv";
 import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "./Child/Myjob";
-import { apply_history } from "../../services/jobAPI";
+import { apply_history, working_history } from "../../services/jobAPI";
 import ApplyHistory from "./Child/ApplyHistory";
 
 function Profile() {
@@ -31,6 +31,7 @@ function Profile() {
   // const [haveCv, setHaveCv] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
   const [applyStatus, setApplyStatus] = useState([]);
+  const [workingStatus, setWorkingStatus] = useState([]);
   //
   useEffect(() => {
     if (userData && userData.id) {
@@ -65,7 +66,17 @@ function Profile() {
             } catch (error) {
               console.error("Error fetching apply information:", error);
             } finally {
-              setLoading(false);
+              try {
+                const response = await working_history(userData.id);
+                console.log(response);
+                if (response.length > 0) {
+                  setWorkingStatus(response);
+                }
+              } catch (error) {
+                console.error("Error fetching working information:", error);
+              } finally {
+                setLoading(false);
+              }
             }
           }
         }
@@ -340,7 +351,7 @@ function Profile() {
                           <TabPanel value="2">
                             <ApplyHistory applyInfo={applyStatus} />
                           </TabPanel>
-                          <TabPanel value="3">Item Three</TabPanel>
+                          <TabPanel value="3"><ApplyHistory applyInfo={workingStatus} /></TabPanel>
                         </TabContext>
                       ) : (
                         <>
