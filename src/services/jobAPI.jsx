@@ -214,3 +214,16 @@ export const working_history = async (data) => {
     throw err;
   }
 };
+
+//MY APPLY HISTORY (worker)
+export const apply_history = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/apply_history/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
