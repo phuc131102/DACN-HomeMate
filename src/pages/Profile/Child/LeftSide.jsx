@@ -18,24 +18,6 @@ import Typography from "@mui/material/Typography";
 import EditDialog from "./EditDialog";
 
 function LeftSide(prop) {
-  //   address
-  // :
-  // ""
-  // email
-  // :
-  // "worker1@gmail.com"
-  // name
-  // :
-  // "thang2"
-  // password
-  // :
-  // "123"
-  // phone_num
-  // :
-  // ""
-  // role
-  // :
-  // "Worker"
   return (
     <>
       <BigCard>
@@ -119,12 +101,22 @@ function LeftSide(prop) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Box sx={{ width: "100%", justifyContent:"center", display:"flex", marginBottom:"20px" }}>
-            {/* <Button sx={{ width: "85%", margin: "auto" }} variant="contained">
-              {" "}
-              Edit Profile
-            </Button> */}
-            <EditDialog profile={prop.profile} handleChange={prop.handleChange} formData={prop.formData} handleUpdate={prop.handleUpdate}/>
+          <Box
+            sx={{
+              width: "100%",
+              justifyContent: "center",
+              display: "flex",
+              marginBottom: "20px",
+            }}
+          >
+            <EditDialog
+              profile={prop.profile}
+              handleChange={prop.handleChange}
+              formData={prop.formData}
+              handleUpdate={prop.handleUpdate}
+              handleTogglePasswordVisibility={prop.handleTogglePasswordVisibility}
+              showPassword={prop.showPassword}
+            />
           </Box>
         </Grid>
       </BigCard>

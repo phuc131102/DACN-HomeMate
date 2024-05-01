@@ -55,6 +55,8 @@ export default function EditDialog(prop) {
             formData={prop.formData}
             handleUpdate={prop.handleUpdate}
             handleClose={handleClose}
+            handleTogglePasswordVisibility={prop.handleTogglePasswordVisibility}
+            showPassword={prop.showPassword}
           />
         </DialogContent>
       </Dialog>

@@ -13,10 +13,6 @@ import {
   IconButton,
 } from "@mui/material";
 function EditForm(prop) {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
   const finalTheme = createTheme({
     components: {
       MuiTextField: {
@@ -43,7 +39,7 @@ function EditForm(prop) {
                     [`& fieldset`]: { borderRadius: 8 },
                     marginBottom: "15px",
                   }}
-                  id="outlined-basic"
+                  // id="outlined-basic"
                   label="User Name"
                   placeholder={prop.profile.name}
                   name="name"
@@ -58,7 +54,7 @@ function EditForm(prop) {
                     [`& fieldset`]: { borderRadius: 8 },
                     marginBottom: "15px",
                   }}
-                  id="outlined-basic"
+                  // id="outlined-basic"
                   label="Email"
                   placeholder={prop.profile.email}
                   name="email"
@@ -73,7 +69,7 @@ function EditForm(prop) {
                     [`& fieldset`]: { borderRadius: 8 },
                     marginBottom: "15px",
                   }}
-                  id="outlined-basic"
+                  // id="outlined-basic"
                   label="Password"
                   type={prop.showPassword ? "text" : "password"}
                   placeholder={prop.profile.password}
@@ -84,10 +80,10 @@ function EditForm(prop) {
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={handleTogglePasswordVisibility}
+                          onClick={prop.handleTogglePasswordVisibility}
                           edge="end"
                         >
-                          {showPassword ? (
+                          {prop.showPassword ? (
                             <VisibilityOff />
                           ) : (
                             <Visibility />
@@ -105,7 +101,7 @@ function EditForm(prop) {
                     [`& fieldset`]: { borderRadius: 8 },
                     marginBottom: "15px",
                   }}
-                  id="outlined-basic"
+                  // id="outlined-basic"
                   label="Address"
                   placeholder={prop.profile.address}
                   name="address"
@@ -120,7 +116,7 @@ function EditForm(prop) {
                     [`& fieldset`]: { borderRadius: 8 },
                     marginBottom: "15px",
                   }}
-                  id="outlined-basic"
+                  // id="outlined-basic"
                   label="Phone Number"
                   placeholder={prop.profile.phone_num}
                   name="phone_num"
