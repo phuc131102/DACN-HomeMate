@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import { start_job } from "../../../services/jobAPI";
 
 export default function StartJobButton({ owner_id, job_id }) {
@@ -25,17 +25,33 @@ export default function StartJobButton({ owner_id, job_id }) {
   };
 
   return (
-    <Button
-      variant="contained"
-      color="success"
+    <Box
       sx={{
-        width: "15%",
-        borderRadius: "15px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         marginBottom: "2%",
       }}
-      onClick={handleStartJob}
     >
-      Start Job
-    </Button>
+      <Button
+        variant="contained"
+        color="success"
+        sx={{
+          width: "25%",
+          borderRadius: "15px",
+        }}
+        onClick={handleStartJob}
+      >
+        Start Job
+      </Button>
+      <Typography
+        sx={{
+          color: "red",
+        }}
+      >
+        *This action will start the job without reaching required number of
+        workers.
+      </Typography>
+    </Box>
   );
 }
