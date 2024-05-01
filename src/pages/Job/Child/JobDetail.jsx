@@ -19,7 +19,7 @@ function JobDetail(prop) {
           alignItems: "center",
           margin: "auto",
           marginTop: "1%",
-          marginBottom: "5%",
+          marginBottom: "2%",
           border: "2px solid #000",
           borderRadius: "20px",
           background: "#fff",
@@ -339,6 +339,11 @@ function JobDetail(prop) {
             </Grid>
           </Grid>
         </Grid>
+        {prop.jobInfo.status === "In Progress" ? (
+          <Typography sx={{ fontSize: 25 }} color="green" gutterBottom>
+            <b>Status: In Progress</b>
+          </Typography>
+        ) : null}
       </Grid>
     </>
   );

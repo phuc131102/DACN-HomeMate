@@ -51,40 +51,40 @@ function WorkerInfo() {
     },
   });
 
-  const styles = {
-    button: {
-      backgroundColor: "red",
-      color: "#fff",
-      fontWeight: 600,
-      borderRadius: 15,
-      maxWidth: "500px",
-      marginRight: "10px",
-      minWidth: "150px",
-      padding: "5px 10px",
-      fontSize: "1.2rem",
-    },
-    modal: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      // width: 400,
-      bgcolor: "background.paper",
-      boxShadow: 24,
-      p: 4,
-    },
-  };
+  // const styles = {
+  //   button: {
+  //     backgroundColor: "red",
+  //     color: "#fff",
+  //     fontWeight: 600,
+  //     borderRadius: 15,
+  //     maxWidth: "500px",
+  //     marginRight: "10px",
+  //     minWidth: "150px",
+  //     padding: "5px 10px",
+  //     fontSize: "1.2rem",
+  //   },
+  //   modal: {
+  //     position: "absolute",
+  //     top: "50%",
+  //     left: "50%",
+  //     transform: "translate(-50%, -50%)",
+
+  //     bgcolor: "background.paper",
+  //     boxShadow: 24,
+  //     p: 4,
+  //   },
+  // };
 
   const params = useParams();
   const id = params.id.split("/").pop();
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
+  // const handleOpenModal = () => {
+  //   setShowModal(true);
+  // };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  // const handleCloseModal = () => {
+  //   setShowModal(false);
+  // };
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -152,55 +152,55 @@ function WorkerInfo() {
     }
   }, [id]);
 
-  const handleHire = async (jobId, e) => {
-    e.preventDefault();
-    setLoading(true);
+  // const handleHire = async (jobId, e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
 
-    const updatedFormData = {
-      homeownerId: userData.id,
-      workerId: id,
-      jobId: jobId,
-    };
-    console.log(updatedFormData);
-    try {
-      const response = await hire_worker(updatedFormData);
-      if (response) {
-        window.location.reload();
-        console.log("Hire Worker successfully:", response);
-      }
-    } catch (error) {
-      if (error.response) {
-      }
-      console.error("Hire failed:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   const updatedFormData = {
+  //     homeownerId: userData.id,
+  //     workerId: id,
+  //     jobId: jobId,
+  //   };
 
-  const handleRating = async (jobId, e) => {
-    e.preventDefault();
-    setLoading(true);
+  //   try {
+  //     const response = await hire_worker(updatedFormData);
+  //     if (response) {
+  //       window.location.reload();
+  //       console.log("Hire Worker successfully:", response);
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //     }
+  //     console.error("Hire failed:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-    const updatedFormData = {
-      homeownerId: userData.id,
-      workerId: id,
-      jobId: jobId,
-    };
-    console.log(updatedFormData);
-    try {
-      const response = await return_worker(updatedFormData);
-      if (response) {
-        window.location.reload();
-        console.log("Rating worker successfully:", response);
-      }
-    } catch (error) {
-      if (error.response) {
-      }
-      console.error("Rating failed:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleRating = async (jobId, e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+
+  //   const updatedFormData = {
+  //     homeownerId: userData.id,
+  //     workerId: id,
+  //     jobId: jobId,
+  //   };
+  //   console.log(updatedFormData);
+  //   try {
+  //     const response = await return_worker(updatedFormData);
+  //     if (response) {
+  //       window.location.reload();
+  //       console.log("Rating worker successfully:", response);
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //     }
+  //     console.error("Rating failed:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   if (loading) {
     return <Loading />;
@@ -237,7 +237,7 @@ function WorkerInfo() {
                         <b>{userInfo.name}</b>
                       </Typography>
 
-                      {userData.role === "Homeowner" ? (
+                      {/* {userData.role === "Homeowner" ? (
                         <>
                           <Grid item xs={12}>
                             <Box
@@ -303,7 +303,7 @@ function WorkerInfo() {
                             </Box>
                           </Grid>
                         </>
-                      ) : null}
+                      ) : null} */}
                     </Grid>
                   </Grid>
                 </ThemeProvider>
@@ -374,7 +374,7 @@ function WorkerInfo() {
               </Grid>
             </Grid>
           </Box>
-          <Modal
+          {/* <Modal
             open={showModal}
             onClose={handleCloseModal}
             aria-labelledby="place-book-modal"
@@ -432,7 +432,7 @@ function WorkerInfo() {
                 </Button>
               </Stack>
             </Box>
-          </Modal>
+          </Modal> */}
         </>
       )}
     </div>

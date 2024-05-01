@@ -2,20 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Grid,
-  TextField,
   Box,
   Button,
   Modal,
   Typography,
   Stack,
-  InputAdornment,
   Card,
   CardContent,
   CardMedia,
   CardActionArea,
   CardActions,
+  Rating,
 } from "@mui/material";
-import { DateTimePicker } from "react-rainbow-components";
 import {
   accept_list,
   apply_job,
@@ -27,13 +25,14 @@ import {
 } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
-import JobFilter from "./Child/Job_filter";
 import { get_skill } from "../../services/skillAPI";
 import avt_empty from "../../assets/avt_empty.png";
 import AcceptButton from "../../components/Button/AcceptButton/AcceptButton";
 import RejectButton from "../../components/Button/AcceptButton/RejectButton";
 import JobDetail from "./Child/JobDetail";
 import JobUpdate from "./Child/JobUpdate";
+import StartJobButton from "../../components/Button/AcceptButton/StartJobButton";
+import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
 function JobInfo() {
   const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
@@ -43,6 +42,7 @@ function JobInfo() {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const params = useParams();
@@ -74,6 +74,14 @@ function JobInfo() {
     setShowModal(false);
   };
 
+  const handleOpenRatingModal = () => {
+    setShowRatingModal(true);
+  };
+
+  const handleCloseRatingModal = () => {
+    setShowRatingModal(false);
+  };
+
   const styles = {
     button: {
       backgroundColor: "green",
@@ -103,6 +111,16 @@ function JobInfo() {
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: 400,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    },
+    modalRating: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 1000,
       bgcolor: "background.paper",
       boxShadow: 24,
       p: 4,
@@ -365,7 +383,13 @@ function JobInfo() {
                   ></JobDetail>
                   {userData.role === "Worker" ? (
                     <>
-                      <Box sx={{ width: "100%", display:"flex", justifyContent:"center" }}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
                         {!isWaiting && !isWorking ? (
                           <Button
                             variant="contained"
@@ -423,7 +447,6 @@ function JobInfo() {
                 />
               )}
             </form>
-
             {userData.role === "Homeowner" &&
             userData.id === jobInfo.owner_id &&
             waiting.length > 0 ? (
@@ -515,7 +538,6 @@ function JobInfo() {
                 </Box>
               </>
             ) : null}
-
             {userData.role === "Homeowner" &&
             userData.id === jobInfo.owner_id &&
             accept.length > 0 ? (
@@ -587,14 +609,6 @@ function JobInfo() {
                                 </Typography>
                               </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                              {/* <AcceptButton
-                                owner_id={userData.id}
-                                job_id={id}
-                                worker_id={card._id.$oid}
-                              />
-                              <RejectButton /> */}
-                            </CardActions>
                           </Card>
                         </Grid>
                       ))}
@@ -603,7 +617,34 @@ function JobInfo() {
                 </Box>
               </>
             ) : null}
-
+            {userData.role === "Homeowner" &&
+            userData.id === jobInfo.owner_id ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {accept.length >= 1 && jobInfo.status === "Available" ? (
+                  <StartJobButton owner_id={userData.id} job_id={id} />
+                ) : null}
+                {jobInfo.status === "In Progress" ? (
+                  <Button
+                    variant="contained"
+                    color="error"
+                    sx={{
+                      width: "15%",
+                      borderRadius: "15px",
+                      marginBottom: "2%",
+                    }}
+                    onClick={handleOpenRatingModal}
+                  >
+                    End Job
+                  </Button>
+                ) : null}
+              </Box>
+            ) : null}
             <Modal
               open={showModal}
               onClose={handleCloseModal}
@@ -636,6 +677,93 @@ function JobInfo() {
                     variant="contained"
                     sx={styles.button}
                     onClick={handleCloseModal}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Box>
+            </Modal>
+            {/* RATING MODAL */}
+            <Modal
+              open={showRatingModal}
+              onClose={handleCloseRatingModal}
+              aria-labelledby="place-book-modal"
+              aria-describedby="place-book-modal-description"
+            >
+              <Box sx={styles.modalRating}>
+                <Typography
+                  id="place-book-modal"
+                  variant="h5"
+                  textAlign="center"
+                >
+                  <b>End this job</b>
+                </Typography>
+                <Typography variant="h6" textAlign="center" marginTop={2}>
+                  Leave a rating for these workers
+                </Typography>
+                <CardContent>
+                  <Grid container spacing={5}>
+                    {accept.map((card, index) => (
+                      <Grid item xs={6} sm={3} md={3} key={index}>
+                        <Card
+                          sx={{
+                            backgroundColor: "white",
+                            borderRadius: "20px",
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                          }}
+                        >
+                          <Grid
+                            container
+                            justifyContent="space-between"
+                            alignItems="center"
+                          ></Grid>
+                          <CardActionArea
+                            component={Link}
+                            to={`/worker/${card._id.$oid}`}
+                          >
+                            <CardMedia
+                              component="img"
+                              height="150"
+                              image={
+                                card.avatar === "" ? avt_empty : card.avatar
+                              }
+                              alt={card.name}
+                            />
+                            <CardContent>
+                              <Typography
+                                sx={{
+                                  fontSize: 18,
+                                  textAlign: "center",
+                                  lineHeight: "1.2",
+                                  maxHeight: "1.2em",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                  display: "block",
+                                }}
+                                color="text.primary"
+                                gutterBottom
+                              >
+                                <b>{card.name}</b>
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions sx={{ justifyContent: "center" }}>
+                            <Rating name="no-value" value={null} />
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </CardContent>
+                <Stack direction="row" justifyContent="center" marginTop={4}>
+                  <EndJobButton
+                  // owner_id={userData.id} job_id={id}
+                  />
+                  <Button
+                    variant="contained"
+                    sx={styles.button}
+                    onClick={handleCloseRatingModal}
                   >
                     Cancel
                   </Button>

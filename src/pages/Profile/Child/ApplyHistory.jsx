@@ -5,6 +5,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { useTheme } from "@mui/material/styles";
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 function ApplyHistory(prop) {
   return (
@@ -21,14 +23,17 @@ function ApplyHistory(prop) {
         {prop.applyInfo.map((item, index) => (
           <Card
             sx={{
-              
               backgroundColor: "white",
               borderRadius: "20px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
             }}
             key={index}
           >
-            <CardActionArea component={Link} to={`/job/${item.job._id.$oid}`} sx={{display: "flex",}}>
+            <CardActionArea
+              component={Link}
+              to={`/job/${item.job._id.$oid}`}
+              sx={{ display: "flex" }}
+            >
               <CardMedia
                 component="img"
                 sx={{ width: 151, height: "151px", objectFit: "cover" }}
@@ -50,13 +55,44 @@ function ApplyHistory(prop) {
                     <Typography component="div" variant="h5">
                       {item.job.name}
                     </Typography>
-                    <Typography
+                    <Box
                       sx={{
-                        color: item.status === "Waiting" ? "orange" : "green",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                       }}
                     >
-                      {item.status}
-                    </Typography>
+                      <Typography
+                        sx={{
+                          color:
+                            item.status === "Waiting"
+                              ? "orange"
+                              : item.status === "Accepted"
+                              ? "green"
+                              : "red",
+                        }}
+                      >
+                        {item.status}
+                      </Typography>
+
+                      {item.status === "Accepted" ? (
+                        <Typography
+                          sx={{
+                            color: "green",
+                          }}
+                        >
+                          <CheckCircleOutlineIcon />
+                        </Typography>
+                      ) : item.status === "Rejected" ? (
+                        <Typography
+                          sx={{
+                            color: "red",
+                          }}
+                        >
+                          <NotInterestedIcon />
+                        </Typography>
+                      ) : null}
+                    </Box>
                   </Box>
                   <Typography
                     variant="subtitle1"

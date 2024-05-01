@@ -18,7 +18,7 @@ function MyJob() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -114,6 +114,28 @@ function MyJob() {
                     >
                       {card.datetime}
                     </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        textAlign: "center",
+                        lineHeight: "1.2",
+                        maxHeight: "1.2em",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        display: "block",
+                      }}
+                      color={
+                        card.status === "Available"
+                          ? "green"
+                          : card.status === "In Progress"
+                          ? "orange"
+                          : "red"
+                      }
+                      gutterBottom
+                    >
+                      {card.status}
+                    </Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -122,21 +144,23 @@ function MyJob() {
         </Grid>
       )}
 
-      <Pagination
-        count={Math.ceil(jobs.length / itemsPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-        shape="rounded"
-        size="large"
-        color="primary"
-        showFirstButton
-        showLastButton
-        sx={{
-          marginTop: "20px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      />
+      {Math.ceil(jobs.length / itemsPerPage) > 1 ? (
+        <Pagination
+          count={Math.ceil(jobs.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          shape="rounded"
+          size="large"
+          color="primary"
+          showFirstButton
+          showLastButton
+          sx={{
+            marginTop: "20px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        />
+      ) : null}
       <br />
     </>
   );

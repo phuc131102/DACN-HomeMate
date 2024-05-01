@@ -227,3 +227,17 @@ export const apply_history = async (data) => {
     throw err;
   }
 };
+
+//START JOB WITHOUT ACCEPT LIMIT
+export const start_job = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/start_job",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
