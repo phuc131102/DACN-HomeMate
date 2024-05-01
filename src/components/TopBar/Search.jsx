@@ -148,25 +148,6 @@ function Search() {
             </Box>
           ))}
         </Box>
-      ) : searchQuery !== "" ? (
-        <Box
-          sx={{
-            position: "absolute",
-            backgroundColor: "white",
-            color: "black",
-            width: "100%",
-            maxHeight: "250px",
-            overflowY: "auto",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-            zIndex: 10,
-            alignItems: "center",
-            padding: "10px",
-          }}
-        >
-          Nothing matched...
-        </Box>
       ) : null}
     </Box>
   );

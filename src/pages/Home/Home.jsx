@@ -163,6 +163,7 @@ function Home() {
           ) : (
             <Grid container spacing={5}>
               {jobs
+                .filter((card) => card.status !== "In Progress")
                 .slice(-7)
                 .reverse()
                 .map((card, index) => (
