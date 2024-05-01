@@ -16,7 +16,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import ProfileCv from "./Child/ProfileCv";
 import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "./Child/Myjob";
-import { working_info } from "../../services/jobAPI";
+import { apply_history } from "../../services/jobAPI";
 import ApplyHistory from "./Child/ApplyHistory";
 
 function Profile() {
@@ -30,8 +30,7 @@ function Profile() {
   //
   // const [haveCv, setHaveCv] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
-  const [applyInfo, setApplyInfo] = useState([]);
-
+  const [applyStatus, setApplyStatus] = useState([]);
   //
   useEffect(() => {
     if (userData && userData.id) {
@@ -46,7 +45,7 @@ function Profile() {
             email: response.email,
             password: response.password,
             address: response.address,
-            phone_num: response.phone_num
+            phone_num: response.phone_num,
           }));
         } catch (error) {
           console.error("Error fetching user information:", error);
@@ -58,13 +57,10 @@ function Profile() {
             console.error("Error fetching cv information:", error);
           } finally {
             try {
-              const response2 = await working_info();
-              if (response2.length > 0) {
-                setApplyInfo(
-                  response2.filter(
-                    (item) => item.worker._id.$oid === userData.id
-                  )
-                );
+              const response = await apply_history(userData.id);
+              console.log(response);
+              if (response.length > 0) {
+                setApplyStatus(response);
               }
             } catch (error) {
               console.error("Error fetching apply information:", error);
@@ -114,7 +110,6 @@ function Profile() {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(formData);
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -342,7 +337,9 @@ function Profile() {
                               handleCreateCv={handleCreateCv}
                             />
                           </TabPanel>
-                          <TabPanel value="2"><ApplyHistory applyInfo={applyInfo}/></TabPanel>
+                          <TabPanel value="2">
+                            <ApplyHistory applyInfo={applyStatus} />
+                          </TabPanel>
                           <TabPanel value="3">Item Three</TabPanel>
                         </TabContext>
                       ) : (
