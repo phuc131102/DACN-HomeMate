@@ -22,16 +22,6 @@ export default function RightCvComponent(comp) {
             </Typography>
 
             <Grid item xs={12}>
-              {/* <Typography
-                    variant="body1"
-                    sx={{
-                      margin: "0",
-                      minWidth: "10%",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Organize:
-                  </Typography> */}
             </Grid>
             <Grid item xs={12}>
               <Typography

@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import Avt from "./Child/Avt";
-import {
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  Box,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { get_user_info, update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
-import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
-import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
 import avtEmpty from "../../assets/avt_empty.png";
 import LeftSide from "./Child/LeftSide";
@@ -28,6 +16,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import ProfileCv from "./Child/ProfileCv";
 import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "./Child/Myjob";
+import { apply_history } from "../../services/jobAPI";
+import ApplyHistory from "./Child/ApplyHistory";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -38,26 +28,52 @@ function Profile() {
   const [avatarBase64, setAvatarBase64] = useState("");
   const [value, setValue] = useState("1");
   //
-  const [haveCv, setHaveCv] = useState(false);
+  // const [haveCv, setHaveCv] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
+  const [applyStatus, setApplyStatus] = useState([]);
+  //
   useEffect(() => {
     if (userData && userData.id) {
-      const fetchCvInfo = async () => {
+      const fetchUserInfo = async () => {
         setLoading(true);
         try {
-          const response = await get_cv_info(userData.id);
-          setCvInfo(response);
-          // console.log(response.data);
+          const response = await get_user_info(userData.id);
+          setUserInfo(response);
+          setFormData((prevData) => ({
+            ...prevData,
+            name: response.name,
+            email: response.email,
+            password: response.password,
+            address: response.address,
+            phone_num: response.phone_num,
+          }));
         } catch (error) {
-          console.error("Error fetching cv information:", error);
+          console.error("Error fetching user information:", error);
         } finally {
-          setLoading(false);
+          try {
+            const response = await get_cv_info(userData.id);
+            setCvInfo(response);
+          } catch (error) {
+            console.error("Error fetching cv information:", error);
+          } finally {
+            try {
+              const response = await apply_history(userData.id);
+              console.log(response);
+              if (response.length > 0) {
+                setApplyStatus(response);
+              }
+            } catch (error) {
+              console.error("Error fetching apply information:", error);
+            } finally {
+              setLoading(false);
+            }
+          }
         }
       };
-      fetchCvInfo();
+      fetchUserInfo();
     }
   }, [userData]);
-  //
+
   const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
@@ -84,7 +100,7 @@ function Profile() {
       }));
     }
   }, []);
-
+  // console.log(formData);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
@@ -94,7 +110,6 @@ function Profile() {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -143,6 +158,7 @@ function Profile() {
     console.log(finalData);
 
     try {
+      // console.log(finaldata)
       const response = await update_user_info(finalData);
 
       if (response) {
@@ -203,9 +219,9 @@ function Profile() {
   };
 
   const [editing, setEditing] = useState(false);
-  const handleEdit =()=>{
+  const handleEdit = () => {
     setEditing(true);
-  }
+  };
   const finalTheme = createTheme({
     components: {
       MuiTextField: {
@@ -227,47 +243,6 @@ function Profile() {
     }
   }, []);
 
-  useEffect(() => {
-    if (userData && userData.id) {
-      const fetchUserInfo = async () => {
-        setLoading(true);
-        try {
-          const response = await get_user_info(userData.id);
-          setUserInfo(response);
-        } catch (error) {
-          console.error("Error fetching user information:", error);
-        } finally {
-          try {
-            const response = await get_cv_info(userData.id);
-            setCvInfo(response);
-            // console.log(response.data);
-          } catch (error) {
-            console.error("Error fetching cv information:", error);
-          } finally {
-            setLoading(false);
-          }
-        }
-      };
-      fetchUserInfo();
-    }
-  }, [userData]);
-  // useEffect(() => {
-  //   if (userData && userData.id) {
-  //     const fetchCvInfo = async () => {
-  //       setLoading(true);
-  //       try {
-  //         const response = await get_cv_info(userData.id);
-  //         setCvInfo(response);
-  //         console.log(response.data)
-  //       } catch (error) {
-  //         console.error("Error fetching cv information:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-  //     fetchCvInfo();
-  //   }
-  // }, [userData]);
   if (loading) {
     return <Loading />;
   }
@@ -286,8 +261,6 @@ function Profile() {
         <>
           <Box
             sx={{
-              // display: "flex",
-              // alignItems: "center",
               width: "60%",
               margin: "auto",
               marginTop: "100px",
@@ -295,11 +268,7 @@ function Profile() {
           >
             <Grid container>
               <Grid item xs={12}>
-                <Box
-                // sx={{
-                //   position: "relative",
-                // }}
-                >
+                <Box>
                   <Grid
                     item
                     xs={12}
@@ -333,6 +302,10 @@ function Profile() {
                       handleChange={handleChange}
                       formData={formData}
                       handleUpdate={handleUpdate}
+                      handleTogglePasswordVisibility={
+                        handleTogglePasswordVisibility
+                      }
+                      showPassword={showPassword}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -364,7 +337,9 @@ function Profile() {
                               handleCreateCv={handleCreateCv}
                             />
                           </TabPanel>
-                          <TabPanel value="2">Item Two</TabPanel>
+                          <TabPanel value="2">
+                            <ApplyHistory applyInfo={applyStatus} />
+                          </TabPanel>
                           <TabPanel value="3">Item Three</TabPanel>
                         </TabContext>
                       ) : (
@@ -388,80 +363,6 @@ function Profile() {
                       )}
                     </BigCard>
                   </Box>
-                  {/* {userInfo.role === "Worker" ? (
-                    <Grid container>
-                      <Grid container item xs={12}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            marginLeft: "20px",
-
-                            display: "flex",
-                            justifyContent: "right",
-                          }}
-                        >
-                          {cvinfo.message === "CV not found" ? (
-                            <>
-                              <Button
-                                size="large"
-                                variant="contained"
-                                onClick={handleCreateCv}
-                                sx={{ arginTop: "15px" }}
-                              >
-                                {" "}
-                                Create CV
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Grid container>
-                                <Grid item xs={12}>
-                                  <ViewCv cvinfo={cvinfo.data} />
-                                </Grid>
-                              </Grid>
-                            </>
-                          )}
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  ) : null}
-                  {userInfo.role === "Worker" ? (
-                    cvinfo.message === "CV not found" ? (
-                      <></>
-                    ) : (
-                      <Grid
-                        container
-                        item
-                        xs={12}
-                        sx={{ marginBottom: "20px" }}
-                      >
-                        <Grid item xs={6}></Grid>
-                        <Grid item xs={3}>
-                          <Button
-                            size="large"
-                            variant="contained"
-                            color="error"
-                            onClick={(e) => handleCvDelete()}
-                            sx={{ marginTop: "15px" }}
-                          >
-                            {" "}
-                            Delete CV
-                          </Button>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Button
-                            size="large"
-                            variant="contained"
-                            onClick={handleUpdateCv}
-                            sx={{ marginTop: "15px" }}
-                          >
-                            {" "}
-                            Update CV
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    )
-                  ) : null} */}
                 </Grid>
               </Grid>
             </Grid>

@@ -31,7 +31,6 @@ const CV = (prop) => {
   const cvinfo = prop.cvinfo;
   const navigate = useNavigate();
   const cvinfor = cvinfo;
-  console.log(cvinfo);
   return (
     <>
       <Box>
