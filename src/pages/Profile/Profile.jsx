@@ -362,13 +362,11 @@ function Profile() {
                                 aria-label="lab API tabs example"
                               >
                                 <Tab label="Your Job" value="1" />
-                                <Tab label="Worker" value="2" />
                               </TabList>
                             </Box>
                             <TabPanel value="1">
                               <MyJob />
                             </TabPanel>
-                            <TabPanel value="2">Item Two</TabPanel>
                           </TabContext>
                         </>
                       )}
