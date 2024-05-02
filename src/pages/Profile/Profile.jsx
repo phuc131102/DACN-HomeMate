@@ -18,6 +18,7 @@ import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "./Child/Myjob";
 import { apply_history, working_history } from "../../services/jobAPI";
 import ApplyHistory from "./Child/ApplyHistory";
+import YourWorker from "./Child/YourWorker";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -59,7 +60,7 @@ function Profile() {
           } finally {
             try {
               const response = await apply_history(userData.id);
-              console.log(response);
+              // console.log(response);
               if (response.length > 0) {
                 setApplyStatus(response);
               }
@@ -362,10 +363,14 @@ function Profile() {
                                 aria-label="lab API tabs example"
                               >
                                 <Tab label="Your Job" value="1" />
+                                <Tab label="Your Worker" value="2" />
                               </TabList>
                             </Box>
                             <TabPanel value="1">
                               <MyJob />
+                            </TabPanel>
+                            <TabPanel value="2">
+                              <YourWorker />
                             </TabPanel>
                           </TabContext>
                         </>

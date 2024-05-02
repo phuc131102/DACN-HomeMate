@@ -12,6 +12,7 @@ import {
 import Loading from "../../../components/Loading/Loading";
 import { myJob } from "../../../services/jobAPI";
 import jobEmpty from "../../../assets/job_empty.png";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function MyJob() {
   const [userData, setUserData] = useState([]);
@@ -55,7 +56,18 @@ function MyJob() {
   };
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          // height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
