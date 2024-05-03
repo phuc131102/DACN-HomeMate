@@ -315,7 +315,7 @@ function WorkerInfo() {
                   <LeftSide profile={userInfo} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Rate />
+                  <Rate rating={userInfo.rating}/>
                 </Grid>
               </Grid>
               <Grid item xs={8}>

@@ -33,6 +33,7 @@ function Profile() {
   const [cvinfo, setCvInfo] = useState({});
   const [applyStatus, setApplyStatus] = useState([]);
   const [workingStatus, setWorkingStatus] = useState([]);
+  console.log(userInfo)
   //
   useEffect(() => {
     if (userData && userData.id) {
@@ -213,11 +214,6 @@ function Profile() {
     } finally {
     }
   };
-
-  const handleCancel = () => {
-    window.location.reload();
-  };
-
   const validateEmail = (email) => {
     const emailPattern = /^\s*$|^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
@@ -320,7 +316,7 @@ function Profile() {
                   </Grid>
                   {userData.role === "Worker" ? (
                     <Grid item xs={12}>
-                      <Rate />
+                      <Rate rating = {userInfo.rating}/>
                     </Grid>
                   ) : null}
                 </Grid>

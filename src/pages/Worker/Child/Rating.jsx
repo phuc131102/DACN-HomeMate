@@ -1,40 +1,17 @@
 import React from "react";
 import BigCard from "../../../components/BigCard/BigCard";
 import { Box, Grid, Rating } from "@mui/material";
-import {
-  AssignmentTurnedIn,
-  Email,
-  EmojiEvents,
-  IntegrationInstructions,
-  Language,
-  LocationOn,
-  Person,
-  Phone,
-  Public,
-  School,
-  Edit,
-  Star,
-} from "@mui/icons-material";
-import Typography from "@mui/material/Typography";
+import { Star } from "@mui/icons-material";
 function Rate(prop) {
-  //   address
-  // :
-  // ""
-  // email
-  // :
-  // "worker1@gmail.com"
-  // name
-  // :
-  // "thang2"
-  // password
-  // :
-  // "123"
-  // phone_num
-  // :
-  // ""
-  // role
-  // :
-  // "Worker"
+  console.log(prop.rating)
+  const ratingPoint =
+    prop.rating.length === 0
+      ? null
+      : Math.round(
+          (prop.rating.reduce((acc, curr) => acc + curr, 0) /
+            prop.rating.length) *
+            2
+        ) / 2;
   return (
     <>
       <Box sx={{ marginBottom: "20px" }}>
@@ -56,7 +33,12 @@ function Rate(prop) {
                   </Box>
                 </Box>
                 <Box sx={{ padding: "16px 0 0 40px" }}>
-                  <Rating name="simple-controlled" value={2} readOnly />{" "}
+                  <Rating
+                    name="half-rating-read"
+                    value={ratingPoint}
+                    precision={0.5}
+                    readOnly
+                  />
                   {/* change value here */}
                 </Box>
               </Box>

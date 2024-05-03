@@ -22,7 +22,7 @@ export default function Footer() {
           padding: "20px",
         }}
       >
-        <Box>
+        {/* <Box>
           <Typography
             variant="h6"
             noWrap
@@ -72,7 +72,7 @@ export default function Footer() {
               style={{ color: "black" }}
             />
           </BottomNavigation>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );
