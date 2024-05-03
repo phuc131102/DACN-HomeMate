@@ -1,6 +1,6 @@
 import React from "react";
 import BigCard from "../../../components/BigCard/BigCard";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Rating } from "@mui/material";
 import {
   AssignmentTurnedIn,
   Email,
@@ -16,7 +16,7 @@ import {
   Star,
 } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
-function Rating(prop) {
+function Rate(prop) {
   //   address
   // :
   // ""
@@ -37,7 +37,7 @@ function Rating(prop) {
   // "Worker"
   return (
     <>
-      <Box sx={{marginBottom:"20px"}}>
+      <Box sx={{ marginBottom: "20px" }}>
         <BigCard>
           <Grid container spacing={3}>
             <Grid item container md={12} xs={12}>
@@ -52,8 +52,12 @@ function Rating(prop) {
                     component="h2"
                     sx={{ position: "relative", top: "5.5px", m: 0 }}
                   >
-                    Rating
+                    My Rating
                   </Box>
+                </Box>
+                <Box sx={{ padding: "16px 0 0 40px" }}>
+                  <Rating name="simple-controlled" value={2} readOnly />
+                  {/* change value here */}
                 </Box>
               </Box>
             </Grid>
@@ -64,4 +68,4 @@ function Rating(prop) {
   );
 }
 
-export default Rating;
+export default Rate;

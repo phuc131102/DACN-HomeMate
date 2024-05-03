@@ -72,9 +72,9 @@ function EditForm(prop) {
                   // id="outlined-basic"
                   label="Password"
                   type={prop.showPassword ? "text" : "password"}
-                  placeholder={prop.profile.password}
-                  name="password"
-                  value={prop.formData.password}
+                  placeholder={prop.profile.pwd}
+                  name="pwd"
+                  value={prop.formData.pwd}
                   onChange={prop.handleChange}
                   InputProps={{
                     endAdornment: (

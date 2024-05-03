@@ -241,3 +241,17 @@ export const start_job = async (data) => {
     throw err;
   }
 };
+
+//RATING WORKER
+export const rating_worker = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/rating_worker",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

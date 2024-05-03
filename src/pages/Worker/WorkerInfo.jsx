@@ -27,7 +27,7 @@ import avtEmpty from "../../assets/avt_empty.png";
 import { myJob, hire_worker, return_worker } from "../../services/jobAPI";
 import Avt from "./Child/Avt";
 import LeftSide from "./Child/LeftSide";
-import Rating from "./Child/Rating";
+import Rate from "./Child/Rating";
 import BigCard from "../../components/BigCard/BigCard";
 
 function WorkerInfo() {
@@ -315,7 +315,7 @@ function WorkerInfo() {
                   <LeftSide profile={userInfo} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Rating />
+                  <Rate />
                 </Grid>
               </Grid>
               <Grid item xs={8}>

@@ -8,7 +8,7 @@ import Loading from "../../components/Loading/Loading";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
 import avtEmpty from "../../assets/avt_empty.png";
 import LeftSide from "./Child/LeftSide";
-import Rating from "./Child/Rating";
+import Rate from "./Child/Rating";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -45,7 +45,7 @@ function Profile() {
             ...prevData,
             name: response.name,
             email: response.email,
-            password: response.password,
+            pwd: response.pwd,
             address: response.address,
             phone_num: response.phone_num,
           }));
@@ -96,7 +96,7 @@ function Profile() {
     id: "",
     name: "",
     email: "",
-    password: "",
+    pwd: "",
     address: "",
     phone_num: "",
   });
@@ -152,8 +152,8 @@ function Profile() {
       finalData.email = updatedFormData.email;
     }
 
-    if (updatedFormData.password !== "") {
-      finalData.password = updatedFormData.password;
+    if (updatedFormData.pwd !== "") {
+      finalData.pwd = updatedFormData.pwd;
     }
 
     if (updatedFormData.address !== "") {
@@ -167,10 +167,8 @@ function Profile() {
     if (updatedFormData.avatar !== "") {
       finalData.avatar = updatedFormData.avatar;
     }
-    console.log(finalData);
 
     try {
-      // console.log(finaldata)
       const response = await update_user_info(finalData);
 
       if (response) {
@@ -320,9 +318,11 @@ function Profile() {
                       showPassword={showPassword}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Rating />
-                  </Grid>
+                  {userData.role === "Worker" ? (
+                    <Grid item xs={12}>
+                      <Rate />
+                    </Grid>
+                  ) : null}
                 </Grid>
 
                 <Grid item xs={8}>
@@ -352,7 +352,9 @@ function Profile() {
                           <TabPanel value="2">
                             <ApplyHistory applyInfo={applyStatus} />
                           </TabPanel>
-                          <TabPanel value="3"><ApplyHistory applyInfo={workingStatus} /></TabPanel>
+                          <TabPanel value="3">
+                            <ApplyHistory applyInfo={workingStatus} />
+                          </TabPanel>
                         </TabContext>
                       ) : (
                         <>

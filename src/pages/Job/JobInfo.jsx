@@ -19,6 +19,7 @@ import {
   apply_job,
   deleteJob,
   get_job_info,
+  rating_worker,
   update_job,
   waiting_list,
   working_info,
@@ -33,6 +34,25 @@ import JobDetail from "./Child/JobDetail";
 import JobUpdate from "./Child/JobUpdate";
 import StartJobButton from "../../components/Button/AcceptButton/StartJobButton";
 import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
+
+const labels = {
+  0: "0",
+  0.5: "0.5",
+  1: "1.0",
+  1.5: "1.5",
+  2: "2.0",
+  2.5: "2.5",
+  3: "3.0",
+  3.5: "3.5",
+  4: "4.0",
+  4.5: "4.5",
+  5: "5.0",
+};
+
+function getLabelText(value) {
+  return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+}
+
 function JobInfo() {
   const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
@@ -45,6 +65,11 @@ function JobInfo() {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
+
+  const [value, setValue] = React.useState(0);
+  const [hover, setHover] = React.useState(-1);
+  const [ratingSuccess, setRatingSuccess] = useState(false);
+
   const params = useParams();
   const id = params.id.split("/").pop();
 
@@ -253,6 +278,25 @@ function JobInfo() {
       console.error("Hire failed:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRating = async (worker_id, rating) => {
+    const updatedFormData = {
+      workerId: worker_id,
+      star: rating,
+    };
+
+    try {
+      const response = await rating_worker(updatedFormData);
+      if (response) {
+        console.log("Rating successfully:", response);
+        setRatingSuccess(true);
+      }
+    } catch (error) {
+      if (error.response) {
+      }
+      console.error("Failed:", error);
     }
   };
 
@@ -749,7 +793,56 @@ function JobInfo() {
                             </CardContent>
                           </CardActionArea>
                           <CardActions sx={{ justifyContent: "center" }}>
-                            <Rating name="no-value" value={null} />
+                            <div>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Rating
+                                  name="simple-controlled"
+                                  value={value}
+                                  precision={0.5}
+                                  getLabelText={getLabelText}
+                                  onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                  }}
+                                  onChangeActive={(event, newHover) => {
+                                    setHover(newHover);
+                                  }}
+                                  readOnly={ratingSuccess}
+                                />
+                                {value !== null && (
+                                  <Box sx={{ ml: 2 }}>
+                                    {labels[hover !== -1 ? hover : value]}
+                                  </Box>
+                                )}
+                              </div>
+                              {!ratingSuccess ? (
+                                <Button
+                                  variant="contained"
+                                  color="success"
+                                  sx={{
+                                    width: "100%",
+                                    borderRadius: "15px",
+                                    marginTop: "10px",
+                                  }}
+                                  onClick={() => {
+                                    handleRating(card._id.$oid, value);
+                                  }}
+                                  disabled={value === 0}
+                                >
+                                  Send rating
+                                </Button>
+                              ) : (
+                                <Typography
+                                  sx={{ textAlign: "center", color: "green" }}
+                                >
+                                  Rating sent !
+                                </Typography>
+                              )}
+                            </div>
                           </CardActions>
                         </Card>
                       </Grid>
@@ -760,6 +853,7 @@ function JobInfo() {
                   <EndJobButton
                   // owner_id={userData.id} job_id={id}
                   />
+
                   <Button
                     variant="contained"
                     sx={styles.button}
