@@ -46,8 +46,16 @@ export default function EditDialog(prop) {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "30%",
+            borderRadius: "15px",
+          },
+        }}
       >
-        <DialogTitle>{"Edit Profile"}</DialogTitle>
+        <DialogTitle sx={{ textAlign: "center", fontSize: "25px" }}>
+          <b>Edit Profile</b>
+        </DialogTitle>
         <DialogContent>
           <EditForm
             profile={prop.profile}

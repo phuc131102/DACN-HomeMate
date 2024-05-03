@@ -1,21 +1,10 @@
 import React from "react";
 import BigCard from "../../../components/BigCard/BigCard";
 import { Box, Grid, Button } from "@mui/material";
-import {
-  AssignmentTurnedIn,
-  Email,
-  EmojiEvents,
-  IntegrationInstructions,
-  Language,
-  LocationOn,
-  Person,
-  Phone,
-  Public,
-  School,
-  Edit,
-} from "@mui/icons-material";
+import { Email, Phone, Home } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 import EditDialog from "./EditDialog";
+import ComponentDivider from "../../../components/ComponentDivider/ComponentDivider";
 
 function LeftSide(prop) {
   //   address
@@ -40,22 +29,9 @@ function LeftSide(prop) {
     <>
       <BigCard>
         <Grid container spacing={3}>
-          <Grid item container md={12} xs={12}>
-            <Box p="24px 24px 0 24px"></Box>
-          </Grid>
-
-          <Grid item container md={12} xs={12}>
-            <Box px={3}>
-              <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                <Public sx={{ mr: "15px" }} />
-                <Box
-                  component="h2"
-                  sx={{ position: "relative", top: "5.5px", m: 0 }}
-                >
-                  Profile
-                </Box>
-              </Box>
-            </Box>
+          <Grid item xs={12} sx={{ marginTop: "15px" }}>
+            {" "}
+            <ComponentDivider>Profile</ComponentDivider>
           </Grid>
           <Grid item md={12} xs={12}>
             <Box px={3}>
@@ -64,9 +40,9 @@ function LeftSide(prop) {
                   <Email sx={{ mr: "15px" }} />
                   <Box
                     component="h2"
-                    sx={{ position: "relative", top: "5.5px", m: 0 }}
+                    sx={{ position: "relative", top: "2px", m: 0 }}
                   >
-                    Email:
+                    Email
                   </Box>
                 </Box>
                 <Box sx={{ padding: "16px 0 0 40px" }}>
@@ -81,17 +57,19 @@ function LeftSide(prop) {
             <Box px={3}>
               <Box>
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                  <Email sx={{ mr: "15px" }} />
+                  <Phone sx={{ mr: "15px" }} />
                   <Box
                     component="h2"
-                    sx={{ position: "relative", top: "5.5px", m: 0 }}
+                    sx={{ position: "relative", top: "2px", m: 0 }}
                   >
-                    Phone Number:
+                    Phone Number
                   </Box>
                 </Box>
                 <Box sx={{ padding: "16px 0 0 40px" }}>
                   <Typography varriant="h1" sx={{ wordWrap: "break-word" }}>
-                    {prop.profile.phone_num}
+                    {prop.profile.phone_num
+                      ? prop.profile.phone_num
+                      : "No Phone Number available."}
                   </Typography>
                 </Box>
               </Box>
@@ -101,17 +79,19 @@ function LeftSide(prop) {
             <Box px={3}>
               <Box>
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                  <Email sx={{ mr: "15px" }} />
+                  <Home sx={{ mr: "15px" }} />
                   <Box
                     component="h2"
-                    sx={{ position: "relative", top: "5.5px", m: 0 }}
+                    sx={{ position: "relative", top: "2px", m: 0 }}
                   >
-                    Address:
+                    Address
                   </Box>
                 </Box>
                 <Box sx={{ padding: "16px 0 20px 40px" }}>
                   <Typography varriant="h1" sx={{ wordWrap: "break-word" }}>
-                    {prop.profile.address}
+                    {prop.profile.address
+                      ? prop.profile.address
+                      : "No Address available."}
                   </Typography>
                 </Box>
               </Box>

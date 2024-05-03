@@ -315,7 +315,7 @@ function WorkerInfo() {
                   <LeftSide profile={userInfo} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Rate rating={userInfo.rating}/>
+                  <Rate rating={userInfo.rating} />
                 </Grid>
               </Grid>
               <Grid item xs={8}>
@@ -330,8 +330,6 @@ function WorkerInfo() {
                         <Box
                           sx={{
                             width: "100%",
-                            marginLeft: "20px",
-
                             display: "flex",
                             justifyContent: "right",
                           }}
@@ -339,8 +337,7 @@ function WorkerInfo() {
                           {cvinfo.message === "CV not found" ? (
                             <>
                               <Grid container>
-                                <Grid item xs={12}>
-                                  {" "}
+                                <Grid item xs={12} sx={{ marginTop: "15px" }}>
                                   <ComponentDivider>CV</ComponentDivider>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -348,7 +345,7 @@ function WorkerInfo() {
                                     sx={{
                                       justifyContent: "center",
                                       marginBottom: "50px",
-                                      marginTop: "10px",
+                                      marginTop: "15px",
                                       display: "flex",
                                     }}
                                   >
@@ -360,6 +357,9 @@ function WorkerInfo() {
                           ) : (
                             <>
                               <Grid container>
+                                <Grid item xs={12} sx={{ marginTop: "15px" }}>
+                                  <ComponentDivider>CV</ComponentDivider>
+                                </Grid>
                                 <Grid item xs={12}>
                                   <ViewCv cvinfo={cvinfo.data} />
                                 </Grid>

@@ -29,7 +29,7 @@ function ProfileCv(prop) {
                     size="large"
                     variant="contained"
                     onClick={prop.handleCreateCv}
-                    sx={{ arginTop: "15px" }}
+                    sx={{ marginTop: "15px" }}
                   >
                     {" "}
                     Create CV

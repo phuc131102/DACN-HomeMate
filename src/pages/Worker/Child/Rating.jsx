@@ -3,7 +3,7 @@ import BigCard from "../../../components/BigCard/BigCard";
 import { Box, Grid, Rating } from "@mui/material";
 import { Star } from "@mui/icons-material";
 function Rate(prop) {
-  console.log(prop.rating)
+  console.log(prop.rating);
   const ratingPoint =
     prop.rating.length === 0
       ? null
@@ -18,17 +18,14 @@ function Rate(prop) {
         <BigCard>
           <Grid container spacing={3}>
             <Grid item container md={12} xs={12}>
-              <Box p="24px 24px 0 24px"></Box>
+              <Box p="0 24px 0 24px"></Box>
             </Grid>
 
             <Grid item container md={12} xs={12}>
-              <Box px={3} sx={{ marginBottom: "20px" }}>
+              <Box px={3} sx={{ marginBottom: "10px" }}>
                 <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                   <Star sx={{ mr: "15px" }} />
-                  <Box
-                    component="h2"
-                    sx={{ position: "relative", top: "5.5px", m: 0 }}
-                  >
+                  <Box component="h2" sx={{ position: "relative", top: "2px" }}>
                     Rating
                   </Box>
                 </Box>

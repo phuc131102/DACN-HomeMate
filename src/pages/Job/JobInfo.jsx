@@ -34,6 +34,8 @@ import JobDetail from "./Child/JobDetail";
 import JobUpdate from "./Child/JobUpdate";
 import StartJobButton from "../../components/Button/AcceptButton/StartJobButton";
 import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
+import StarIcon from "@mui/icons-material/Star";
+import RateReviewIcon from "@mui/icons-material/RateReview";
 
 const labels = {
   0: "0",
@@ -740,10 +742,11 @@ function JobInfo() {
                   variant="h5"
                   textAlign="center"
                 >
-                  <b>End this job</b>
+                  <b>Are you sure you want to end this job?</b>
                 </Typography>
                 <Typography variant="h6" textAlign="center" marginTop={2}>
-                  Leave a rating for these workers
+                  Leave a rating <StarIcon /> or feedback <RateReviewIcon /> for
+                  these worker(s) below
                 </Typography>
                 <CardContent>
                   <Grid container spacing={5}>

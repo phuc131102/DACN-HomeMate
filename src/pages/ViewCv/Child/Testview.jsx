@@ -34,144 +34,143 @@ const CV = (prop) => {
   return (
     <>
       <Box>
-        
-          <Grid container spacing={3}>
-            <>
-              <Grid item md={12} xs={12}>
-                <Box p="24px 24px 0 24px"></Box>
-              </Grid>
-            </>
-
+        <Grid container spacing={3}>
+          <>
             <Grid item md={12} xs={12}>
-              <Box px={3}>
-                <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                  <Public sx={{ mr: "15px" }} />
+              <Box p="0 24px 0 24px"></Box>
+            </Grid>
+          </>
+
+          <Grid item md={12} xs={12}>
+            <Box px={3}>
+              <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <Public sx={{ mr: "15px" }} />
+                <Box
+                  component="h2"
+                  sx={{ position: "relative", top: "2px", m: 0 }}
+                >
+                  Introduction
+                </Box>
+              </Box>
+              <Box sx={{ padding: "16px 0 0 40px" }}>
+                <NoteField note={cvinfor.intro} />
+              </Box>
+              <Box>
+                <Divider
+                  orientation="horizontal"
+                  flexItem
+                  sx={{ mt: 3, height: "0.5px" }}
+                />
+              </Box>
+            </Box>
+          </Grid>
+
+          <Grid item md={12} xs={12}>
+            <Box px={3}>
+              <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <IntegrationInstructions sx={{ mr: "15px" }} />
+                <Box
+                  component="h2"
+                  sx={{ position: "relative", top: "2px", m: 0 }}
+                >
+                  Skills
+                </Box>
+              </Box>
+              <Box sx={{ padding: "16px 0 0 40px" }}>
+                {cvinfor.skill.map((skille, index) => (
                   <Box
-                    component="h2"
-                    sx={{ position: "relative", top: "5.5px", m: 0 }}
+                    key={index}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
+                      mb: "16px",
+                    }}
                   >
-                    Introduction
+                    <Box m={0} component="h4">
+                      {skille.name} • {skille.experienceYear} year(s) experience
+                    </Box>
                   </Box>
-                </Box>
-                <Box sx={{ padding: "16px 0 0 40px" }}>
-                  <NoteField note={cvinfor.intro} />
-                </Box>
-                <Box>
-                  <Divider
-                    orientation="horizontal"
-                    flexItem
-                    sx={{ mt: 3, height: "0.5px" }}
-                  />
-                </Box>
+                ))}
               </Box>
-            </Grid>
-
-            <Grid item md={12} xs={12}>
-              <Box px={3}>
-                <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                  <IntegrationInstructions sx={{ mr: "15px" }} />
-                  <Box
-                    component="h2"
-                    sx={{ position: "relative", top: "6.5px", m: 0 }}
-                  >
-                    Skills
-                  </Box>
-                </Box>
-                <Box sx={{ padding: "16px 0 0 40px" }}>
-                  {cvinfor.skill.map((skille, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        flexWrap: "wrap",
-                        mb: "16px",
-                      }}
-                    >
-                      <Box m={0} component="h4">
-                        {skille.name} • {skille.experienceYear} năm kinh nghiệm
-                      </Box>
-                    </Box>
-                  ))}
-                </Box>
-                <Box>
-                  <Divider
-                    orientation="horizontal"
-                    flexItem
-                    sx={{ mt: 3, height: "0.5px" }}
-                  />
-                </Box>
+              <Box>
+                <Divider
+                  orientation="horizontal"
+                  flexItem
+                  sx={{ mt: 3, height: "0.5px" }}
+                />
               </Box>
-            </Grid>
-            <Grid item md={12} xs={12}>
-              <Box px={3}>
-                {cvinfor.certificate.length > 0 ? (
-                  <>
-                    <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                      <EmojiEvents sx={{ mr: "15px" }} />
-                      <Box
-                        component="h2"
-                        sx={{ position: "relative", top: "6.5px", m: 0 }}
-                      >
-                        Certificates
-                      </Box>
-                    </Box>
-                    <Box sx={{ padding: "0px 0 0 40px", mt: "16px" }}>
-                      <Box>
-                        {cvinfor.certificate.map((certificate, index) => (
-                          <Box key={index} sx={{ display: "flex" }}>
-                            <ModalCertificates certificate={certificate} />
-                          </Box>
-                        ))}
-                      </Box>
-                    </Box>
-
-                    <Box>
-                      <Divider
-                        orientation="horizontal"
-                        flexItem
-                        sx={{ mt: 3, height: "0.5px" }}
-                      />
-                    </Box>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </Box>
-            </Grid>
-
-            <Grid item md={12} xs={12}>
-              {cvinfor.exp === "" ? (
-                <></>
-              ) : (
+            </Box>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <Box px={3}>
+              {cvinfor.certificate.length > 0 ? (
                 <>
-                  <Box px={3}>
-                    <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                      <AssignmentTurnedIn sx={{ mr: "15px" }} />
-                      <Box
-                        component="h2"
-                        sx={{ position: "relative", top: "5.5px", m: 0 }}
-                      >
-                        Experience
-                      </Box>
+                  <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                    <EmojiEvents sx={{ mr: "15px" }} />
+                    <Box
+                      component="h2"
+                      sx={{ position: "relative", top: "2px", m: 0 }}
+                    >
+                      Certificates
                     </Box>
-                    <Box sx={{ padding: "10px 0 0 40px" }}>
-                      <NoteField note={cvinfor.exp} />
-                    </Box>
+                  </Box>
+                  <Box sx={{ padding: "0px 0 0 40px", mt: "16px" }}>
                     <Box>
-                      <Divider
-                        orientation="horizontal"
-                        flexItem
-                        sx={{ mt: 3, height: "0.5px" }}
-                      />
+                      {cvinfor.certificate.map((certificate, index) => (
+                        <Box key={index} sx={{ display: "flex" }}>
+                          <ModalCertificates certificate={certificate} />
+                        </Box>
+                      ))}
                     </Box>
+                  </Box>
+
+                  <Box>
+                    <Divider
+                      orientation="horizontal"
+                      flexItem
+                      sx={{ mt: 3, height: "0.5px" }}
+                    />
                   </Box>
                 </>
+              ) : (
+                <></>
               )}
-            </Grid>
+            </Box>
           </Grid>
-        
+
+          <Grid item md={12} xs={12}>
+            {cvinfor.exp === "" ? (
+              <></>
+            ) : (
+              <>
+                <Box px={3}>
+                  <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                    <AssignmentTurnedIn sx={{ mr: "15px" }} />
+                    <Box
+                      component="h2"
+                      sx={{ position: "relative", top: "2px", m: 0 }}
+                    >
+                      Experience
+                    </Box>
+                  </Box>
+                  <Box sx={{ padding: "10px 0 0 40px" }}>
+                    <NoteField note={cvinfor.exp} />
+                  </Box>
+                  <Box>
+                    <Divider
+                      orientation="horizontal"
+                      flexItem
+                      sx={{ mt: 3, height: "0.5px" }}
+                    />
+                  </Box>
+                </Box>
+              </>
+            )}
+          </Grid>
+        </Grid>
+
         {/* <Box mt={3}>
             {page === "profile_cv" && (
             <Box
