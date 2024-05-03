@@ -17,24 +17,7 @@ import {
 } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 function Rate(prop) {
-  //   address
-  // :
-  // ""
-  // email
-  // :
-  // "worker1@gmail.com"
-  // name
-  // :
-  // "thang2"
-  // password
-  // :
-  // "123"
-  // phone_num
-  // :
-  // ""
-  // role
-  // :
-  // "Worker"
+  const ratingPoint = prop.rating.length===0?null:Math.round((prop.rating.reduce((acc, curr) => acc + curr, 0))/(prop.rating.length)*2)/2;
   return (
     <>
       <Box sx={{ marginBottom: "20px" }}>
@@ -46,7 +29,7 @@ function Rate(prop) {
 
             <Grid item container md={12} xs={12}>
               <Box px={3} sx={{ marginBottom: "20px" }}>
-                <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                <Box sx={{ display: "flex", alignItems: "flex-end"}}>
                   <Star sx={{ mr: "15px" }} />
                   <Box
                     component="h2"
@@ -56,7 +39,7 @@ function Rate(prop) {
                   </Box>
                 </Box>
                 <Box sx={{ padding: "16px 0 0 40px" }}>
-                  <Rating name="simple-controlled" value={2} readOnly />
+                  <Rating name="half-rating-read" value={ratingPoint} precision={0.5} readOnly />
                   {/* change value here */}
                 </Box>
               </Box>
