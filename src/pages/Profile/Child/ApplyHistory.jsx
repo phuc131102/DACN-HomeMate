@@ -67,7 +67,7 @@ function ApplyHistory(prop) {
                           color:
                             item.status === "Waiting"
                               ? "orange"
-                              : item.status === "Accepted"
+                              : item.status === "Accepted" || item.status === "Working"
                               ? "green"
                               : "red",
                         }}

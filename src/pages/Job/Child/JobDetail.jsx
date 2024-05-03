@@ -181,7 +181,7 @@ function JobDetail(prop) {
               >
                 <Typography variant="caption">Require Skill</Typography>
                 <Typography variant="body1">
-                  {prop.chooseSkill.join(", ")} sdadas dasd adas dasd asdas d
+                  {prop.chooseSkill.join(", ")}
                 </Typography>
               </Box>
             </Grid>

@@ -16,8 +16,9 @@ import TabPanel from "@mui/lab/TabPanel";
 import ProfileCv from "./Child/ProfileCv";
 import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "./Child/Myjob";
-import { apply_history } from "../../services/jobAPI";
+import { apply_history, working_history } from "../../services/jobAPI";
 import ApplyHistory from "./Child/ApplyHistory";
+import YourWorker from "./Child/YourWorker";
 
 function Profile() {
   const [error, setError] = useState("");
@@ -31,6 +32,7 @@ function Profile() {
   // const [haveCv, setHaveCv] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
   const [applyStatus, setApplyStatus] = useState([]);
+  const [workingStatus, setWorkingStatus] = useState([]);
   //
   useEffect(() => {
     if (userData && userData.id) {
@@ -58,14 +60,24 @@ function Profile() {
           } finally {
             try {
               const response = await apply_history(userData.id);
-              console.log(response);
+              // console.log(response);
               if (response.length > 0) {
                 setApplyStatus(response);
               }
             } catch (error) {
               console.error("Error fetching apply information:", error);
             } finally {
-              setLoading(false);
+              try {
+                const response = await working_history(userData.id);
+                console.log(response);
+                if (response.length > 0) {
+                  setWorkingStatus(response);
+                }
+              } catch (error) {
+                console.error("Error fetching working information:", error);
+              } finally {
+                setLoading(false);
+              }
             }
           }
         }
@@ -340,7 +352,7 @@ function Profile() {
                           <TabPanel value="2">
                             <ApplyHistory applyInfo={applyStatus} />
                           </TabPanel>
-                          <TabPanel value="3">Item Three</TabPanel>
+                          <TabPanel value="3"><ApplyHistory applyInfo={workingStatus} /></TabPanel>
                         </TabContext>
                       ) : (
                         <>
@@ -351,13 +363,15 @@ function Profile() {
                                 aria-label="lab API tabs example"
                               >
                                 <Tab label="Your Job" value="1" />
-                                <Tab label="Worker" value="2" />
+                                <Tab label="Your Worker" value="2" />
                               </TabList>
                             </Box>
                             <TabPanel value="1">
                               <MyJob />
                             </TabPanel>
-                            <TabPanel value="2">Item Two</TabPanel>
+                            <TabPanel value="2">
+                              <YourWorker />
+                            </TabPanel>
                           </TabContext>
                         </>
                       )}

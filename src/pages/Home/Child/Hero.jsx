@@ -66,7 +66,7 @@ function Hero() {
             </Box>
 
             <Box className="flexCenter hero-right">
-              <motion.Box
+              <motion.div
                 initial={{ x: "7rem", opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{
@@ -79,7 +79,7 @@ function Hero() {
                   src="https://gaxa.vn/wp-content/uploads/2022/06/modern-house.jpg"
                   alt="modern-house"
                 />
-              </motion.Box>
+              </motion.div>
             </Box>
           </Box>
         </Box>
