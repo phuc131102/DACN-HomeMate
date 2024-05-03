@@ -65,9 +65,11 @@ function ApplyHistory(prop) {
                       <Typography
                         sx={{
                           color:
-                            item.status === "Waiting"
+                            item.status === "Waiting" ||
+                            item.status === "Working"
                               ? "orange"
-                              : item.status === "Accepted" || item.status === "Working"
+                              : item.status === "Accepted" ||
+                                item.status === "Done"
                               ? "green"
                               : "red",
                         }}
@@ -75,7 +77,7 @@ function ApplyHistory(prop) {
                         {item.status}
                       </Typography>
 
-                      {item.status === "Accepted" ? (
+                      {item.status === "Accepted" || item.status === "Done" ? (
                         <Typography
                           sx={{
                             color: "green",

@@ -242,6 +242,20 @@ export const start_job = async (data) => {
   }
 };
 
+//END JOB
+export const end_job = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/end_job",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 //RATING WORKER
 export const rating_worker = async (data) => {
   try {

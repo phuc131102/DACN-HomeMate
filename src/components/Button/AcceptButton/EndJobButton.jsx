@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import { start_job } from "../../../services/jobAPI";
+import { end_job } from "../../../services/jobAPI";
 
 export default function EndJobButton({ owner_id, job_id }) {
-  const handleStartJob = async (e) => {
+  const navigate = useNavigate();
+
+  const handleEndJob = async (e) => {
     e.preventDefault();
 
     const updatedFormData = {
@@ -12,10 +15,10 @@ export default function EndJobButton({ owner_id, job_id }) {
     };
 
     try {
-      const response = await start_job(updatedFormData);
+      const response = await end_job(updatedFormData);
       if (response) {
-        window.location.reload();
-        console.log("Start job successfully:", response);
+        navigate("/job");
+        console.log("End job successfully:", response);
       }
     } catch (error) {
       if (error.response) {
@@ -37,7 +40,7 @@ export default function EndJobButton({ owner_id, job_id }) {
         padding: "5px 10px",
         fontSize: "1.2rem",
       }}
-      //   onClick={handleStartJob}
+      onClick={handleEndJob}
     >
       End Job
     </Button>

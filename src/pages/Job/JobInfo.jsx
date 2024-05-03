@@ -853,10 +853,7 @@ function JobInfo() {
                   </Grid>
                 </CardContent>
                 <Stack direction="row" justifyContent="center" marginTop={4}>
-                  <EndJobButton
-                  // owner_id={userData.id} job_id={id}
-                  />
-
+                  <EndJobButton owner_id={userData.id} job_id={id} />
                   <Button
                     variant="contained"
                     sx={styles.button}
