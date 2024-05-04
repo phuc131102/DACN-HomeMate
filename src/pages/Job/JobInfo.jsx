@@ -12,14 +12,12 @@ import {
   CardMedia,
   CardActionArea,
   CardActions,
-  Rating,
 } from "@mui/material";
 import {
   accept_list,
   apply_job,
   deleteJob,
   get_job_info,
-  rating_worker,
   update_job,
   waiting_list,
   working_info,
@@ -36,24 +34,7 @@ import StartJobButton from "../../components/Button/AcceptButton/StartJobButton"
 import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
 import StarIcon from "@mui/icons-material/Star";
 import RateReviewIcon from "@mui/icons-material/RateReview";
-
-const labels = {
-  0: "0",
-  0.5: "0.5",
-  1: "1.0",
-  1.5: "1.5",
-  2: "2.0",
-  2.5: "2.5",
-  3: "3.0",
-  3.5: "3.5",
-  4: "4.0",
-  4.5: "4.5",
-  5: "5.0",
-};
-
-function getLabelText(value) {
-  return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-}
+import CardRating from "./Child/CardRating";
 
 function JobInfo() {
   const [error, setError] = useState("");
@@ -67,10 +48,6 @@ function JobInfo() {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
-
-  const [value, setValue] = React.useState(0);
-  const [hover, setHover] = React.useState(-1);
-  const [ratingSuccess, setRatingSuccess] = useState(false);
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -282,26 +259,6 @@ function JobInfo() {
       setLoading(false);
     }
   };
-
-  const handleRating = async (worker_id, rating) => {
-    const updatedFormData = {
-      workerId: worker_id,
-      star: rating,
-    };
-
-    try {
-      const response = await rating_worker(updatedFormData);
-      if (response) {
-        console.log("Rating successfully:", response);
-        setRatingSuccess(true);
-      }
-    } catch (error) {
-      if (error.response) {
-      }
-      console.error("Failed:", error);
-    }
-  };
-
   const toggleEditMode = () => {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
@@ -751,104 +708,7 @@ function JobInfo() {
                 <CardContent>
                   <Grid container spacing={5}>
                     {accept.map((card, index) => (
-                      <Grid item xs={6} sm={3} md={3} key={index}>
-                        <Card
-                          sx={{
-                            backgroundColor: "white",
-                            borderRadius: "20px",
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                          }}
-                        >
-                          <Grid
-                            container
-                            justifyContent="space-between"
-                            alignItems="center"
-                          ></Grid>
-                          <CardActionArea
-                            component={Link}
-                            to={`/worker/${card._id.$oid}`}
-                          >
-                            <CardMedia
-                              component="img"
-                              height="150"
-                              image={
-                                card.avatar === "" ? avt_empty : card.avatar
-                              }
-                              alt={card.name}
-                            />
-                            <CardContent>
-                              <Typography
-                                sx={{
-                                  fontSize: 18,
-                                  textAlign: "center",
-                                  lineHeight: "1.2",
-                                  maxHeight: "1.2em",
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                  whiteSpace: "nowrap",
-                                  display: "block",
-                                }}
-                                color="text.primary"
-                                gutterBottom
-                              >
-                                <b>{card.name}</b>
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions sx={{ justifyContent: "center" }}>
-                            <div>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Rating
-                                  name="simple-controlled"
-                                  value={value}
-                                  precision={0.5}
-                                  getLabelText={getLabelText}
-                                  onChange={(event, newValue) => {
-                                    setValue(newValue);
-                                  }}
-                                  onChangeActive={(event, newHover) => {
-                                    setHover(newHover);
-                                  }}
-                                  readOnly={ratingSuccess}
-                                />
-                                {value !== null && (
-                                  <Box sx={{ ml: 2 }}>
-                                    {labels[hover !== -1 ? hover : value]}
-                                  </Box>
-                                )}
-                              </div>
-                              {!ratingSuccess ? (
-                                <Button
-                                  variant="contained"
-                                  color="success"
-                                  sx={{
-                                    width: "100%",
-                                    borderRadius: "15px",
-                                    marginTop: "10px",
-                                  }}
-                                  onClick={() => {
-                                    handleRating(card._id.$oid, value);
-                                  }}
-                                  disabled={value === 0}
-                                >
-                                  Send rating
-                                </Button>
-                              ) : (
-                                <Typography
-                                  sx={{ textAlign: "center", color: "green" }}
-                                >
-                                  Rating sent !
-                                </Typography>
-                              )}
-                            </div>
-                          </CardActions>
-                        </Card>
-                      </Grid>
+                      <CardRating card={card} index={index} />
                     ))}
                   </Grid>
                 </CardContent>
