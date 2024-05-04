@@ -18,8 +18,11 @@ import { get_skill } from "../../services/skillAPI";
 import JobFilter from "./Child/Job_filter";
 import { Salary } from "./Child/Salary";
 import { Flex } from "antd";
+import NewCard from "./Child/NewCard";
+import "./Child/Newcard.css";
 
 function Job() {
+  //////////////////////
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const { jobs, loadingJob } = useJobs();
@@ -168,69 +171,83 @@ function Job() {
             &nbsp;<b>All Job</b>
           </Typography>
         </Grid>
-        <CardContent>
-          <Grid container spacing={5}>
-            {currentJobs
-              .filter((card) => card.status === "Available")
-              .map((card, index) => (
-                <Grid item xs={6} sm={3} md={2} key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: "white",
-                      borderRadius: "20px",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <CardActionArea
-                      component={Link}
-                      to={`/job/${card._id.$oid}`}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="150"
-                        image={card.image === "" ? jobEmpty : card.image}
-                        alt={card.name}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.name}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: 12,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.datetime}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-          </Grid>
-        </CardContent>
+        <Box sx={{width:"80%", margin:"auto"}}>
+          <CardContent>
+            {/* <Grid container spacing={5}>
+            <Box id="gallery" className={isActive ? 'active' : ''}>
+              {currentJobs
+                .filter((card) => card.status === "Available")
+                .map((card, index) => (
+                  // <Grid item xs={6} sm={3} md={2} key={index}>
+                  //   <Card
+                  //     sx={{
+                  //       backgroundColor: "white",
+                  //       borderRadius: "20px",
+                  //       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                  //     }}
+                  //   >
+                  //     <CardActionArea
+                  //       component={Link}
+                  //       to={`/job/${card._id.$oid}`}
+                  //     >
+                  //       <CardMedia
+                  //         component="img"
+                  //         height="150"
+                  //         image={card.image === "" ? jobEmpty : card.image}
+                  //         alt={card.name}
+                  //       />
+                  //       <CardContent>
+                  //         <Typography
+                  //           sx={{
+                  //             fontSize: 16,
+                  //             textAlign: "center",
+                  //             lineHeight: "1.2",
+                  //             maxHeight: "1.2em",
+                  //             overflow: "hidden",
+                  //             textOverflow: "ellipsis",
+                  //             whiteSpace: "nowrap",
+                  //             display: "block",
+                  //           }}
+                  //           color="text.primary"
+                  //           gutterBottom
+                  //         >
+                  //           {card.name}
+                  //         </Typography>
+                  //         <Typography
+                  //           sx={{
+                  //             fontSize: 12,
+                  //             textAlign: "center",
+                  //             lineHeight: "1.2",
+                  //             maxHeight: "1.2em",
+                  //             overflow: "hidden",
+                  //             textOverflow: "ellipsis",
+                  //             whiteSpace: "nowrap",
+                  //             display: "block",
+                  //           }}
+                  //           color="text.primary"
+                  //           gutterBottom
+                  //         >
+                  //           {card.datetime}
+                  //         </Typography>
+                  //       </CardContent>
+                  //     </CardActionArea>
+                  //   </Card>
+                  // </Grid>
+
+                  <figure key={index}>
+                    <img
+                      src={card.image === "" ? jobEmpty : card.image}
+                      alt={card.name}
+                      title={card.name}
+                    />
+                    <figcaption>3 PM, Winter</figcaption>
+                  </figure>
+                ))}
+            </Box>
+          </Grid> */}
+            <NewCard currentJobs={currentJobs} />
+          </CardContent>
+        </Box>
       </Box>
       {jobs.length > 12 ? (
         <Pagination
