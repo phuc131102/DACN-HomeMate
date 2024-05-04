@@ -171,7 +171,7 @@ function Job() {
         <CardContent>
           <Grid container spacing={5}>
             {currentJobs
-              .filter((card) => card.status !== "In Progress")
+              .filter((card) => card.status === "Available")
               .map((card, index) => (
                 <Grid item xs={6} sm={3} md={2} key={index}>
                   <Card

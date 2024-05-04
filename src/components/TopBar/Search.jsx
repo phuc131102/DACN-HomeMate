@@ -23,7 +23,9 @@ function Search() {
     const fetchJobs = async () => {
       try {
         const allJobs = await allJob();
-        const jobsWithTypes = allJobs.map((job) => ({ ...job, type: "job" }));
+        const jobsWithTypes = allJobs
+          .filter((job) => job.status === "Available")
+          .map((job) => ({ ...job, type: "job" }));
         setJobs(jobsWithTypes);
       } catch (error) {
         console.error("Failed to fetch jobs:", error);

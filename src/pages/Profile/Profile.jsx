@@ -28,13 +28,10 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
   const [value, setValue] = useState("1");
-  //
-  // const [haveCv, setHaveCv] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
   const [applyStatus, setApplyStatus] = useState([]);
   const [workingStatus, setWorkingStatus] = useState([]);
-  console.log(userInfo)
-  //
+
   useEffect(() => {
     if (userData && userData.id) {
       const fetchUserInfo = async () => {
@@ -61,7 +58,6 @@ function Profile() {
           } finally {
             try {
               const response = await apply_history(userData.id);
-              // console.log(response);
               if (response.length > 0) {
                 setApplyStatus(response);
               }
@@ -316,7 +312,7 @@ function Profile() {
                   </Grid>
                   {userData.role === "Worker" ? (
                     <Grid item xs={12}>
-                      <Rate rating = {userInfo.rating}/>
+                      <Rate rating={userInfo.rating} />
                     </Grid>
                   ) : null}
                 </Grid>

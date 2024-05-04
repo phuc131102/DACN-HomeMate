@@ -19,6 +19,14 @@ function UserInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   const navigate = useNavigate();
 
@@ -312,29 +320,31 @@ function UserInfo() {
                               }
                             />
                           </Grid>
-                          <Grid item xs={12}>
-                            <Box
-                              sx={{
-                                width: "100%",
-                                display: "flex",
-                              }}
-                            >
-                              <Button
-                                variant="contained"
-                                color="error"
+                          {userData.role === "Admin" ? (
+                            <Grid item xs={12}>
+                              <Box
                                 sx={{
-                                  width: "30%",
-                                  borderRadius: "15px",
-                                  margin: "auto",
-                                }}
-                                onClick={() => {
-                                  handleOpenModal();
+                                  width: "100%",
+                                  display: "flex",
                                 }}
                               >
-                                Delete User
-                              </Button>
-                            </Box>
-                          </Grid>
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  sx={{
+                                    width: "30%",
+                                    borderRadius: "15px",
+                                    margin: "auto",
+                                  }}
+                                  onClick={() => {
+                                    handleOpenModal();
+                                  }}
+                                >
+                                  Delete User
+                                </Button>
+                              </Box>
+                            </Grid>
+                          ) : null}
                         </>
                       </form>
                     </ThemeProvider>

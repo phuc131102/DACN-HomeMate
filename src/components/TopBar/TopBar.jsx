@@ -477,7 +477,7 @@ function TopBar() {
                   <MenuItem
                     onClick={handleCloseUserMenu}
                     component={Link}
-                    to="/profile"
+                    to={`/profile/${userData.id}`}
                   >
                     <Typography
                       onClick={() => handleTabClick("profile")}

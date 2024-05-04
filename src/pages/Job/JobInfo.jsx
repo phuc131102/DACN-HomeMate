@@ -35,6 +35,7 @@ import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
 import StarIcon from "@mui/icons-material/Star";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import CardRating from "./Child/CardRating";
+import { get_user_info } from "../../services/userAPI";
 
 function JobInfo() {
   const [error, setError] = useState("");
@@ -48,6 +49,7 @@ function JobInfo() {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
+  const [ownerInfo, setOwnerInfo] = useState(null);
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -176,6 +178,23 @@ function JobInfo() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (jobInfo && jobInfo.owner_id) {
+      const fetchUserInfo = async () => {
+        setLoading(true);
+        try {
+          const response = await get_user_info(jobInfo.owner_id);
+          setOwnerInfo(response);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUserInfo();
+    }
+  }, [jobInfo]);
 
   if (loading) {
     return <Loading />;
@@ -450,6 +469,88 @@ function JobInfo() {
                 />
               )}
             </form>
+
+            {ownerInfo ? (
+              <>
+                <div
+                  style={{
+                    borderTop: "2px solid black",
+                    width: "20%",
+                    margin: "10px auto",
+                  }}
+                ></div>
+                <Box
+                  sx={{
+                    width: "85%",
+                    margin: "auto",
+                  }}
+                >
+                  <Typography
+                    sx={{ fontSize: 30 }}
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    &nbsp;<b>Job Owner</b>{" "}
+                    {userData.role === "Homeowner" &&
+                    userData.id === jobInfo.owner_id
+                      ? "- Your Job"
+                      : null}
+                  </Typography>
+                  <CardContent>
+                    <Grid container spacing={5}>
+                      <Grid item xs={6} sm={3} md={2}>
+                        <Card
+                          sx={{
+                            backgroundColor: "white",
+                            borderRadius: "20px",
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                          }}
+                        >
+                          <Grid
+                            container
+                            justifyContent="space-between"
+                            alignItems="center"
+                          ></Grid>
+                          <CardActionArea
+                            component={Link}
+                            to={`/user/${ownerInfo._id.$oid}`}
+                          >
+                            <CardMedia
+                              component="img"
+                              height="150"
+                              image={
+                                ownerInfo.avatar === ""
+                                  ? avt_empty
+                                  : ownerInfo.avatar
+                              }
+                              alt={ownerInfo.name}
+                            />
+                            <CardContent>
+                              <Typography
+                                sx={{
+                                  fontSize: 18,
+                                  textAlign: "center",
+                                  lineHeight: "1.2",
+                                  maxHeight: "1.2em",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                  display: "block",
+                                }}
+                                color="text.primary"
+                                gutterBottom
+                              >
+                                <b>{ownerInfo.name}</b>
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Box>
+              </>
+            ) : null}
             {userData.role === "Homeowner" &&
             userData.id === jobInfo.owner_id &&
             waiting.length > 0 ? (
@@ -694,14 +795,7 @@ function JobInfo() {
               aria-describedby="place-book-modal-description"
             >
               <Box sx={styles.modalRating}>
-                <Typography
-                  id="place-book-modal"
-                  variant="h5"
-                  textAlign="center"
-                >
-                  <b>Are you sure you want to end this job?</b>
-                </Typography>
-                <Typography variant="h6" textAlign="center" marginTop={2}>
+                <Typography variant="h5" textAlign="center" marginTop={2}>
                   Leave a rating <StarIcon /> or feedback <RateReviewIcon /> for
                   these worker(s) below
                 </Typography>
@@ -712,6 +806,15 @@ function JobInfo() {
                     ))}
                   </Grid>
                 </CardContent>
+                <Typography
+                  id="place-book-modal"
+                  variant="h5"
+                  textAlign="center"
+                  color="red"
+                  marginTop={2}
+                >
+                  <b>Are you sure you want to end this job?</b>
+                </Typography>
                 <Stack direction="row" justifyContent="center" marginTop={4}>
                   <EndJobButton owner_id={userData.id} job_id={id} />
                   <Button

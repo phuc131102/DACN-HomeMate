@@ -343,6 +343,10 @@ function JobDetail(prop) {
           <Typography sx={{ fontSize: 25 }} color="green" gutterBottom>
             <b>Status: In Progress</b>
           </Typography>
+        ) : prop.jobInfo.status === "Closed" ? (
+          <Typography sx={{ fontSize: 25 }} color="red" gutterBottom>
+            <b>Status: Job is Closed</b>
+          </Typography>
         ) : null}
       </Grid>
     </>

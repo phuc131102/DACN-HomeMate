@@ -111,8 +111,9 @@ function AppRoutes() {
   };
   const ProtectedUserInfo = () => {
     const userData = JSON.parse(localStorage.getItem("userData"));
-    return localStorage.getItem("userData") !== null &&
-      userData.role === "Admin" ? (
+    return (localStorage.getItem("userData") !== null &&
+      userData.role === "Admin") ||
+      userData.role === "Homeowner" ? (
       <UserInfo />
     ) : (
       <Navigate to="/" replace />
@@ -141,17 +142,13 @@ function AppRoutes() {
       <Route path="/add-user" element={<ProtectedAddUser />} />
       <Route path="/user/:id" element={<ProtectedUserInfo />} />
 
-      {/* {userData && userData.role === "Homeowner" ? ( */}
       <Route path="/create-job" element={<ProtectedCreateJob />} />
-      {/* ) :null} */}
 
       <Route path="/worker" element={<ProtectedWorker />} />
       <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
-      <Route path="/profile" element={<ProtectedProfile />} />
+      <Route path="/profile/:id" element={<ProtectedProfile />} />
 
-      {/* {userData && userData.role === "Homeowner" ? ( */}
       <Route path="/my-job" element={<ProtectedMyJob />} />
-      {/* ) : <Route path="/home" element={<ProtectedHome />} />} */}
 
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
