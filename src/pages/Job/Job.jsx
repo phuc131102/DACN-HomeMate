@@ -44,6 +44,11 @@ function Job() {
       let tempItems = chooseSalary.map((selectedSalary) => {
         let tempSalary = Salary.filter((item) => item.name === selectedSalary);
         let temp = jobs.filter((jobItem) => {
+          if (selectedSalary >= "> 500000 VND/hour") {
+            let tempArray =
+              tempSalary[0].min <= parseInt(jobItem.salary)
+            return tempArray;
+          }
           let tempArray =
             tempSalary[0].min <= parseInt(jobItem.salary) &&
             parseInt(jobItem.salary) <= tempSalary[0].max;
@@ -108,9 +113,10 @@ function Job() {
     filterItems.includes(item)
   );
   const currentJobs = jobArray.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (value) => {
-    setCurrentPage(value);
+  console.log(currentJobs);
+  const handlePageChange = (event, newPage) => {
+    // console.log(value)
+    setCurrentPage(newPage);
   };
 
   const handleAddJob = () => {
@@ -171,7 +177,7 @@ function Job() {
             &nbsp;<b>All Job</b>
           </Typography>
         </Grid>
-        <Box sx={{width:"80%", margin:"auto"}}>
+        <Box sx={{ width: "80%", margin: "auto" }}>
           <CardContent>
             {/* <Grid container spacing={5}>
             <Box id="gallery" className={isActive ? 'active' : ''}>
@@ -249,9 +255,9 @@ function Job() {
           </CardContent>
         </Box>
       </Box>
-      {jobs.length > 12 ? (
+      {jobArray.length > 13 ? (
         <Pagination
-          count={Math.ceil(jobs.length / itemsPerPage)}
+          count={Math.ceil(jobArray.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
