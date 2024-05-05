@@ -18,8 +18,11 @@ import { get_skill } from "../../services/skillAPI";
 import JobFilter from "./Child/Job_filter";
 import { Salary } from "./Child/Salary";
 import { Flex } from "antd";
+import NewCard from "./Child/NewCard";
+import "./Child/Newcard.css";
 
 function Job() {
+  //////////////////////
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const { jobs, loadingJob } = useJobs();
@@ -42,6 +45,10 @@ function Job() {
       let tempItems = chooseSalary.map((selectedSalary) => {
         let tempSalary = Salary.filter((item) => item.name === selectedSalary);
         let temp = jobs.filter((jobItem) => {
+          if (selectedSalary >= "> 500000 VND/hour") {
+            let tempArray = tempSalary[0].min <= parseInt(jobItem.salary);
+            return tempArray;
+          }
           let tempArray =
             tempSalary[0].min <= parseInt(jobItem.salary) &&
             parseInt(jobItem.salary) <= tempSalary[0].max;
@@ -107,8 +114,8 @@ function Job() {
     .filter((card) => card.status === "Available")
     .slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (value) => {
-    setCurrentPage(value);
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
   };
 
   const handleAddJob = () => {
@@ -169,94 +176,110 @@ function Job() {
             &nbsp;<b>All Job</b>
           </Typography>
         </Grid>
-        <CardContent>
-          <Grid container spacing={5}>
-            {currentJobs.map((card, index) => (
-              <Grid item xs={6} sm={3} md={2} key={index}>
-                <Card
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <CardActionArea component={Link} to={`/job/${card._id.$oid}`}>
-                    <CardMedia
-                      component="img"
-                      height="150"
-                      image={card.image === "" ? jobEmpty : card.image}
+        <Box sx={{ width: "80%", margin: "auto" }}>
+          <CardContent>
+            {/* <Grid container spacing={5}>
+            <Box id="gallery" className={isActive ? 'active' : ''}>
+              {currentJobs
+                .filter((card) => card.status === "Available")
+                .map((card, index) => (
+                  // <Grid item xs={6} sm={3} md={2} key={index}>
+                  //   <Card
+                  //     sx={{
+                  //       backgroundColor: "white",
+                  //       borderRadius: "20px",
+                  //       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                  //     }}
+                  //   >
+                  //     <CardActionArea
+                  //       component={Link}
+                  //       to={`/job/${card._id.$oid}`}
+                  //     >
+                  //       <CardMedia
+                  //         component="img"
+                  //         height="150"
+                  //         image={card.image === "" ? jobEmpty : card.image}
+                  //         alt={card.name}
+                  //       />
+                  //       <CardContent>
+                  //         <Typography
+                  //           sx={{
+                  //             fontSize: 16,
+                  //             textAlign: "center",
+                  //             lineHeight: "1.2",
+                  //             maxHeight: "1.2em",
+                  //             overflow: "hidden",
+                  //             textOverflow: "ellipsis",
+                  //             whiteSpace: "nowrap",
+                  //             display: "block",
+                  //           }}
+                  //           color="text.primary"
+                  //           gutterBottom
+                  //         >
+                  //           {card.name}
+                  //         </Typography>
+                  //         <Typography
+                  //           sx={{
+                  //             fontSize: 12,
+                  //             textAlign: "center",
+                  //             lineHeight: "1.2",
+                  //             maxHeight: "1.2em",
+                  //             overflow: "hidden",
+                  //             textOverflow: "ellipsis",
+                  //             whiteSpace: "nowrap",
+                  //             display: "block",
+                  //           }}
+                  //           color="text.primary"
+                  //           gutterBottom
+                  //         >
+                  //           {card.datetime}
+                  //         </Typography>
+                  //       </CardContent>
+                  //     </CardActionArea>
+                  //   </Card>
+                  // </Grid>
+
+                  <figure key={index}>
+                    <img
+                      src={card.image === "" ? jobEmpty : card.image}
                       alt={card.name}
+                      title={card.name}
                     />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          textAlign: "center",
-                          lineHeight: "1.2",
-                          maxHeight: "1.2em",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          display: "block",
-                        }}
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        {card.name}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: 12,
-                          textAlign: "center",
-                          lineHeight: "1.2",
-                          maxHeight: "1.2em",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          display: "block",
-                        }}
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        {card.datetime}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </CardContent>
+                    <figcaption>3 PM, Winter</figcaption>
+                  </figure>
+                ))}
+            </Box>
+          </Grid> */}
+            <NewCard currentJobs={currentJobs} />
+          </CardContent>
+        </Box>
       </Box>
-      {/* {jobs.length > 6 ? ( */}
-      <Pagination
-        count={Math.ceil(
-          jobArray.filter((card) => card.status === "Available").length /
-            itemsPerPage
-        )}
-        page={currentPage}
-        onChange={handlePageChange}
-        shape="rounded"
-        size="large"
-        color="primary"
-        showFirstButton
-        showLastButton
-        sx={{
-          marginTop: "20px",
-          marginBottom: "20px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      />
-      {/* // ) : (
-      //<div
-      //     style={{
-      //       margin: "10px auto",
-      //       marginTop: "20px",
-      //       marginBottom: "20px",
-      //     }}
-      //   ></div>
-      // )} */}
+      {jobArray.length > 6 ? (
+        <Pagination
+          count={Math.ceil(jobArray.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          shape="rounded"
+          size="large"
+          color="primary"
+          showFirstButton
+          showLastButton
+          sx={{
+            marginTop: "20px",
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            margin: "10px auto",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        ></div>
+      )}
       <br />
     </>
   );

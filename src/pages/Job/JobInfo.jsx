@@ -156,7 +156,9 @@ function JobInfo() {
           } catch (error) {
             console.error("Error fetching skill information:", error);
           } finally {
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
           }
         }
       };
@@ -173,6 +175,10 @@ function JobInfo() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching jobs:", error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
       }
     };
 
@@ -189,7 +195,9 @@ function JobInfo() {
         } catch (error) {
           console.error("Error fetching user information:", error);
         } finally {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
         }
       };
       fetchUserInfo();
@@ -282,7 +290,6 @@ function JobInfo() {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
       setEditedValues(jobInfo);
-      // setChooseSkill(jobInfo.skill);
     }
   };
 
