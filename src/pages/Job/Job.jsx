@@ -25,12 +25,13 @@ function Job() {
   const { jobs, loadingJob } = useJobs();
   const [filterItems, setFilterItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 6;
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterSalaryItems, setFilterSalaryItems] = useState([]);
   const [chooseSalary, setChooseSalary] = useState([]);
+
   useEffect(() => {
     setFilterItems(jobs);
     setFilterSalaryItems(jobs);
@@ -56,7 +57,6 @@ function Job() {
 
   useEffect(() => {
     if (chooseSkill.length > 0) {
-      // console.log("run effect")
       let tempItems = chooseSkill.map((selectedSkill) => {
         let temp = jobs.filter((jobItem) => {
           let tempArray = jobItem.skill.includes(selectedSkill);
@@ -76,7 +76,6 @@ function Job() {
       setLoading(true);
       try {
         const response = await get_skill();
-        // console.log(response.data);
         setSkills(response.data);
       } catch (error) {
         console.error("Error fetching skill information:", error);
@@ -104,7 +103,9 @@ function Job() {
   const jobArray = filterSalaryItems.filter((item) =>
     filterItems.includes(item)
   );
-  const currentJobs = jobArray.slice(indexOfFirstItem, indexOfLastItem);
+  const currentJobs = jobArray
+    .filter((card) => card.status === "Available")
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (value) => {
     setCurrentPage(value);
@@ -170,94 +171,92 @@ function Job() {
         </Grid>
         <CardContent>
           <Grid container spacing={5}>
-            {currentJobs
-              .filter((card) => card.status === "Available")
-              .map((card, index) => (
-                <Grid item xs={6} sm={3} md={2} key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: "white",
-                      borderRadius: "20px",
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    <CardActionArea
-                      component={Link}
-                      to={`/job/${card._id.$oid}`}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="150"
-                        image={card.image === "" ? jobEmpty : card.image}
-                        alt={card.name}
-                      />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.name}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: 12,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color="text.primary"
-                          gutterBottom
-                        >
-                          {card.datetime}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
+            {currentJobs.map((card, index) => (
+              <Grid item xs={6} sm={3} md={2} key={index}>
+                <Card
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  <CardActionArea component={Link} to={`/job/${card._id.$oid}`}>
+                    <CardMedia
+                      component="img"
+                      height="150"
+                      image={card.image === "" ? jobEmpty : card.image}
+                      alt={card.name}
+                    />
+                    <CardContent>
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          textAlign: "center",
+                          lineHeight: "1.2",
+                          maxHeight: "1.2em",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          display: "block",
+                        }}
+                        color="text.primary"
+                        gutterBottom
+                      >
+                        {card.name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: 12,
+                          textAlign: "center",
+                          lineHeight: "1.2",
+                          maxHeight: "1.2em",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          display: "block",
+                        }}
+                        color="text.primary"
+                        gutterBottom
+                      >
+                        {card.datetime}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </CardContent>
       </Box>
-      {jobs.length > 12 ? (
-        <Pagination
-          count={Math.ceil(jobs.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          shape="rounded"
-          size="large"
-          color="primary"
-          showFirstButton
-          showLastButton
-          sx={{
-            marginTop: "20px",
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        />
-      ) : (
-        <div
-          style={{
-            margin: "10px auto",
-            marginTop: "20px",
-            marginBottom: "20px",
-          }}
-        ></div>
-      )}
+      {/* {jobs.length > 6 ? ( */}
+      <Pagination
+        count={Math.ceil(
+          jobArray.filter((card) => card.status === "Available").length /
+            itemsPerPage
+        )}
+        page={currentPage}
+        onChange={handlePageChange}
+        shape="rounded"
+        size="large"
+        color="primary"
+        showFirstButton
+        showLastButton
+        sx={{
+          marginTop: "20px",
+          marginBottom: "20px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      />
+      {/* // ) : (
+      //<div
+      //     style={{
+      //       margin: "10px auto",
+      //       marginTop: "20px",
+      //       marginBottom: "20px",
+      //     }}
+      //   ></div>
+      // )} */}
       <br />
     </>
   );

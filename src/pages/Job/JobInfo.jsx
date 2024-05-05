@@ -412,7 +412,9 @@ function JobInfo() {
                           justifyContent: "center",
                         }}
                       >
-                        {!isWaiting && !isWorking ? (
+                        {!isWaiting &&
+                        !isWorking &&
+                        jobInfo.status === "Available" ? (
                           <Button
                             variant="contained"
                             color="success"
@@ -426,7 +428,7 @@ function JobInfo() {
                             Apply
                           </Button>
                         ) : null}
-                        {isWorking ? (
+                        {isWorking && jobInfo.status === "Available" ? (
                           <Button
                             variant="contained"
                             color="success"
@@ -439,7 +441,20 @@ function JobInfo() {
                             Apply is accepted !
                           </Button>
                         ) : null}
-                        {isWaiting ? (
+                        {isWorking && jobInfo.status === "In Progress" ? (
+                          <Button
+                            variant="contained"
+                            color="success"
+                            sx={{
+                              width: "15%",
+                              borderRadius: "15px",
+                              marginBottom: "2%",
+                            }}
+                          >
+                            Start Working
+                          </Button>
+                        ) : null}
+                        {isWaiting && jobInfo.status === "Available" ? (
                           <Button
                             variant="contained"
                             color="warning"
