@@ -16,6 +16,7 @@ import {
 import {
   accept_list,
   apply_job,
+  cancel_apply,
   deleteJob,
   get_job_info,
   update_job,
@@ -276,16 +277,42 @@ function JobInfo() {
       const response = await apply_job(updatedFormData);
       if (response) {
         window.location.reload();
-        console.log("Apply Job successfully:", response);
+        console.log("Apply successfully:", response);
       }
     } catch (error) {
       if (error.response) {
       }
-      console.error("Hire failed:", error);
+      console.error("Apply failed:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleCancelApply = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormData = {
+      homeownerId: jobInfo.owner_id,
+      workerId: userData.id,
+      jobId: id,
+    };
+
+    try {
+      const response = await cancel_apply(updatedFormData);
+      if (response) {
+        window.location.reload();
+        console.log("Cancel successfully:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+      }
+      console.error("Cancel failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const toggleEditMode = () => {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
@@ -436,43 +463,73 @@ function JobInfo() {
                           </Button>
                         ) : null}
                         {isWorking && jobInfo.status === "Available" ? (
-                          <Button
-                            variant="contained"
-                            color="success"
+                          // <Button
+                          //   variant="contained"
+                          //   color="success"
+                          //   sx={{
+                          //     width: "15%",
+                          //     borderRadius: "15px",
+                          //     marginBottom: "2%",
+                          //   }}
+                          // >
+                          //   Apply is accepted !
+                          // </Button>
+                          <Typography
                             sx={{
-                              width: "15%",
-                              borderRadius: "15px",
+                              color: "green",
+                              fontSize: "20px",
                               marginBottom: "2%",
                             }}
                           >
-                            Apply is accepted !
-                          </Button>
+                            <b>Apply is accepted !</b>
+                          </Typography>
                         ) : null}
                         {isWorking && jobInfo.status === "In Progress" ? (
-                          <Button
-                            variant="contained"
-                            color="success"
+                          // <Button
+                          //   variant="contained"
+                          //   color="success"
+                          //   sx={{
+                          //     width: "15%",
+                          //     borderRadius: "15px",
+                          //     marginBottom: "2%",
+                          //   }}
+                          // >
+                          //   Start Working
+                          // </Button>
+                          <Typography
                             sx={{
-                              width: "15%",
-                              borderRadius: "15px",
+                              color: "green",
+                              fontSize: "20px",
                               marginBottom: "2%",
                             }}
                           >
-                            Start Working
-                          </Button>
+                            <b>Start Working</b>
+                          </Typography>
                         ) : null}
                         {isWaiting && jobInfo.status === "Available" ? (
-                          <Button
-                            variant="contained"
-                            color="warning"
-                            sx={{
-                              width: "15%",
-                              borderRadius: "15px",
-                              marginBottom: "2%",
-                            }}
-                          >
-                            Apply sent ! Waiting...
-                          </Button>
+                          <div>
+                            <Typography
+                              sx={{
+                                color: "green",
+                                fontSize: "20px",
+                                marginBottom: "2%",
+                              }}
+                            >
+                              <b>Apply sent ! Waiting...</b>
+                            </Typography>
+                            <Button
+                              variant="contained"
+                              color="warning"
+                              sx={{
+                                width: "100%",
+                                borderRadius: "15px",
+                                marginBottom: "2%",
+                              }}
+                              onClick={handleCancelApply}
+                            >
+                              Cancel Apply
+                            </Button>
+                          </div>
                         ) : null}
                       </Box>
                     </>

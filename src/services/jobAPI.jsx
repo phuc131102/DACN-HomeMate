@@ -81,38 +81,52 @@ export const myJob = async (data) => {
 };
 
 //HIRE WORKER
-export const hire_worker = async (data) => {
-  try {
-    const response = await axios.post(
-      "https://projectapi-g9ba.onrender.com/hire_worker",
-      data
-    );
-    return response.data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
+// export const hire_worker = async (data) => {
+//   try {
+//     const response = await axios.post(
+//       "https://projectapi-g9ba.onrender.com/hire_worker",
+//       data
+//     );
+//     return response.data;
+//   } catch (err) {
+//     console.error(err);
+//     throw err;
+//   }
+// };
 
 //RATING WORKER
-export const return_worker = async (data) => {
-  try {
-    const response = await axios.post(
-      "https://projectapi-g9ba.onrender.com/return_worker",
-      data
-    );
-    return response.data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
+// export const return_worker = async (data) => {
+//   try {
+//     const response = await axios.post(
+//       "https://projectapi-g9ba.onrender.com/return_worker",
+//       data
+//     );
+//     return response.data;
+//   } catch (err) {
+//     console.error(err);
+//     throw err;
+//   }
+// };
 
 //APPLY JOB
 export const apply_job = async (data) => {
   try {
     const response = await axios.post(
       "https://projectapi-g9ba.onrender.com/apply_job",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//CANCEL APPLY
+export const cancel_apply = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/cancel_apply",
       data
     );
     return response.data;
