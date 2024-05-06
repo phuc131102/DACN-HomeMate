@@ -45,8 +45,7 @@ function Job() {
         let tempSalary = Salary.filter((item) => item.name === selectedSalary);
         let temp = jobs.filter((jobItem) => {
           if (selectedSalary >= "> 500000 VND/hour") {
-            let tempArray =
-              tempSalary[0].min <= parseInt(jobItem.salary)
+            let tempArray = tempSalary[0].min <= parseInt(jobItem.salary);
             return tempArray;
           }
           let tempArray =
@@ -132,54 +131,71 @@ function Job() {
           marginTop: "7%",
         }}
       >
-        {userData.role === "Homeowner" ? (
-          <Grid container sx={{ width: "95%", margin: "auto" }}>
-            <Button
-              variant="contained"
-              sx={{
-                width: "15%",
-                marginLeft: "auto",
-                borderRadius: "15px",
-              }}
-              onClick={handleAddJob}
-            >
-              Create New Job
-            </Button>
-          </Grid>
-        ) : null}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "50px",
-          }}
-        >
-          <Box sx={{ width: "300px" }}>
-            <JobFilter
-              option={Salary}
-              chooseOption={chooseSalary}
-              setChooseOption={setChooseSalary}
-              label="Salary"
-            />
-          </Box>
-          <Box sx={{ width: "300px" }}>
-            <JobFilter
-              option={skills}
-              chooseOption={chooseSkill}
-              setChooseOption={setChooseSkill}
-              label="Skill"
-            />
-          </Box>
-        </Box>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-            &nbsp;<b>All Job</b>
-          </Typography>
-        </Grid>
         <Box sx={{ width: "80%", margin: "auto" }}>
-          <CardContent>
-            {/* <Grid container spacing={5}>
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            &nbsp;<b>Filter</b>
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                gap: "50px",
+              }}
+            >
+              <Box sx={{ width: "300px" }}>
+                <JobFilter
+                  option={Salary}
+                  chooseOption={chooseSalary}
+                  setChooseOption={setChooseSalary}
+                  label="Salary"
+                />
+              </Box>
+              <Box sx={{ width: "300px" }}>
+                <JobFilter
+                  option={skills}
+                  chooseOption={chooseSkill}
+                  setChooseOption={setChooseSkill}
+                  label="Skill"
+                />
+              </Box>
+            </Box>
+            <Box>
+              {userData.role === "Homeowner" ? (
+                <Grid container sx={{ width: "95%", margin: "auto" }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "200px",
+                      height: "56px",
+                      marginLeft: "auto",
+                      borderRadius: "15px",
+                    }}
+                    onClick={handleAddJob}
+                  >
+                    Create New Job
+                  </Button>
+                </Grid>
+              ) : null}
+            </Box>
+          </Box>
+          <Grid
+            container
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ marginBottom: "30px" }}
+          >
+            <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+              &nbsp;<b>Jobs</b>
+            </Typography>
+          </Grid>
+          {/* <Grid container spacing={5}>
             <Box id="gallery" className={isActive ? 'active' : ''}>
               {currentJobs
                 .filter((card) => card.status === "Available")
@@ -251,8 +267,7 @@ function Job() {
                 ))}
             </Box>
           </Grid> */}
-            <NewCard currentJobs={currentJobs} />
-          </CardContent>
+          <NewCard currentJobs={currentJobs} />
         </Box>
       </Box>
       {jobArray.length > 13 ? (

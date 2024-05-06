@@ -36,7 +36,7 @@ function NewCard(prop) {
   }, [isAnimating]);
   return (
     <Box>
-      <Grid container spacing={5}>
+      <Grid container>
         <Box id="gallery" className={isActive ? "active" : ""}>
           {prop.currentJobs
             .filter((card) => card.status === "Available")

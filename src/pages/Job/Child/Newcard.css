@@ -33,7 +33,6 @@ p {
 	line-height: 1;
 }
 a {
-	color: crimson;
 	text-decoration: none;
 }
 img {
@@ -111,7 +110,8 @@ img {
 	padding: 0.5rem;
 	border-radius: 5px;
 	box-shadow: 0 7px 8px rgba(0, 0, 0, 0.4);
-	width: 100%;
+	width: 80%;
+	margin:auto;
 	height: auto;
 	text-align: center;
 	background-color: ghostwhite;
@@ -169,7 +169,7 @@ figure figcaption {
 	text-overflow: ellipsis;
 	z-index: 1;
 }
-figure h2 {
+figure h2 {	
 	color: crimson;
 	font-size: 22px;
 }
