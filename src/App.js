@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import ScrollToTop from "./components/toTop/toTop";
 import BackToTopButton from "./components/Button/BackToTopButton/BackToTopButton";
 import { JobProvider } from "./components/TopBar/JobContext"; 
+import { NotificationProvider } from './components/TopBar/NotificationContext.js';
 
 function App() {
   useEffect(() => {
@@ -18,11 +19,13 @@ function App() {
     <div className="app-wrapper">
       <Router>
         <JobProvider> 
+        <NotificationProvider>
           <BackToTopButton />
           <ScrollToTop />
           <ConditionalTopBar />
           <AppRoutes />
           <ConditionalFooter />
+          </NotificationProvider>
         </JobProvider>
       </Router>
     </div>

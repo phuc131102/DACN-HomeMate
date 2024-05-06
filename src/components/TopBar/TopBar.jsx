@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -12,13 +12,15 @@ import {
   MenuItem,
   Badge,
 } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+// import NotificationsIcon from "@mui/icons-material/Notifications";
+
 import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
+import Notifications from "../TopBar/Notifications";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -26,6 +28,8 @@ function TopBar() {
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
+  const { notifications, clearNotifications } = useContext(NotificationContext);
+  const hasNotifications = notifications.length > 0;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -433,13 +437,11 @@ function TopBar() {
               <Box sx={{ marginRight: "2%" }}>
                 <Search />
               </Box>
+
               <Tooltip title="Open notification">
-                <IconButton aria-label="notification">
-                  <Badge badgeContent={4} color="primary">
-                    <NotificationsIcon color="black" />
-                  </Badge>
-                </IconButton>
+                <Notifications/>
               </Tooltip>
+
               <Tooltip title="Open setting">
                 <IconButton aria-label="notification">
                   <Badge color="primary">
