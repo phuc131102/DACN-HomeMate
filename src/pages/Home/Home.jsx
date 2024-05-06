@@ -46,6 +46,8 @@ function Home() {
   if (loadingJob) {
     return <Loading />;
   }
+  const jobLength = jobs.length;
+  const workerLength = workers.length;
   const jobArray = jobs
     .filter((card) => card.status !== "In Progress")
     .slice(-4)
@@ -53,7 +55,7 @@ function Home() {
   return (
     <>
       <br />
-      <Hero />
+      <Hero  jobLength={ jobLength} workerLength={workerLength}/>
       <Box
         sx={{
           width: "80%",
