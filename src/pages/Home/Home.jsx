@@ -55,7 +55,7 @@ function Home() {
   return (
     <>
       <br />
-      <Hero  jobLength={ jobLength} workerLength={workerLength}/>
+      <Hero jobLength={jobLength} workerLength={workerLength} />
       <Box
         sx={{
           width: "80%",
@@ -63,31 +63,33 @@ function Home() {
           marginTop: "2%",
         }}
       >
-
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-              &nbsp;<b>New Worker</b>
-            </Typography>
-            {workers.length === 0 ? null : (
-              <Button
-                onClick={handleViewAll}
-                variant="text"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                View All Workers <NavigateNextIcon />
-              </Button>
-            )}
-          </Grid>
-          {workers.length === 0 ? (
-            "No worker available"
-          ) : (
-            <Grid container sx={{display:"flex", justifyContent:"space-between"}}>
-              {workers
-                .slice(-4)
-                .reverse()
-                .map((card, index) => (
-                  <Grid item key={index}>
-                    {/* <Card
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            &nbsp;<b>New Worker</b>
+          </Typography>
+          {workers.length === 0 ? null : (
+            <Button
+              onClick={handleViewAll}
+              variant="text"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              View All Workers <NavigateNextIcon />
+            </Button>
+          )}
+        </Grid>
+        {workers.length === 0 ? (
+          "No worker available"
+        ) : (
+          <Grid
+            container
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            {workers
+              .slice(-4)
+              .reverse()
+              .map((card, index) => (
+                <Grid item key={index}>
+                  {/* <Card
                       sx={{
                         backgroundColor: "white",
                         borderRadius: "20px",
@@ -125,11 +127,11 @@ function Home() {
                         </CardContent>
                       </CardActionArea>
                     </Card> */}
-                    <WorkerCard card={card}/>
-                  </Grid>
-                ))}
-            </Grid>
-          )}
+                  <WorkerCard card={card} />
+                </Grid>
+              ))}
+          </Grid>
+        )}
       </Box>
 
       <div
@@ -165,8 +167,8 @@ function Home() {
         {jobs.length === 0 ? (
           "No job available"
         ) : (
-          <Grid container sx={{display:"flex", justifyContent:"center"}}>
-            <Box sx={{ marginTop: "80px", width:"100%" }}>
+          <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ marginTop: "80px", width: "100%" }}>
               <NewCard currentJobs={jobArray} />
             </Box>
           </Grid>

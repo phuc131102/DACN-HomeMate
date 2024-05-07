@@ -46,7 +46,7 @@ function YourWorker() {
       fetchData();
     }
   }, [userData]);
-  console.log(workers);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentWorker = workers.slice(indexOfFirstItem, indexOfLastItem);
@@ -83,7 +83,7 @@ function YourWorker() {
                     backgroundColor: "white",
                     borderRadius: "20px",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    width:"250px"
+                    width: "250px",
                   }}
                 >
                   <Grid
@@ -98,9 +98,13 @@ function YourWorker() {
                     <CardMedia
                       component="img"
                       height="250"
-                      image={card.worker.avatar === "" ? avtEmpty : card.worker.avatar}
+                      image={
+                        card.worker.avatar === ""
+                          ? avtEmpty
+                          : card.worker.avatar
+                      }
                       alt={card.name}
-                      sx={{objectFit:"cover"}}
+                      sx={{ objectFit: "cover" }}
                     />
                     <CardContent>
                       <Typography
@@ -130,7 +134,7 @@ function YourWorker() {
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
                             display: "block",
-                            wordBreak:"break-word"
+                            wordBreak: "break-word",
                           }}
                           color={card.status === "Working" ? "green" : "red"}
                           gutterBottom

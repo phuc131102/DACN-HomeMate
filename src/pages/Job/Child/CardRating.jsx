@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import {
   Grid,
   Box,
@@ -15,9 +15,7 @@ import {
   Rating,
 } from "@mui/material";
 import avt_empty from "../../../assets/avt_empty.png";
-import {
-    rating_worker,
-  } from "../../../services/jobAPI";
+import { rating_worker } from "../../../services/jobAPI";
 
 function CardRating(prop) {
   const labels = {
@@ -34,15 +32,19 @@ function CardRating(prop) {
     5: "5.0",
   };
 
+  const params = useParams();
+  const id = params.id.split("/").pop();
+
   const [value, setValue] = React.useState(0);
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
   const [hover, setHover] = React.useState(-1);
   const [ratingSuccess, setRatingSuccess] = React.useState(false);
-  const handleRating = async (worker_id, rating) => {
+  const handleRating = async (worker_id, job_id, rating) => {
     const updatedFormData = {
       workerId: worker_id,
+      jobId: job_id,
       star: rating,
     };
 
@@ -136,7 +138,7 @@ function CardRating(prop) {
                     marginTop: "10px",
                   }}
                   onClick={() => {
-                    handleRating(prop.card._id.$oid, value);
+                    handleRating(prop.card._id.$oid, id, value);
                   }}
                   disabled={value === 0}
                 >

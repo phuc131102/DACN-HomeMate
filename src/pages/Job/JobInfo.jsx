@@ -16,6 +16,7 @@ import {
 import {
   accept_list,
   apply_job,
+  cancel_apply,
   deleteJob,
   get_job_info,
   update_job,
@@ -156,7 +157,9 @@ function JobInfo() {
           } catch (error) {
             console.error("Error fetching skill information:", error);
           } finally {
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
           }
         }
       };
@@ -173,6 +176,10 @@ function JobInfo() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching jobs:", error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
       }
     };
 
@@ -189,7 +196,9 @@ function JobInfo() {
         } catch (error) {
           console.error("Error fetching user information:", error);
         } finally {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
         }
       };
       fetchUserInfo();
@@ -268,21 +277,46 @@ function JobInfo() {
       const response = await apply_job(updatedFormData);
       if (response) {
         window.location.reload();
-        console.log("Apply Job successfully:", response);
+        console.log("Apply successfully:", response);
       }
     } catch (error) {
       if (error.response) {
       }
-      console.error("Hire failed:", error);
+      console.error("Apply failed:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleCancelApply = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormData = {
+      homeownerId: jobInfo.owner_id,
+      workerId: userData.id,
+      jobId: id,
+    };
+
+    try {
+      const response = await cancel_apply(updatedFormData);
+      if (response) {
+        window.location.reload();
+        console.log("Cancel successfully:", response);
+      }
+    } catch (error) {
+      if (error.response) {
+      }
+      console.error("Cancel failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const toggleEditMode = () => {
     setEditMode((prevEditMode) => !prevEditMode);
     if (!editMode) {
       setEditedValues(jobInfo);
-      // setChooseSkill(jobInfo.skill);
     }
   };
 
