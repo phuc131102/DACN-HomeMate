@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { update_cv } from "../../../services/cvAPI";
 // import skillInfo from "./fakeSkill";
 import { get_skill } from "../../../services/skillAPI";
@@ -10,6 +10,9 @@ import { get_user_info, update_user_info } from "../../../services/userAPI";
 import { get_cv_info } from "../../../services/cvAPI";
 
 function CvUpdateState(prop) {
+  const params = useParams();
+  const id = params.id.split("/").pop();
+
   const navigate = useNavigate();
   // fetch Data
   // CV COMPS
@@ -54,7 +57,6 @@ function CvUpdateState(prop) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
-  console.log(cvtitle)
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
@@ -89,16 +91,18 @@ function CvUpdateState(prop) {
         setIntro(response.data.intro);
         setExperience(response.data.exp);
         setCvInfo(response.data);
-        setSkills(response.data.skill)
+        setSkills(response.data.skill);
         const newCert = response.data.certificate;
-        setCid(newCert.length)
-        setCerts(newCert)
-        console.log(response.data.certificate)
+        setCid(newCert.length);
+        setCerts(newCert);
         const responses = await get_skill();
         setSkillData(responses.data);
-        setSkillOption(responses.data.filter(
-          (item1) => !response.data.skill.some((item2) => item1.name === item2.name)
-        ));
+        setSkillOption(
+          responses.data.filter(
+            (item1) =>
+              !response.data.skill.some((item2) => item1.name === item2.name)
+          )
+        );
       } catch (error) {
         console.error("Error fetching cv information:", error);
       } finally {
@@ -107,8 +111,7 @@ function CvUpdateState(prop) {
     };
     fetchUserInfo();
   }, []);
-console.log(skillData)
-console.log(skillOption)
+
   //FUNCTION
   function handleSExp(event) {
     let midleScore =
@@ -153,9 +156,9 @@ console.log(skillOption)
   }
   function handleSkilltDelete(id) {
     let delReq = skills.filter((component) => component.skill_id === id);
-    console.log(delReq)
+    console.log(delReq);
     let newSkill = skillData.filter((prop) => prop.name === delReq[0].name);
-    console.log(newSkill)
+    console.log(newSkill);
     setSkills(skills.filter((component) => component.skill_id !== id));
     setSkillOption([...skillOption, newSkill[0]]);
   }
@@ -344,7 +347,7 @@ console.log(skillOption)
       try {
         const response = await update_cv(formData);
         if (response) {
-          navigate("/profile");
+          navigate(`/profile/${id}`);
         }
       } catch (error) {
         if (error.response) {
@@ -361,74 +364,77 @@ console.log(skillOption)
   }
   return (
     <>
-      {cvinfo !== null?
-      (<CvBase
-        handleSetErrorOpen={handleSetErrorOpen}
-        handleErrorClose={handleErrorClose}
-        handleSkillClose={handleSkillClose}
-        handleSetSkillOpen={handleSetSkillOpen}
-        skillOpen={skillOpen}
-        preProcessing={preProcessing}
-        //////////Skill////////
-        skillOption={skillOption}
-        setSkillId={setSkillId}
-        intro={intro}
-        setIntro={setIntro}
-        education={education}
-        setEducation={setEducation}
-        experience={experience}
-        setExperience={setExperience}
-        certs={certs}
-        setCerts={setCerts}
-        skills={skills}
-        setSkills={setSkills}
-        Cid={Cid}
-        setCid={setCid}
-        Cname={Cname}
-        setCName={setCName}
-        organize={organize}
-        setOrganize={setOrganize}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        detail={detail}
-        setDetail={setDetail}
-        link={link}
-        setLink={setLink}
-        open={open}
-        setOpen={setOpen}
-        name={sname}
-        setName={setSName}
-        Sid={Sid}
-        setSid={setSid}
-        SExp={SExp}
-        setSExp={setSExp}
-        sInputValue={sInputValue}
-        setSInputValue={setSInputValue}
-        handleIntro={handleIntro}
-        handleExp={handleExp}
-        handleSkillAdd={handleSkillAdd2}
-        handleSkilltDelete={handleSkilltDelete}
-        handleCertificateAdd={handleCertificateAdd}
-        handleCertDelete={handleCertDelete}
-        handleSetOpen={handleSetOpen}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
-        cvtitle={cvtitle}
-        handleTitle={handleTitle}
-        skillData={skillData}
-        languageData={languageData}
-        // cvpfd
-        pdfFile={pdfFile}
-        setPdfFile={setPdfFile}
-        viewPdf={viewPdf}
-        setViewPdf={setViewPdf}
-        setPdf={setPdf}
-        handleSExp={handleSExp}
-        errorSnackbar={errorSnackbar}
-        setErrorSnackbar={setErrorSnackbar}
-      />):("")}
+      {cvinfo !== null ? (
+        <CvBase
+          handleSetErrorOpen={handleSetErrorOpen}
+          handleErrorClose={handleErrorClose}
+          handleSkillClose={handleSkillClose}
+          handleSetSkillOpen={handleSetSkillOpen}
+          skillOpen={skillOpen}
+          preProcessing={preProcessing}
+          //////////Skill////////
+          skillOption={skillOption}
+          setSkillId={setSkillId}
+          intro={intro}
+          setIntro={setIntro}
+          education={education}
+          setEducation={setEducation}
+          experience={experience}
+          setExperience={setExperience}
+          certs={certs}
+          setCerts={setCerts}
+          skills={skills}
+          setSkills={setSkills}
+          Cid={Cid}
+          setCid={setCid}
+          Cname={Cname}
+          setCName={setCName}
+          organize={organize}
+          setOrganize={setOrganize}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          detail={detail}
+          setDetail={setDetail}
+          link={link}
+          setLink={setLink}
+          open={open}
+          setOpen={setOpen}
+          name={sname}
+          setName={setSName}
+          Sid={Sid}
+          setSid={setSid}
+          SExp={SExp}
+          setSExp={setSExp}
+          sInputValue={sInputValue}
+          setSInputValue={setSInputValue}
+          handleIntro={handleIntro}
+          handleExp={handleExp}
+          handleSkillAdd={handleSkillAdd2}
+          handleSkilltDelete={handleSkilltDelete}
+          handleCertificateAdd={handleCertificateAdd}
+          handleCertDelete={handleCertDelete}
+          handleSetOpen={handleSetOpen}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          cvtitle={cvtitle}
+          handleTitle={handleTitle}
+          skillData={skillData}
+          languageData={languageData}
+          // cvpfd
+          pdfFile={pdfFile}
+          setPdfFile={setPdfFile}
+          viewPdf={viewPdf}
+          setViewPdf={setViewPdf}
+          setPdf={setPdf}
+          handleSExp={handleSExp}
+          errorSnackbar={errorSnackbar}
+          setErrorSnackbar={setErrorSnackbar}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 }

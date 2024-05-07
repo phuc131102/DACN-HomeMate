@@ -28,12 +28,13 @@ function Job() {
   const { jobs, loadingJob } = useJobs();
   const [filterItems, setFilterItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 6;
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterSalaryItems, setFilterSalaryItems] = useState([]);
   const [chooseSalary, setChooseSalary] = useState([]);
+
   useEffect(() => {
     setFilterItems(jobs);
     setFilterSalaryItems(jobs);
@@ -63,7 +64,6 @@ function Job() {
 
   useEffect(() => {
     if (chooseSkill.length > 0) {
-      // console.log("run effect")
       let tempItems = chooseSkill.map((selectedSkill) => {
         let temp = jobs.filter((jobItem) => {
           let tempArray = jobItem.skill.includes(selectedSkill);
@@ -83,7 +83,6 @@ function Job() {
       setLoading(true);
       try {
         const response = await get_skill();
-        // console.log(response.data);
         setSkills(response.data);
       } catch (error) {
         console.error("Error fetching skill information:", error);
@@ -111,10 +110,11 @@ function Job() {
   const jobArray = filterSalaryItems.filter((item) =>
     filterItems.includes(item)
   );
-  const currentJobs = jobArray.slice(indexOfFirstItem, indexOfLastItem);
-  console.log(currentJobs);
+  const currentJobs = jobArray
+    .filter((card) => card.status === "Available")
+    .slice(indexOfFirstItem, indexOfLastItem);
+
   const handlePageChange = (event, newPage) => {
-    // console.log(value)
     setCurrentPage(newPage);
   };
 
@@ -270,7 +270,7 @@ function Job() {
           <NewCard currentJobs={currentJobs} />
         </Box>
       </Box>
-      {jobArray.length > 13 ? (
+      {jobArray.length > 6 ? (
         <Pagination
           count={Math.ceil(jobArray.length / itemsPerPage)}
           page={currentPage}

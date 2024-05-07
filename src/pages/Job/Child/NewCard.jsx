@@ -38,23 +38,21 @@ function NewCard(prop) {
     <Box>
       <Grid container>
         <Box id="gallery" className={isActive ? "active" : ""}>
-          {prop.currentJobs
-            .filter((card) => card.status === "Available")
-            .map((card, index) => (
-              <figure key={index}>
-                <Box component={Link} to={`/job/${card._id.$oid}`}>
-                  <img
-                    src={card.image === "" ? jobEmpty : card.image}
-                    alt={card.name}
-                    title={card.name}
-                  />
-                  <figcaption>
-                    <Typography>{card.name}</Typography>
-                    <Typography>{card.datetime}</Typography>
-                  </figcaption>
-                </Box>
-              </figure>
-            ))}
+          {prop.currentJobs.map((card, index) => (
+            <figure key={index}>
+              <Box component={Link} to={`/job/${card._id.$oid}`}>
+                <img
+                  src={card.image === "" ? jobEmpty : card.image}
+                  alt={card.name}
+                  title={card.name}
+                />
+                <figcaption>
+                  <Typography>{card.name}</Typography>
+                  <Typography>{card.datetime}</Typography>
+                </figcaption>
+              </Box>
+            </figure>
+          ))}
         </Box>
       </Grid>
     </Box>
