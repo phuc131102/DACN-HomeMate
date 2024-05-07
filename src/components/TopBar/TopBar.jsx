@@ -19,12 +19,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
+import { get_noti } from "../../services/jobAPI";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElNotification, setAnchorElNotification] = useState(null);
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [userNoti, setUserNoti] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
 
   const navigate = useNavigate();
@@ -42,7 +45,9 @@ function TopBar() {
       const fetchUserInfo = async () => {
         try {
           const response = await get_user_info(userData.id);
+          const response2 = await get_noti(userData.id);
           setUserInfo(response);
+          setUserNoti(response2);
         } catch (error) {
           console.error("Error fetching user information:", error);
         }
@@ -67,14 +72,6 @@ function TopBar() {
     localStorage.setItem("activeTab", tab);
   }, [location.pathname]);
 
-  // useEffect(() => {
-  //   const activeTabIndicator = document.querySelector(".active-tab-indicator");
-  //   if (activeTab && activeTabIndicator) {
-  //     const newLeft = document.querySelector(`.tab-${activeTab}`).offsetLeft;
-  //     activeTabIndicator.style.left = `${newLeft}px`;
-  //   }
-  // }, [activeTab]);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -89,6 +86,14 @@ function TopBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleOpenNotification = (event) => {
+    setAnchorElNotification(event.currentTarget);
+  };
+
+  const handleCloseNotification = () => {
+    setAnchorElNotification(null);
   };
 
   useEffect(() => {
@@ -434,12 +439,61 @@ function TopBar() {
                 <Search />
               </Box>
               <Tooltip title="Open notification">
-                <IconButton aria-label="notification">
-                  <Badge badgeContent={4} color="primary">
+                <IconButton
+                  onClick={handleOpenNotification}
+                  aria-label="notification"
+                >
+                  <Badge badgeContent={userNoti.length} color="primary">
                     <NotificationsIcon color="black" />
                   </Badge>
                 </IconButton>
               </Tooltip>
+              <Menu
+                sx={{
+                  mt: "45px",
+                  "& .MuiPaper-root": {
+                    maxWidth: 500,
+                  },
+                  "& .MuiMenuItem-root": {
+                    borderTop: "1px solid #e0e0e0",
+                  },
+                }}
+                id="menu-appbar"
+                anchorEl={anchorElNotification}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElNotification)}
+                onClose={handleCloseNotification}
+              >
+                {userNoti.map((card, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={handleCloseNotification}
+                    component={Link}
+                    to={`/job/${card.job_id}`}
+                    sx={{
+                      whiteSpace: "normal",
+                      overflowWrap: "break-word",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 700,
+                        width: "100%",
+                      }}
+                    >
+                      {card.message}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
               <Tooltip title="Open setting">
                 <IconButton aria-label="notification">
                   <Badge color="primary">
@@ -506,8 +560,6 @@ function TopBar() {
                   </MenuItem>
                 </Menu>
               </Box>
-
-              {/* Remaining code */}
             </Toolbar>
           </Container>
         </AppBar>

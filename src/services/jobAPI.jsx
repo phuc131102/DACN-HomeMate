@@ -283,3 +283,16 @@ export const rating_worker = async (data) => {
     throw err;
   }
 };
+
+//GET NOTIFICATION
+export const get_noti = async (data) => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/get_noti/${data}`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
