@@ -110,10 +110,7 @@ function AppRoutes() {
     );
   };
   const ProtectedUserInfo = () => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    return (localStorage.getItem("userData") !== null &&
-      userData.role === "Admin") ||
-      userData.role === "Homeowner" ? (
+    return localStorage.getItem("userData") !== null ? (
       <UserInfo />
     ) : (
       <Navigate to="/" replace />

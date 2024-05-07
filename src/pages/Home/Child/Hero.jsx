@@ -13,7 +13,7 @@ import "./Hero.css";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
 
-function Hero() {
+function Hero(prop) {
   return (
     <Box sx={{ backgroundColor: "rgb(77, 75, 75)" }}>
       <Box sx={{ width: "80%", margin: "auto" }}>
@@ -43,7 +43,7 @@ function Hero() {
               <Box className="flexCenter stats">
                 <Box className="flexColStart stat">
                   <span>
-                    <CountUp start={0} end={500} duration={3} />
+                    <CountUp start={0} end={prop.jobLength} duration={3} />
                     <span>+</span>
                   </span>
                   <span className="secondaryText">Jobs</span>
@@ -57,7 +57,7 @@ function Hero() {
                 </Box>
                 <Box className="flexColStart stat">
                   <span>
-                    <CountUp start={0} end={250} duration={3} />
+                    <CountUp start={0} end={prop.workerLength} duration={3} />
                     <span>+</span>
                   </span>
                   <span className="secondaryText">Workers</span>
