@@ -103,21 +103,6 @@ function JobDetail(prop) {
                 name="email"
                 type="email"
                 value={prop.jobInfo.email}
-                // onChange={handleInputChange}
-                // error={
-                //   prop.editMode
-                //     ? !!editedValues.email &&
-                //       !/\S+@\S+\.\S+/.test(editedValues.email)
-                //     : null
-                // }
-                // helperText={
-                //   prop.editMode
-                //     ? !!editedValues.email &&
-                //       !/\S+@\S+\.\S+/.test(editedValues.email)
-                //       ? "Please enter a valid email address."
-                //       : ""
-                //     : null
-                // }
               />
             </Grid>
             <Grid item xs={6}>
@@ -271,28 +256,6 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                {/* <TextField
-                  InputProps={{
-                    readOnly: !prop.editMode,
-                    style: { color: "black" },
-                  }}
-                  sx={{
-                    [`& fieldset`]: {
-                      borderRadius: 8,
-                    },
-                    "& .MuiInputLabel-asterisk": {
-                      color: "red",
-                    },
-                  }}
-                  variant={prop.editMode ? "outlined" : "standard"}
-                  required={prop.editMode}
-                  fullWidth
-                  multiline
-                  label="Description"
-                  name="desc"
-                  value={prop.jobInfo.desc}
-                  //   onChange={handleInputChange}
-                /> */}
                 <Typography variant="caption">Description</Typography>
                 <Typography variant="body1">{prop.jobInfo.desc}</Typography>
               </Box>
@@ -308,27 +271,6 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                {/* <TextField
-                  InputProps={{
-                    readOnly: !prop.editMode,
-                    style: { color: "black" },
-                  }}
-                  sx={{
-                    mb: "1%",
-                    [`& fieldset`]: { borderRadius: 8 },
-                  }}
-                  variant={prop.editMode ? "outlined" : "standard"}
-                  fullWidth
-                  multiline
-                  label="Requirement"
-                  name="requirement"
-                  value={
-                    prop.jobInfo.requirement === ""
-                      ? "No requirement."
-                      : prop.jobInfo.requirement
-                  }
-                  //   onChange={handleInputChange}
-                /> */}
                 <Typography variant="caption">Requirement</Typography>
                 <Typography variant="body1">
                   {prop.jobInfo.requirement === ""

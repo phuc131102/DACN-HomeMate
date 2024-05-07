@@ -47,6 +47,7 @@ function NewCard(prop) {
                     src={card.image === "" ? jobEmpty : card.image}
                     alt={card.name}
                     title={card.name}
+                    loading="lazy"
                   />
                   <figcaption>
                     <Typography>{card.name}</Typography>

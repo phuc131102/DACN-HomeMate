@@ -61,7 +61,6 @@ const UserListPage = () => {
         sx={{
           width: "95%",
           margin: "auto",
-          marginTop: "7%",
         }}
       >
         {userData.role === "Admin" ? (
