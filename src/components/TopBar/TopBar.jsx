@@ -28,6 +28,7 @@ function TopBar() {
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [userNoti, setUserNoti] = useState(null);
+  const [notiCount, setNotiCount] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
 
   const navigate = useNavigate();
@@ -48,6 +49,11 @@ function TopBar() {
           const response2 = await get_noti(userData.id);
           setUserInfo(response);
           setUserNoti(response2);
+          setNotiCount(
+            response2.filter((notification) => notification.status === "Unread")
+              .length
+          );
+          console.log(response2);
         } catch (error) {
           console.error("Error fetching user information:", error);
         }
@@ -55,9 +61,6 @@ function TopBar() {
       fetchUserInfo();
     }
   }, [userData]);
-
-  const unreadNotifications =
-    userNoti?.filter((notification) => notification.status === "Unread") || [];
 
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
@@ -76,23 +79,24 @@ function TopBar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const handleSeen = async () => {
-      const data = {
-        userId: userData.id,
-      };
-      try {
-        const response = await seen_noti(data);
-        if (response) {
-          console.log(response);
-        }
-      } catch (error) {
-        console.error("Error:", error.message);
-      }
-    };
     if (anchorElNotification) {
-      handleSeen();
+      setNotiCount(0);
     }
-  }, [anchorElNotification, userData]);
+  }, [anchorElNotification]);
+
+  const handleSeen = async () => {
+    const data = {
+      userId: userData.id,
+    };
+    try {
+      const response = await seen_noti(data);
+      if (response) {
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -115,6 +119,7 @@ function TopBar() {
   };
 
   const handleCloseNotification = () => {
+    handleSeen();
     setAnchorElNotification(null);
   };
 
@@ -465,10 +470,7 @@ function TopBar() {
                   onClick={handleOpenNotification}
                   aria-label="notification"
                 >
-                  <Badge
-                    badgeContent={unreadNotifications.length}
-                    color="primary"
-                  >
+                  <Badge badgeContent={notiCount} color="primary">
                     <NotificationsIcon color="black" />
                   </Badge>
                 </IconButton>
@@ -478,6 +480,7 @@ function TopBar() {
                   mt: "45px",
                   "& .MuiPaper-root": {
                     maxWidth: 500,
+                    maxHeight: 500,
                   },
                   "& .MuiMenuItem-root": {
                     borderTop: "1px solid #e0e0e0",
@@ -497,27 +500,53 @@ function TopBar() {
                 open={Boolean(anchorElNotification)}
                 onClose={handleCloseNotification}
               >
-                {userNoti.map((card, index) => (
+                {userNoti.length === 0 ? (
                   <MenuItem
-                    key={index}
+                    style={{ cursor: "default" }}
                     onClick={handleCloseNotification}
-                    component={Link}
-                    to={`/job/${card.job_id}`}
-                    sx={{
-                      whiteSpace: "normal",
-                      overflowWrap: "break-word",
-                    }}
                   >
-                    <Typography
-                      sx={{
-                        fontWeight: 700,
-                        width: "100%",
-                      }}
-                    >
-                      {card.message}
-                    </Typography>
+                    There is no any notification.
                   </MenuItem>
-                ))}
+                ) : (
+                  userNoti
+                    .slice()
+                    .reverse()
+                    .map((card, index) => (
+                      <MenuItem
+                        key={index}
+                        onClick={handleCloseNotification}
+                        component={Link}
+                        to={`/job/${card.job_id}`}
+                        sx={{
+                          whiteSpace: "normal",
+                          overflowWrap: "break-word",
+                          backgroundColor:
+                            card.status === "Read" ? "white" : "#C9B7B4",
+                        }}
+                      >
+                        <div>
+                          <Typography
+                            sx={{
+                              fontWeight: 700,
+                              fontSize: "15px",
+                              width: "100%",
+                            }}
+                          >
+                            {card.message}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontWeight: 200,
+                              fontSize: "13px",
+                              width: "100%",
+                            }}
+                          >
+                            - {card.datetime}
+                          </Typography>
+                        </div>
+                      </MenuItem>
+                    ))
+                )}
               </Menu>
               <Tooltip title="Open setting">
                 <IconButton aria-label="notification">
