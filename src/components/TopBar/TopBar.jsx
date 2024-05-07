@@ -19,7 +19,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
-import { get_noti } from "../../services/jobAPI";
+import { get_noti, seen_noti } from "../../services/jobAPI";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -56,6 +56,9 @@ function TopBar() {
     }
   }, [userData]);
 
+  const unreadNotifications =
+    userNoti?.filter((notification) => notification.status === "Unread") || [];
+
   useEffect(() => {
     const storedActiveTab = localStorage.getItem("activeTab");
     if (storedActiveTab) {
@@ -71,6 +74,25 @@ function TopBar() {
     setActiveTab(tab);
     localStorage.setItem("activeTab", tab);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleSeen = async () => {
+      const data = {
+        userId: userData.id,
+      };
+      try {
+        const response = await seen_noti(data);
+        if (response) {
+          console.log(response);
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    };
+    if (anchorElNotification) {
+      handleSeen();
+    }
+  }, [anchorElNotification, userData]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -443,7 +465,10 @@ function TopBar() {
                   onClick={handleOpenNotification}
                   aria-label="notification"
                 >
-                  <Badge badgeContent={userNoti.length} color="primary">
+                  <Badge
+                    badgeContent={unreadNotifications.length}
+                    color="primary"
+                  >
                     <NotificationsIcon color="black" />
                   </Badge>
                 </IconButton>

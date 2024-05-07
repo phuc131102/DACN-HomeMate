@@ -296,3 +296,17 @@ export const get_noti = async (data) => {
     throw err;
   }
 };
+
+//SEEN NOTIFICATION
+export const seen_noti = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-g9ba.onrender.com/seen_noti",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
