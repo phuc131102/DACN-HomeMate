@@ -36,7 +36,7 @@ function NewCard(prop) {
   }, [isAnimating]);
   return (
     <Box>
-      <Grid container spacing={5}>
+      <Grid container>
         <Box id="gallery" className={isActive ? "active" : ""}>
           {prop.currentJobs.map((card, index) => (
             <figure key={index}>

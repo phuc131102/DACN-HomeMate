@@ -2,45 +2,31 @@ import React, { useState, useEffect } from "react";
 import {
   Grid,
   Typography,
-  Card,
   CardContent,
-  CardMedia,
-  CardActionArea,
   Pagination,
   Box,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import Loading from "../../components/Loading/Loading";
-import avtEmpty from "../../assets/avt_empty.png";
+import WorkerCard from "./Child/WorkerCard";
 
 function Worker() {
   const { workers, loading } = useWorkers();
-  const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
+  
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentWorkers = workers.slice(indexOfFirstItem, indexOfLastItem);
-
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       <Box
@@ -54,73 +40,19 @@ function Worker() {
           &nbsp;<b>All Worker</b>
         </Typography>
         <CardContent>
-          <Grid container spacing={5}>
-            {currentWorkers.map((card, index) => (
-              <Grid item xs={6} sm={3} md={2} key={index}>
-                <Card
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <Grid
-                    container
-                    justifyContent="space-between"
-                    alignItems="center"
-                  ></Grid>
-                  <CardActionArea
-                    component={Link}
-                    to={`/worker/${card._id.$oid}`}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="150"
-                      image={card.avatar === "" ? avtEmpty : card.avatar}
-                      alt={card.name}
-                    />
-                    <CardContent>
-                      <Typography
-                        sx={{
-                          fontSize: 18,
-                          textAlign: "center",
-                          lineHeight: "1.2",
-                          maxHeight: "1.2em",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          display: "block",
-                        }}
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        <b>{card.name}</b>
-                      </Typography>
-                      {userData.role === "Homeowner" ? (
-                        <Typography
-                          sx={{
-                            fontSize: 14,
-                            textAlign: "center",
-                            lineHeight: "1.2",
-                            maxHeight: "1.2em",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            display: "block",
-                          }}
-                          color={card.status !== "Hired" ? "green" : "red"}
-                          gutterBottom
-                        >
-                          {card.status !== "Hired" ? "Available" : "Hired"}
-                        </Typography>
-                      ) : null}
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <Box sx={{ width: "80%", margin: "auto" }}>
+            <Grid container spacing={5}>
+              {currentWorkers.map((card, index) => (
+                <Grid item xs={12} sm={12} md={3} key={index}>
+                  {console.log(card)}
+                  
+                  <WorkerCard card={card}/>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </CardContent>
+        {/* <WorkerCard /> */}
       </Box>
       {workers.length > 12 ? (
         <Pagination
