@@ -89,6 +89,8 @@ function LeftSide(prop) {
             }}
           >
             <EditDialog
+              error={prop.error}
+              handleCancle={prop.handleCancle}
               profile={prop.profile}
               handleChange={prop.handleChange}
               formData={prop.formData}

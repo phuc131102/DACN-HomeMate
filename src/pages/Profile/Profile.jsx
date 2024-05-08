@@ -31,7 +31,23 @@ function Profile() {
   const [cvinfo, setCvInfo] = useState({});
   const [applyStatus, setApplyStatus] = useState([]);
   const [workingStatus, setWorkingStatus] = useState([]);
-
+  const [formData, setFormData] = useState({
+    id: "",
+    name: "",
+    email: "",
+    pwd: "",
+    address: "",
+    phone_num: "",
+  });
+  const [defData, setDefData] = useState({
+    id: "",
+    name: "",
+    email: "",
+    pwd: "",
+    address: "",
+    phone_num: "",
+  });
+  
   useEffect(() => {
     if (userData && userData.id) {
       const fetchUserInfo = async () => {
@@ -40,6 +56,14 @@ function Profile() {
           const response = await get_user_info(userData.id);
           setUserInfo(response);
           setFormData((prevData) => ({
+            ...prevData,
+            name: response.name,
+            email: response.email,
+            pwd: response.pwd,
+            address: response.address,
+            phone_num: response.phone_num,
+          }));
+          setDefData((prevData) => ({
             ...prevData,
             name: response.name,
             email: response.email,
@@ -88,15 +112,10 @@ function Profile() {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    email: "",
-    pwd: "",
-    address: "",
-    phone_num: "",
-  });
+  const handleCancle = () => {
+    setFormData(defData)
+  };
+ 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -104,6 +123,10 @@ function Profile() {
       const parsedUserData = JSON.parse(storedUserData);
       setUserData(parsedUserData);
       setFormData((prevData) => ({
+        ...prevData,
+        id: parsedUserData.id || "",
+      }));
+      setDefData((prevData) => ({
         ...prevData,
         id: parsedUserData.id || "",
       }));
@@ -170,7 +193,6 @@ function Profile() {
 
       if (response) {
         console.log("User information updated successfully");
-
         setEditing(false);
         window.location.reload();
       }
@@ -183,7 +205,7 @@ function Profile() {
         }
       }
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -308,6 +330,8 @@ function Profile() {
                         handleTogglePasswordVisibility
                       }
                       showPassword={showPassword}
+                      error={error}
+                      handleCancle={handleCancle}
                     />
                   </Grid>
                   {userData.role === "Worker" ? (
