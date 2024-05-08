@@ -51,7 +51,6 @@ function JobInfo() {
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [ownerInfo, setOwnerInfo] = useState(null);
-  const [image, setImage] = useState("");
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -72,7 +71,6 @@ function JobInfo() {
     address: "",
     desc: "",
     requirement: "",
-    image: "",
   });
 
   const handleOpenModal = () => {
@@ -132,7 +130,6 @@ function JobInfo() {
       width: 1000,
       bgcolor: "background.paper",
       boxShadow: 24,
-
       p: 4,
     },
   };
@@ -149,8 +146,6 @@ function JobInfo() {
           const response3 = await accept_list(id);
           setJobInfo(response);
           setChooseSkill(response.skill);
-          setImage(response.image);
-          setEditedValues(response);
           setWaiting(response2);
           setAccept(response3);
         } catch (error) {
@@ -170,7 +165,7 @@ function JobInfo() {
       };
       fetchJobInfo();
     }
-  }, [id]);
+  }, [id, setJobInfo]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -209,6 +204,10 @@ function JobInfo() {
       fetchUserInfo();
     }
   }, [jobInfo]);
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   const handleDeleteJob = async (jobId) => {
     try {
@@ -251,7 +250,6 @@ function JobInfo() {
           requirement: editedValues.requirement,
           max_num: editedValues.max_num,
           skill: chooseSkill,
-          image: editedValues.image,
         };
         console.log(updatedValues);
         await update_job(updatedValues);
@@ -354,21 +352,6 @@ function JobInfo() {
     return `${month}/${day}/${year} ${hours}:${minutes}`;
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (upload) => {
-        setImage(upload.target.result);
-        setEditedValues((prevEditedValues) => ({
-          ...prevEditedValues,
-          image: upload.target.result,
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   var isWaiting = false;
   var isWorking = false;
   if (working) {
@@ -467,7 +450,9 @@ function JobInfo() {
                               justifyContent: "center",
                             }}
                           >
-                            {!isWaiting && !isWorking ? (
+                            {!isWaiting &&
+                            !isWorking &&
+                            jobInfo.status === "Available" ? (
                               <Button
                                 variant="contained"
                                 color="success"
@@ -481,49 +466,68 @@ function JobInfo() {
                                 Apply
                               </Button>
                             ) : null}
-                            {isWorking ? (
-                              <Button
-                                variant="contained"
-                                color="success"
+                            {isWorking && jobInfo.status === "Available" ? (
+                              <Typography
                                 sx={{
-                                  width: "15%",
-                                  borderRadius: "15px",
+                                  color: "green",
+                                  fontSize: "20px",
                                   marginBottom: "2%",
                                 }}
                               >
-                                Apply is accepted !
-                              </Button>
+                                <b>Apply is accepted !</b>
+                              </Typography>
                             ) : null}
-                            {isWaiting ? (
-                              <Button
-                                variant="contained"
-                                color="warning"
+                            {isWorking && jobInfo.status === "In Progress" ? (
+                              <Typography
                                 sx={{
-                                  width: "15%",
-                                  borderRadius: "15px",
+                                  color: "green",
+                                  fontSize: "20px",
                                   marginBottom: "2%",
                                 }}
                               >
-                                Apply sent ! Waiting...
-                              </Button>
+                                <b>Start Working</b>
+                              </Typography>
+                            ) : null}
+                            {isWaiting && jobInfo.status === "Available" ? (
+                              <div>
+                                <Typography
+                                  sx={{
+                                    color: "green",
+                                    fontSize: "20px",
+                                    marginBottom: "2%",
+                                  }}
+                                >
+                                  <b>Apply sent ! Waiting...</b>
+                                </Typography>
+                                <Button
+                                  variant="contained"
+                                  color="warning"
+                                  sx={{
+                                    width: "100%",
+                                    borderRadius: "15px",
+                                    marginBottom: "2%",
+                                  }}
+                                  onClick={handleCancelApply}
+                                >
+                                  Cancel Apply
+                                </Button>
+                              </div>
                             ) : null}
                           </Box>
                         </>
                       ) : null}
                     </Box>
                   ) : (
-                    <>
-                      <JobUpdate
-                        editMode={editMode}
-                        jobInfo={jobInfo}
-                        chooseSkill={chooseSkill}
-                        editedValues={editedValues}
-                        handleInputChange={handleInputChange}
-                        skills={skills}
-                        setChooseSkill={setChooseSkill}
-                        handleDateTimeChange={handleDateTimeChange}
-                      />
-                    </>
+                    <JobUpdate
+                      editMode={editMode}
+                      jobInfo={jobInfo}
+                      chooseSkill={chooseSkill}
+                      editedValues={editedValues}
+                      handleInputChange={handleInputChange}
+                      skills={skills}
+                      setChooseSkill={setChooseSkill}
+                      handleDateTimeChange={handleDateTimeChange}
+                    />
                   )}
                 </form>
 
@@ -783,9 +787,7 @@ function JobInfo() {
                   </>
                 ) : null}
                 {userData.role === "Homeowner" &&
-                userData.id === jobInfo.owner_id &&
-                accept.length >= 1 &&
-                jobInfo.status === "Available" ? (
+                userData.id === jobInfo.owner_id ? (
                   <Box
                     sx={{
                       width: "100%",
@@ -793,31 +795,23 @@ function JobInfo() {
                       justifyContent: "center",
                     }}
                   >
-                    <StartJobButton owner_id={userData.id} job_id={id} />
-                  </Box>
-                ) : null}
-                {userData.role === "Homeowner" &&
-                userData.id === jobInfo.owner_id &&
-                jobInfo.status === "In Progress" ? (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="error"
-                      sx={{
-                        width: "15%",
-                        borderRadius: "15px",
-                        marginBottom: "2%",
-                      }}
-                      onClick={handleOpenRatingModal}
-                    >
-                      End Job
-                    </Button>
+                    {accept.length >= 1 && jobInfo.status === "Available" ? (
+                      <StartJobButton owner_id={userData.id} job_id={id} />
+                    ) : null}
+                    {jobInfo.status === "In Progress" ? (
+                      <Button
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          width: "15%",
+                          borderRadius: "15px",
+                          marginBottom: "2%",
+                        }}
+                        onClick={handleOpenRatingModal}
+                      >
+                        End Job
+                      </Button>
+                    ) : null}
                   </Box>
                 ) : null}
                 <Modal
@@ -920,4 +914,3 @@ function JobInfo() {
 }
 
 export default JobInfo;
-
