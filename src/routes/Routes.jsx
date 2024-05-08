@@ -12,7 +12,7 @@ import CvList from "../pages/CV_List/CvList";
 import CreateCV from "../pages/CreateCV/CreateCv";
 import JobInfo from "../pages/Job/JobInfo";
 import MyJob from "../pages/Job/MyJob";
-import UserList from "../pages/User/UserList";
+import Admin from "../pages/User/Admin";
 import UserInfo from "../pages/User/UserInfo";
 import AddUser from "../pages/User/AddUser";
 import UpdateCV from "../pages/UpdateCV/UpdateCV";
@@ -104,7 +104,7 @@ function AppRoutes() {
     const userData = JSON.parse(localStorage.getItem("userData"));
     return localStorage.getItem("userData") !== null &&
       userData.role === "Admin" ? (
-      <UserList />
+      <Admin/>
     ) : (
       <Navigate to="/" replace />
     );
