@@ -272,7 +272,10 @@ function Job() {
       </Box>
       {jobArray.length > 6 ? (
         <Pagination
-          count={Math.ceil(jobArray.length / itemsPerPage)}
+          count={Math.ceil(
+            jobArray.filter((card) => card.status === "Available").length /
+              itemsPerPage
+          )}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
