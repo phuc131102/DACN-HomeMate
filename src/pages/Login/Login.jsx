@@ -61,7 +61,7 @@ function Login() {
   }
   function handleForgot(event) {
     event.preventDefault();
-    navigate("/");
+    navigate("/resetpwdstep1");
   }
 
   useEffect(() => {

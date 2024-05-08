@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import "./Login.css";
 import videoBg from "../../assets/nightwall.webm";
-import { reset_password, sign_in } from "../../services/userAPI";
+import { reset_password } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 
 const finalTheme = createTheme({
@@ -56,7 +56,6 @@ function EnterPassword() {
   };
 
   const handleSubmit2 = async (e) => {
-    const formData = { email: email };
     e.preventDefault();
     setLoading(true);
     if (!validateEmail(email)) {
@@ -66,8 +65,11 @@ function EnterPassword() {
       return;
     }
     try {
-      const response = await reset_password(formData);
+      const response = await reset_password(email);
       if (response) {
+        alert(
+          "Reset link has been sent to your email address. Please follow the instruction to reset your password."
+        );
         navigate("/");
         console.log(response);
       }
@@ -115,7 +117,17 @@ function EnterPassword() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box className="LoginBox">
-              <Grid item xs={12} className="OutterGrid">
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  width: "90%",
+                  margin: "auto",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
+                className="OutterGrid"
+              >
                 <ThemeProvider theme={finalTheme}>
                   <form onSubmit={handleSubmit2}>
                     <Grid item xs={12}>
@@ -173,14 +185,14 @@ function EnterPassword() {
                           className="loginButton"
                           type="submit"
                         >
-                          Send Reset Link
+                          Send
                         </Button>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
                         <Typography variant="small" sx={{ color: "black" }}>
-                          Back to{" "}
+                          Or back to{" "}
                           <Typography
                             onClick={(e) => handleSignIn(e)}
                             variant="small"
@@ -191,7 +203,8 @@ function EnterPassword() {
                             }}
                           >
                             Sign in
-                          </Typography>
+                          </Typography>{" "}
+                          here.
                         </Typography>
                       </Box>
                     </Grid>

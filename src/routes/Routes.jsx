@@ -17,6 +17,7 @@ import Admin from "../pages/User/Admin";
 import UserInfo from "../pages/User/UserInfo";
 import AddUser from "../pages/User/AddUser";
 import UpdateCV from "../pages/UpdateCV/UpdateCV";
+import ResetPassword from "../pages/Login/ResetPassword";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -133,6 +134,7 @@ function AppRoutes() {
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/resetpwdstep1" element={<EnterPassword />} />
+      <Route path="/resetpwdstep2" element={<ResetPassword />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/job/:id" element={<ProtectedJobInfo />} />

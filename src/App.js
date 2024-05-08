@@ -7,7 +7,7 @@ import TopBar from "./components/TopBar/TopBar";
 import Footer from "./components/Footer/Footer";
 import ScrollToTop from "./components/toTop/toTop";
 import BackToTopButton from "./components/Button/BackToTopButton/BackToTopButton";
-import { JobProvider } from "./components/TopBar/JobContext"; 
+import { JobProvider } from "./components/TopBar/JobContext";
 
 function App() {
   useEffect(() => {
@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="app-wrapper">
       <Router>
-        <JobProvider> 
+        <JobProvider>
           <BackToTopButton />
           <ScrollToTop />
           <ConditionalTopBar />
@@ -31,7 +31,7 @@ function App() {
 
 function ConditionalTopBar() {
   const location = useLocation();
-  const hideTopBarPaths = ["/", "/signup"];
+  const hideTopBarPaths = ["/", "/signup", "/resetpwdstep1", "/resetpwdstep2"];
   const shouldHideTopBar = hideTopBarPaths.includes(location.pathname);
 
   return shouldHideTopBar ? null : <TopBar />;
@@ -39,7 +39,7 @@ function ConditionalTopBar() {
 
 function ConditionalFooter() {
   const location = useLocation();
-  const hideFooterPaths = ["/", "/signup"];
+  const hideFooterPaths = ["/", "/signup", "/resetpwdstep1", "/resetpwdstep2"];
   const shouldHideFooter = hideFooterPaths.includes(location.pathname);
 
   return shouldHideFooter ? null : <Footer />;
