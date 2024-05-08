@@ -368,10 +368,10 @@ function JobInfo() {
         item.status === "Active"
     );
   }
-  
+
   return (
     <>
-      {ownerInfo === null? (
+      {ownerInfo === null ? (
         <Loading />
       ) : (
         <>
@@ -450,7 +450,9 @@ function JobInfo() {
                               justifyContent: "center",
                             }}
                           >
-                            {!isWaiting && !isWorking ? (
+                            {!isWaiting &&
+                            !isWorking &&
+                            jobInfo.status === "Available" ? (
                               <Button
                                 variant="contained"
                                 color="success"
@@ -464,31 +466,52 @@ function JobInfo() {
                                 Apply
                               </Button>
                             ) : null}
-                            {isWorking ? (
-                              <Button
-                                variant="contained"
-                                color="success"
+                            {isWorking && jobInfo.status === "Available" ? (
+                              <Typography
                                 sx={{
-                                  width: "15%",
-                                  borderRadius: "15px",
+                                  color: "green",
+                                  fontSize: "20px",
                                   marginBottom: "2%",
                                 }}
                               >
-                                Apply is accepted !
-                              </Button>
+                                <b>Apply is accepted !</b>
+                              </Typography>
                             ) : null}
-                            {isWaiting ? (
-                              <Button
-                                variant="contained"
-                                color="warning"
+                            {isWorking && jobInfo.status === "In Progress" ? (
+                              <Typography
                                 sx={{
-                                  width: "15%",
-                                  borderRadius: "15px",
+                                  color: "green",
+                                  fontSize: "20px",
                                   marginBottom: "2%",
                                 }}
                               >
-                                Apply sent ! Waiting...
-                              </Button>
+                                <b>Start Working</b>
+                              </Typography>
+                            ) : null}
+                            {isWaiting && jobInfo.status === "Available" ? (
+                              <div>
+                                <Typography
+                                  sx={{
+                                    color: "green",
+                                    fontSize: "20px",
+                                    marginBottom: "2%",
+                                  }}
+                                >
+                                  <b>Apply sent ! Waiting...</b>
+                                </Typography>
+                                <Button
+                                  variant="contained"
+                                  color="warning"
+                                  sx={{
+                                    width: "100%",
+                                    borderRadius: "15px",
+                                    marginBottom: "2%",
+                                  }}
+                                  onClick={handleCancelApply}
+                                >
+                                  Cancel Apply
+                                </Button>
+                              </div>
                             ) : null}
                           </Box>
                         </>
