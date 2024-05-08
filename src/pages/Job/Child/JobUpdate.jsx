@@ -299,8 +299,9 @@ function JobUpdate(prop) {
                   }}
                   sx={{
                     mb: "1%",
-                    [`& fieldset`]: { borderRadius: 8 },
-                  }}
+                    [`& fieldset`]: { borderRadius: 8,
+                  },
+                }}
                   variant="outlined"
                   fullWidth
                   multiline
