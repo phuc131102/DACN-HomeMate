@@ -28,6 +28,19 @@ export const sign_in = async (data) => {
   }
 };
 
+// RESET PASSWORD
+export const reset_password = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-g9ba.onrender.com/reset_password/${data}`
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // GET USER INFORMATION
 export const get_user_info = async (data) => {
   try {
