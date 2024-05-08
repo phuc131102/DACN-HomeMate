@@ -51,6 +51,7 @@ function JobInfo() {
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [ownerInfo, setOwnerInfo] = useState(null);
+  const [image, setImage] = useState("");
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -71,6 +72,7 @@ function JobInfo() {
     address: "",
     desc: "",
     requirement: "",
+    image: "",
   });
 
   const handleOpenModal = () => {
@@ -130,6 +132,7 @@ function JobInfo() {
       width: 1000,
       bgcolor: "background.paper",
       boxShadow: 24,
+
       p: 4,
     },
   };
@@ -146,6 +149,8 @@ function JobInfo() {
           const response3 = await accept_list(id);
           setJobInfo(response);
           setChooseSkill(response.skill);
+          setImage(response.image);
+          setEditedValues(response);
           setWaiting(response2);
           setAccept(response3);
         } catch (error) {
@@ -165,7 +170,7 @@ function JobInfo() {
       };
       fetchJobInfo();
     }
-  }, [id, setJobInfo]);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -204,10 +209,6 @@ function JobInfo() {
       fetchUserInfo();
     }
   }, [jobInfo]);
-
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
   const handleDeleteJob = async (jobId) => {
     try {
@@ -250,6 +251,7 @@ function JobInfo() {
           requirement: editedValues.requirement,
           max_num: editedValues.max_num,
           skill: chooseSkill,
+          image: editedValues.image,
         };
         console.log(updatedValues);
         await update_job(updatedValues);
@@ -352,6 +354,21 @@ function JobInfo() {
     return `${month}/${day}/${year} ${hours}:${minutes}`;
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (upload) => {
+        setImage(upload.target.result);
+        setEditedValues((prevEditedValues) => ({
+          ...prevEditedValues,
+          image: upload.target.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   var isWaiting = false;
   var isWorking = false;
   if (working) {
@@ -368,10 +385,10 @@ function JobInfo() {
         item.status === "Active"
     );
   }
-  
+
   return (
     <>
-      {ownerInfo === null? (
+      {ownerInfo === null ? (
         <Loading />
       ) : (
         <>
@@ -495,16 +512,18 @@ function JobInfo() {
                       ) : null}
                     </Box>
                   ) : (
-                    <JobUpdate
-                      editMode={editMode}
-                      jobInfo={jobInfo}
-                      chooseSkill={chooseSkill}
-                      editedValues={editedValues}
-                      handleInputChange={handleInputChange}
-                      skills={skills}
-                      setChooseSkill={setChooseSkill}
-                      handleDateTimeChange={handleDateTimeChange}
-                    />
+                    <>
+                      <JobUpdate
+                        editMode={editMode}
+                        jobInfo={jobInfo}
+                        chooseSkill={chooseSkill}
+                        editedValues={editedValues}
+                        handleInputChange={handleInputChange}
+                        skills={skills}
+                        setChooseSkill={setChooseSkill}
+                        handleDateTimeChange={handleDateTimeChange}
+                      />
+                    </>
                   )}
                 </form>
 
@@ -764,7 +783,9 @@ function JobInfo() {
                   </>
                 ) : null}
                 {userData.role === "Homeowner" &&
-                userData.id === jobInfo.owner_id ? (
+                userData.id === jobInfo.owner_id &&
+                accept.length >= 1 &&
+                jobInfo.status === "Available" ? (
                   <Box
                     sx={{
                       width: "100%",
@@ -772,23 +793,31 @@ function JobInfo() {
                       justifyContent: "center",
                     }}
                   >
-                    {accept.length >= 1 && jobInfo.status === "Available" ? (
-                      <StartJobButton owner_id={userData.id} job_id={id} />
-                    ) : null}
-                    {jobInfo.status === "In Progress" ? (
-                      <Button
-                        variant="contained"
-                        color="error"
-                        sx={{
-                          width: "15%",
-                          borderRadius: "15px",
-                          marginBottom: "2%",
-                        }}
-                        onClick={handleOpenRatingModal}
-                      >
-                        End Job
-                      </Button>
-                    ) : null}
+                    <StartJobButton owner_id={userData.id} job_id={id} />
+                  </Box>
+                ) : null}
+                {userData.role === "Homeowner" &&
+                userData.id === jobInfo.owner_id &&
+                jobInfo.status === "In Progress" ? (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{
+                        width: "15%",
+                        borderRadius: "15px",
+                        marginBottom: "2%",
+                      }}
+                      onClick={handleOpenRatingModal}
+                    >
+                      End Job
+                    </Button>
                   </Box>
                 ) : null}
                 <Modal
@@ -891,3 +920,4 @@ function JobInfo() {
 }
 
 export default JobInfo;
+

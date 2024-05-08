@@ -4,19 +4,28 @@ import {
   TextField,
   Box,
   Button,
-  Modal,
-  Typography,
-  Stack,
   InputAdornment,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  CardActions,
 } from "@mui/material";
 import { DateTimePicker } from "react-rainbow-components";
 import JobFilter from "./Job_filter";
+
 function JobUpdate(prop) {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (upload) => {
+        prop.handleInputChange({
+          target: {
+            name: "image",
+            value: upload.target.result,
+          },
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <>
       <Grid
@@ -141,9 +150,7 @@ function JobUpdate(prop) {
                 fullWidth
                 label="Phone Number"
                 name="phone_num"
-                value={
-                  prop.editedValues.phone_num
-                }
+                value={prop.editedValues.phone_num}
                 onChange={prop.handleInputChange}
               />
             </Grid>
@@ -166,31 +173,27 @@ function JobUpdate(prop) {
                 fullWidth
                 label="Address"
                 name="address"
-                value={
-                 prop.editedValues.address
-                }
+                value={prop.editedValues.address}
                 onChange={prop.handleInputChange}
               />
             </Grid>
-            <Grid item xs={12}>            
-                <JobFilter
-                  option={prop.skills}
-                  chooseOption={prop.chooseSkill}
-                  setChooseOption={prop.setChooseSkill}
-                  label="Skill"
-                />
+            <Grid item xs={12}>
+              <JobFilter
+                option={prop.skills}
+                chooseOption={prop.chooseSkill}
+                setChooseOption={prop.setChooseSkill}
+                label="Skill"
+              />
             </Grid>
             <Grid item xs={8}>
-              
-                <DateTimePicker
-                  name="datetime"
-                  value={prop.editedValues.datetime}
-                  onChange={prop.handleDateTimeChange}
-                  className="rainbow-m-around_small"
-                  hour24
-                  placeholder="Date/Time *"
-                />
-
+              <DateTimePicker
+                name="datetime"
+                value={prop.editedValues.datetime}
+                onChange={prop.handleDateTimeChange}
+                className="rainbow-m-around_small"
+                hour24
+                placeholder="Date/Time *"
+              />
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -211,9 +214,7 @@ function JobUpdate(prop) {
                 fullWidth
                 label="Required Worker"
                 name="max_num"
-                value={
-                  prop.editedValues.max_num
-                }
+                value={prop.editedValues.max_num}
                 onChange={prop.handleInputChange}
               />
             </Grid>
@@ -222,35 +223,45 @@ function JobUpdate(prop) {
 
         {/* Right Side - Image Upload */}
         <Grid item xs={6} sx={{ marginTop: "50px" }}>
-          {prop.jobInfo.image === "" ? (
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            ></Box>
-          ) : (
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {prop.editedValues.image ? (
               <img
-                alt={prop.jobInfo.name}
-                src={prop.jobInfo.image}
+                alt={prop.editedValues.name}
+                src={prop.editedValues.image}
                 style={{
                   width: "60%",
                   height: "auto",
                   display: "flex",
                   justifyContent: "center",
                   boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                  marginBottom: "10px",
                 }}
               />
-            </Box>
-          )}
+            ) : null}
+            {prop.editMode && (
+              <Button
+                variant="contained"
+                component="label"
+                sx={{ width: "60%" }}
+              >
+                Upload Image
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleImageChange}
+                />
+              </Button>
+            )}
+          </Box>
         </Grid>
 
         <Grid item xs={12} sx={{ marginBottom: "50px" }}>
@@ -275,9 +286,7 @@ function JobUpdate(prop) {
                   multiline
                   label="Description"
                   name="desc"
-                  value={
-                    prop.editedValues.desc
-                  }
+                  value={prop.editedValues.desc}
                   onChange={prop.handleInputChange}
                 />
               </Box>
@@ -286,7 +295,6 @@ function JobUpdate(prop) {
               <Box sx={{ width: "100%" }}>
                 <TextField
                   InputProps={{
-          
                     style: { color: "black" },
                   }}
                   sx={{
@@ -298,9 +306,7 @@ function JobUpdate(prop) {
                   multiline
                   label="Requirement"
                   name="requirement"
-                  value={
-                   prop.editedValues.requirement
-                  }
+                  value={prop.editedValues.requirement}
                   onChange={prop.handleInputChange}
                 />
               </Box>
