@@ -74,7 +74,7 @@ function ResetPassword() {
       id: idFromUrl,
     });
   };
-
+  console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -186,8 +186,8 @@ function ResetPassword() {
                         variant="outlined"
                         label="Password"
                         type={showPassword ? "text" : "password"}
-                        name="password"
-                        value={formData.password}
+                        name="pwd"
+                        value={formData.pwd}
                         onChange={handleChange}
                         InputProps={{
                           endAdornment: (
