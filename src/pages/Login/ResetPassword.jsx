@@ -50,7 +50,7 @@ function ResetPassword() {
 
   const [formData, setFormData] = useState({
     id: "",
-    password: "",
+    pwd: "",
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -78,7 +78,7 @@ function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (formData.password !== confirmPassword) {
+    if (formData.pwd !== confirmPassword) {
       setError("Passwords do not match.");
       setLoading(false);
       return;
@@ -106,16 +106,6 @@ function ResetPassword() {
 
   if (loading) {
     return <Loading />;
-  }
-
-  const validateEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  function handleSignIn(event) {
-    event.preventDefault();
-    navigate("/");
   }
 
   return (
