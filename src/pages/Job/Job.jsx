@@ -28,7 +28,7 @@ function Job() {
   const { jobs, loadingJob } = useJobs();
   const [filterItems, setFilterItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [loading, setLoading] = useState(false);
