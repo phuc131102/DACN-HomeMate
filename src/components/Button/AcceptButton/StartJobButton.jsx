@@ -50,7 +50,7 @@ export default function StartJobButton({ owner_id, job_id }) {
         }}
       >
         *This action will start the job without reaching required number of
-        workers.
+        workers and before the date of work.
       </Typography>
     </Box>
   );

@@ -429,6 +429,30 @@ function JobInfo() {
                       </Box>
                     </Grid>
                   ) : null}
+                  {userData.role === "Admin" ? (
+                    <Grid container spacing={2}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="error"
+                          sx={{
+                            width: "15%",
+                            marginLeft: "5%",
+                            borderRadius: "15px",
+                          }}
+                          onClick={handleOpenModal}
+                        >
+                          Delete Job
+                        </Button>
+                      </Box>
+                    </Grid>
+                  ) : null}
                   {error && (
                     <Typography variant="body2" color="error" align="center">
                       {error}
@@ -485,7 +509,7 @@ function JobInfo() {
                                   marginBottom: "2%",
                                 }}
                               >
-                                <b>Start Working</b>
+                                <b>Working</b>
                               </Typography>
                             ) : null}
                             {isWaiting && jobInfo.status === "Available" ? (
@@ -512,6 +536,17 @@ function JobInfo() {
                                   Cancel Apply
                                 </Button>
                               </div>
+                            ) : null}
+                            {jobInfo.status === "Full" ? (
+                              <Typography
+                                sx={{
+                                  color: "orange",
+                                  fontSize: "20px",
+                                  marginBottom: "2%",
+                                }}
+                              >
+                                <b>Job is full.</b>
+                              </Typography>
                             ) : null}
                           </Box>
                         </>
