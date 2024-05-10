@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import EnterPassword from "../pages/Login/EnterPassword";
 import CreateNewJob from "../pages/Job/CreateNewJob";
 import Job from "../pages/Job/Job";
 import Profile from "../pages/Profile/Profile";
@@ -16,6 +17,7 @@ import Admin from "../pages/User/Admin";
 import UserInfo from "../pages/User/UserInfo";
 import AddUser from "../pages/User/AddUser";
 import UpdateCV from "../pages/UpdateCV/UpdateCV";
+import ResetPassword from "../pages/Login/ResetPassword";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -104,7 +106,7 @@ function AppRoutes() {
     const userData = JSON.parse(localStorage.getItem("userData"));
     return localStorage.getItem("userData") !== null &&
       userData.role === "Admin" ? (
-      <Admin/>
+      <Admin />
     ) : (
       <Navigate to="/" replace />
     );
@@ -131,6 +133,8 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/resetpwdstep1" element={<EnterPassword />} />
+      <Route path="/resetpwdstep2" element={<ResetPassword />} />
       <Route path="/home" element={<ProtectedHome />} />
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/job/:id" element={<ProtectedJobInfo />} />

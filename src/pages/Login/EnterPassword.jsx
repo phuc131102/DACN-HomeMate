@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import "./Login.css";
 import videoBg from "../../assets/nightwall.webm";
-import { sign_in } from "../../services/userAPI";
+import { reset_password } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 
 const finalTheme = createTheme({
@@ -30,38 +30,18 @@ const finalTheme = createTheme({
   },
 });
 
-function Login() {
+function EnterPassword() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
-
   function handleUserName(e) {
     setEmail(e.target.value);
-    console.log(email);
   }
-  function handlePassword(e) {
-    setPassword(e.target.value);
-    console.log(password);
-  }
-  function handleCheck() {
-    setCheck(!check);
-    console.log(check);
-  }
-  function handleSignUp(event) {
+  function handleSignIn(event) {
     event.preventDefault();
-    navigate("/signup");
-  }
-  function handleForgot(event) {
-    event.preventDefault();
-    navigate("/resetpwdstep1");
+    navigate("/");
   }
 
   useEffect(() => {
@@ -76,7 +56,6 @@ function Login() {
   };
 
   const handleSubmit2 = async (e) => {
-    const formData = { email: email, password: password };
     e.preventDefault();
     setLoading(true);
     if (!validateEmail(email)) {
@@ -86,19 +65,19 @@ function Login() {
       return;
     }
     try {
-      const response = await sign_in(formData);
+      const response = await reset_password(email);
       if (response) {
-        const userData = response.data;
-        localStorage.setItem("userData", JSON.stringify(userData));
-        localStorage.setItem("activeTab", "home");
-        navigate("/home");
-        console.log("User signed in:", response);
+        alert(
+          "Reset link has been sent to your email address. Please follow the instruction to reset your password."
+        );
+        navigate("/");
+        console.log(response);
       }
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
         if (status === 404) {
-          setError("Wrong email or password.");
+          setError("This email is not available.");
           setLoading(false);
         }
       }
@@ -138,7 +117,17 @@ function Login() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box className="LoginBox">
-              <Grid item xs={12} className="OutterGrid">
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  width: "90%",
+                  margin: "auto",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
+                className="OutterGrid"
+              >
                 <ThemeProvider theme={finalTheme}>
                   <form onSubmit={handleSubmit2}>
                     <Grid item xs={12}>
@@ -163,9 +152,11 @@ function Login() {
                         </Typography>
                       </Box>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sx={{ marginTop: "2%" }}>
                       <Box className="HomeIcon">
-                        <Typography variant="h1">Login</Typography>
+                        <Typography variant="h4">
+                          Reset your password
+                        </Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
@@ -175,80 +166,12 @@ function Login() {
                         }}
                         className="textDisplay"
                         variant="outlined"
-                        label="Email"
+                        label="Enter your email"
                         name="email"
                         onChange={(e) => handleUserName(e)}
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        sx={{
-                          [`& fieldset`]: { borderRadius: 8 },
-                        }}
-                        variant="outlined"
-                        className="textDisplay2"
-                        label="Password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        onChange={(e) => handlePassword(e)}
-                        InputProps={{
-                          endAdornment: (
-                            <PasswordVisibilityToggle
-                              visible={showPassword}
-                              onToggle={handleTogglePasswordVisibility}
-                            />
-                          ),
-                        }}
-                      />
-                    </Grid>
-                    <Grid item container xs={12} className="remGrid">
-                      <Grid item xs={6}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={check}
-                              onClick={handleCheck}
-                              sx={{
-                                color: "black",
-                                "&.Mui-checked": {
-                                  color: "black",
-                                },
-                                "& .MuiSvgIcon-root": {
-                                  fontSize: 18,
-                                },
 
-                                height: "8px",
-                                width: "8px",
-                                marginLeft: "9px",
-                              }}
-                            />
-                          }
-                          label={
-                            <Typography
-                              variant="small"
-                              sx={{
-                                lineHeight: "15px",
-                                marginLeft: "3px",
-                              }}
-                            >
-                              Remember me
-                            </Typography>
-                          }
-                          className="remember"
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Box className="forgotBox">
-                          <Typography
-                            onClick={(e) => handleForgot(e)}
-                            variant="small"
-                            className="forgot"
-                          >
-                            Forgot password?{" "}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                    </Grid>
                     {error && (
                       <Typography variant="body2" color="error" align="center">
                         {error}
@@ -262,16 +185,16 @@ function Login() {
                           className="loginButton"
                           type="submit"
                         >
-                          Login
+                          Send
                         </Button>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
                         <Typography variant="small" sx={{ color: "black" }}>
-                          Didn't have an account?{" "}
+                          Or back to{" "}
                           <Typography
-                            onClick={(e) => handleSignUp(e)}
+                            onClick={(e) => handleSignIn(e)}
                             variant="small"
                             sx={{
                               cursor: "pointer",
@@ -279,8 +202,9 @@ function Login() {
                               color: "black",
                             }}
                           >
-                            Sign up
-                          </Typography>
+                            Sign in
+                          </Typography>{" "}
+                          here.
                         </Typography>
                       </Box>
                     </Grid>
@@ -295,4 +219,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default EnterPassword;

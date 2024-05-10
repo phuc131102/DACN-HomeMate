@@ -281,13 +281,20 @@ function JobDetail(prop) {
             </Grid>
           </Grid>
         </Grid>
-        {prop.jobInfo.status === "In Progress" ? (
+        {prop.jobInfo.status === "In Progress" &&
+        prop.userData.role === "Homeowner" ? (
           <Typography sx={{ fontSize: 25 }} color="green" gutterBottom>
-            <b>Status: In Progress</b>
+            <b>Status: IN PROGRESS</b>
           </Typography>
-        ) : prop.jobInfo.status === "Closed" ? (
+        ) : prop.jobInfo.status === "Closed" &&
+          prop.userData.role === "Homeowner" ? (
           <Typography sx={{ fontSize: 25 }} color="red" gutterBottom>
-            <b>Status: Job is Closed</b>
+            <b>Status: JOB IS CLOSED</b>
+          </Typography>
+        ) : prop.jobInfo.status === "Full" &&
+          prop.userData.role === "Homeowner" ? (
+          <Typography sx={{ fontSize: 25 }} color="orange" gutterBottom>
+            <b>Status: JOB IS FULL</b>
           </Typography>
         ) : null}
       </Grid>

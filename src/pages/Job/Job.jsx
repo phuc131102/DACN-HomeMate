@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Grid,
   Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  CardActionArea,
   Pagination,
   Button,
   Box,
 } from "@mui/material";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
+import jobEmpty from "../../assets/job_empty.png";
 import { get_skill } from "../../services/skillAPI";
 import JobFilter from "./Child/Job_filter";
 import { Salary } from "./Child/Salary";
+import { Flex } from "antd";
 import NewCard from "./Child/NewCard";
 import "./Child/Newcard.css";
 
 function Job() {
+  //////////////////////
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const { jobs, loadingJob } = useJobs();
   const [filterItems, setFilterItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,13 +45,14 @@ function Job() {
       let tempItems = chooseSalary.map((selectedSalary) => {
         let tempSalary = Salary.filter((item) => item.name === selectedSalary);
         let temp = jobs.filter((jobItem) => {
-          if (selectedSalary === "> 500000 VND/hour") {
-            return tempSalary[0].min <= parseInt(jobItem.salary);
+          if (selectedSalary >= "> 500000 VND/hour") {
+            let tempArray = tempSalary[0].min <= parseInt(jobItem.salary);
+            return tempArray;
           }
-          return (
+          let tempArray =
             tempSalary[0].min <= parseInt(jobItem.salary) &&
-            parseInt(jobItem.salary) <= tempSalary[0].max
-          );
+            parseInt(jobItem.salary) <= tempSalary[0].max;
+          return tempArray;
         });
         return temp;
       });
@@ -52,19 +60,23 @@ function Job() {
     } else {
       setFilterSalaryItems(jobs);
     }
-  }, [chooseSalary, jobs]);
+  }, [chooseSalary]);
 
   useEffect(() => {
     if (chooseSkill.length > 0) {
       let tempItems = chooseSkill.map((selectedSkill) => {
-        let temp = jobs.filter((jobItem) => jobItem.skill.includes(selectedSkill));
+        let temp = jobs.filter((jobItem) => {
+          let tempArray = jobItem.skill.includes(selectedSkill);
+          return tempArray;
+        });
         return temp;
       });
+      // let finalArray =
       setFilterItems([...new Set(tempItems.flat())]);
     } else {
       setFilterItems(jobs);
     }
-  }, [chooseSkill, jobs]);
+  }, [chooseSkill]);
 
   useEffect(() => {
     const fetchSkill = async () => {
@@ -83,29 +95,24 @@ function Job() {
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
+
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
 
-  // Lọc jobArray trước khi tính toán
-  const jobArray = filterSalaryItems.filter((item) => filterItems.includes(item));
-  const availableJobs = jobArray.filter((card) => card.status === "Available");
+  if (loadingJob || loading) {
+    return <Loading />;
+  }
 
-  const totalPages = Math.ceil(availableJobs.length / itemsPerPage);
-
-  const indexOfLastItem = Math.min(currentPage * itemsPerPage, availableJobs.length);
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentJobs = availableJobs.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Đảm bảo `currentPage` không vượt quá tổng số trang
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    } else if (currentPage < 1) {
-      setCurrentPage(1);
-    }
-  }, [totalPages, currentPage]);
+  const jobArray = filterSalaryItems.filter((item) =>
+    filterItems.includes(item)
+  );
+  const currentJobs = jobArray
+    .filter((card) => card.status === "Available")
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
@@ -117,105 +124,110 @@ function Job() {
 
   return (
     <>
-      {loadingJob || loading ? (
-        <Loading />
-      ) : (
-        <>
+      <Box
+        sx={{
+          width: "95%",
+          margin: "auto",
+          marginTop: "7%",
+        }}
+      >
+        <Box sx={{ width: "80%", margin: "auto" }}>
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            &nbsp;<b>Filter</b>
+          </Typography>
           <Box
             sx={{
-              width: "95%",
-              margin: "auto",
-              marginTop: "7%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
             }}
           >
-            <Box sx={{ width: "80%", margin: "auto" }}>
-              <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-                &nbsp;<b>Filter</b>
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "30px",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "50px",
-                  }}
-                >
-                  <Box sx={{ width: "300px" }}>
-                    <JobFilter
-                      option={Salary}
-                      chooseOption={chooseSalary}
-                      setChooseOption={setChooseSalary}
-                      label="Salary"
-                    />
-                  </Box>
-                  <Box sx={{ width: "300px" }}>
-                    <JobFilter
-                      option={skills}
-                      chooseOption={chooseSkill}
-                      setChooseOption={setChooseSkill}
-                      label="Skill"
-                    />
-                  </Box>
-                </Box>
-                <Box>
-                  {userData.role === "Homeowner" ? (
-                    <Grid container sx={{ width: "95%", margin: "auto" }}>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          width: "200px",
-                          height: "56px",
-                          marginLeft: "auto",
-                          borderRadius: "15px",
-                        }}
-                        onClick={handleAddJob}
-                      >
-                        Create New Job
-                      </Button>
-                    </Grid>
-                  ) : null}
-                </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "50px",
+              }}
+            >
+              <Box sx={{ width: "300px" }}>
+                <JobFilter
+                  option={Salary}
+                  chooseOption={chooseSalary}
+                  setChooseOption={setChooseSalary}
+                  label="Salary"
+                />
               </Box>
-              <Grid
-                container
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ marginBottom: "30px" }}
-              >
-                <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-                  &nbsp;<b>Jobs</b>
-                </Typography>
-              </Grid>
-              <NewCard currentJobs={currentJobs} />
+              <Box sx={{ width: "300px" }}>
+                <JobFilter
+                  option={skills}
+                  chooseOption={chooseSkill}
+                  setChooseOption={setChooseSkill}
+                  label="Skill"
+                />
+              </Box>
+            </Box>
+            <Box>
+              {userData.role === "Homeowner" ? (
+                <Grid container sx={{ width: "95%", margin: "auto" }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "200px",
+                      height: "56px",
+                      marginLeft: "auto",
+                      borderRadius: "15px",
+                    }}
+                    onClick={handleAddJob}
+                  >
+                    Create New Job
+                  </Button>
+                </Grid>
+              ) : null}
             </Box>
           </Box>
-          {totalPages > 1 && (
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              shape="rounded"
-              size="large"
-              color="primary"
-              showFirstButton
-              showLastButton
-              sx={{
-                marginTop: "20px",
-                marginBottom: "20px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            />
+          <Grid
+            container
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ marginBottom: "30px" }}
+          >
+            <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+              &nbsp;<b>Jobs</b>
+            </Typography>
+          </Grid>
+          <NewCard currentJobs={currentJobs} />
+        </Box>
+      </Box>
+      {jobArray.length > 6 ? (
+        <Pagination
+          count={Math.ceil(
+            jobArray.filter((card) => card.status === "Available").length /
+              itemsPerPage
           )}
-          <br />
-        </>
+          page={currentPage}
+          onChange={handlePageChange}
+          shape="rounded"
+          size="large"
+          color="primary"
+          showFirstButton
+          showLastButton
+          sx={{
+            marginTop: "20px",
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            margin: "10px auto",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        ></div>
       )}
+      <br />
     </>
   );
 }

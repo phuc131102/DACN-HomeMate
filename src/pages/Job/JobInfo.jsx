@@ -443,6 +443,30 @@ function JobInfo() {
                       </Box>
                     </Grid>
                   ) : null}
+                  {userData.role === "Admin" ? (
+                    <Grid container spacing={2}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="error"
+                          sx={{
+                            width: "15%",
+                            marginLeft: "5%",
+                            borderRadius: "15px",
+                          }}
+                          onClick={handleOpenModal}
+                        >
+                          Delete Job
+                        </Button>
+                      </Box>
+                    </Grid>
+                  ) : null}
                   {error && (
                     <Typography variant="body2" color="error" align="center">
                       {error}
@@ -451,6 +475,7 @@ function JobInfo() {
                   {!editMode ? (
                     <Box sx={{ width: "100%" }}>
                       <JobDetail
+                        userData={userData}
                         editMode={editMode}
                         jobInfo={jobInfo}
                         chooseSkill={chooseSkill}
@@ -486,9 +511,13 @@ function JobInfo() {
                                   color: "green",
                                   fontSize: "20px",
                                   marginBottom: "2%",
+                                  textAlign: "center",
                                 }}
                               >
-                                <b>Apply is accepted!</b>
+                                <b>
+                                  Apply is accepted !<br />
+                                  Waiting for job start...
+                                </b>
                               </Typography>
                             ) : null}
                             {isWorking && jobInfo.status === "In Progress" ? (
@@ -499,7 +528,7 @@ function JobInfo() {
                                   marginBottom: "2%",
                                 }}
                               >
-                                <b>Start Working</b>
+                                <b>WORKING</b>
                               </Typography>
                             ) : null}
                             {isWaiting && jobInfo.status === "Available" ? (
@@ -511,7 +540,7 @@ function JobInfo() {
                                     marginBottom: "2%",
                                   }}
                                 >
-                                  <b>Apply sent! Waiting...</b>
+                                  <b>Apply sent ! Waiting...</b>
                                 </Typography>
                                 <Button
                                   variant="contained"
@@ -526,6 +555,28 @@ function JobInfo() {
                                   Cancel Apply
                                 </Button>
                               </div>
+                            ) : null}
+                            {jobInfo.status === "Full" ? (
+                              <Typography
+                                sx={{
+                                  color: "orange",
+                                  fontSize: "25px",
+                                  marginBottom: "2%",
+                                }}
+                              >
+                                <b>JOB IS FULL</b>
+                              </Typography>
+                            ) : null}
+                            {jobInfo.status === "Closed" ? (
+                              <Typography
+                                sx={{
+                                  color: "red",
+                                  fontSize: "25px",
+                                  marginBottom: "2%",
+                                }}
+                              >
+                                <b>JOB IS CLOSED</b>
+                              </Typography>
                             ) : null}
                           </Box>
                         </>
@@ -811,31 +862,25 @@ function JobInfo() {
                       justifyContent: "center",
                     }}
                   >
-                    <StartJobButton owner_id={userData.id} job_id={id} />
-                  </Box>
-                ) : null}
-                {userData.role === "Homeowner" &&
-                userData.id === jobInfo.owner_id &&
-                jobInfo.status === "In Progress" ? (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="error"
-                      sx={{
-                        width: "15%",
-                        borderRadius: "15px",
-                        marginBottom: "2%",
-                      }}
-                      onClick={handleOpenRatingModal}
-                    >
-                      End Job
-                    </Button>
+                    {accept.length >= 1 &&
+                    (jobInfo.status === "Available" ||
+                      jobInfo.status === "Full") ? (
+                      <StartJobButton owner_id={userData.id} job_id={id} />
+                    ) : null}
+                    {jobInfo.status === "In Progress" ? (
+                      <Button
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          width: "15%",
+                          borderRadius: "15px",
+                          marginBottom: "2%",
+                        }}
+                        onClick={handleOpenRatingModal}
+                      >
+                        End Job
+                      </Button>
+                    ) : null}
                   </Box>
                 ) : null}
                 <Modal
