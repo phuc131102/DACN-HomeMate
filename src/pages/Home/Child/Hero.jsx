@@ -50,7 +50,7 @@ function Hero(prop) {
                 </Box>
                 <Box className="flexColStart stat">
                   <span>
-                    <CountUp start={0} end={200} duration={3} />
+                    <CountUp start={0} end={prop.ownerLength} duration={3} />
                     <span>+</span>
                   </span>
                   <span className="secondaryText">Homeowners</span>

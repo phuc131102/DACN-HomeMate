@@ -1,28 +1,21 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  Box,
-} from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
-import avtEmpty from "../../assets/avt_empty.png";
 import NewCard from "../Job/Child/NewCard";
 import Hero from "./Child/Hero";
 import WorkerCard from "../Worker/Child/WorkerCard";
+import useOwners from "../../utils/userUtils/ownerUtils";
 
 function Home() {
   const { workers, loading } = useWorkers();
   const { jobs, loadingJob } = useJobs();
+  const { owners, loadingOwners } = useOwners();
 
   const navigate = useNavigate();
 
@@ -46,16 +39,26 @@ function Home() {
   if (loadingJob) {
     return <Loading />;
   }
-  const jobLength = jobs.length;
-  const workerLength = workers.length;
+  if (loadingOwners) {
+    return <Loading />;
+  }
+
   const jobArray = jobs
-    .filter((card) => card.status !== "In Progress")
+    .filter((card) => card.status === "Available")
     .slice(-4)
     .reverse();
+  const jobLength = jobs.filter((card) => card.status === "Available").length;
+  const workerLength = workers.filter(
+    (card) => card.status === "Available"
+  ).length;
   return (
     <>
       <br />
-      <Hero jobLength={jobLength} workerLength={workerLength} />
+      <Hero
+        jobLength={jobLength}
+        workerLength={workerLength}
+        ownerLength={owners}
+      />
       <Box
         sx={{
           width: "80%",
@@ -85,6 +88,7 @@ function Home() {
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
             {workers
+              .filter((card) => card.status === "Available")
               .slice(-4)
               .reverse()
               .map((card, index) => (
