@@ -461,6 +461,7 @@ function JobInfo() {
                   {!editMode ? (
                     <Box sx={{ width: "100%" }}>
                       <JobDetail
+                        userData={userData}
                         editMode={editMode}
                         jobInfo={jobInfo}
                         chooseSkill={chooseSkill}
@@ -496,9 +497,13 @@ function JobInfo() {
                                   color: "green",
                                   fontSize: "20px",
                                   marginBottom: "2%",
+                                  textAlign: "center",
                                 }}
                               >
-                                <b>Apply is accepted !</b>
+                                <b>
+                                  Apply is accepted !<br />
+                                  Waiting for job start...
+                                </b>
                               </Typography>
                             ) : null}
                             {isWorking && jobInfo.status === "In Progress" ? (
@@ -509,7 +514,7 @@ function JobInfo() {
                                   marginBottom: "2%",
                                 }}
                               >
-                                <b>Working</b>
+                                <b>WORKING</b>
                               </Typography>
                             ) : null}
                             {isWaiting && jobInfo.status === "Available" ? (
@@ -541,11 +546,22 @@ function JobInfo() {
                               <Typography
                                 sx={{
                                   color: "orange",
-                                  fontSize: "20px",
+                                  fontSize: "25px",
                                   marginBottom: "2%",
                                 }}
                               >
-                                <b>Job is full.</b>
+                                <b>JOB IS FULL</b>
+                              </Typography>
+                            ) : null}
+                            {jobInfo.status === "Closed" ? (
+                              <Typography
+                                sx={{
+                                  color: "red",
+                                  fontSize: "25px",
+                                  marginBottom: "2%",
+                                }}
+                              >
+                                <b>JOB IS CLOSED</b>
                               </Typography>
                             ) : null}
                           </Box>
@@ -830,7 +846,9 @@ function JobInfo() {
                       justifyContent: "center",
                     }}
                   >
-                    {accept.length >= 1 && jobInfo.status === "Available" ? (
+                    {accept.length >= 1 &&
+                    (jobInfo.status === "Available" ||
+                      jobInfo.status === "Full") ? (
                       <StartJobButton owner_id={userData.id} job_id={id} />
                     ) : null}
                     {jobInfo.status === "In Progress" ? (
