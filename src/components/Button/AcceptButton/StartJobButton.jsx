@@ -37,8 +37,10 @@ export default function StartJobButton({ owner_id, job_id }) {
         variant="contained"
         color="success"
         sx={{
-          width: "25%",
+          width: "30%",
           borderRadius: "15px",
+          marginTop: "5%",
+          marginBottom: "2%",
         }}
         onClick={handleStartJob}
       >
@@ -49,8 +51,7 @@ export default function StartJobButton({ owner_id, job_id }) {
           color: "red",
         }}
       >
-        *This action will start the job without reaching required number of
-        workers and before the date of work.
+        *This action will start the job before the working date.
       </Typography>
     </Box>
   );
