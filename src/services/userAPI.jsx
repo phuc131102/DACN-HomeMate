@@ -119,3 +119,42 @@ export const deleteUser = async (data) => {
     throw err;
   }
 };
+
+//BLOCK USERS
+export const block_user = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-g9ba.onrender.com/block_user/${data}`
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//UNBLOCK USERS
+export const unblock_user = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-g9ba.onrender.com/unblock_user/${data}`
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//GET BLACK LIST
+export const black_list = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/black_list`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

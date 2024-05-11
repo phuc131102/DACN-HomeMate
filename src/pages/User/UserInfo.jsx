@@ -10,7 +10,12 @@ import {
   Modal,
   Stack,
 } from "@mui/material";
-import { deleteUser, get_user_info } from "../../services/userAPI";
+import {
+  block_user,
+  deleteUser,
+  get_user_info,
+  unblock_user,
+} from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import avtEmpty from "../../assets/avt_empty.png";
@@ -19,6 +24,7 @@ function UserInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -71,7 +77,7 @@ function UserInfo() {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: 400,
+      width: 500,
       bgcolor: "background.paper",
       boxShadow: 24,
       p: 4,
@@ -108,12 +114,40 @@ function UserInfo() {
     }
   };
 
+  const handleBlockUser = async () => {
+    try {
+      const response = await block_user(id);
+      navigate("/userlist");
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleUnblockUser = async () => {
+    try {
+      const response = await unblock_user(id);
+      navigate("/userlist");
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleOpenModal2 = () => {
+    setShowModal2(true);
+  };
+
+  const handleCloseModal2 = () => {
+    setShowModal2(false);
   };
 
   if (loading) {
@@ -320,6 +354,21 @@ function UserInfo() {
                               }
                             />
                           </Grid>
+                          {userInfo.block ? (
+                            <Grid item xs={12}>
+                              <Box
+                                sx={{
+                                  textAlign: "center",
+                                }}
+                              >
+                                <Typography
+                                  sx={{ fontSize: "20px", color: "red" }}
+                                >
+                                  <b>USER IS BLOCKED</b>
+                                </Typography>
+                              </Box>
+                            </Grid>
+                          ) : null}
                           {userData.role === "Admin" ? (
                             <Grid item xs={12}>
                               <Box
@@ -330,9 +379,27 @@ function UserInfo() {
                               >
                                 <Button
                                   variant="contained"
+                                  color={
+                                    !userInfo.block ? "warning" : "success"
+                                  }
+                                  sx={{
+                                    width: "40%",
+                                    borderRadius: "15px",
+                                    margin: "auto",
+                                  }}
+                                  onClick={() => {
+                                    handleOpenModal2();
+                                  }}
+                                >
+                                  {!userInfo.block
+                                    ? "Block User"
+                                    : "Unblock User"}
+                                </Button>
+                                <Button
+                                  variant="contained"
                                   color="error"
                                   sx={{
-                                    width: "30%",
+                                    width: "40%",
                                     borderRadius: "15px",
                                     margin: "auto",
                                   }}
@@ -361,7 +428,7 @@ function UserInfo() {
           >
             <Box sx={styles.modal}>
               <Typography id="place-book-modal" variant="h5" textAlign="center">
-                Confirm Deletion
+                <b>Confirm Deletion</b>
               </Typography>
               <Typography variant="body1" textAlign="center" marginTop={2}>
                 Are you sure you want to delete this user?
@@ -381,6 +448,50 @@ function UserInfo() {
                   variant="contained"
                   sx={styles.button}
                   onClick={handleCloseModal}
+                >
+                  Cancel
+                </Button>
+              </Stack>
+            </Box>
+          </Modal>
+
+          <Modal
+            open={showModal2}
+            onClose={handleCloseModal2}
+            aria-labelledby="place-book-modal"
+            aria-describedby="place-book-modal-description"
+          >
+            <Box sx={styles.modal}>
+              <Typography id="place-book-modal" variant="h5" textAlign="center">
+                <b>{!userInfo.block ? "Confirm Block" : "Confirm Unblock"}</b>
+              </Typography>
+              {!userInfo.block ? (
+                <Typography variant="body1" textAlign="center" marginTop={2}>
+                  This action will restrict <b>Homeowner</b> from{" "}
+                  <b>creating new job</b> and block <b>Worker</b> from{" "}
+                  <b>applying job</b> feature. <br />
+                </Typography>
+              ) : null}
+              <Typography variant="body1" textAlign="center" marginTop={2}>
+                {!userInfo.block
+                  ? "Are you sure you want to block this user?"
+                  : "Are you sure you want to unblock this user?"}
+              </Typography>
+              <Stack direction="row" justifyContent="center" marginTop={4}>
+                <Button
+                  variant="contained"
+                  sx={!userInfo.block ? styles.buttonRemove : styles.button}
+                  onClick={() => {
+                    !userInfo.block ? handleBlockUser() : handleUnblockUser();
+                  }}
+                >
+                  {!userInfo.block ? "Block" : "Unblock"}
+                </Button>
+
+                <Button
+                  variant="contained"
+                  sx={!userInfo.block ? styles.button : styles.buttonRemove}
+                  onClick={handleCloseModal2}
                 >
                   Cancel
                 </Button>
