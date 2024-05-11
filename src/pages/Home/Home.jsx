@@ -11,6 +11,8 @@ import NewCard from "../Job/Child/NewCard";
 import Hero from "./Child/Hero";
 import WorkerCard from "../Worker/Child/WorkerCard";
 import useOwners from "../../utils/userUtils/ownerUtils";
+import WokerGuide from "./Child/WokerGuide";
+import FindWorker from "./Child/FindWorker";
 
 function Home() {
   const { workers, loading } = useWorkers();
@@ -59,6 +61,7 @@ function Home() {
         workerLength={workerLength}
         ownerLength={owners}
       />
+      <WokerGuide />
       <Box
         sx={{
           width: "80%",
@@ -93,44 +96,6 @@ function Home() {
               .reverse()
               .map((card, index) => (
                 <Grid item key={index}>
-                  {/* <Card
-                      sx={{
-                        backgroundColor: "white",
-                        borderRadius: "20px",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                        width: "160px",
-                      }}
-                    >
-                      <CardActionArea
-                        component={Link}
-                        to={`/worker/${card._id.$oid}`}
-                      >
-                        <CardMedia
-                          component="img"
-                          height="150"
-                          image={card.avatar === "" ? avtEmpty : card.avatar}
-                          alt={card.name}
-                        />
-                        <CardContent>
-                          <Typography
-                            sx={{
-                              fontSize: 16,
-                              textAlign: "center",
-                              lineHeight: "1.2",
-                              maxHeight: "1.2em",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              display: "block",
-                            }}
-                            color="text.primary"
-                            gutterBottom
-                          >
-                            {card.name}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card> */}
                   <WorkerCard card={card} />
                 </Grid>
               ))}
@@ -147,7 +112,7 @@ function Home() {
           marginBottom: "10px",
         }}
       ></div>
-
+      <FindWorker/>
       <Box
         sx={{
           width: "80%",

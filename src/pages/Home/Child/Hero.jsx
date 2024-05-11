@@ -1,13 +1,6 @@
 import React from "react";
 import {
   Box,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  duration,
 } from "@mui/material";
 import "./Hero.css";
 import CountUp from "react-countup";
@@ -76,6 +69,7 @@ function Hero(prop) {
                 className="image-container"
               >
                 <img
+                loading="lazy"
                   src="https://gaxa.vn/wp-content/uploads/2022/06/modern-house.jpg"
                   alt="modern-house"
                 />
