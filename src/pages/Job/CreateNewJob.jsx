@@ -90,7 +90,7 @@ const CreateJobPage = () => {
       ...formData,
       image: avatarBase64,
       owner_id: userData.id,
-      skill:chooseSkill,
+      skill: chooseSkill,
     };
     // console.log(updatedFormData);
     try {
@@ -171,6 +171,15 @@ const CreateJobPage = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    inputProps={{
+                      pattern: "[^0-9]*",
+                    }}
+                    helperText={
+                      formData.name.match(/[0-9]/)
+                        ? "Number ditgit is not allowed."
+                        : ""
+                    }
+                    error={formData.name.match(/[0-9]/) !== null}
                   />
                 </Grid>
 
@@ -264,7 +273,7 @@ const CreateJobPage = () => {
                     onChange={handleChange}
                   />
                 </Grid>
-                
+
                 <Grid item xs={12}>
                   <JobFilter
                     option={skills}
