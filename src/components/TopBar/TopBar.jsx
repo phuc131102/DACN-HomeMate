@@ -516,7 +516,11 @@ function TopBar() {
                         key={index}
                         onClick={handleCloseNotification}
                         component={Link}
-                        to={`/job/${card.job_id}`}
+                        to={
+                          card.job_id
+                            ? `/job/${card.job_id}`
+                            : `/profile/${userData.id}`
+                        }
                         sx={{
                           whiteSpace: "normal",
                           overflowWrap: "break-word",

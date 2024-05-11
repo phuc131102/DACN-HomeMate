@@ -880,9 +880,7 @@ function JobInfo() {
                   </>
                 ) : null}
                 {userData.role === "Homeowner" &&
-                userData.id === jobInfo.owner_id &&
-                accept.length >= 1 &&
-                jobInfo.status === "Available" ? (
+                userData.id === jobInfo.owner_id ? (
                   <Box
                     sx={{
                       width: "100%",
