@@ -233,7 +233,7 @@ function Job() {
           <NewCard currentJobs={currentJobs} />
         </Box>
       </Box>
-      {jobArray.filter((card) => card.status === "Available").length > 6 ? (
+      {jobArray.filter((card) => card.status === "Available").length > 8 ? (
         <Pagination
           count={Math.ceil(
             jobArray.filter((card) => card.status === "Available").length /
