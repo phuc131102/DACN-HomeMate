@@ -51,6 +51,7 @@ function JobInfo() {
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const [ownerInfo, setOwnerInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -204,12 +205,14 @@ function JobInfo() {
   }, []);
 
   useEffect(() => {
-    if (jobInfo && jobInfo.owner_id) {
+    if (jobInfo && userData) {
       const fetchUserInfo = async () => {
         setLoading(true);
         try {
           const response = await get_user_info(jobInfo.owner_id);
+          const response2 = await get_user_info(userData.id);
           setOwnerInfo(response);
+          setUserInfo(response2);
         } catch (error) {
           console.error("Error fetching user information:", error);
         } finally {
@@ -220,7 +223,7 @@ function JobInfo() {
       };
       fetchUserInfo();
     }
-  }, [jobInfo]);
+  }, [jobInfo, userData]);
 
   const handleDeleteJob = async (jobId) => {
     try {
@@ -486,24 +489,49 @@ function JobInfo() {
                             sx={{
                               width: "100%",
                               display: "flex",
+
                               justifyContent: "center",
                             }}
                           >
                             {!isWaiting &&
                             !isWorking &&
                             jobInfo.status === "Available" ? (
-                              <Button
-                                variant="contained"
-                                color="success"
-                                sx={{
-                                  width: "15%",
-                                  borderRadius: "15px",
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
                                   marginBottom: "2%",
+                                  alignItems: "center",
+                                  width: "20%",
                                 }}
-                                onClick={handleApply}
                               >
-                                Apply
-                              </Button>
+                                {
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    sx={{
+                                      width: "100%",
+                                      borderRadius: "15px",
+                                      marginBottom: "2%",
+                                    }}
+                                    onClick={handleApply}
+                                    disabled={userInfo.block ? true : false}
+                                  >
+                                    Apply
+                                  </Button>
+                                }
+                                {userInfo.block ? (
+                                  <Typography
+                                    sx={{
+                                      color: "red",
+                                      fontSize: "15px",
+                                      marginBottom: "2%",
+                                    }}
+                                  >
+                                    *This feature has blocked for your account.
+                                  </Typography>
+                                ) : null}
+                              </div>
                             ) : null}
                             {isWorking && jobInfo.status === "Available" ? (
                               <Typography

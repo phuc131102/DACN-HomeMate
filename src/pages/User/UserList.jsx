@@ -41,7 +41,9 @@ const UserListPage = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
+  const currentUsers = users
+    .filter((card) => card.block !== true)
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -136,7 +138,9 @@ const UserListPage = () => {
         </TableContainer>
       </Box>
       <Pagination
-        count={Math.ceil(users.length / itemsPerPage)}
+        count={Math.ceil(
+          users.filter((card) => card.block !== true).length / itemsPerPage
+        )}
         page={currentPage}
         onChange={handlePageChange}
         shape="rounded"

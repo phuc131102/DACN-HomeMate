@@ -46,22 +46,25 @@ function Admin() {
     return <Loading />;
   }
   return (
-    <Box sx={{width:"90%",margin: "auto",marginTop:"100px", }}>
-      <Box sx={{ width: "100%", typography: "body1"}}>
+    <Box sx={{ width: "90%", margin: "auto", marginTop: "100px" }}>
+      <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Dashboard" value="1" />
               <Tab label="Users" value="2" />
-              <Tab label="Jobs" value="3" />
+              <Tab label="Black List" value="3" />
             </TabList>
           </Box>
-          <TabPanel value="1"><Dashboard/></TabPanel>
-          <TabPanel value="2"><UserListPage users={users} userData={userData} /></TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
+          <TabPanel value="1">
+            <Dashboard />
+          </TabPanel>
+          <TabPanel value="2">
+            <UserListPage users={users} userData={userData} />
+          </TabPanel>
+          <TabPanel value="3">Black List</TabPanel>
         </TabContext>
       </Box>
-      
     </Box>
   );
 }
