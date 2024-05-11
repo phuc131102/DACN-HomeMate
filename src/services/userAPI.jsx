@@ -81,6 +81,19 @@ export const allWorker = async () => {
   }
 };
 
+// GET NUMBER OF OWNERS
+export const count_owner = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-g9ba.onrender.com/count_owner`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // GET ALL USERS
 export const allUser = async () => {
   try {

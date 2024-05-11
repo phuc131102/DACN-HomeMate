@@ -136,7 +136,13 @@ function YourWorker() {
                             display: "block",
                             wordBreak: "break-word",
                           }}
-                          color={card.status === "Working" ? "green" : "red"}
+                          color={
+                            card.status === "Working"
+                              ? "green"
+                              : card.status === "Waiting"
+                              ? "orange"
+                              : "red"
+                          }
                           gutterBottom
                         >
                           {card.status}

@@ -62,6 +62,7 @@ function JobInfo() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
+
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
     name: "",
@@ -71,6 +72,9 @@ function JobInfo() {
     address: "",
     desc: "",
     requirement: "",
+    max_num: "",
+    image: "",
+    datetime: "",
   });
 
   const handleOpenModal = () => {
@@ -105,6 +109,7 @@ function JobInfo() {
       backgroundColor: "red",
       color: "#fff",
       fontWeight: 600,
+
       borderRadius: 15,
       maxWidth: "500px",
       marginRight: "10px",
@@ -146,6 +151,18 @@ function JobInfo() {
           const response3 = await accept_list(id);
           setJobInfo(response);
           setChooseSkill(response.skill);
+          setEditedValues({
+            name: response.name,
+            salary: response.salary,
+            email: response.email,
+            phone_num: response.phone_num,
+            address: response.address,
+            desc: response.desc,
+            requirement: response.requirement,
+            max_num: response.max_num,
+            image: response.image,
+            datetime: response.datetime,
+          });
           setWaiting(response2);
           setAccept(response3);
         } catch (error) {
@@ -165,7 +182,7 @@ function JobInfo() {
       };
       fetchJobInfo();
     }
-  }, [id, setJobInfo]);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -204,10 +221,6 @@ function JobInfo() {
       fetchUserInfo();
     }
   }, [jobInfo]);
-
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
   const handleDeleteJob = async (jobId) => {
     try {
@@ -250,10 +263,11 @@ function JobInfo() {
           requirement: editedValues.requirement,
           max_num: editedValues.max_num,
           skill: chooseSkill,
+          image: editedValues.image,
         };
         console.log(updatedValues);
         await update_job(updatedValues);
-        setJobInfo(editedValues);
+        setJobInfo(updatedValues);
         setEditMode(false);
         setError("");
         setLoading(false);
@@ -429,6 +443,30 @@ function JobInfo() {
                       </Box>
                     </Grid>
                   ) : null}
+                  {userData.role === "Admin" ? (
+                    <Grid container spacing={2}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="error"
+                          sx={{
+                            width: "15%",
+                            marginLeft: "5%",
+                            borderRadius: "15px",
+                          }}
+                          onClick={handleOpenModal}
+                        >
+                          Delete Job
+                        </Button>
+                      </Box>
+                    </Grid>
+                  ) : null}
                   {error && (
                     <Typography variant="body2" color="error" align="center">
                       {error}
@@ -437,6 +475,7 @@ function JobInfo() {
                   {!editMode ? (
                     <Box sx={{ width: "100%" }}>
                       <JobDetail
+                        userData={userData}
                         editMode={editMode}
                         jobInfo={jobInfo}
                         chooseSkill={chooseSkill}
@@ -472,9 +511,13 @@ function JobInfo() {
                                   color: "green",
                                   fontSize: "20px",
                                   marginBottom: "2%",
+                                  textAlign: "center",
                                 }}
                               >
-                                <b>Apply is accepted !</b>
+                                <b>
+                                  Apply is accepted !<br />
+                                  Waiting for job start...
+                                </b>
                               </Typography>
                             ) : null}
                             {isWorking && jobInfo.status === "In Progress" ? (
@@ -485,7 +528,7 @@ function JobInfo() {
                                   marginBottom: "2%",
                                 }}
                               >
-                                <b>Start Working</b>
+                                <b>WORKING</b>
                               </Typography>
                             ) : null}
                             {isWaiting && jobInfo.status === "Available" ? (
@@ -512,6 +555,28 @@ function JobInfo() {
                                   Cancel Apply
                                 </Button>
                               </div>
+                            ) : null}
+                            {jobInfo.status === "Full" ? (
+                              <Typography
+                                sx={{
+                                  color: "orange",
+                                  fontSize: "25px",
+                                  marginBottom: "2%",
+                                }}
+                              >
+                                <b>JOB IS FULL</b>
+                              </Typography>
+                            ) : null}
+                            {jobInfo.status === "Closed" ? (
+                              <Typography
+                                sx={{
+                                  color: "red",
+                                  fontSize: "25px",
+                                  marginBottom: "2%",
+                                }}
+                              >
+                                <b>JOB IS CLOSED</b>
+                              </Typography>
                             ) : null}
                           </Box>
                         </>
@@ -787,7 +852,9 @@ function JobInfo() {
                   </>
                 ) : null}
                 {userData.role === "Homeowner" &&
-                userData.id === jobInfo.owner_id ? (
+                userData.id === jobInfo.owner_id &&
+                accept.length >= 1 &&
+                jobInfo.status === "Available" ? (
                   <Box
                     sx={{
                       width: "100%",
@@ -795,7 +862,9 @@ function JobInfo() {
                       justifyContent: "center",
                     }}
                   >
-                    {accept.length >= 1 && jobInfo.status === "Available" ? (
+                    {accept.length >= 1 &&
+                    (jobInfo.status === "Available" ||
+                      jobInfo.status === "Full") ? (
                       <StartJobButton owner_id={userData.id} job_id={id} />
                     ) : null}
                     {jobInfo.status === "In Progress" ? (

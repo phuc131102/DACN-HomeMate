@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Typography,
-  CardContent,
-  Pagination,
-  Box,
-} from "@mui/material";
+import { Grid, Typography, CardContent, Pagination, Box } from "@mui/material";
 
 import useWorkers from "../../utils/userUtils/workerUtils";
 import Loading from "../../components/Loading/Loading";
@@ -14,13 +8,13 @@ import WorkerCard from "./Child/WorkerCard";
 function Worker() {
   const { workers, loading } = useWorkers();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
-
-  
+  const itemsPerPage = 8;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentWorkers = workers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentWorkers = workers
+    .filter((card) => card.status === "Available")
+    .slice(indexOfFirstItem, indexOfLastItem);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -45,8 +39,8 @@ function Worker() {
               {currentWorkers.map((card, index) => (
                 <Grid item xs={12} sm={12} md={3} key={index}>
                   {console.log(card)}
-                  
-                  <WorkerCard card={card}/>
+
+                  <WorkerCard card={card} />
                 </Grid>
               ))}
             </Grid>
@@ -54,9 +48,12 @@ function Worker() {
         </CardContent>
         {/* <WorkerCard /> */}
       </Box>
-      {workers.length > 12 ? (
+      {workers.filter((card) => card.status === "Available").length > 8 ? (
         <Pagination
-          count={Math.ceil(workers.length / itemsPerPage)}
+          count={Math.ceil(
+            workers.filter((card) => card.status === "Available").length /
+              itemsPerPage
+          )}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
