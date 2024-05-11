@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import "./Hero.css";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
@@ -69,7 +67,7 @@ function Hero(prop) {
                 className="image-container"
               >
                 <img
-                loading="lazy"
+                  loading="lazy"
                   src="https://gaxa.vn/wp-content/uploads/2022/06/modern-house.jpg"
                   alt="modern-house"
                 />
