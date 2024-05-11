@@ -23,9 +23,11 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Dashboard from "./Child/Dashboard";
+import useJobs from "../../utils/jobUtils/jobUtils";
 
 function Admin() {
   const { users, loading } = useUsers();
+  const { jobs, loadingJob } = useJobs();
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ function Admin() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  if (loading) {
+  if (loading && loadingJob) {
     return <Loading />;
   }
   return (
@@ -56,7 +58,7 @@ function Admin() {
               <Tab label="Jobs" value="3" />
             </TabList>
           </Box>
-          <TabPanel value="1"><Dashboard/></TabPanel>
+          <TabPanel value="1"><Dashboard users={users} jobs={jobs}/></TabPanel>
           <TabPanel value="2"><UserListPage users={users} userData={userData} /></TabPanel>
           <TabPanel value="3">Item Three</TabPanel>
         </TabContext>

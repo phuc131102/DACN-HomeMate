@@ -15,12 +15,16 @@ import {
   Box,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import WorkIcon from '@mui/icons-material/Work';
+import WorkIcon from "@mui/icons-material/Work";
 import InfoBox from "./InfoBox";
 import RightSide from "./RightSide";
-function Dashboard() {
+function Dashboard(prop) {
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
       <Grid container>
         <Grid item xs={12}>
           <Typography variant="h4" gutterBottom>
@@ -32,10 +36,10 @@ function Dashboard() {
         </Grid>
         <Grid item container xs={12} className="DashboardDiagram">
           <Grid container item xs={4} className="LeftSide">
-            <InfoBox/>
+            <InfoBox users={prop.users} jobs={prop.jobs} />
           </Grid>
           <Grid container item xs={8} className="RightSide">
-            <RightSide/>
+            <RightSide users={prop.users} jobs={prop.jobs} />
           </Grid>
         </Grid>
       </Grid>

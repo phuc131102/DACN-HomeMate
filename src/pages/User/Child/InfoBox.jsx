@@ -16,10 +16,14 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import WorkIcon from "@mui/icons-material/Work";
-import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
-import HomeIcon from '@mui/icons-material/Home';
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import HomeIcon from "@mui/icons-material/Home";
+import CountUp from "react-countup";
 
-function InfoBox() {
+function InfoBox(prop) {
+  // console.log(prop.users)
+  const worker = prop.users.filter((item) => item.role === "Worker");
+  const homwOwner = prop.users.filter((item) => item.role === "Homeowner");
   return (
     <Box>
       <Grid container xs={12}>
@@ -32,7 +36,7 @@ function InfoBox() {
                 margin: "auto",
                 height: "150px",
                 borderRadius: "10px",
-                backgroundColor: "#BAB3B3",
+                background: "linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)",
               }}
             >
               <Box
@@ -59,7 +63,7 @@ function InfoBox() {
                 </Box>
                 <Box sx={{ width: "100%", marginTop: "5px" }}>
                   <Typography variant="h4" gutterBottom>
-                    500
+                    <CountUp start={0} end={prop.users.length} duration={3} />
                   </Typography>
                 </Box>
                 <Box
@@ -89,7 +93,7 @@ function InfoBox() {
                 margin: "auto",
                 height: "150px",
                 borderRadius: "10px",
-                backgroundColor: "#BAB3B3",
+                background: "linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)",
               }}
             >
               <Box
@@ -116,7 +120,7 @@ function InfoBox() {
                 </Box>
                 <Box sx={{ width: "100%", marginTop: "5px" }}>
                   <Typography variant="h4" gutterBottom>
-                    500
+                    <CountUp start={0} end={worker.length} duration={3} />
                   </Typography>
                 </Box>
                 <Box
@@ -148,7 +152,7 @@ function InfoBox() {
                 margin: "auto",
                 height: "150px",
                 borderRadius: "10px",
-                backgroundColor: "#BAB3B3",
+                background: "linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)",
               }}
             >
               <Box
@@ -175,7 +179,7 @@ function InfoBox() {
                 </Box>
                 <Box sx={{ width: "100%", marginTop: "5px" }}>
                   <Typography variant="h4" gutterBottom>
-                    500
+                  <CountUp start={0} end={prop.jobs.length} duration={3} />
                   </Typography>
                 </Box>
                 <Box
@@ -204,7 +208,7 @@ function InfoBox() {
                 margin: "auto",
                 height: "150px",
                 borderRadius: "10px",
-                backgroundColor: "#BAB3B3",
+                background: "linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)",
               }}
             >
               <Box
@@ -231,7 +235,7 @@ function InfoBox() {
                 </Box>
                 <Box sx={{ width: "100%", marginTop: "5px" }}>
                   <Typography variant="h4" gutterBottom>
-                    500
+                    <CountUp start={0} end={homwOwner.length} duration={3} />
                   </Typography>
                 </Box>
                 <Box
