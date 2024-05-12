@@ -71,27 +71,27 @@ function EditForm(prop) {
                   }}
                   // id="outlined-basic"
                   label="Password"
-                  type={prop.showPassword ? "text" : "password"}
-                  placeholder={prop.profile.pwd}
+                  type="password"
+                  placeholder="haha"
                   name="pwd"
                   value={prop.formData.pwd}
                   onChange={prop.handleChange}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={prop.handleTogglePasswordVisibility}
-                          edge="end"
-                        >
-                          {prop.showPassword ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                  // InputProps={{
+                  //   endAdornment: (
+                  //     <InputAdornment position="end">
+                  //       <IconButton
+                  //         onClick={prop.handleTogglePasswordVisibility}
+                  //         edge="end"
+                  //       >
+                  //         {prop.showPassword ? (
+                  //           <VisibilityOff />
+                  //         ) : (
+                  //           <Visibility />
+                  //         )}
+                  //       </IconButton>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
               </Grid>
               <Grid item xs={12}>
