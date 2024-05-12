@@ -51,7 +51,7 @@ function YourWorker() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentWorker = workers.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (value) => {
+  const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
@@ -156,7 +156,7 @@ function YourWorker() {
           </Grid>
         </Box>
       )}
-      {Math.ceil(workers.length / itemsPerPage) > 1 ? (
+      {workers.length > 4 ? (
         <Pagination
           count={Math.ceil(workers.length / itemsPerPage)}
           page={currentPage}

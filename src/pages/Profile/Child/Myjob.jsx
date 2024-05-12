@@ -28,6 +28,7 @@ function MyJob() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
+  console.log(currentPage);
 
   useEffect(() => {
     if (userData && userData.id) {
@@ -51,7 +52,7 @@ function MyJob() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (value) => {
+  const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
@@ -73,7 +74,7 @@ function MyJob() {
   return (
     <>
       <br />
-      {currentJobs.length === 0 ? (
+      {jobs.length === 0 ? (
         "Not create any job yet."
       ) : (
         <Grid container spacing={5}>
@@ -157,7 +158,7 @@ function MyJob() {
         </Grid>
       )}
 
-      {Math.ceil(jobs.length / itemsPerPage) > 1 ? (
+      {jobs.length > 4 ? (
         <Pagination
           count={Math.ceil(jobs.length / itemsPerPage)}
           page={currentPage}
