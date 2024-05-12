@@ -385,7 +385,7 @@ function Profile() {
                               </TabList>
                             </Box>
                             <TabPanel value="1">
-                              <MyJob />
+                              <MyJob id={userData.id}/>
                             </TabPanel>
                             <TabPanel value="2">
                               <YourWorker />
