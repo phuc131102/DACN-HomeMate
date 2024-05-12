@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import {
   Grid,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
   Pagination,
   Button,
   Box,
 } from "@mui/material";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
-import jobEmpty from "../../assets/job_empty.png";
 import { get_skill } from "../../services/skillAPI";
 import JobFilter from "./Child/Job_filter";
 import { Salary } from "./Child/Salary";
-import { Flex } from "antd";
 import NewCard from "./Child/NewCard";
 import "./Child/Newcard.css";
 
@@ -71,7 +65,6 @@ function Job() {
         });
         return temp;
       });
-      // let finalArray =
       setFilterItems([...new Set(tempItems.flat())]);
     } else {
       setFilterItems(jobs);

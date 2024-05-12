@@ -17,7 +17,8 @@ import {
   Avatar,
   Paper,
 } from "@mui/material";
-import { get_user_info } from "../../services/userAPI";
+import { useNavigate } from "react-router-dom";
+import { deleteUser, get_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import ViewCv from "../ViewCv/ViewCv";
@@ -31,6 +32,7 @@ import Rate from "./Child/Rating";
 import BigCard from "../../components/BigCard/BigCard";
 
 function WorkerInfo() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
@@ -50,6 +52,40 @@ function WorkerInfo() {
       },
     },
   });
+  const styles = {
+    button: {
+      backgroundColor: "green",
+      color: "#fff",
+      fontWeight: 600,
+      borderRadius: 15,
+      maxWidth: "500px",
+      marginRight: "10px",
+      minWidth: "150px",
+      padding: "5px 10px",
+      fontSize: "1.2rem",
+    },
+    buttonRemove: {
+      backgroundColor: "red",
+      color: "#fff",
+      fontWeight: 600,
+      borderRadius: 15,
+      maxWidth: "500px",
+      marginRight: "10px",
+      minWidth: "150px",
+      padding: "5px 10px",
+      fontSize: "1.2rem",
+    },
+    modal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    },
+  };
 
   // const styles = {
   //   button: {
@@ -152,6 +188,24 @@ function WorkerInfo() {
     }
   }, [id]);
 
+  const handleDeleteUser = async (id) => {
+    try {
+      const deletionMessage = await deleteUser(id);
+      navigate("/userlist");
+      console.log(deletionMessage);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   // const handleHire = async (jobId, e) => {
   //   e.preventDefault();
   //   setLoading(true);
@@ -232,11 +286,37 @@ function WorkerInfo() {
                         <Avt avtEmpty={avtEmpty} userInfo={userInfo} />
                       </>
                     </Grid>
-                    <Grid item xs={8}>
-                      <Typography variant="h3">
-                        <b>{userInfo.name}</b>
-                      </Typography>
-
+                    <Grid item container xs={8}>
+                      <Grid item xs={12}>
+                        <Typography variant="h3">
+                          <b>{userInfo.name}</b>
+                        </Typography>
+                      </Grid>
+                      {userData.role === "Admin" ? (
+                        <Grid item xs={12}>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              display: "flex",
+                            }}
+                          >
+                            <Button
+                              variant="contained"
+                              color="error"
+                              sx={{
+                                width: "30%",
+                                borderRadius: "15px",
+                                margin: "auto",
+                              }}
+                              onClick={() => {
+                                handleOpenModal();
+                              }}
+                            >
+                              Delete User
+                            </Button>
+                          </Box>
+                        </Grid>
+                      ) : null}
                       {/* {userData.role === "Homeowner" ? (
                         <>
                           <Grid item xs={12}>
@@ -435,6 +515,40 @@ function WorkerInfo() {
           </Modal> */}
         </>
       )}
+      <Modal
+        open={showModal}
+        onClose={handleCloseModal}
+        aria-labelledby="place-book-modal"
+        aria-describedby="place-book-modal-description"
+      >
+        <Box sx={styles.modal}>
+          <Typography id="place-book-modal" variant="h5" textAlign="center">
+            Confirm Deletion
+          </Typography>
+          <Typography variant="body1" textAlign="center" marginTop={2}>
+            Are you sure you want to delete this user?
+          </Typography>
+          <Stack direction="row" justifyContent="center" marginTop={4}>
+            <Button
+              variant="contained"
+              sx={styles.buttonRemove}
+              onClick={() => {
+                handleDeleteUser(id);
+              }}
+            >
+              Delete
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={styles.button}
+              onClick={handleCloseModal}
+            >
+              Cancel
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
     </div>
   );
 }
