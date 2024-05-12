@@ -3,7 +3,7 @@ import {Typography, Box, Button } from "@mui/material";
 import "./WorkerCard.css";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import {useNavigate } from "react-router-dom";
-
+import avtEmpty from "../../../assets/avt_empty.png";
 function WorkerCard(prop) {
     const navigate = useNavigate();
   console.log(prop.card);
@@ -11,7 +11,7 @@ function WorkerCard(prop) {
     <Box className="container">
       <Box className="cardn">
         <Box className="img-box">
-          <img src={prop.card.avatar} alt="pic" />
+          <img src={prop.card.avatar?prop.card.avatar:avtEmpty} alt="pic" />
         </Box>
 
         <Box className="content">

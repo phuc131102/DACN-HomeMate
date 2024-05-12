@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400&display=swap");
+
 :root {
 	--adjust-size: 0px; /* 必要に応じて */
 }
@@ -110,7 +110,7 @@ img {
 	padding: 0.5rem;
 	border-radius: 5px;
 	box-shadow: 0 7px 8px rgba(0, 0, 0, 0.4);
-	width: 80%;
+	width: 240px;
 	margin:auto;
 	height: auto;
 	text-align: center;
@@ -154,7 +154,7 @@ img {
 }
 figure img {
 	aspect-ratio: 1 /1;
-	width: 100%;
+	width: 225px;
 	object-fit: cover;
 	display: block;
 	border-radius: 5px;

@@ -14,7 +14,7 @@ import { myJob } from "../../../services/jobAPI";
 import jobEmpty from "../../../assets/job_empty.png";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function MyJob() {
+function MyJob(prop) {
   const [userData, setUserData] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState([]);
@@ -31,10 +31,11 @@ function MyJob() {
   console.log(currentPage);
 
   useEffect(() => {
-    if (userData && userData.id) {
+    if (userData && userData.id && prop.id) {
       const fetchData = async () => {
         try {
-          const fetchedJobs = await myJob(userData.id);
+          const fetchedJobs = await myJob(prop.id);
+          console.log(fetchedJobs)
           setJobs(fetchedJobs);
         } catch (error) {
           console.error("Error fetching jobs:", error);
@@ -46,7 +47,7 @@ function MyJob() {
 
       fetchData();
     }
-  }, [userData]);
+  }, [userData, prop.id]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

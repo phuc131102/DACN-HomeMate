@@ -13,6 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function EditDialog(prop) {
+  // console.log(defaultData)
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,6 +21,7 @@ export default function EditDialog(prop) {
   };
 
   const handleClose = () => {
+    prop.handleCancle()
     setOpen(false);
   };
 
@@ -58,6 +60,7 @@ export default function EditDialog(prop) {
         </DialogTitle>
         <DialogContent>
           <EditForm
+            error={prop.error}
             profile={prop.profile}
             handleChange={prop.handleChange}
             formData={prop.formData}

@@ -42,6 +42,7 @@ function NewCard(prop) {
             <figure key={index}>
               <Box component={Link} to={`/job/${card._id.$oid}`}>
                 <img
+                  loading="lazy"
                   src={card.image === "" ? jobEmpty : card.image}
                   alt={card.name}
                   title={card.name}
