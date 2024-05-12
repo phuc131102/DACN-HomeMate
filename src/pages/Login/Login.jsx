@@ -16,6 +16,7 @@ import "./Login.css";
 import videoBg from "../../assets/nightwall.webm";
 import { sign_in } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
+import { sha256 } from "js-sha256";
 
 const finalTheme = createTheme({
   components: {
@@ -76,7 +77,8 @@ function Login() {
   };
 
   const handleSubmit2 = async (e) => {
-    const formData = { email: email, password: password };
+    const hashedPassword = sha256(password);
+    const formData = { email: email, password: hashedPassword };
     e.preventDefault();
     setLoading(true);
     if (!validateEmail(email)) {

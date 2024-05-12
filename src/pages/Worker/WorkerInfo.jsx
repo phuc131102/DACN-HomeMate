@@ -18,7 +18,12 @@ import {
   Paper,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { deleteUser, get_user_info } from "../../services/userAPI";
+import {
+  block_user,
+  deleteUser,
+  get_user_info,
+  unblock_user,
+} from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import ViewCv from "../ViewCv/ViewCv";
@@ -30,6 +35,7 @@ import Avt from "./Child/Avt";
 import LeftSide from "./Child/LeftSide";
 import Rate from "./Child/Rating";
 import BigCard from "../../components/BigCard/BigCard";
+import MyJob from "../Profile/Child/Myjob";
 
 function WorkerInfo() {
   const navigate = useNavigate();
@@ -38,6 +44,7 @@ function WorkerInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
 
   const finalTheme = createTheme({
@@ -198,12 +205,40 @@ function WorkerInfo() {
     }
   };
 
+  const handleBlockUser = async () => {
+    try {
+      const response = await block_user(id);
+      navigate("/userlist");
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleUnblockUser = async () => {
+    try {
+      const response = await unblock_user(id);
+      navigate("/userlist");
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleOpenModal2 = () => {
+    setShowModal2(true);
+  };
+
+  const handleCloseModal2 = () => {
+    setShowModal2(false);
   };
 
   // const handleHire = async (jobId, e) => {
@@ -292,6 +327,19 @@ function WorkerInfo() {
                           <b>{userInfo.name}</b>
                         </Typography>
                       </Grid>
+                      {userInfo.block ? (
+                        <Grid item xs={12}>
+                          <Box
+                            sx={{
+                              textAlign: "center",
+                            }}
+                          >
+                            <Typography sx={{ fontSize: "20px", color: "red" }}>
+                              <b>USER IS BLOCKED</b>
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      ) : null}
                       {userData.role === "Admin" ? (
                         <Grid item xs={12}>
                           <Box
@@ -302,9 +350,23 @@ function WorkerInfo() {
                           >
                             <Button
                               variant="contained"
+                              color={!userInfo.block ? "warning" : "success"}
+                              sx={{
+                                width: "40%",
+                                borderRadius: "15px",
+                                margin: "auto",
+                              }}
+                              onClick={() => {
+                                handleOpenModal2();
+                              }}
+                            >
+                              {!userInfo.block ? "Block User" : "Unblock User"}
+                            </Button>
+                            <Button
+                              variant="contained"
                               color="error"
                               sx={{
-                                width: "30%",
+                                width: "40%",
                                 borderRadius: "15px",
                                 margin: "auto",
                               }}
@@ -394,9 +456,11 @@ function WorkerInfo() {
                 <Grid item xs={12} sx={{ marginBottom: "20px" }}>
                   <LeftSide profile={userInfo} />
                 </Grid>
-                <Grid item xs={12}>
-                  <Rate rating={userInfo.rating} />
-                </Grid>
+                {userInfo.rating ? (
+                  <Grid item xs={12}>
+                    <Rate rating={userInfo.rating} />
+                  </Grid>
+                ) : null}
               </Grid>
               <Grid item xs={8}>
                 <Box sx={{ marginLeft: "20px", marginBottom: "20px" }}>
@@ -407,14 +471,15 @@ function WorkerInfo() {
                       <ComponentDivider>CV</ComponentDivider>
                     </Grid> */}
                       <Grid container item xs={12}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "right",
-                          }}
-                        >
-                          {cvinfo.message === "CV not found" ? (
+                        {userInfo.role === "Worker" ? (
+                          <Box
+                            sx={{
+                              width: "100%",
+                              display: "flex",
+                              justifyContent: "right",
+                            }}
+                          >
+                            cvinfo.message === "CV not found" ? (
                             <>
                               <Grid container>
                                 <Grid item xs={12} sx={{ marginTop: "15px" }}>
@@ -434,19 +499,30 @@ function WorkerInfo() {
                                 </Grid>
                               </Grid>
                             </>
-                          ) : (
+                            ) : (
                             <>
                               <Grid container>
                                 <Grid item xs={12} sx={{ marginTop: "15px" }}>
                                   <ComponentDivider>CV</ComponentDivider>
                                 </Grid>
+
                                 <Grid item xs={12}>
                                   <ViewCv cvinfo={cvinfo.data} />
                                 </Grid>
                               </Grid>
                             </>
-                          )}
-                        </Box>
+                            )
+                          </Box>
+                        ) : (
+                          <Grid container>
+                            <Grid item xs={12} sx={{ marginTop: "15px" }}>
+                              <ComponentDivider>Your Job</ComponentDivider>
+                            </Grid>
+                            <Box sx={{width:"90%", margin:"auto", marginTop:"10px", marginBottom:"10px"}}>
+                            <MyJob id={id}/>
+                            </Box>
+                          </Grid>
+                        )}
                       </Grid>
                     </Grid>
                   </BigCard>
@@ -549,6 +625,55 @@ function WorkerInfo() {
           </Stack>
         </Box>
       </Modal>
+      {userInfo ? (
+        <Modal
+          open={showModal2}
+          onClose={handleCloseModal2}
+          aria-labelledby="place-book-modal"
+          aria-describedby="place-book-modal-description"
+        >
+          <Box sx={styles.modal}>
+            <Typography id="place-book-modal" variant="h5" textAlign="center">
+              <b>{!userInfo.block ? "Confirm Block" : "Confirm Unblock"}</b>
+            </Typography>
+            {!userInfo.block && userInfo.role === "Homeowner" ? (
+              <Typography variant="body1" textAlign="center" marginTop={2}>
+                This action will restrict <b>Homeowner</b> from{" "}
+                <b>creating new job</b>. <br />
+              </Typography>
+            ) : !userInfo.block && userInfo.role === "Worker" ? (
+              <Typography variant="body1" textAlign="center" marginTop={2}>
+                This action will restrict <b>Worker</b> from <b>applying job</b>
+                . <br />
+              </Typography>
+            ) : null}
+            <Typography variant="body1" textAlign="center" marginTop={2}>
+              {!userInfo.block
+                ? "Are you sure you want to block this user?"
+                : "Are you sure you want to unblock this user?"}
+            </Typography>
+            <Stack direction="row" justifyContent="center" marginTop={4}>
+              <Button
+                variant="contained"
+                sx={!userInfo.block ? styles.buttonRemove : styles.button}
+                onClick={() => {
+                  !userInfo.block ? handleBlockUser() : handleUnblockUser();
+                }}
+              >
+                {!userInfo.block ? "Block" : "Unblock"}
+              </Button>
+
+              <Button
+                variant="contained"
+                sx={!userInfo.block ? styles.button : styles.buttonRemove}
+                onClick={handleCloseModal2}
+              >
+                Cancel
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+      ) : null}
     </div>
   );
 }

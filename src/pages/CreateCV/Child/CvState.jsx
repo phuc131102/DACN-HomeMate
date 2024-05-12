@@ -45,7 +45,7 @@ function CvState() {
 
   let [openAlert, setOpenAlert] = useState(false);
   const [skillOpen, setSkillOpen] = useState(false);
-  console.log(skills)
+  console.log(skills);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
@@ -308,7 +308,7 @@ function CvState() {
       try {
         const response = await create_cv(formData);
         if (response) {
-          navigate("/profile");
+          navigate(`/profile/${user.id}`);
         }
       } catch (error) {
         if (error.response) {

@@ -14,6 +14,7 @@ import JobFilter from "./Child/Job_filter";
 import { Salary } from "./Child/Salary";
 import NewCard from "./Child/NewCard";
 import "./Child/Newcard.css";
+import { get_user_info } from "../../services/userAPI";
 
 function Job() {
   //////////////////////
@@ -28,6 +29,7 @@ function Job() {
   const [loading, setLoading] = useState(false);
   const [filterSalaryItems, setFilterSalaryItems] = useState([]);
   const [chooseSalary, setChooseSalary] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     setFilterItems(jobs);
@@ -93,6 +95,26 @@ function Job() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
+
+  useEffect(() => {
+    if (userData) {
+      const fetchUserInfo = async () => {
+        setLoading(true);
+        try {
+          const response2 = await get_user_info(userData.id);
+
+          setUserInfo(response2);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        } finally {
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+        }
+      };
+      fetchUserInfo();
+    }
+  }, [userData]);
 
   if (loadingJob || loading) {
     return <Loading />;
@@ -161,19 +183,32 @@ function Job() {
             </Box>
             <Box>
               {userData.role === "Homeowner" ? (
-                <Grid container sx={{ width: "95%", margin: "auto" }}>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      width: "200px",
-                      height: "56px",
-                      marginLeft: "auto",
-                      borderRadius: "15px",
-                    }}
-                    onClick={handleAddJob}
-                  >
-                    Create New Job
-                  </Button>
+                <Grid container sx={{ width: "100%", margin: "auto" }}>
+                  <div>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        width: "200px",
+                        height: "56px",
+                        marginLeft: "auto",
+                        borderRadius: "15px",
+                      }}
+                      onClick={handleAddJob}
+                      disabled={userInfo.block ? true : false}
+                    >
+                      Create New Job
+                    </Button>
+                    {userInfo.block ? (
+                      <Typography
+                        sx={{
+                          color: "red",
+                          fontSize: "15px",
+                        }}
+                      >
+                        *This feature has blocked for your account.
+                      </Typography>
+                    ) : null}
+                  </div>
                 </Grid>
               ) : null}
             </Box>
@@ -191,7 +226,7 @@ function Job() {
           <NewCard currentJobs={currentJobs} />
         </Box>
       </Box>
-      {jobArray.filter((card) => card.status === "Available").length > 6 ? (
+      {jobArray.filter((card) => card.status === "Available").length > 8 ? (
         <Pagination
           count={Math.ceil(
             jobArray.filter((card) => card.status === "Available").length /

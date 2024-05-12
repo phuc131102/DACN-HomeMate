@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { update_cv } from "../../../services/cvAPI";
 // import skillInfo from "./fakeSkill";
 import { get_skill } from "../../../services/skillAPI";
@@ -10,9 +10,6 @@ import { get_user_info, update_user_info } from "../../../services/userAPI";
 import { get_cv_info } from "../../../services/cvAPI";
 
 function CvUpdateState(prop) {
-  const params = useParams();
-  const id = params.id.split("/").pop();
-
   const navigate = useNavigate();
   // fetch Data
   // CV COMPS
@@ -347,7 +344,7 @@ function CvUpdateState(prop) {
       try {
         const response = await update_cv(formData);
         if (response) {
-          navigate(`/profile/${id}`);
+          navigate(`/profile/${user.id}`);
         }
       } catch (error) {
         if (error.response) {
