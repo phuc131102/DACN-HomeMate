@@ -35,7 +35,7 @@ function MyJob(prop) {
       const fetchData = async () => {
         try {
           const fetchedJobs = await myJob(prop.id);
-          console.log(fetchedJobs)
+          console.log(fetchedJobs);
           setJobs(fetchedJobs);
         } catch (error) {
           console.error("Error fetching jobs:", error);

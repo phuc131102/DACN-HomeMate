@@ -139,7 +139,7 @@ function AppRoutes() {
       <Route path="/job" element={<ProtectedJob />} />
       <Route path="/job/:id" element={<ProtectedJobInfo />} />
 
-      <Route path="/userlist" element={<ProtectedUserList />} />
+      <Route path="/admin" element={<ProtectedUserList />} />
       <Route path="/add-user" element={<ProtectedAddUser />} />
       <Route path="/user/:id" element={<ProtectedUserInfo />} />
 

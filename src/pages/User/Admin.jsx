@@ -24,6 +24,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Dashboard from "./Child/Dashboard";
 import useJobs from "../../utils/jobUtils/jobUtils";
+import BlackListPage from "./BlackList";
 
 function Admin() {
   const { users, loading } = useUsers();
@@ -59,12 +60,14 @@ function Admin() {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <Dashboard users={users} jobs={jobs}/>
+            <Dashboard users={users} jobs={jobs} />
           </TabPanel>
           <TabPanel value="2">
             <UserListPage users={users} userData={userData} />
           </TabPanel>
-          <TabPanel value="3">Black List</TabPanel>
+          <TabPanel value="3">
+            <BlackListPage users={users} userData={userData} />
+          </TabPanel>
         </TabContext>
       </Box>
     </Box>

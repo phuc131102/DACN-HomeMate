@@ -263,18 +263,18 @@ function TopBar() {
                     <MenuItem
                       onClick={handleCloseNavMenu}
                       component={Link}
-                      to="/userlist"
+                      to="/admin"
                     >
                       <Typography
-                        onClick={() => handleTabClick("user")}
+                        onClick={() => handleTabClick("admin")}
                         textAlign="center"
                         sx={{
                           fontWeight: 700,
-                          color: activeTab === "user" ? "blue" : "black",
+                          color: activeTab === "admin" ? "blue" : "black",
                           textDecoration: "none",
                         }}
                       >
-                        User
+                        Admin
                       </Typography>
                     </MenuItem>
                   ) : null}
@@ -395,14 +395,14 @@ function TopBar() {
                     ></div>
                   ) : null}
                 </Box>
-                {userData.role === "Admin" && activeTab === "user" ? (
+                {userData.role === "Admin" && activeTab === "admin" ? (
                   <Box>
                     <Typography
                       variant="h6"
                       noWrap
                       component={Link}
-                      to="/userlist"
-                      onClick={() => handleTabClick("user")}
+                      to="/admin"
+                      onClick={() => handleTabClick("admin")}
                       sx={{
                         mr: 4,
                         ml: 4,
@@ -412,7 +412,7 @@ function TopBar() {
                         textDecoration: "none",
                       }}
                     >
-                      User
+                      Admin
                     </Typography>
                     <div
                       style={{
@@ -425,14 +425,14 @@ function TopBar() {
                       }}
                     ></div>
                   </Box>
-                ) : userData.role === "Admin" && activeTab !== "user" ? (
+                ) : userData.role === "Admin" && activeTab !== "admin" ? (
                   <Box>
                     <Typography
                       variant="h6"
                       noWrap
                       component={Link}
-                      to="/userlist"
-                      onClick={() => handleTabClick("user")}
+                      to="/admin"
+                      onClick={() => handleTabClick("admin")}
                       sx={{
                         mr: 4,
                         ml: 4,
@@ -442,7 +442,7 @@ function TopBar() {
                         textDecoration: "none",
                       }}
                     >
-                      User
+                      Admin
                     </Typography>
                   </Box>
                 ) : null}

@@ -145,16 +145,3 @@ export const unblock_user = async (data) => {
     throw err;
   }
 };
-
-//GET BLACK LIST
-export const black_list = async () => {
-  try {
-    const response = await axios.get(
-      `https://projectapi-g9ba.onrender.com/black_list`
-    );
-    return response.data.data;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
