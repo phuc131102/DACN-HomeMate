@@ -120,7 +120,7 @@ function WorkerInfo() {
 
   const params = useParams();
   const id = params.id.split("/").pop();
-  console.log(cvinfo)
+  console.log(cvinfo);
   // const handleOpenModal = () => {
   //   setShowModal(true);
   // };
@@ -198,7 +198,7 @@ function WorkerInfo() {
   const handleDeleteUser = async (id) => {
     try {
       const deletionMessage = await deleteUser(id);
-      navigate("/userlist");
+      navigate("/admin");
       console.log(deletionMessage);
     } catch (error) {
       console.error("Error:", error.message);
@@ -208,7 +208,7 @@ function WorkerInfo() {
   const handleBlockUser = async () => {
     try {
       const response = await block_user(id);
-      navigate("/userlist");
+      navigate("/admin");
       console.log(response);
     } catch (error) {
       console.error("Error:", error.message);
@@ -218,7 +218,7 @@ function WorkerInfo() {
   const handleUnblockUser = async () => {
     try {
       const response = await unblock_user(id);
-      navigate("/userlist");
+      navigate("/admin");
       console.log(response);
     } catch (error) {
       console.error("Error:", error.message);
@@ -480,37 +480,37 @@ function WorkerInfo() {
                             }}
                           >
                             {cvinfo.message === "CV not found" ? (
-                            <>
-                              <Grid container>
-                                <Grid item xs={12} sx={{ marginTop: "15px" }}>
-                                  <ComponentDivider>CV</ComponentDivider>
+                              <>
+                                <Grid container>
+                                  <Grid item xs={12} sx={{ marginTop: "15px" }}>
+                                    <ComponentDivider>CV</ComponentDivider>
+                                  </Grid>
+                                  <Grid item xs={12}>
+                                    <Box
+                                      sx={{
+                                        justifyContent: "center",
+                                        marginBottom: "50px",
+                                        marginTop: "15px",
+                                        display: "flex",
+                                      }}
+                                    >
+                                      No CV available.
+                                    </Box>
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={12}>
-                                  <Box
-                                    sx={{
-                                      justifyContent: "center",
-                                      marginBottom: "50px",
-                                      marginTop: "15px",
-                                      display: "flex",
-                                    }}
-                                  >
-                                    No CV available.
-                                  </Box>
-                                </Grid>
-                              </Grid>
-                            </>
+                              </>
                             ) : (
-                            <>
-                              <Grid container>
-                                <Grid item xs={12} sx={{ marginTop: "15px" }}>
-                                  <ComponentDivider>CV</ComponentDivider>
-                                </Grid>
+                              <>
+                                <Grid container>
+                                  <Grid item xs={12} sx={{ marginTop: "15px" }}>
+                                    <ComponentDivider>CV</ComponentDivider>
+                                  </Grid>
 
-                                <Grid item xs={12}>
-                                  <ViewCv cvinfo={cvinfo.data} />
+                                  <Grid item xs={12}>
+                                    <ViewCv cvinfo={cvinfo.data} />
+                                  </Grid>
                                 </Grid>
-                              </Grid>
-                            </>
+                              </>
                             )}
                           </Box>
                         ) : (
@@ -518,8 +518,15 @@ function WorkerInfo() {
                             <Grid item xs={12} sx={{ marginTop: "15px" }}>
                               <ComponentDivider>Your Job</ComponentDivider>
                             </Grid>
-                            <Box sx={{width:"90%", margin:"auto", marginTop:"10px", marginBottom:"10px"}}>
-                            <MyJob id={id}/>
+                            <Box
+                              sx={{
+                                width: "90%",
+                                margin: "auto",
+                                marginTop: "10px",
+                                marginBottom: "10px",
+                              }}
+                            >
+                              <MyJob id={id} />
                             </Box>
                           </Grid>
                         )}
