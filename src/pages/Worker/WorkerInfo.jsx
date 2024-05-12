@@ -120,7 +120,7 @@ function WorkerInfo() {
 
   const params = useParams();
   const id = params.id.split("/").pop();
-
+  console.log(cvinfo)
   // const handleOpenModal = () => {
   //   setShowModal(true);
   // };
@@ -479,7 +479,7 @@ function WorkerInfo() {
                               justifyContent: "right",
                             }}
                           >
-                            cvinfo.message === "CV not found" ? (
+                            {cvinfo.message === "CV not found" ? (
                             <>
                               <Grid container>
                                 <Grid item xs={12} sx={{ marginTop: "15px" }}>
@@ -511,7 +511,7 @@ function WorkerInfo() {
                                 </Grid>
                               </Grid>
                             </>
-                            )
+                            )}
                           </Box>
                         ) : (
                           <Grid container>

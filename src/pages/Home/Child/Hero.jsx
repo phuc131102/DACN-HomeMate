@@ -15,8 +15,9 @@ function Hero(prop) {
                 <Box className="orange-circles" />
                 <motion.h1
                   initial={{ y: "2rem", opacity:0 }}
-                  animate={{ y: 0, opacity: 1 }}
+                  animate={{ y: "2rem", opacity: 1 }}
                   transition={{ duration: "2", type: "spring" }}
+                  whileInView={{ y: 0, opacity: 1 }}
                 >
                   Discover <br />
                   Most Suitable <br />
@@ -59,11 +60,12 @@ function Hero(prop) {
             <Box className="flexCenter hero-right">
               <motion.div
                 initial={{ x: "7rem", opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
+                animate={{ x: "7rem", opacity: 1 }}
                 transition={{
                   duration: 2,
                   type: "spring",
                 }}
+                whileInView={{ x: 0, opacity: 1 }}
                 className="image-container"
               >
                 <img
