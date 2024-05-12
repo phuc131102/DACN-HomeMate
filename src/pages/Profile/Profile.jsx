@@ -47,7 +47,7 @@ function Profile() {
     address: "",
     phone_num: "",
   });
-  
+
   useEffect(() => {
     if (userData && userData.id) {
       const fetchUserInfo = async () => {
@@ -113,9 +113,9 @@ function Profile() {
     setShowPassword(!showPassword);
   };
   const handleCancle = () => {
-    setFormData(defData)
+    setFormData(defData);
   };
- 
+
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -372,7 +372,7 @@ function Profile() {
                             <ApplyHistory applyInfo={workingStatus} />
                           </TabPanel>
                         </TabContext>
-                      ) : (
+                      ) : userInfo.role === "Homeowner" ? (
                         <>
                           <TabContext value={value}>
                             <Box>
@@ -385,13 +385,15 @@ function Profile() {
                               </TabList>
                             </Box>
                             <TabPanel value="1">
-                              <MyJob id={userData.id}/>
+                              <MyJob id={userData.id} />
                             </TabPanel>
                             <TabPanel value="2">
                               <YourWorker />
                             </TabPanel>
                           </TabContext>
                         </>
+                      ) : (
+                        "Coming soon..."
                       )}
                     </BigCard>
                   </Box>
