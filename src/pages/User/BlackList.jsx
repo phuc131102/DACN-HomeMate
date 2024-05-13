@@ -126,33 +126,38 @@ const BlackListPage = () => {
                 <TableCell>Role</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {currentUsers.map((user, index) => (
-                <TableRow
-                  key={index}
-                  onClick={() => handleRowClick(user._id.$oid)}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#e0e0e0",
-                      cursor: "pointer",
-                    },
-                  }}
-                >
-                  <TableCell>
-                    <Avatar src={user.avatar} alt={user.name} />
-                  </TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    {user.address === "" ? "N/A" : user.address}
-                  </TableCell>
-                  <TableCell>
-                    {user.phone_num === "" ? "N/A" : user.phone_num}
-                  </TableCell>
-                  <TableCell>{user.role}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {filterRoleItems.filter((card) => card.block === true).length !==
+            0 ? (
+              <TableBody>
+                {currentUsers.map((user, index) => (
+                  <TableRow
+                    key={index}
+                    onClick={() => handleRowClick(user._id.$oid)}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "#e0e0e0",
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    <TableCell>
+                      <Avatar src={user.avatar} alt={user.name} />
+                    </TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      {user.address === "" ? "N/A" : user.address}
+                    </TableCell>
+                    <TableCell>
+                      {user.phone_num === "" ? "N/A" : user.phone_num}
+                    </TableCell>
+                    <TableCell>{user.role}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <Typography>No User Found.</Typography>
+            )}
           </Table>
         </TableContainer>
       </Box>

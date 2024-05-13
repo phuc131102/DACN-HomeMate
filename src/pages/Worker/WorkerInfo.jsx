@@ -120,7 +120,6 @@ function WorkerInfo() {
 
   const params = useParams();
   const id = params.id.split("/").pop();
-  console.log(cvinfo);
   // const handleOpenModal = () => {
   //   setShowModal(true);
   // };
@@ -327,6 +326,11 @@ function WorkerInfo() {
                           <b>{userInfo.name}</b>
                         </Typography>
                       </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h4">
+                          Role: {userInfo.role}
+                        </Typography>
+                      </Grid>
                       {userInfo.block ? (
                         <Grid item xs={12}>
                           <Box
@@ -340,7 +344,8 @@ function WorkerInfo() {
                           </Box>
                         </Grid>
                       ) : null}
-                      {userData.role === "Admin" ? (
+                      {userData.role === "Admin" &&
+                      userInfo.role !== "Admin" ? (
                         <Grid item xs={12}>
                           <Box
                             sx={{
@@ -516,7 +521,7 @@ function WorkerInfo() {
                         ) : (
                           <Grid container>
                             <Grid item xs={12} sx={{ marginTop: "15px" }}>
-                              <ComponentDivider>Your Job</ComponentDivider>
+                              <ComponentDivider>Job</ComponentDivider>
                             </Grid>
                             <Box
                               sx={{
