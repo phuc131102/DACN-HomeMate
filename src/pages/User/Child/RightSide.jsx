@@ -1,22 +1,11 @@
 import React from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Avatar,
-  Paper,
-  Pagination,
   Grid,
-  Button,
   Typography,
   Box,
 } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 function RightSide(prop) {
-  console.log(prop.users);
   const avaiJob = prop.jobs.filter((item) => item.status === "Available");
   const inPorsJob = prop.jobs.filter((item) => item.status === "In Progress");
   const ClosedJob = prop.jobs.filter((item) => item.status === "Closed");
