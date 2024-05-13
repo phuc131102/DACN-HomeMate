@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import Avt from "./Child/Avt";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Button } from "@mui/material";
 import { get_user_info, update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
@@ -19,6 +19,8 @@ import MyJob from "./Child/Myjob";
 import { apply_history, working_history } from "../../services/jobAPI";
 import ApplyHistory from "./Child/ApplyHistory";
 import YourWorker from "./Child/YourWorker";
+import AdminBox from "./Child/AdminBox";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 function Profile() {
   const [error, setError] = useState("");
@@ -271,6 +273,10 @@ function Profile() {
     return <Loading />;
   }
 
+  const handleAdmin = () => {
+    navigate("/admin");
+  };
+
   const handleCreateCv = () => {
     navigate("/createCv");
   };
@@ -393,7 +399,24 @@ function Profile() {
                           </TabContext>
                         </>
                       ) : (
-                        "Coming soon..."
+                        <>
+                          <TabContext value={value}>
+                            <Box>
+                              <TabList
+                                onChange={handleChangeTab}
+                                aria-label="lab API tabs example"
+                              >
+                                <Tab label="Dashboard" value="1" />
+                              </TabList>
+                            </Box>
+                            <TabPanel value="1">
+                              <Box sx={{width:"90%", margin:"auto", display:"flex", justifyContent:"flex-end"}}>
+                                <Button variant="text" onClick={handleAdmin} endIcon={<ArrowForwardIosIcon/>}>More Information</Button>
+                              </Box>
+                              <AdminBox />
+                            </TabPanel>
+                          </TabContext>
+                        </>
                       )}
                     </BigCard>
                   </Box>

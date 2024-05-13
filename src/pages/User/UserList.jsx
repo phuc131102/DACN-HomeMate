@@ -85,7 +85,7 @@ const UserListPage = () => {
           margin: "auto",
         }}
       >
-        <Box sx={{ width: "100%", margin: "auto" }}>
+        <Box sx={{ width: "100%", margin: "auto", }}>
           <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
             &nbsp;<b>Filter</b>
           </Typography>
