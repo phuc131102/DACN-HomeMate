@@ -17,25 +17,43 @@ import {
 import { useNavigate } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
 import Loading from "../../components/Loading/Loading";
+import UserFilter from "./Child/UserFilter";
 
 const BlackListPage = () => {
   const { users, loading } = useUsers();
-
+  const [filterRoleItems, setFilterRoleItems] = useState([]);
+  const [chooseRole, setChooseRole] = useState([]);
+  const role = [{ name: "Worker" }, { name: "Homeowner" }, { name: "Admin" }];
   const navigate = useNavigate();
 
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
-
+  useEffect(() => {
+    setFilterRoleItems(users);
+  }, [users]);
+  useEffect(() => {
+    if (chooseRole.length > 0) {
+      let tempItems = chooseRole.map((selectedRole) => {
+        let temp = users.filter((jobItem) => {
+          let tempArray = jobItem.role === selectedRole;
+          return tempArray;
+        });
+        return temp;
+      });
+      setFilterRoleItems([...new Set(tempItems.flat())]);
+    } else {
+      setFilterRoleItems(users);
+    }
+  }, [chooseRole]);
   if (loading) {
     return <Loading />;
   }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentUsers = users
+  const currentUsers = filterRoleItems
     .filter((card) => card.block === true)
     .slice(indexOfFirstItem, indexOfLastItem);
-
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -52,6 +70,35 @@ const BlackListPage = () => {
           margin: "auto",
         }}
       >
+        <Box sx={{ width: "100%", margin: "auto" }}>
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            &nbsp;<b>Filter</b>
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                gap: "50px",
+              }}
+            >
+              <Box sx={{ width: "300px" }}>
+                <UserFilter
+                  option={role}
+                  chooseOption={chooseRole}
+                  setChooseOption={setChooseRole}
+                  label="Filter Role"
+                />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography
             sx={{ fontSize: 30, marginLeft: "7%" }}
