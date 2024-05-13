@@ -17,11 +17,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
 import Loading from "../../components/Loading/Loading";
+import UserFilter from "./Child/UserFilter";
 
 const UserListPage = () => {
   const { users, loading } = useUsers();
   const [userData, setUserData] = useState([]);
-
+  const [filterRoleItems, setFilterRoleItems] = useState([]);
+  const [chooseRole, setChooseRole] = useState([]);
+  const role = [{ name: "Worker" }, { name: "Homeowner" }, { name: "Admin" }];
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -29,6 +32,23 @@ const UserListPage = () => {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
+  useEffect(() => {
+    setFilterRoleItems(users);
+  }, [users]);
+  useEffect(() => {
+    if (chooseRole.length > 0) {
+      let tempItems = chooseRole.map((selectedRole) => {
+        let temp = users.filter((jobItem) => {
+          let tempArray = jobItem.role === selectedRole;
+          return tempArray;
+        });
+        return temp;
+      });
+      setFilterRoleItems([...new Set(tempItems.flat())]);
+    } else {
+      setFilterRoleItems(users);
+    }
+  }, [chooseRole]);
 
   const navigate = useNavigate();
 
@@ -41,7 +61,7 @@ const UserListPage = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentUsers = users
+  const currentUsers = filterRoleItems
     .filter((card) => card.block !== true)
     .slice(indexOfFirstItem, indexOfLastItem);
 
@@ -65,21 +85,51 @@ const UserListPage = () => {
           margin: "auto",
         }}
       >
-        {userData.role === "Admin" ? (
-          <Grid container sx={{ width: "80vw", margin: "auto" }}>
-            <Button
-              variant="contained"
+        <Box sx={{ width: "100%", margin: "auto" }}>
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            &nbsp;<b>Filter</b>
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
+            <Box
               sx={{
-                width: "15%",
-                marginLeft: "auto",
-                borderRadius: "15px",
+                display: "flex",
+                gap: "50px",
               }}
-              onClick={handleAddUser}
             >
-              Create New User
-            </Button>
-          </Grid>
-        ) : null}
+              <Box sx={{ width: "300px" }}>
+                <UserFilter
+                  option={role}
+                  chooseOption={chooseRole}
+                  setChooseOption={setChooseRole}
+                  label="Filter Role"
+                />
+              </Box>
+            </Box>
+            {userData.role === "Admin" ? (
+              <Grid container sx={{ width: "80vw", margin: "auto" }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "15%",
+                    marginLeft: "auto",
+                    borderRadius: "15px",
+                  }}
+                  onClick={handleAddUser}
+                >
+                  Create New User
+                </Button>
+              </Grid>
+            ) : null}
+          </Box>
+        </Box>
+
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography
             sx={{ fontSize: 30, marginLeft: "7%" }}
@@ -139,7 +189,8 @@ const UserListPage = () => {
       </Box>
       <Pagination
         count={Math.ceil(
-          users.filter((card) => card.block !== true).length / itemsPerPage
+          filterRoleItems.filter((card) => card.block !== true).length /
+            itemsPerPage
         )}
         page={currentPage}
         onChange={handlePageChange}
