@@ -35,10 +35,10 @@ function Dashboard(prop) {
           </Typography>
         </Grid>
         <Grid item container xs={12} className="DashboardDiagram">
-          <Grid container item xs={4} className="LeftSide">
+          <Grid container item xs={12} md={4} className="LeftSide">
             <InfoBox users={prop.users} jobs={prop.jobs} />
           </Grid>
-          <Grid container item xs={8} className="RightSide">
+          <Grid container item xs={12} md={8} className="RightSide">
             <RightSide users={prop.users} jobs={prop.jobs} />
           </Grid>
         </Grid>

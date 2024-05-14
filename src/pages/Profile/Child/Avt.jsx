@@ -8,8 +8,12 @@ import EmptyAvt from "./EmptyAvt";
 import BigCard from "../../../components/BigCard/BigCard";
 import "./AvtEdit.css";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Avt(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];
     const reader = new FileReader();
@@ -31,7 +35,7 @@ function Avt(prop) {
     <BigCard>
       <ThemeProvider theme={prop.finalTheme}>
         <Grid container sx={{ marginTop: "5%", marginBottom: "5%" }}>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <Box className="hero-title">
               <Box
                 className="orange-circle"
@@ -181,7 +185,7 @@ function Avt(prop) {
             )}
           </Grid>
           {/* <Box><Button onClick={prop.handleEdit}>dasd</Button></Box> */}
-          <Grid item xs={8}>
+          <Grid item xs={12} md ={8} sx={{ display:isMd?"":"flex", flexDirection:isMd?"":"column",justifyContent: isMd?"":"center", alignItems:isMd?"":"center"}}>
             <Grid item xs={12}>
               <UserName userInfo={prop.userInfo} />
             </Grid>

@@ -21,8 +21,13 @@ import ApplyHistory from "./Child/ApplyHistory";
 import YourWorker from "./Child/YourWorker";
 import AdminBox from "./Child/AdminBox";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Profile() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const [error, setError] = useState("");
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -61,7 +66,7 @@ function Profile() {
             ...prevData,
             name: response.name,
             email: response.email,
-            pwd: response.pwd,
+            pwd: "",
             address: response.address,
             phone_num: response.phone_num,
           }));
@@ -69,7 +74,7 @@ function Profile() {
             ...prevData,
             name: response.name,
             email: response.email,
-            pwd: response.pwd,
+            pwd:"",
             address: response.address,
             phone_num: response.phone_num,
           }));
@@ -291,7 +296,7 @@ function Profile() {
         <>
           <Box
             sx={{
-              width: "60%",
+              width: isMd?"60%":"100%",
               margin: "auto",
               marginTop: "100px",
             }}
@@ -324,9 +329,9 @@ function Profile() {
               </Grid>
             </Grid>
             <Grid container>
-              <Grid container item xs={12}>
-                <Grid item xs={4}>
-                  <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+              <Grid container item xs={12} spacing={3}  sx={{ marginBottom: "20px" }}>
+                <Grid item xs={12} md={4}>
+                  <Grid item xs={12}>
                     <LeftSide
                       profile={userInfo}
                       handleChange={handleChange}
@@ -347,8 +352,8 @@ function Profile() {
                   ) : null}
                 </Grid>
 
-                <Grid item xs={8}>
-                  <Box sx={{ marginLeft: "20px", marginBottom: "20px" }}>
+                <Grid item xs={12} md={8}>
+                  <Box sx={{ marginBottom: "20px" }}>
                     <BigCard>
                       {userInfo.role === "Worker" ? (
                         <TabContext value={value}>

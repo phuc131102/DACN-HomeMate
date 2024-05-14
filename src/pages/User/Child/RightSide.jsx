@@ -5,7 +5,13 @@ import {
   Box,
 } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 function RightSide(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const avaiJob = prop.jobs.filter((item) => item.status === "Available");
   const inPorsJob = prop.jobs.filter((item) => item.status === "In Progress");
   const ClosedJob = prop.jobs.filter((item) => item.status === "Closed");
@@ -19,19 +25,21 @@ function RightSide(prop) {
       xs={12}
       item
       sx={{
-        border: "1px solid linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)",
+        border: isMd?"1px solid linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)":"",
         borderRadius: "10px",
-        background: "linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)",
+        background: isMd?"linear-gradient(106.37deg,#ffe1bc 29.63%,#ffcfd1 51.55%,#f3c6f1 90.85%)":"",
       }}
     >
       <Grid
         item
-        xs={6}
+        xs={12}
+        md={6}
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
+          marginBottom:isMd?"":"20px",  
         }}
       >
         <Box
@@ -41,8 +49,9 @@ function RightSide(prop) {
             alignItems: "center",
             flexDirection: "column",
             border: "1px solid linear-gradient(180deg, #BB67FF 0%, #C484F3 100%)",
-            padding:"20px",
             borderRadius: "10px",
+            paddingTop:"20px",
+            paddingBottom:"20px",
             background: "linear-gradient(180deg, #BB67FF 0%, #C484F3 100%)",
           }}
         >
@@ -73,7 +82,8 @@ function RightSide(prop) {
       </Grid>
       <Grid
         item
-        xs={6}
+        xs={12}
+        md={6}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Box
@@ -83,7 +93,8 @@ function RightSide(prop) {
             alignItems: "center",
             flexDirection: "column",
             border: "1px solid linear-gradient(180deg, #BB67FF 0%, #C484F3 100%)",
-            padding:"20px",
+            paddingTop:"20px",
+            paddingBottom:"20px",
             borderRadius: "10px",
             background: "#FF919D",
           }}

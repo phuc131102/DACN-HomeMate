@@ -6,7 +6,7 @@ import {
   Typography,
   InputAdornment,
 } from "@mui/material";
-
+import "./JobDetail.css";
 function JobDetail(prop) {
   return (
     <>
@@ -20,43 +20,37 @@ function JobDetail(prop) {
           margin: "auto",
           marginTop: "1%",
           marginBottom: "2%",
-          border: "2px solid #000",
+          // border: "2px solid #000",
           borderRadius: "20px",
-          background: "#fff",
           color: "#000",
           fontWeight: "bold",
           textAlign: "center",
           fontSize: "16px",
+          boxShadow: "0 7px 8px rgba(0, 0, 0, 0.4)",
+          backgroundColor: "ghostwhite",
         }}
+        className="JobDetailBig"
       >
         {/* Left Side */}
         <Grid item xs={6} sx={{ marginTop: "50px", marginBottom: "50px" }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField
-                InputProps={{
-                  readOnly: !prop.editMode,
-                  style: { color: "black" },
-                }}
+              <Box
                 sx={{
-                  [`& fieldset`]: {
-                    borderRadius: 8,
-                  },
-                  "& .MuiInputLabel-asterisk": {
-                    color: "red",
-                  },
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
                 }}
-                variant={prop.editMode ? "outlined" : "standard"}
-                fullWidth
-                required={prop.editMode}
-                label="Job Name"
-                name="name"
-                value={prop.jobInfo.name}
-                // onChange={handleInputChange}
-              />
+              >
+                <Typography variant="caption">Job Name</Typography>
+                <Typography variant="body1">{prop.jobInfo.name}</Typography>
+              </Box>
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              {/* <TextField
                 InputProps={{
                   readOnly: !prop.editMode,
                   style: { color: "black" },
@@ -80,78 +74,67 @@ function JobDetail(prop) {
                 name="salary"
                 value={prop.jobInfo.salary}
                 // onChange={handleInputChange}
-              />
+              /> */}
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
+                }}
+              >
+                <Typography variant="caption">Salary</Typography>
+                <Typography variant="body1">{prop.jobInfo.salary} VNĐ/hour</Typography>
+              </Box>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                InputProps={{
-                  readOnly: !prop.editMode,
-                  style: { color: "black" },
-                }}
+              <Box
                 sx={{
-                  [`& fieldset`]: {
-                    borderRadius: 8,
-                  },
-                  "& .MuiInputLabel-asterisk": {
-                    color: "red",
-                  },
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
                 }}
-                variant={prop.editMode ? "outlined" : "standard"}
-                required={prop.editMode}
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                value={prop.jobInfo.email}
-              />
+              >
+                <Typography variant="caption">Email</Typography>
+                <Typography variant="body1">{prop.jobInfo.email}</Typography>
+              </Box>
             </Grid>
+            
             <Grid item xs={6}>
-              <TextField
-                InputProps={{
-                  readOnly: !prop.editMode,
-                  style: { color: "black" },
-                }}
-                type="number"
+               <Box
                 sx={{
-                  [`& fieldset`]: {
-                    borderRadius: 8,
-                  },
-                  "& .MuiInputLabel-asterisk": {
-                    color: "red",
-                  },
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
                 }}
-                variant={prop.editMode ? "outlined" : "standard"}
-                required={prop.editMode}
-                fullWidth
-                label="Phone Number"
-                name="phone_num"
-                value={prop.jobInfo.phone_num}
-                // onChange={handleInputChange}
-              />
+              >
+                <Typography variant="caption">Phone Number</Typography>
+                <Typography variant="body1">{prop.jobInfo.phone_num}</Typography>
+              </Box>
             </Grid>
 
             <Grid item xs={12}>
-              <TextField
-                InputProps={{
-                  readOnly: !prop.editMode,
-                  style: { color: "black" },
-                }}
+              <Box
                 sx={{
-                  [`& fieldset`]: {
-                    borderRadius: 8,
-                  },
-                  "& .MuiInputLabel-asterisk": {
-                    color: "red",
-                  },
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
                 }}
-                variant={prop.editMode ? "outlined" : "standard"}
-                required={prop.editMode}
-                fullWidth
-                label="Address"
-                name="address"
-                value={prop.jobInfo.address}
-                // onChange={handleInputChange}
-              />
+              >
+                <Typography variant="caption">Address</Typography>
+                <Typography variant="body1">{prop.jobInfo.address}</Typography>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <Box
@@ -171,41 +154,34 @@ function JobDetail(prop) {
               </Box>
             </Grid>
             <Grid item xs={8}>
-              <TextField
-                InputProps={{
-                  readOnly: true,
-                  style: { color: "black" },
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
                 }}
-                sx={{ [`& fieldset`]: { borderRadius: 8 } }}
-                variant="standard"
-                fullWidth
-                label="Date Time"
-                value={prop.jobInfo.datetime}
-              />
+              >
+                <Typography variant="caption">Date Time</Typography>
+                <Typography variant="body1">{prop.jobInfo.datetime}</Typography>
+              </Box>
             </Grid>
             <Grid item xs={4}>
-              <TextField
-                InputProps={{
-                  readOnly: !prop.editMode,
-                  style: { color: "black" },
-                }}
-                type="number"
+              <Box
                 sx={{
-                  [`& fieldset`]: {
-                    borderRadius: 8,
-                  },
-                  "& .MuiInputLabel-asterisk": {
-                    color: "red",
-                  },
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
                 }}
-                variant={prop.editMode ? "outlined" : "standard"}
-                required={prop.editMode}
-                fullWidth
-                label="Required Worker"
-                name="max_num"
-                value={prop.jobInfo.max_num}
-                // onChange={handleInputChange}
-              />
+              >
+                <Typography variant="caption">Required Worker</Typography>
+                <Typography variant="body1">{prop.jobInfo.max_num}</Typography>
+              </Box>
             </Grid>
           </Grid>
         </Grid>

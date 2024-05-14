@@ -76,22 +76,6 @@ function EditForm(prop) {
                   name="pwd"
                   value={prop.formData.pwd}
                   onChange={prop.handleChange}
-                  // InputProps={{
-                  //   endAdornment: (
-                  //     <InputAdornment position="end">
-                  //       <IconButton
-                  //         onClick={prop.handleTogglePasswordVisibility}
-                  //         edge="end"
-                  //       >
-                  //         {prop.showPassword ? (
-                  //           <VisibilityOff />
-                  //         ) : (
-                  //           <Visibility />
-                  //         )}
-                  //       </IconButton>
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
                 />
               </Grid>
               <Grid item xs={12}>
