@@ -7,12 +7,16 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import EditForm from "./EditForm";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function EditDialog(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   // console.log(defaultData)
   const [open, setOpen] = React.useState(false);
 
@@ -50,7 +54,7 @@ export default function EditDialog(prop) {
         aria-describedby="alert-dialog-slide-description"
         sx={{
           "& .MuiDialog-paper": {
-            width: "30%",
+            width: isMd?"30%":"80%",
             borderRadius: "15px",
           },
         }}

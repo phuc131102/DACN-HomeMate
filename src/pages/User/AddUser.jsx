@@ -87,7 +87,7 @@ function AddUser() {
     try {
       const response = await sign_up(formData);
       if (response) {
-        navigate("/userlist");
+        navigate("/admin");
         console.log("User signed up:", response);
       }
     } catch (error) {
@@ -112,7 +112,7 @@ function AddUser() {
   }
 
   const handleCancel = () => {
-    navigate("/userlist");
+    navigate("/admin");
   };
 
   return (
@@ -130,7 +130,7 @@ function AddUser() {
           <Grid item xs={12}>
             <Box
               sx={{
-                maxWidth: "500px",
+                maxWidth: "400px",
                 margin: "auto",
                 border: "1px solid black",
                 borderRadius: "10px",
@@ -295,7 +295,7 @@ function AddUser() {
                           variant="contained"
                           color="error"
                           sx={{
-                            width: "30%",
+                            width: "35%",
                             margin: "auto",
                             marginBottom: "15px",
                             marginTop: "15px",
@@ -308,7 +308,7 @@ function AddUser() {
                           size="large"
                           variant="contained"
                           sx={{
-                            width: "30%",
+                            width: "35%",
                             margin: "auto",
                             marginBottom: "15px",
                             marginTop: "15px",

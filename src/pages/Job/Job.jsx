@@ -15,9 +15,12 @@ import { Salary } from "./Child/Salary";
 import NewCard from "./Child/NewCard";
 import "./Child/Newcard.css";
 import { get_user_info } from "../../services/userAPI";
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 function Job() {
   //////////////////////
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const { jobs, loadingJob } = useJobs();
@@ -153,6 +156,8 @@ function Job() {
           <Box
             sx={{
               display: "flex",
+              flexDirection:isMd?"":"column",
+              gap:isMd?"":"10px",
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: "30px",
@@ -161,7 +166,8 @@ function Job() {
             <Box
               sx={{
                 display: "flex",
-                gap: "50px",
+                flexDirection:isMd?"":"column",
+                gap:isMd? "50px":"10px",
               }}
             >
               <Box sx={{ width: "300px" }}>

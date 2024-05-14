@@ -12,7 +12,7 @@ import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
 export default function Footer() {
   return (
     <>
-      <Box
+      {/* <Box
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -73,7 +73,7 @@ export default function Footer() {
             />
           </BottomNavigation>
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 }

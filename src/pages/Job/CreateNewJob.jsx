@@ -47,6 +47,7 @@ const CreateJobPage = () => {
     phone_num: "",
     requirement: "",
     max_num: "",
+    datetime:new Date(null)
   });
   const [error, setError] = useState("");
   const [userData, setUserData] = useState([]);

@@ -48,8 +48,8 @@ img {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	gap: 40px;
-	max-width: 100%;
-	padding: 20px;
+	width: 100%;
+	
 	-webkit-perspective: 0;
 	perspective: 0;
 }
@@ -218,5 +218,16 @@ figure > div {
 @media (min-width: 800px) {
 	#gallery {
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	}
+}
+@media (max-width:800px) {
+	#gallery {
+		grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	}
+	#gallery figure{
+		width: 100px;
+	}
+	figure img{
+		width: 80px;
 	}
 }

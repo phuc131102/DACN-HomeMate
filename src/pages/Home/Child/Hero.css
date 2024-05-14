@@ -116,3 +116,21 @@ a {
 .image-container > img {
   height: 100%;
 }
+
+@media (max-width:800px){
+  .hero-container {
+    margin-top: 2rem;
+  }
+  .image-container {
+    width: 70vw;
+    height: 20rem;
+  }
+  .hero-titles > h1{
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+  .stats{
+    justify-content: center;
+    gap:1.5rem;
+  }
+}
