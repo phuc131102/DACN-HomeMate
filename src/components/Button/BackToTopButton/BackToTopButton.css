@@ -14,15 +14,27 @@
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.4s;
-  display: flex;
+  display: none; /* Hidden by default */
   justify-content: center;
   align-items: center;
 }
 
 .back-to-top-button.visible {
+  display: flex;
   opacity: 1;
 }
 
 .back-to-top-button:hover {
   background-color: #0056b3;
+}
+
+@media (min-width: 600px) {
+  .back-to-top-button {
+    display: flex; /* Display on larger screens */
+  }
+}
+@media (max-width: 599px) {
+  .back-to-top-button.visible {
+    display: none; /* Hide on smaller screens */
+  }
 }
