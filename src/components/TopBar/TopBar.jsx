@@ -11,6 +11,8 @@ import {
   Tooltip,
   MenuItem,
   Badge,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -30,6 +32,8 @@ function TopBar() {
   const [userNoti, setUserNoti] = useState(null);
   const [notiCount, setNotiCount] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -450,15 +454,17 @@ function TopBar() {
 
               {userInfo && (
                 <Box p={2}>
-                  <Typography sx={{ color: "black" }}>
-                    <b>
-                      <ReactTyped
-                        strings={[`Hi, ${userInfo.name} !`]}
-                        typeSpeed={100}
-                        showCursor={false}
-                      />
-                    </b>
-                  </Typography>
+                  {!isSmallScreen && (
+                    <Typography sx={{ color: "black" }}>
+                      <b>
+                        <ReactTyped
+                          strings={[`Hi, ${userInfo.name} !`]}
+                          typeSpeed={100}
+                          showCursor={false}
+                        />
+                      </b>
+                    </Typography>
+                  )}
                 </Box>
               )}
 
