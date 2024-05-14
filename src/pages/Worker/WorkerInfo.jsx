@@ -36,8 +36,12 @@ import LeftSide from "./Child/LeftSide";
 import Rate from "./Child/Rating";
 import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "../Profile/Child/Myjob";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function WorkerInfo() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [jobs, setJobs] = useState([]);
@@ -300,7 +304,7 @@ function WorkerInfo() {
         <>
           <Box
             sx={{
-              width: "60%",
+              width: isMd ? "60%" : "100%",
               margin: "auto",
               marginTop: "100px",
             }}
@@ -315,21 +319,42 @@ function WorkerInfo() {
               <BigCard>
                 <ThemeProvider theme={finalTheme}>
                   <Grid container sx={{ marginTop: "10%", marginBottom: "5%" }}>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                       <>
                         <Avt avtEmpty={avtEmpty} userInfo={userInfo} />
                       </>
                     </Grid>
-                    <Grid item container xs={8}>
+                    <Grid
+                      item
+                      container
+                      xs={12}
+                      md={8}
+                    >
                       <Grid item xs={12}>
-                        <Typography variant="h3">
-                          <b>{userInfo.name}</b>
-                        </Typography>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent:isMd? "flex-start":"center",
+                          }}
+                        >
+                          <Typography variant="h3">
+                            <b>{userInfo.name}</b>
+                          </Typography>
+                        </Box>
                       </Grid>
                       <Grid item xs={12}>
-                        <Typography variant="h4">
-                          Role: {userInfo.role}
-                        </Typography>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: isMd? "flex-start":"center",
+                          }}
+                        >
+                          <Typography variant="h4">
+                            Role: {userInfo.role}
+                          </Typography>
+                        </Box>
                       </Grid>
                       {userInfo.block ? (
                         <Grid item xs={12}>
@@ -456,8 +481,8 @@ function WorkerInfo() {
                 </ThemeProvider>
               </BigCard>
             </Grid>
-            <Grid container sx={{ marginBottom: "20px" }}>
-              <Grid item xs={4}>
+            <Grid container sx={{ marginBottom: "20px" }} spacing={3}>
+              <Grid item xs={12} md={4}>
                 <Grid item xs={12} sx={{ marginBottom: "20px" }}>
                   <LeftSide profile={userInfo} />
                 </Grid>
@@ -467,14 +492,10 @@ function WorkerInfo() {
                   </Grid>
                 ) : null}
               </Grid>
-              <Grid item xs={8}>
-                <Box sx={{ marginLeft: "20px", marginBottom: "20px" }}>
+              <Grid item xs={12} md={8}>
+                <Box sx={{marginBottom: "20px" }}>
                   <BigCard>
                     <Grid container>
-                      {/* <Grid item xs={12}>
-                      {" "}
-                      <ComponentDivider>CV</ComponentDivider>
-                    </Grid> */}
                       <Grid container item xs={12}>
                         {userInfo.role === "Worker" ? (
                           <Box
@@ -542,65 +563,6 @@ function WorkerInfo() {
               </Grid>
             </Grid>
           </Box>
-          {/* <Modal
-            open={showModal}
-            onClose={handleCloseModal}
-            aria-labelledby="place-book-modal"
-            aria-describedby="place-book-modal-description"
-          >
-            <Box sx={styles.modal}>
-              <Typography id="place-book-modal" variant="h5" textAlign="center">
-                Choose a job
-              </Typography>
-              <TableContainer
-                component={Paper}
-                sx={{
-                  margin: "auto",
-                  marginTop: "3%",
-                }}
-              >
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Job Image</TableCell>
-                      <TableCell>Job Name</TableCell>
-                      <TableCell></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {jobs.map((job, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          <Avatar src={job.image} alt={job.name} />
-                        </TableCell>
-                        <TableCell>{job.name}</TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleHire(job._id.$oid, e);
-                            }}
-                          >
-                            Choose
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <Stack direction="row" justifyContent="center" marginTop={4}>
-                <Button
-                  variant="contained"
-                  sx={styles.button}
-                  onClick={handleCloseModal}
-                >
-                  Cancel
-                </Button>
-              </Stack>
-            </Box>
-          </Modal> */}
         </>
       )}
       <Modal

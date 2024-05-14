@@ -59,8 +59,8 @@ function Hero(prop) {
 
             <Box className="flexCenter hero-right">
               <motion.div
-                initial={{ x: "7rem", opacity: 0 }}
-                animate={{ x: "7rem", opacity: 1 }}
+                initial={{ x: "3rem", opacity: 0 }}
+                animate={{ x: "3rem", opacity: 0 }}
                 transition={{
                   duration: 2,
                   type: "spring",

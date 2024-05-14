@@ -15,7 +15,8 @@ import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import { motion } from "framer-motion";
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 const orangeBase = "#ffb978";
 const violetBase = "#7F00FF";
 const violetMain = alpha(violetBase, 0.7);
@@ -32,18 +33,20 @@ const theme = createTheme({
 });
 
 function FindWorker() {
+  const theme2 = useTheme();
+  const isMd = useMediaQuery(theme2.breakpoints.up("md"));
   const transition = { duration: 5, type: "spring" };
   return (
     <Box
-      sx={{ width: "80%", margin: "auto", marginTop: "30px", display: "flex",background:"white", padding:"20px", borderRadius:"5px"}}
+      sx={{ width:isMd?"80%":"100%", margin: "auto", marginTop: "30px", display: "flex",background:"white", padding:"20px", borderRadius:"5px"}}
       className="service"
     >
       <Grid container>
-        <Grid item xs={5}>
+        <Grid item xs={12} md={5}>
           <motion.div
-            whileInView={{ x: "0" }}
-            initial={{ x: "7rem", opacity: 0 }}
-            animate={{ x: -20, opacity: 1 }}
+            whileInView={{ y: "0" }}
+            initial={{ y: "7rem", opacity: 0 }}
+            animate={{ y: 10, opacity: 1 }}
             transition={{
               duration: 2,
               type: "spring",
@@ -84,7 +87,8 @@ function FindWorker() {
         </Grid>
         <Grid
           item
-          xs={7}
+          xs={12}
+          md={7}
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -92,13 +96,13 @@ function FindWorker() {
           }}
 
         >
-          <Box className="Rightside" sx={{ width: "500px", margin: "auto" }}>
+          <Box className="Rightside" sx={{ width: "500px", margin: "auto", marginTop:isMd?"":"20px" }}>
             <Box className="cards">
               <motion.div
                 whileInView={{ x: "0" }}
-                initial={{ x: "30rem", opacity: 0 }}
+                initial={{ x: "10rem", opacity: 0 }}
                 transition={{ transition }}
-                animate={{ x: 30, opacity: 1 }}
+                animate={{ x: 10, opacity: 1 }}
                 className="card"
               >
                 <Box
@@ -127,9 +131,9 @@ function FindWorker() {
               </motion.div>
               <motion.div
                 whileInView={{ x: "0" }}
-                initial={{ x: "-30rem", opacity: 0 }}
+                initial={{ x: "-10rem", opacity: 0 }}
                 transition={{ transition }}
-                animate={{ x: -30, opacity: 1 }}
+                animate={{ x: -10, opacity: 1 }}
                 className="card"
               >
                 <Box
@@ -142,7 +146,7 @@ function FindWorker() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft: "80px",
+                    marginLeft: isMd?"80px":"30px",
                     marginTop: "10px",
                   }}
                 >
@@ -160,9 +164,9 @@ function FindWorker() {
               </motion.div>
               <motion.div
                 whileInView={{ x: "0" }}
-                initial={{ x: "30rem", opacity: 0 }}
+                initial={{ x: "10rem", opacity: 0 }}
                 transition={{ transition }}
-                animate={{ x: 30, opacity: 1 }}
+                animate={{ x: 10, opacity: 1 }}
                 className="card"
               >
                 <Box
@@ -175,7 +179,7 @@ function FindWorker() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft: "160px",
+                    marginLeft: isMd?"160px":"60px",
                     marginTop: "10px",
                   }}
                 >

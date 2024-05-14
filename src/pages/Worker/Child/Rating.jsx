@@ -2,7 +2,11 @@ import React from "react";
 import BigCard from "../../../components/BigCard/BigCard";
 import { Box, Grid, Rating } from "@mui/material";
 import { Star } from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 function Rate(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   console.log(prop.rating);
   const ratingPoint =
     prop.rating.length === 0
@@ -14,7 +18,7 @@ function Rate(prop) {
         ) / 2;
   return (
     <>
-      <Box sx={{ marginBottom: "20px" }}>
+      <Box sx={{ marginBottom: isMd?"20px":"" }}>
         <BigCard>
           <Grid container spacing={3}>
             <Grid item container md={12} xs={12}>
