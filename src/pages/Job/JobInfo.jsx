@@ -395,7 +395,7 @@ function JobInfo() {
                           color="success"
                           disabled={userInfo.block ? true : false}
                           sx={{
-                            width: "15%",
+                            width: isMd ? "15%" : "100px",
                             marginRight: "5%",
                             borderRadius: "15px",
                           }}
@@ -414,7 +414,7 @@ function JobInfo() {
                           color="error"
                           disabled={userInfo.block ? true : false}
                           sx={{
-                            width: "15%",
+                            width: isMd ? "15%" : "100px",
                             marginLeft: "5%",
                             borderRadius: "15px",
                           }}
@@ -461,7 +461,7 @@ function JobInfo() {
                     </Typography>
                   )}
                   {!editMode ? (
-                    <Box sx={{ width: "100%" }}>
+                    <Box sx={{ width: "100%", marginTop: "10px" }}>
                       <JobDetail
                         userData={userData}
                         editMode={editMode}
@@ -474,7 +474,7 @@ function JobInfo() {
                             sx={{
                               width: "100%",
                               display: "flex",
-
+                              marginTop: "10px",
                               justifyContent: "center",
                             }}
                           >
@@ -764,18 +764,56 @@ function JobInfo() {
                                   </CardContent>
                                 </CardActionArea>
                                 <CardActions>
-                                  <AcceptButton
-                                    owner_id={userData.id}
-                                    job_id={id}
-                                    worker_id={card._id.$oid}
-                                    block={userInfo.block}
-                                  />
-                                  <RejectButton
-                                    owner_id={userData.id}
-                                    job_id={id}
-                                    worker_id={card._id.$oid}
-                                    block={userInfo.block}
-                                  />
+                                  <Grid container>
+                                    <Grid
+                                      item
+                                      xs={12}
+                                      md={6}
+                                      sx={{
+                                        display: "flex",
+                                        margin: "auto",
+                                        marginBottom: isMd ? "" : "10px",
+                                      }}
+                                    >
+                                      <Box
+                                        sx={{
+                                          width: "90%",
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          margin: "auto",
+                                        }}
+                                      >
+                                        <AcceptButton
+                                          owner_id={userData.id}
+                                          job_id={id}
+                                          worker_id={card._id.$oid}
+                                          block={userInfo.block}
+                                        />
+                                      </Box>
+                                    </Grid>
+                                    <Grid
+                                      item
+                                      xs={12}
+                                      md={6}
+                                      sx={{ display: "flex", margin: "auto" }}
+                                    >
+                                      <Box
+                                        sx={{
+                                          width: "90%",
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          margin: "auto",
+                                        }}
+                                      >
+                                        <RejectButton
+                                          owner_id={userData.id}
+                                          job_id={id}
+                                          worker_id={card._id.$oid}
+                                          block={userInfo.block}
+                                        />
+                                      </Box>
+                                    </Grid>
+                                  </Grid>
                                 </CardActions>
                               </Card>
                             </Grid>
