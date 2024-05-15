@@ -36,9 +36,13 @@ import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
 import StarIcon from "@mui/icons-material/Star";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import CardRating from "./Child/CardRating";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
 
 function JobInfo() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const [error, setError] = useState("");
   const [jobInfo, setJobInfo] = useState("");
   const [waiting, setWaiting] = useState("");
@@ -372,7 +376,7 @@ function JobInfo() {
       ) : (
         <>
           <br />
-          <div style={{ marginTop: "5%" }}>
+          <div style={{ marginTop: isMd ? "5%" : "20%" }}>
             {jobInfo && (
               <>
                 <form>

@@ -4,8 +4,12 @@ import { Grid, Typography, CardContent, Pagination, Box } from "@mui/material";
 import useWorkers from "../../utils/userUtils/workerUtils";
 import Loading from "../../components/Loading/Loading";
 import WorkerCard from "./Child/WorkerCard";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Worker() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const { workers, loading } = useWorkers();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -27,7 +31,7 @@ function Worker() {
         sx={{
           width: "95%",
           margin: "auto",
-          marginTop: "7%",
+          marginTop:isMd?"7%":"20%",
         }}
       >
         <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
@@ -38,8 +42,6 @@ function Worker() {
             <Grid container spacing={5}>
               {currentWorkers.map((card, index) => (
                 <Grid item xs={12} sm={12} md={3} key={index}>
-                  {console.log(card)}
-
                   <WorkerCard card={card} />
                 </Grid>
               ))}

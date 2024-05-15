@@ -7,14 +7,28 @@ import {
   InputAdornment,
 } from "@mui/material";
 import "./JobDetail.css";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import EmailIcon from "@mui/icons-material/Email";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import HouseIcon from "@mui/icons-material/House";
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import PersonIcon from "@mui/icons-material/Person";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import DescriptionIcon from "@mui/icons-material/Description";
+import ConstructionIcon from "@mui/icons-material/Construction";
+
 function JobDetail(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   return (
     <>
       <Grid
         container
-        spacing={2}
+        // spacing={2}
         sx={{
-          width: "80%",
+          width: "70%",
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
@@ -28,13 +42,46 @@ function JobDetail(prop) {
           fontSize: "16px",
           boxShadow: "0 7px 8px rgba(0, 0, 0, 0.4)",
           backgroundColor: "ghostwhite",
+          paddingLeft: "16px",
+          paddingRight: "16px",
         }}
         className="JobDetailBig"
       >
         {/* Left Side */}
-        <Grid item xs={6} sx={{ marginTop: "50px", marginBottom: "50px" }}>
+        <Grid
+          item
+          container
+          xs={12}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            marginTop: "50px",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "left",
+            }}
+          >
+            <Typography variant="h3" sx={{ textAlign: "center" }}>
+              {prop.jobInfo.name}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ marginTop: "50px", marginBottom: "50px" }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   width: "100%",
@@ -45,36 +92,16 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Job Name</Typography>
-                <Typography variant="body1">{prop.jobInfo.name}</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <AttachMoneyIcon fontSize="small" />
+                  <Typography variant="body1">Salary</Typography>
+                </Box>
+                <Typography variant="body1">
+                  {prop.jobInfo.salary} VNĐ/hour
+                </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
-              {/* <TextField
-                InputProps={{
-                  readOnly: !prop.editMode,
-                  style: { color: "black" },
-                  endAdornment: (
-                    <InputAdornment position="end">VNĐ / hour</InputAdornment>
-                  ),
-                }}
-                required={prop.editMode}
-                type="number"
-                sx={{
-                  [`& fieldset`]: {
-                    borderRadius: 8,
-                  },
-                  "& .MuiInputLabel-asterisk": {
-                    color: "red",
-                  },
-                }}
-                variant={prop.editMode ? "outlined" : "standard"}
-                fullWidth
-                label="Salary"
-                name="salary"
-                value={prop.jobInfo.salary}
-                // onChange={handleInputChange}
-              /> */}
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   width: "100%",
@@ -85,28 +112,16 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Salary</Typography>
-                <Typography variant="body1">{prop.jobInfo.salary} VNĐ/hour</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  textAlign: "left",
-                  borderBottom: "1px solid black",
-                }}
-              >
-                <Typography variant="caption">Email</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <EmailIcon fontSize="small" />
+                  <Typography variant="caption">Email</Typography>
+                </Box>
                 <Typography variant="body1">{prop.jobInfo.email}</Typography>
               </Box>
             </Grid>
-            
-            <Grid item xs={6}>
-               <Box
+
+            <Grid item xs={12} md={6}>
+              <Box
                 sx={{
                   width: "100%",
                   display: "flex",
@@ -116,11 +131,33 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Phone Number</Typography>
-                <Typography variant="body1">{prop.jobInfo.phone_num}</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <LocalPhoneIcon fontSize="small" />
+                  <Typography variant="body1">Phone Number</Typography>
+                </Box>
+                <Typography variant="body1">
+                  {prop.jobInfo.phone_num}
+                </Typography>
               </Box>
             </Grid>
-
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  textAlign: "left",
+                  borderBottom: "1px solid black",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <PersonIcon fontSize="small" />
+                  <Typography variant="body1">Required Worker</Typography>
+                </Box>
+                <Typography variant="body1">{prop.jobInfo.max_num}</Typography>
+              </Box>
+            </Grid>
             <Grid item xs={12}>
               <Box
                 sx={{
@@ -132,7 +169,10 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Address</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <HouseIcon fontSize="small" />
+                  <Typography variant="body1">Address</Typography>
+                </Box>
                 <Typography variant="body1">{prop.jobInfo.address}</Typography>
               </Box>
             </Grid>
@@ -147,13 +187,16 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Require Skill</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <CleaningServicesIcon fontSize="small" />
+                  <Typography variant="body1">Require Skill</Typography>
+                </Box>
                 <Typography variant="body1">
                   {prop.chooseSkill.join(", ")}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Box
                 sx={{
                   width: "100%",
@@ -164,30 +207,23 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Date Time</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <AccessTimeIcon fontSize="small" />
+                  <Typography variant="body1">Date Time</Typography>
+                </Box>
                 <Typography variant="body1">{prop.jobInfo.datetime}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  textAlign: "left",
-                  borderBottom: "1px solid black",
-                }}
-              >
-                <Typography variant="caption">Required Worker</Typography>
-                <Typography variant="body1">{prop.jobInfo.max_num}</Typography>
               </Box>
             </Grid>
           </Grid>
         </Grid>
 
         {/* Right Side - Image Upload */}
-        <Grid item xs={6} sx={{ marginTop: "50px" }}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ marginTop: isMd ? "50px" : "", marginBottom: "10px" }}
+        >
           {prop.jobInfo.image === "" ? (
             <Box
               sx={{
@@ -208,7 +244,7 @@ function JobDetail(prop) {
                 alt={prop.jobInfo.name}
                 src={prop.jobInfo.image}
                 style={{
-                  width: "60%",
+                  width: "80%",
                   height: "auto",
                   display: "flex",
                   justifyContent: "center",
@@ -221,7 +257,7 @@ function JobDetail(prop) {
 
         <Grid item xs={12} sx={{ marginBottom: "50px" }}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   width: "100%",
@@ -232,11 +268,14 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Description</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <DescriptionIcon fontSize="small" />
+                  <Typography variant="body1">Description</Typography>
+                </Box>
                 <Typography variant="body1">{prop.jobInfo.desc}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6} sx={{ pr: 2 }}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   width: "100%",
@@ -247,7 +286,10 @@ function JobDetail(prop) {
                   borderBottom: "1px solid black",
                 }}
               >
-                <Typography variant="caption">Requirement</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <ConstructionIcon fontSize="small" />
+                  <Typography variant="body1">Requirement</Typography>
+                </Box>
                 <Typography variant="body1">
                   {prop.jobInfo.requirement === ""
                     ? "No requirement."

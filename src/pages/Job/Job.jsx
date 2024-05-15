@@ -16,7 +16,7 @@ function Job() {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState(null);
   const { jobs, loadingJob } = useJobs();
   const [filterItems, setFilterItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,7 +94,7 @@ function Job() {
     }
   }, []);
 
-  if (loadingJob || loading) {
+  if (loadingJob || loading || userInfo===null) {
     return <Loading />;
   }
 
@@ -121,7 +121,7 @@ function Job() {
         sx={{
           width: "95%",
           margin: "auto",
-          marginTop: "7%",
+          marginTop:isMd?"7%":"20%",
         }}
       >
         <Box sx={{ width: "80%", margin: "auto" }}>
