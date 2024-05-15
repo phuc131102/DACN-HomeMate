@@ -8,14 +8,20 @@ import {
 import FacebookIcon from "@mui/icons-material/Facebook";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneForwardedIcon from "@mui/icons-material/PhoneForwarded";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Footer() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   return (
     <>
-      {/* <Box
-        style={{
+      <Box
+        sx={{
+          width: "100%",
           display: "flex",
-          justifyContent: "space-between",
+          flexDirection:isMd?"":"column",
+          justifyContent: isMd? "space-between":"center",
           backgroundColor: "white",
           color: "black",
           alignItems: "center",
@@ -46,7 +52,7 @@ export default function Footer() {
             Copyright © 2024 HomeMate Website, Inc.
           </Typography>
         </Box>
-        <Box style={{ alignSelf: "flex-end" }}>
+        <Box style={{}}>
           <BottomNavigation
             showLabels
             style={{
@@ -73,7 +79,7 @@ export default function Footer() {
             />
           </BottomNavigation>
         </Box>
-      </Box> */}
+      </Box>
     </>
   );
 }
