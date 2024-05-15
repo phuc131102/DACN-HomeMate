@@ -1,15 +1,12 @@
 import React from "react";
-import {
-  Grid,
-  TextField,
-  Box,
-  Button,
-  InputAdornment,
-} from "@mui/material";
+import { Grid, TextField, Box, Button, InputAdornment } from "@mui/material";
 import { DateTimePicker } from "react-rainbow-components";
 import JobFilter from "./Job_filter";
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 function JobUpdate(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -30,7 +27,6 @@ function JobUpdate(prop) {
     <>
       <Grid
         container
-        spacing={2}
         sx={{
           width: "80%",
           justifyContent: "center",
@@ -45,12 +41,19 @@ function JobUpdate(prop) {
           fontWeight: "bold",
           textAlign: "center",
           fontSize: "16px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
         }}
       >
         {/* Left Side */}
-        <Grid item xs={6} sx={{ marginTop: "50px", marginBottom: "50px" }}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ marginTop: "50px", marginBottom: "50px" }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 InputProps={{
                   style: { color: "black" },
@@ -72,7 +75,7 @@ function JobUpdate(prop) {
                 onChange={prop.handleInputChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 InputProps={{
                   style: { color: "black" },
@@ -98,7 +101,7 @@ function JobUpdate(prop) {
                 onChange={prop.handleInputChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 InputProps={{
                   style: { color: "black" },
@@ -131,7 +134,7 @@ function JobUpdate(prop) {
                 }
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 InputProps={{
                   style: { color: "black" },
@@ -185,7 +188,7 @@ function JobUpdate(prop) {
                 label="Skill"
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <DateTimePicker
                 name="datetime"
                 value={prop.editedValues.datetime}
@@ -195,7 +198,7 @@ function JobUpdate(prop) {
                 placeholder="Date/Time *"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <TextField
                 InputProps={{
                   style: { color: "black" },
@@ -222,7 +225,7 @@ function JobUpdate(prop) {
         </Grid>
 
         {/* Right Side - Image Upload */}
-        <Grid item xs={6} sx={{ marginTop: "50px" }}>
+        <Grid item xs={12} md={6} sx={{ marginTop:isMd?"50px":"", marginBottom:isMd?"":"20px"}}>
           <Box
             sx={{
               width: "100%",
@@ -266,7 +269,7 @@ function JobUpdate(prop) {
 
         <Grid item xs={12} sx={{ marginBottom: "50px" }}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box sx={{ width: "100%" }}>
                 <TextField
                   InputProps={{
@@ -291,7 +294,7 @@ function JobUpdate(prop) {
                 />
               </Box>
             </Grid>
-            <Grid item xs={6} sx={{ pr: 2 }}>
+            <Grid item xs={12} md={6}>
               <Box sx={{ width: "100%" }}>
                 <TextField
                   InputProps={{
@@ -299,9 +302,8 @@ function JobUpdate(prop) {
                   }}
                   sx={{
                     mb: "1%",
-                    [`& fieldset`]: { borderRadius: 8,
-                  },
-                }}
+                    [`& fieldset`]: { borderRadius: 8 },
+                  }}
                   variant="outlined"
                   fullWidth
                   multiline

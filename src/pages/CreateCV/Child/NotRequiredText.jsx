@@ -21,7 +21,6 @@ const NotRInputText = (prop) => {
         <CompHeader headerIcon={prop.headerIcon}>{prop.state}</CompHeader>
         <TextField
           type={prop.type}
-          id="outlined-basic"
           value={prop.value}
           variant="outlined"
           onChange={prop.handleState}
