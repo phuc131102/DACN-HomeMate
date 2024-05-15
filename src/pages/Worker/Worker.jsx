@@ -31,23 +31,30 @@ function Worker() {
         sx={{
           width: "95%",
           margin: "auto",
-          marginTop:isMd?"7%":"20%",
+          marginTop: isMd ? "7%" : "20%",
         }}
       >
         <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
           &nbsp;<b>All Worker</b>
         </Typography>
-        <CardContent>
-          <Box sx={{ width: "80%", margin: "auto" }}>
-            <Grid container spacing={5}>
-              {currentWorkers.map((card, index) => (
-                <Grid item xs={12} sm={12} md={3} key={index}>
-                  <WorkerCard card={card} />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </CardContent>
+
+        <Box
+          sx={{
+            width: "80%",
+            margin: "auto",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Grid container spacing={5}>
+            {currentWorkers.map((card, index) => (
+              <Grid item xs={12} sm={12} md={3} key={index}>
+                <WorkerCard card={card} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
         {/* <WorkerCard /> */}
       </Box>
       {workers.filter((card) => card.status === "Available").length > 8 ? (
