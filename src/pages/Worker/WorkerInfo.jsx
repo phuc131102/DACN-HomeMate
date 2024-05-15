@@ -1,36 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import {
-  Grid,
-  TextField,
-  Typography,
-  Box,
-  Button,
-  Modal,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Avatar,
-  Paper,
-} from "@mui/material";
+import { Grid, Typography, Box, Button, Modal, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {
-  block_user,
-  deleteUser,
-  get_user_info,
-  unblock_user,
-} from "../../services/userAPI";
+import { block_user, deleteUser, unblock_user } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info } from "../../services/cvAPI";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import avtEmpty from "../../assets/avt_empty.png";
-import { myJob, hire_worker, return_worker } from "../../services/jobAPI";
+import { myJob } from "../../services/jobAPI";
 import Avt from "./Child/Avt";
 import LeftSide from "./Child/LeftSide";
 import Rate from "./Child/Rating";
@@ -38,6 +17,7 @@ import BigCard from "../../components/BigCard/BigCard";
 import MyJob from "../Profile/Child/Myjob";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import useUserInfo from "../../utils/userUtils/useUserInfo";
 
 function WorkerInfo() {
   const theme = useTheme();
@@ -45,7 +25,6 @@ function WorkerInfo() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [jobs, setJobs] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -98,39 +77,9 @@ function WorkerInfo() {
     },
   };
 
-  // const styles = {
-  //   button: {
-  //     backgroundColor: "red",
-  //     color: "#fff",
-  //     fontWeight: 600,
-  //     borderRadius: 15,
-  //     maxWidth: "500px",
-  //     marginRight: "10px",
-  //     minWidth: "150px",
-  //     padding: "5px 10px",
-  //     fontSize: "1.2rem",
-  //   },
-  //   modal: {
-  //     position: "absolute",
-  //     top: "50%",
-  //     left: "50%",
-  //     transform: "translate(-50%, -50%)",
-
-  //     bgcolor: "background.paper",
-  //     boxShadow: 24,
-  //     p: 4,
-  //   },
-  // };
-
   const params = useParams();
   const id = params.id.split("/").pop();
-  // const handleOpenModal = () => {
-  //   setShowModal(true);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setShowModal(false);
-  // };
+  const { userInfo } = useUserInfo(id);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -151,24 +100,16 @@ function WorkerInfo() {
           setLoading(false);
         } finally {
           try {
-            const response = await get_user_info(id);
-            setUserInfo(response);
+            const response = await get_cv_info(id);
+            setCvInfo(response);
+            console.log(response.data);
           } catch (error) {
-            console.error("Error fetching user information:", error);
+            console.error("Error fetching cv information:", error);
           } finally {
-            try {
-              const response = await get_cv_info(id);
-              setCvInfo(response);
-              console.log(response.data);
-            } catch (error) {
-              console.error("Error fetching cv information:", error);
-            } finally {
-              setLoading(false);
-            }
+            setLoading(false);
           }
         }
       };
-
       fetchData();
     }
   }, [userData]);
@@ -178,20 +119,13 @@ function WorkerInfo() {
       const fetchUserInfo = async () => {
         setLoading(true);
         try {
-          const response = await get_user_info(id);
-          setUserInfo(response);
+          const response = await get_cv_info(id);
+          setCvInfo(response);
+          console.log(response.data);
         } catch (error) {
-          console.error("Error fetching user information:", error);
+          console.error("Error fetching cv information:", error);
         } finally {
-          try {
-            const response = await get_cv_info(id);
-            setCvInfo(response);
-            console.log(response.data);
-          } catch (error) {
-            console.error("Error fetching cv information:", error);
-          } finally {
-            setLoading(false);
-          }
+          setLoading(false);
         }
       };
       fetchUserInfo();
@@ -244,56 +178,6 @@ function WorkerInfo() {
     setShowModal2(false);
   };
 
-  // const handleHire = async (jobId, e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   const updatedFormData = {
-  //     homeownerId: userData.id,
-  //     workerId: id,
-  //     jobId: jobId,
-  //   };
-
-  //   try {
-  //     const response = await hire_worker(updatedFormData);
-  //     if (response) {
-  //       window.location.reload();
-  //       console.log("Hire Worker successfully:", response);
-  //     }
-  //   } catch (error) {
-  //     if (error.response) {
-  //     }
-  //     console.error("Hire failed:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const handleRating = async (jobId, e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   const updatedFormData = {
-  //     homeownerId: userData.id,
-  //     workerId: id,
-  //     jobId: jobId,
-  //   };
-  //   console.log(updatedFormData);
-  //   try {
-  //     const response = await return_worker(updatedFormData);
-  //     if (response) {
-  //       window.location.reload();
-  //       console.log("Rating worker successfully:", response);
-  //     }
-  //   } catch (error) {
-  //     if (error.response) {
-  //     }
-  //     console.error("Rating failed:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   if (loading) {
     return <Loading />;
   }
@@ -324,18 +208,13 @@ function WorkerInfo() {
                         <Avt avtEmpty={avtEmpty} userInfo={userInfo} />
                       </>
                     </Grid>
-                    <Grid
-                      item
-                      container
-                      xs={12}
-                      md={8}
-                    >
+                    <Grid item container xs={12} md={8}>
                       <Grid item xs={12}>
                         <Box
                           sx={{
                             width: "100%",
                             display: "flex",
-                            justifyContent:isMd? "flex-start":"center",
+                            justifyContent: isMd ? "flex-start" : "center",
                           }}
                         >
                           <Typography variant="h3">
@@ -348,7 +227,7 @@ function WorkerInfo() {
                           sx={{
                             width: "100%",
                             display: "flex",
-                            justifyContent: isMd? "flex-start":"center",
+                            justifyContent: isMd ? "flex-start" : "center",
                           }}
                         >
                           <Typography variant="h4">
@@ -409,73 +288,6 @@ function WorkerInfo() {
                           </Box>
                         </Grid>
                       ) : null}
-                      {/* {userData.role === "Homeowner" ? (
-                        <>
-                          <Grid item xs={12}>
-                            <Box
-                              sx={{
-                                width: "100%",
-                              }}
-                            >
-                              <Typography variant="h5">
-                                <b
-                                  style={{
-                                    color:
-                                      userInfo.status !== "Hired"
-                                        ? "green"
-                                        : "red",
-                                  }}
-                                >
-                                  Status:{" "}
-                                  {userInfo.status !== "Hired"
-                                    ? "Available"
-                                    : "Hired"}
-                                </b>
-                              </Typography>
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12}>
-                            <Box
-                              sx={{
-                                width: "100%",
-                                marginTop: "1%",
-                              }}
-                            >
-                              {userInfo.status === "Hired" ? (
-                                userInfo.working_detail.homeownerId ===
-                                userData.id ? (
-                                  <Button
-                                    variant="contained"
-                                    color="success"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      handleRating(
-                                        userInfo.working_detail.jobId,
-                                        e
-                                      );
-                                    }}
-                                  >
-                                    Rating
-                                  </Button>
-                                ) : (
-                                  <Button variant="contained" color="error">
-                                    Not Available
-                                  </Button>
-                                )
-                              ) : (
-                                <Button
-                                  variant="contained"
-                                  onClick={() => {
-                                    handleOpenModal();
-                                  }}
-                                >
-                                  Hire
-                                </Button>
-                              )}
-                            </Box>
-                          </Grid>
-                        </>
-                      ) : null} */}
                     </Grid>
                   </Grid>
                 </ThemeProvider>
@@ -493,7 +305,7 @@ function WorkerInfo() {
                 ) : null}
               </Grid>
               <Grid item xs={12} md={8}>
-                <Box sx={{marginBottom: "20px" }}>
+                <Box sx={{ marginBottom: "20px" }}>
                   <BigCard>
                     <Grid container>
                       <Grid container item xs={12}>

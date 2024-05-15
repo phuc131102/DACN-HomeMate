@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate} from "react-router-dom";
-import {
-  Grid,
-  Typography,
-  Pagination,
-  Button,
-  Box,
-} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Grid, Typography, Pagination, Button, Box } from "@mui/material";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import Loading from "../../components/Loading/Loading";
 import { get_skill } from "../../services/skillAPI";
@@ -14,9 +8,9 @@ import JobFilter from "./Child/Job_filter";
 import { Salary } from "./Child/Salary";
 import NewCard from "./Child/NewCard";
 import "./Child/Newcard.css";
-import { get_user_info } from "../../services/userAPI";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import useUserInfo from "../../utils/userUtils/useUserInfo";
 function Job() {
   //////////////////////
   const theme = useTheme();
@@ -32,7 +26,8 @@ function Job() {
   const [loading, setLoading] = useState(false);
   const [filterSalaryItems, setFilterSalaryItems] = useState([]);
   const [chooseSalary, setChooseSalary] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
+  // const [userInfo, setUserInfo] = useState(null);
+  const { userInfo } = useUserInfo(userData?.id);
 
   useEffect(() => {
     setFilterItems(jobs);
@@ -99,26 +94,6 @@ function Job() {
     }
   }, []);
 
-  useEffect(() => {
-    if (userData) {
-      const fetchUserInfo = async () => {
-        setLoading(true);
-        try {
-          const response2 = await get_user_info(userData.id);
-
-          setUserInfo(response2);
-        } catch (error) {
-          console.error("Error fetching user information:", error);
-        } finally {
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
-        }
-      };
-      fetchUserInfo();
-    }
-  }, [userData]);
-
   if (loadingJob || loading) {
     return <Loading />;
   }
@@ -156,8 +131,8 @@ function Job() {
           <Box
             sx={{
               display: "flex",
-              flexDirection:isMd?"":"column",
-              gap:isMd?"":"10px",
+              flexDirection: isMd ? "" : "column",
+              gap: isMd ? "" : "10px",
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: "30px",
@@ -166,8 +141,8 @@ function Job() {
             <Box
               sx={{
                 display: "flex",
-                flexDirection:isMd?"":"column",
-                gap:isMd? "50px":"10px",
+                flexDirection: isMd ? "" : "column",
+                gap: isMd ? "50px" : "10px",
               }}
             >
               <Box sx={{ width: "300px" }}>

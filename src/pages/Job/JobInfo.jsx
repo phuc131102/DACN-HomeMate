@@ -36,7 +36,7 @@ import EndJobButton from "../../components/Button/AcceptButton/EndJobButton";
 import StarIcon from "@mui/icons-material/Star";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import CardRating from "./Child/CardRating";
-import { get_user_info } from "../../services/userAPI";
+import useUserInfo from "../../utils/userUtils/useUserInfo";
 
 function JobInfo() {
   const [error, setError] = useState("");
@@ -50,8 +50,8 @@ function JobInfo() {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
-  const [ownerInfo, setOwnerInfo] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
+  const { userInfo } = useUserInfo(userData?.id);
+  const { userInfo: ownerInfo } = useUserInfo(jobInfo?.owner_id);
 
   const params = useParams();
   const id = params.id.split("/").pop();
@@ -203,27 +203,6 @@ function JobInfo() {
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (jobInfo && userData) {
-      const fetchUserInfo = async () => {
-        setLoading(true);
-        try {
-          const response = await get_user_info(jobInfo.owner_id);
-          const response2 = await get_user_info(userData.id);
-          setOwnerInfo(response);
-          setUserInfo(response2);
-        } catch (error) {
-          console.error("Error fetching user information:", error);
-        } finally {
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
-        }
-      };
-      fetchUserInfo();
-    }
-  }, [jobInfo, userData]);
 
   const handleDeleteJob = async (jobId) => {
     try {
@@ -388,7 +367,7 @@ function JobInfo() {
 
   return (
     <>
-      {ownerInfo === null ? (
+      {loading ? (
         <Loading />
       ) : (
         <>
@@ -410,6 +389,7 @@ function JobInfo() {
                         <Button
                           variant="contained"
                           color="success"
+                          disabled={userInfo.block ? true : false}
                           sx={{
                             width: "15%",
                             marginRight: "5%",
@@ -428,6 +408,7 @@ function JobInfo() {
                         <Button
                           variant="contained"
                           color="error"
+                          disabled={userInfo.block ? true : false}
                           sx={{
                             width: "15%",
                             marginLeft: "5%",
@@ -783,11 +764,13 @@ function JobInfo() {
                                     owner_id={userData.id}
                                     job_id={id}
                                     worker_id={card._id.$oid}
+                                    block={userInfo.block}
                                   />
                                   <RejectButton
                                     owner_id={userData.id}
                                     job_id={id}
                                     worker_id={card._id.$oid}
+                                    block={userInfo.block}
                                   />
                                 </CardActions>
                               </Card>
@@ -891,12 +874,17 @@ function JobInfo() {
                     {accept.length >= 1 &&
                     (jobInfo.status === "Available" ||
                       jobInfo.status === "Full") ? (
-                      <StartJobButton owner_id={userData.id} job_id={id} />
+                      <StartJobButton
+                        owner_id={userData.id}
+                        job_id={id}
+                        block={userInfo.block}
+                      />
                     ) : null}
                     {jobInfo.status === "In Progress" ? (
                       <Button
                         variant="contained"
                         color="error"
+                        disabled={userInfo.block ? true : false}
                         sx={{
                           width: "15%",
                           borderRadius: "15px",
