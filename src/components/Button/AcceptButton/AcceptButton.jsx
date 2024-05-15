@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { accept_apply } from "../../../services/jobAPI";
 
-export default function AcceptButton({ owner_id, worker_id, job_id }) {
+export default function AcceptButton({ owner_id, worker_id, job_id, block }) {
   const handleAccept = async (e) => {
     e.preventDefault();
 
@@ -29,6 +29,7 @@ export default function AcceptButton({ owner_id, worker_id, job_id }) {
     <Button
       variant="contained"
       color="success"
+      disabled={block ? true : false}
       sx={{
         width: "100%",
         borderRadius: "15px",

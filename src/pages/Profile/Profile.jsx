@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import Avt from "./Child/Avt";
 import { Grid, Box, Button } from "@mui/material";
-import { get_user_info, update_user_info } from "../../services/userAPI";
+import { update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
 import avtEmpty from "../../assets/avt_empty.png";
@@ -20,9 +20,10 @@ import { apply_history, working_history } from "../../services/jobAPI";
 import ApplyHistory from "./Child/ApplyHistory";
 import YourWorker from "./Child/YourWorker";
 import AdminBox from "./Child/AdminBox";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import useUserInfo from "../../utils/userUtils/useUserInfo";
 
 function Profile() {
   const theme = useTheme();
@@ -30,7 +31,7 @@ function Profile() {
 
   const [error, setError] = useState("");
   const [userData, setUserData] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
+  // const [userInfo, setUserInfo] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
@@ -54,58 +55,58 @@ function Profile() {
     address: "",
     phone_num: "",
   });
+  const { userInfo } = useUserInfo(userData?.id);
+
+  useEffect(() => {
+    if (userInfo) {
+      setFormData((prevData) => ({
+        ...prevData,
+        name: userInfo.name,
+        email: userInfo.email,
+        pwd: "",
+        address: userInfo.address,
+        phone_num: userInfo.phone_num,
+      }));
+
+      setDefData((prevData) => ({
+        ...prevData,
+        name: userInfo.name,
+        email: userInfo.email,
+        pwd: "",
+        address: userInfo.address,
+        phone_num: userInfo.phone_num,
+      }));
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     if (userData && userData.id) {
       const fetchUserInfo = async () => {
         setLoading(true);
         try {
-          const response = await get_user_info(userData.id);
-          setUserInfo(response);
-          setFormData((prevData) => ({
-            ...prevData,
-            name: response.name,
-            email: response.email,
-            pwd: "",
-            address: response.address,
-            phone_num: response.phone_num,
-          }));
-          setDefData((prevData) => ({
-            ...prevData,
-            name: response.name,
-            email: response.email,
-            pwd:"",
-            address: response.address,
-            phone_num: response.phone_num,
-          }));
+          const response = await get_cv_info(userData.id);
+          setCvInfo(response);
         } catch (error) {
-          console.error("Error fetching user information:", error);
+          console.error("Error fetching cv information:", error);
         } finally {
           try {
-            const response = await get_cv_info(userData.id);
-            setCvInfo(response);
+            const response = await apply_history(userData.id);
+            if (response.length > 0) {
+              setApplyStatus(response);
+            }
           } catch (error) {
-            console.error("Error fetching cv information:", error);
+            console.error("Error fetching apply information:", error);
           } finally {
             try {
-              const response = await apply_history(userData.id);
+              const response = await working_history(userData.id);
+              console.log(response);
               if (response.length > 0) {
-                setApplyStatus(response);
+                setWorkingStatus(response);
               }
             } catch (error) {
-              console.error("Error fetching apply information:", error);
+              console.error("Error fetching working information:", error);
             } finally {
-              try {
-                const response = await working_history(userData.id);
-                console.log(response);
-                if (response.length > 0) {
-                  setWorkingStatus(response);
-                }
-              } catch (error) {
-                console.error("Error fetching working information:", error);
-              } finally {
-                setLoading(false);
-              }
+              setLoading(false);
             }
           }
         }
@@ -212,7 +213,6 @@ function Profile() {
         }
       }
     } finally {
-      // setLoading(false);
     }
   };
 
@@ -296,7 +296,7 @@ function Profile() {
         <>
           <Box
             sx={{
-              width: isMd?"60%":"100%",
+              width: isMd ? "60%" : "100%",
               margin: "auto",
               marginTop: "100px",
             }}
@@ -329,7 +329,13 @@ function Profile() {
               </Grid>
             </Grid>
             <Grid container>
-              <Grid container item xs={12} spacing={3}  sx={{ marginBottom: "20px" }}>
+              <Grid
+                container
+                item
+                xs={12}
+                spacing={3}
+                sx={{ marginBottom: "20px" }}
+              >
                 <Grid item xs={12} md={4}>
                   <Grid item xs={12}>
                     <LeftSide
@@ -415,8 +421,21 @@ function Profile() {
                               </TabList>
                             </Box>
                             <TabPanel value="1">
-                              <Box sx={{width:"90%", margin:"auto", display:"flex", justifyContent:"flex-end"}}>
-                                <Button variant="text" onClick={handleAdmin} endIcon={<ArrowForwardIosIcon/>}>More Information</Button>
+                              <Box
+                                sx={{
+                                  width: "90%",
+                                  margin: "auto",
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                <Button
+                                  variant="text"
+                                  onClick={handleAdmin}
+                                  endIcon={<ArrowForwardIosIcon />}
+                                >
+                                  More Information
+                                </Button>
                               </Box>
                               <AdminBox />
                             </TabPanel>

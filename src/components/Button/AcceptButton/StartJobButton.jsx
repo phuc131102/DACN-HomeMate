@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Typography, Box } from "@mui/material";
 import { start_job } from "../../../services/jobAPI";
 
-export default function StartJobButton({ owner_id, job_id }) {
+export default function StartJobButton({ owner_id, job_id, block }) {
   const handleStartJob = async (e) => {
     e.preventDefault();
 
@@ -43,6 +43,7 @@ export default function StartJobButton({ owner_id, job_id }) {
           marginBottom: "2%",
         }}
         onClick={handleStartJob}
+        disabled={block ? true : false}
       >
         Start Job
       </Button>

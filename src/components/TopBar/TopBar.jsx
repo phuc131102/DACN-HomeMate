@@ -15,25 +15,24 @@ import {
   useTheme,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { get_user_info } from "../../services/userAPI";
 import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
 import { get_noti, seen_noti } from "../../services/jobAPI";
+import useUserInfo from "../../utils/userUtils/useUserInfo";
 
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorElNotification, setAnchorElNotification] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
   const [userNoti, setUserNoti] = useState(null);
   const [notiCount, setNotiCount] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { userInfo } = useUserInfo(userData?.id);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,15 +48,12 @@ function TopBar() {
     if (userData && userData.id) {
       const fetchUserInfo = async () => {
         try {
-          const response = await get_user_info(userData.id);
           const response2 = await get_noti(userData.id);
-          setUserInfo(response);
           setUserNoti(response2);
           setNotiCount(
             response2.filter((notification) => notification.status === "Unread")
               .length
           );
-          console.log(response2);
         } catch (error) {
           console.error("Error fetching user information:", error);
         }
@@ -155,7 +151,7 @@ function TopBar() {
 
   return (
     <div>
-      {userInfo && (
+      {userInfo && userNoti && (
         <AppBar
           position="fixed"
           style={{ top: 0, background: "white", zIndex: 999 }}
@@ -178,6 +174,7 @@ function TopBar() {
                   borderRadius: "10px",
                   padding: "5px",
                   fontFamily: "cursive",
+                  minWidth: "125px",
                 }}
               >
                 Home Mate
@@ -284,7 +281,7 @@ function TopBar() {
                   ) : null}
                 </Menu>
               </Box>
-              <Typography
+              {/* <Typography
                 variant="h5"
                 noWrap
                 component={Link}
@@ -303,7 +300,7 @@ function TopBar() {
                 }}
               >
                 Home Mate
-              </Typography>
+              </Typography> */}
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <Box>
                   <Typography
@@ -455,7 +452,14 @@ function TopBar() {
               {userInfo && (
                 <Box p={2}>
                   {!isSmallScreen && (
-                    <Typography sx={{ color: "black" }}>
+                    <Typography
+                      sx={{
+                        color: "black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
                       <b>
                         <ReactTyped
                           strings={[`Hi, ${userInfo.name} !`]}
@@ -558,13 +562,6 @@ function TopBar() {
                     ))
                 )}
               </Menu>
-              <Tooltip title="Open setting">
-                <IconButton aria-label="notification">
-                  <Badge color="primary">
-                    <SettingsIcon color="black" />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
 
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open profile">
