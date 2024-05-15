@@ -17,6 +17,8 @@ import "./Signup.css";
 import videoBg from "../../assets/nightwall.webm";
 import { sign_up } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const finalTheme = createTheme({
   components: {
@@ -32,6 +34,8 @@ const finalTheme = createTheme({
 });
 
 function Signup() {
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -161,7 +165,7 @@ function Signup() {
           <Grid item xs={12}>
             <Box
               sx={{
-                maxWidth: "500px",
+                maxWidth: isSm?"500px":"90%",
                 margin: "auto",
                 border: "1px solid black",
                 borderRadius: "10px",
@@ -311,7 +315,7 @@ function Signup() {
                           size="large"
                           variant="contained"
                           sx={{
-                            width: "30%",
+                            width:isSm? "30%":"110px",
                             margin: "auto",
                             marginBottom: "15px",
                             marginTop: "15px",

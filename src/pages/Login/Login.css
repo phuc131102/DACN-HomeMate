@@ -65,3 +65,9 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+@media (max-width:600px) {
+  .LoginBox{
+    max-width: 90%;
+  }
+}
