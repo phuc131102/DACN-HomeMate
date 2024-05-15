@@ -145,7 +145,7 @@ function WorkerInfo() {
   const handleBlockUser = async () => {
     try {
       const response = await block_user(id);
-      navigate("/admin");
+      window.location.reload();
       console.log(response);
     } catch (error) {
       console.error("Error:", error.message);
@@ -155,7 +155,7 @@ function WorkerInfo() {
   const handleUnblockUser = async () => {
     try {
       const response = await unblock_user(id);
-      navigate("/admin");
+      window.location.reload();
       console.log(response);
     } catch (error) {
       console.error("Error:", error.message);
@@ -425,7 +425,8 @@ function WorkerInfo() {
             {!userInfo.block && userInfo.role === "Homeowner" ? (
               <Typography variant="body1" textAlign="center" marginTop={2}>
                 This action will restrict <b>Homeowner</b> from{" "}
-                <b>creating new job</b>. <br />
+                <b>creating new job, updating, deleting exist job, etc...</b>.{" "}
+                <br />
               </Typography>
             ) : !userInfo.block && userInfo.role === "Worker" ? (
               <Typography variant="body1" textAlign="center" marginTop={2}>
