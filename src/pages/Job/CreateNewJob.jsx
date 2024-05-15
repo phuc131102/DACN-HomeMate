@@ -13,8 +13,12 @@ import { create_job } from "../../services/jobAPI";
 import Loading from "../../components/Loading/Loading";
 import JobFilter from "./Child/Job_filter";
 import { get_skill } from "../../services/skillAPI";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const CreateJobPage = () => {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +51,7 @@ const CreateJobPage = () => {
     phone_num: "",
     requirement: "",
     max_num: "",
-    datetime:new Date(null)
+    datetime: new Date(null),
   });
   const [error, setError] = useState("");
   const [userData, setUserData] = useState([]);
@@ -121,7 +125,7 @@ const CreateJobPage = () => {
   return (
     <>
       <br />
-      <div style={{ marginTop: "3%" }}>
+      <div style={{ marginTop: isMd ? "3%" : "20%" }}>
         <form onSubmit={handleSubmit}>
           <Grid item xs={12}>
             <Box
@@ -137,7 +141,6 @@ const CreateJobPage = () => {
           </Grid>
           <Grid
             container
-            spacing={2}
             sx={{
               width: "80%",
               justifyContent: "center",
@@ -152,11 +155,14 @@ const CreateJobPage = () => {
               fontWeight: "bold",
               textAlign: "center",
               fontSize: "16px",
+              paddingLeft: "16px",
+              paddingRight: "16px",
+              paddingTop: "10px",
             }}
           >
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -184,7 +190,7 @@ const CreateJobPage = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -210,7 +216,7 @@ const CreateJobPage = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -237,7 +243,7 @@ const CreateJobPage = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -283,7 +289,7 @@ const CreateJobPage = () => {
                     label="Skill"
                   />
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={12}>
                   <DateTimePicker
                     required
                     fullWidth
@@ -294,7 +300,7 @@ const CreateJobPage = () => {
                     placeholder="Date/Time *"
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -316,7 +322,7 @@ const CreateJobPage = () => {
               </Grid>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6} sx={{ marginTop:"10px"}}>
               <Grid item xs={12}>
                 {avatarBase64 ? (
                   <Box
@@ -324,13 +330,14 @@ const CreateJobPage = () => {
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
+                     
                     }}
                   >
                     <img
                       alt={avatarBase64}
                       src={avatarBase64}
                       style={{
-                        width: "60%",
+                        width: "80%",
                         height: "auto",
                         display: "flex",
                         justifyContent: "center",
@@ -354,6 +361,7 @@ const CreateJobPage = () => {
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
+                    marginTop:"10px"
                   }}
                 >
                   <label
@@ -402,9 +410,9 @@ const CreateJobPage = () => {
               </Grid>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ marginTop: "10px" }}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -424,7 +432,7 @@ const CreateJobPage = () => {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={6} sx={{ pr: 2 }}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     sx={{ [`& fieldset`]: { borderRadius: 8 } }}
                     fullWidth
@@ -445,7 +453,7 @@ const CreateJobPage = () => {
             )}
             <Grid item xs={12}>
               <Button
-                sx={{ marginBottom: "1%" }}
+                sx={{ marginBottom: "10px", marginTop:"10px" }}
                 variant="contained"
                 type="submit"
               >
