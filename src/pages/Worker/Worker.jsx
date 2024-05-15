@@ -42,8 +42,6 @@ function Worker() {
             <Grid container spacing={5}>
               {currentWorkers.map((card, index) => (
                 <Grid item xs={12} sm={12} md={3} key={index}>
-                  {console.log(card)}
-
                   <WorkerCard card={card} />
                 </Grid>
               ))}
