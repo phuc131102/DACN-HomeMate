@@ -13,8 +13,12 @@ import { Link } from "react-router-dom";
 import { my_worker } from "../../../services/jobAPI";
 import CircularProgress from "@mui/material/CircularProgress";
 import avtEmpty from "../../../assets/avt_empty.png";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function YourWorker() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const [userData, setUserData] = useState([]);
   const [workers, setWorkers] = useState([]);
   const [loading, setLoading] = useState([]);
@@ -77,13 +81,13 @@ function YourWorker() {
         <Box>
           <Grid container spacing={5}>
             {currentWorker.map((card, index) => (
-              <Grid item xs={6} key={index}>
+              <Grid item xs={6} key={index} sx={{display:"flex", justifyContent:"center"}}>
                 <Card
                   sx={{
                     backgroundColor: "white",
                     borderRadius: "20px",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    width: "250px",
+                    width: isMd?"250px":"125px",
                   }}
                 >
                   <Grid
@@ -97,7 +101,7 @@ function YourWorker() {
                   >
                     <CardMedia
                       component="img"
-                      height="250"
+                      height={isMd?"250":"125"}
                       image={
                         card.worker.avatar === ""
                           ? avtEmpty

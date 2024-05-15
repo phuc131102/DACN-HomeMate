@@ -103,22 +103,6 @@
     opacity: 0.8;
 }
 
-@media (max-width: 480px) {
-    .container .cardn {
-        width: 230px;
-        border-radius: 15px;
-    }
+@media (max-width: 800px) {
 
-    .container .cardn .img-box {
-        width: 185px;
-        border-radius: 10px;
-    }
-
-    .container .cardn .content p {
-        font-size: 0.8rem;
-    }
-
-    .container .cardn .content a {
-        font-size: 0.9rem;
-    }
 }
