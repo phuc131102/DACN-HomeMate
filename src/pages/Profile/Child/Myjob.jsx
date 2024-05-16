@@ -28,14 +28,12 @@ function MyJob(prop) {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-  console.log(currentPage);
 
   useEffect(() => {
     if (userData && userData.id && prop.id) {
       const fetchData = async () => {
         try {
           const fetchedJobs = await myJob(prop.id);
-          console.log(fetchedJobs);
           setJobs(fetchedJobs);
         } catch (error) {
           console.error("Error fetching jobs:", error);

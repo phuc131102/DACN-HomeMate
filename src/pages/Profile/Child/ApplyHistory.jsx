@@ -6,8 +6,12 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function ApplyHistory(prop) {
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <>
       <Box
@@ -55,8 +59,9 @@ function ApplyHistory(prop) {
                         sx={{
                           width: "100%",
                           display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
+                          flexDirection:isSm?"":"column",
+                          justifyContent: isSm?"space-between":"flex-start",
+                          alignItems: isSm?"center":"",
                         }}
                       >
                         <Typography component="div" variant="h5">

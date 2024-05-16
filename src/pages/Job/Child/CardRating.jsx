@@ -16,8 +16,12 @@ import {
 } from "@mui/material";
 import avt_empty from "../../../assets/avt_empty.png";
 import { rating_worker } from "../../../services/jobAPI";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function CardRating(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const labels = {
     0: "0",
     0.5: "0.5",
@@ -70,15 +74,11 @@ function CardRating(prop) {
             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
           }}
         >
-          <Grid
-            container
-            justifyContent="space-between"
-            alignItems="center"
-          ></Grid>
+          
           <CardActionArea component={Link} to={`/worker/${prop.card._id.$oid}`}>
             <CardMedia
               component="img"
-              height="150"
+              height={isMd?"150":"100"}
               image={prop.card.avatar === "" ? avt_empty : prop.card.avatar}
               alt={prop.card.name}
             />
@@ -107,9 +107,11 @@ function CardRating(prop) {
                 style={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent:"center"
                 }}
               >
                 <Rating
+                  // size={isMd ? "" : "small"}
                   name="simple-controlled"
                   value={value}
                   precision={0.5}
@@ -122,11 +124,11 @@ function CardRating(prop) {
                   }}
                   readOnly={ratingSuccess}
                 />
-                {value !== null && (
+                {isMd?(value !== null && (
                   <Box sx={{ ml: 2 }}>
                     {labels[hover !== -1 ? hover : value]}
                   </Box>
-                )}
+                )):""}
               </div>
               {!ratingSuccess ? (
                 <Button

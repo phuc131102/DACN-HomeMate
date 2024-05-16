@@ -28,7 +28,7 @@ function JobDetail(prop) {
         container
         // spacing={2}
         sx={{
-          width: "70%",
+          width: isMd?"70%":"90%",
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",

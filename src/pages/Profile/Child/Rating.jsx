@@ -2,20 +2,8 @@ import React from "react";
 import BigCard from "../../../components/BigCard/BigCard";
 import { Box, Grid, Rating } from "@mui/material";
 import {
-  AssignmentTurnedIn,
-  Email,
-  EmojiEvents,
-  IntegrationInstructions,
-  Language,
-  LocationOn,
-  Person,
-  Phone,
-  Public,
-  School,
-  Edit,
   Star,
 } from "@mui/icons-material";
-import Typography from "@mui/material/Typography";
 function Rate(prop) {
   const ratingPoint =
     prop.rating.length === 0

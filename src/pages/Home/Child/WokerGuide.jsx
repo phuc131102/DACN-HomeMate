@@ -147,7 +147,7 @@ function WokerGuide() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft:isMd?"80px":"30px",
+                    marginLeft:isMd?"80px":"20px",
                     marginTop: "10px",
                   }}
                 >
@@ -180,7 +180,7 @@ function WokerGuide() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft: isMd?"160px":"60px",
+                    marginLeft: isMd?"160px":"40px",
                     marginTop: "10px",
                   }}
                 >

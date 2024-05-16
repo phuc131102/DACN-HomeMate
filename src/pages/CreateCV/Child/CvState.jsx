@@ -15,7 +15,6 @@ function CvState() {
   ////////////////////////////////////////////////////
   const [skillData, setSkillData] = useState(skillInfo);
   const [skillOption, setSkillOption] = useState(skillInfo);
-  //   console.log(skillOption);
   const [languageData, setLanguage] = useState([]);
   const [cvtitle, setTitle] = useState("");
   const [intro, setIntro] = useState("");
@@ -45,7 +44,6 @@ function CvState() {
 
   let [openAlert, setOpenAlert] = useState(false);
   const [skillOpen, setSkillOpen] = useState(false);
-  console.log(skills);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
@@ -57,7 +55,7 @@ function CvState() {
       setUser(parsedUserData);
     }
   }, []);
-  //   console.log(skillId);
+
   useEffect(() => {
     const fetchSkill = async () => {
       setLoading(true);
@@ -65,7 +63,6 @@ function CvState() {
         const response = await get_skill();
         setSkillOption(response.data);
         setSkillData(response.data);
-        // console.log(response.data);
       } catch (error) {
         console.error("Error fetching cv information:", error);
       } finally {
@@ -191,85 +188,7 @@ function CvState() {
   };
 
   async function handleSubmit(e) {
-    // const formData = { worker_id: user.id, name: cvtitle, intro: intro, skill: skills, certificate: certs, exp: experience };
-    // try {
-    //   const response = await create_cv(formData);
-    //   if (response) {
-    //     const userData = response.data;
-    //     localStorage.setItem("userData", JSON.stringify(userData));
-    //     navigate("/home");
-    //     console.log("User signed in:", response);
-    //   }
-    // } catch (error) {
-    //   if (error.response) {
-    //     const { status } = error.response;
-    //     if (status === 404) {
-    //       setError("Wrong email or password.");
-    //       setLoading(false);
-    //     }
-    //   }
-    //   console.error("Sign up failed:", error);
-    // } finally {
-    //   setLoading(false);
-    // }
-    // let token = `Bearer ${userlocal.token}`;
-    // const config = {
-    //   headers: { Authorization: token },
-    // };
-    // const updatedSkills = removeFieldFromCertificates(skills, "cvSkillsId");
-    // const updatedCertificates = removeFieldFromCertificates(
-    //   certs,
-    //   "certificateId"
-    // );
-    // try {
-    //   // setLoading(true);
-    //   const formData = new FormData();
-    //   formData.append("File", pdf);
-    //   const response = await axios.post(
-    //     `https://leetun2k2-001-site1.gtempurl.com/api/Cv`,
-    //     {
-    //       candidateId: canid,
-    //       experience: experience,
-    //       cvPdf: "",
-    //       cvName: cvtitle,
-    //       introduction: intro,
-    //       education: education,
-    //       isDeleted: false,
-    //       skills: updatedSkills,
-    //       certificates: updatedCertificates,
-    //     },
-    //     config
-    //   );
-    //   const response2 = await axios.get(
-    //     `https://leetun2k2-001-site1.gtempurl.com/api/Cv`,
-    //     config
-    //   );
-    //   const cv = response2.data.filter(
-    //     (prop) =>
-    //       prop.cvName === cvtitle &&
-    //       prop.candidateId === canid &&
-    //       prop.introduction === intro &&
-    //       prop.isDeleted === false
-    //   );
-    //   if (pdf !== null) {
-    //     /////////// UPLOAD CV ( đã upload lên được và trả về link nhưng link bên back end không hoạt động được)
-    //     const response3 = await axios.post(
-    //       `https://leetun2k2-001-site1.gtempurl.com/api/Cv/UploadCvPdf/${cv[0].cvid}`,
-    //       formData,
-    //       config
-    //     );
-    //   }
-    //   delay(1000);
-    //   dispatch({
-    //     type: "error/setError",
-    //     payload: { status: "no", message: cv[0].cvid },
-    //   });
-    // } catch (err) {
-    //   dispatch({
-    //     type: "error/setError",
-    //     payload: { status: "yes", message: err.response.data.error },
-    //   });
-    // }
+
   }
   //COMPS
   async function preProcessing() {
