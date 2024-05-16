@@ -46,15 +46,12 @@ export default function ChooseSkill(prop) {
                   prop.setSInputValue({
                     name: newValue.inputValue,
                   });
-                  // console.log(newValue.name);
                   if (newValue !== null) {
-                    // console.log(newValue);
                     prop.handleState(newValue);
                   }
                 } else {
                   prop.setSInputValue(newValue);
                   if (newValue !== null) {
-                    // console.log(newValue);
                     prop.setSkillId(
                       prop.skillData.filter(
                         (comp) => comp.name === newValue.name

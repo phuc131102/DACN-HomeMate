@@ -102,7 +102,6 @@ function WorkerInfo() {
           try {
             const response = await get_cv_info(id);
             setCvInfo(response);
-            console.log(response.data);
           } catch (error) {
             console.error("Error fetching cv information:", error);
           } finally {
@@ -121,7 +120,6 @@ function WorkerInfo() {
         try {
           const response = await get_cv_info(id);
           setCvInfo(response);
-          console.log(response.data);
         } catch (error) {
           console.error("Error fetching cv information:", error);
         } finally {

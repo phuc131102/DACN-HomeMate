@@ -17,7 +17,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditDialog(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  // console.log(defaultData)
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

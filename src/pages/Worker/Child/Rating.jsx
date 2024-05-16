@@ -7,7 +7,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 function Rate(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  console.log(prop.rating);
   const ratingPoint =
     prop.rating.length === 0
       ? null

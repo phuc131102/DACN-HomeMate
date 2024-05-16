@@ -6,8 +6,7 @@ import { Box } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-// import AlertDialog from "../../../components/AlertDialog/AlertDialog";
-// import ViewCv from "./ViewCv";
+
 
 const SkillAlert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

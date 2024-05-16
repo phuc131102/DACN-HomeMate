@@ -129,7 +129,7 @@ function JobInfo() {
       transform: "translate(-50%, -50%)",
       width: 400,
       bgcolor: "background.paper",
-      boxShadow: 24,
+      boxShadow: 24,  
       p: 4,
     },
     modalRating: {
@@ -137,7 +137,7 @@ function JobInfo() {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: 1000,
+      width: isMd? 1000: "90%",
       bgcolor: "background.paper",
       boxShadow: 24,
       p: 4,
@@ -928,9 +928,9 @@ function JobInfo() {
                         color="error"
                         disabled={userInfo.block ? true : false}
                         sx={{
-                          width: "15%",
+                          width: isMd? "15%":"100px",
                           borderRadius: "15px",
-                          marginBottom: "2%",
+                          marginBottom: isMd?"2%": "20px",
                         }}
                         onClick={handleOpenRatingModal}
                       >
@@ -998,9 +998,9 @@ function JobInfo() {
                       for these worker(s) below
                     </Typography>
                     <CardContent>
-                      <Grid container spacing={5}>
+                      <Grid container spacing={2}>
                         {accept.map((card, index) => (
-                          <CardRating card={card} index={index} />
+                          <CardRating card={card} index={index} key={index} />
                         ))}
                       </Grid>
                     </CardContent>

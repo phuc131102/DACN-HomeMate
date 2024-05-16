@@ -11,12 +11,7 @@ import Step from "@mui/material/Step";
 import { ColorlibConnector, ColorlibStepIcon } from "./SteperComp";
 import { Typography } from "@mui/material";
 import BigCard from "../../../components/BigCard/BigCard";
-// import UploadPdf from "./UploadPdf";
-// import TitleDivider from "../../../components/TitleDivider/TitleDivider";
 
-//////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////
 const BaseForm = (prop) => {
   const steps = ["Introduction", "Your Experience", "Your Certificate"];
   const [activeStep, setActiveStep] = React.useState(0);
@@ -219,7 +214,6 @@ const BaseForm = (prop) => {
           </BigCard>
         </Box>
       </Grid>
-      {/* <TitleDivider>Cv Pdf (optional)</TitleDivider> */}
       <Grid
         item
         xs={12}
@@ -232,13 +226,6 @@ const BaseForm = (prop) => {
       >
         <Box className={`CVForm InputForm`}>
           <Grid item xs={12}>
-            {/* <UploadPdf
-              pdfFile={prop.pdfFile}
-              setPdfFile={prop.setPdfFile}
-              viewPdf={prop.viewPdf}
-              setViewPdf={prop.setViewPdf}
-              setPdf={prop.setPdf}
-            /> */}
           </Grid>
         </Box>
       </Grid>

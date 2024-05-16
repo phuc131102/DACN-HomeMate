@@ -99,7 +99,6 @@ function Profile() {
           } finally {
             try {
               const response = await working_history(userData.id);
-              console.log(response);
               if (response.length > 0) {
                 setWorkingStatus(response);
               }
@@ -140,7 +139,6 @@ function Profile() {
       }));
     }
   }, []);
-  // console.log(formData);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
