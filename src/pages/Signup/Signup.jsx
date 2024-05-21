@@ -12,10 +12,11 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
+  Modal,
 } from "@mui/material";
 import "./Signup.css";
 import videoBg from "../../assets/nightwall.webm";
-import { sign_up } from "../../services/userAPI";
+import { sign_up, verify_code } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -37,11 +38,14 @@ function Signup() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const [error, setError] = useState("");
+  const [error2, setError2] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState(null);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -51,6 +55,27 @@ function Signup() {
     setShowConfirmPassword(
       (prevShowConfirmPassword) => !prevShowConfirmPassword
     );
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const styles = {
+    modal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 500,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    },
   };
 
   const [age, setAge] = React.useState("");
@@ -64,6 +89,10 @@ function Signup() {
     email: "",
     password: "",
     role: "",
+  });
+
+  const [formData2, setFormData2] = useState({
+    verification_code: "",
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -81,6 +110,13 @@ function Signup() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleChange2 = (e) => {
+    setFormData2({
+      email: verifyEmail,
       [e.target.name]: e.target.value,
     });
   };
@@ -104,17 +140,45 @@ function Signup() {
     try {
       const response = await sign_up(formData);
       if (response) {
-        navigate("/");
-        console.log("User signed up:", response);
+        setVerifyEmail(formData.email);
+        handleOpenModal();
+        console.log(response);
       }
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
-        if (status === 404) {
+        if (status === 400) {
           setError("All field is required.");
           setLoading(false);
         } else if (status === 409) {
           setError("Email has been used.");
+          setLoading(false);
+        }
+      }
+      console.error("Sign up failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log(formData2);
+    try {
+      const response = await verify_code(formData2);
+      if (response) {
+        navigate("/");
+        alert(
+          "Your account is created successfully. Click OK to navigate to sign in."
+        );
+        console.log(response);
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 409) {
+          setError2("Invalid verification code.");
           setLoading(false);
         }
       }
@@ -165,7 +229,7 @@ function Signup() {
           <Grid item xs={12}>
             <Box
               sx={{
-                maxWidth: isSm?"500px":"90%",
+                maxWidth: isSm ? "500px" : "90%",
                 margin: "auto",
                 border: "1px solid black",
                 borderRadius: "10px",
@@ -315,7 +379,7 @@ function Signup() {
                           size="large"
                           variant="contained"
                           sx={{
-                            width:isSm? "30%":"110px",
+                            width: isSm ? "30%" : "110px",
                             margin: "auto",
                             marginBottom: "15px",
                             marginTop: "15px",
@@ -350,6 +414,113 @@ function Signup() {
           </Grid>
         </Grid>
       </Box>
+      <Modal
+        open={showModal}
+        onClose={handleCloseModal}
+        aria-labelledby="place-book-modal"
+        aria-describedby="place-book-modal-description"
+      >
+        <Box sx={styles.modal}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  maxWidth: isSm ? "500px" : "90%",
+                  margin: "auto",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  backgroundColor: "white",
+                  opacity: "90%",
+                  position: "relative",
+                }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    width: "90%",
+                    margin: "auto",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <ThemeProvider theme={finalTheme}>
+                    <form onSubmit={handleSubmit2}>
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            sx={{ textAlign: "center", marginBottom: "5%" }}
+                          >
+                            A verify code has been sent to your email. Please
+                            input the code to verify yourself.
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          id="outlined-basic"
+                          sx={{
+                            width: "100%",
+                            [`& fieldset`]: { borderRadius: 8 },
+
+                            marginBottom: "15px",
+                          }}
+                          variant="outlined"
+                          label="Imput Code"
+                          name="verification_code"
+                          value={formData2.verification_code}
+                          onChange={handleChange2}
+                        />
+                      </Grid>
+
+                      {error2 && (
+                        <Typography
+                          variant="body2"
+                          color="error"
+                          align="center"
+                        >
+                          {error2}
+                        </Typography>
+                      )}
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                          }}
+                        >
+                          <Button
+                            type="submit"
+                            size="large"
+                            variant="contained"
+                            sx={{
+                              width: isSm ? "30%" : "110px",
+                              margin: "auto",
+                              marginBottom: "15px",
+                              marginTop: "15px",
+                            }}
+                          >
+                            Confirm
+                          </Button>
+                        </Box>
+                      </Grid>
+                    </form>
+                  </ThemeProvider>
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
     </>
   );
 }

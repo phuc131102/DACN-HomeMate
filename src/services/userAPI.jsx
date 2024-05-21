@@ -14,6 +14,20 @@ export const sign_up = async (data) => {
   }
 };
 
+//VERIFY USERS
+export const verify_code = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-g9ba.onrender.com/verify_code`,
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // SIGN IN
 export const sign_in = async (data) => {
   try {
