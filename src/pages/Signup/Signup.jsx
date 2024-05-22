@@ -270,8 +270,8 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h1" sx={{ fontFamily: "fantasy" }}>
-                          Sign up
+                        <Typography variant="h2" sx={{ fontWeight: 700 }}>
+                          SIGN UP
                         </Typography>
                       </Box>
                     </Grid>
@@ -294,9 +294,10 @@ function Signup() {
                       </Grid>
                       <Grid item xs={4}>
                         <FormControl
-                          variant="standard"
+                          variant="outlined"
                           sx={{
                             width: "100%",
+                            [`& fieldset`]: { borderRadius: 8 },
                             marginTop: "30px",
                             marginBottom: "15px",
                           }}

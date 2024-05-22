@@ -20,8 +20,8 @@ export default function Footer() {
         sx={{
           width: "100%",
           display: "flex",
-          flexDirection:isMd?"":"column",
-          justifyContent: isMd? "space-between":"center",
+          flexDirection: isMd ? "" : "column",
+          justifyContent: isMd ? "space-between" : "center",
           backgroundColor: "white",
           color: "black",
           alignItems: "center",
@@ -36,7 +36,6 @@ export default function Footer() {
               fontWeight: 700,
               color: "black",
               textDecoration: "none",
-              fontFamily: "cursive",
             }}
           >
             Home Mate

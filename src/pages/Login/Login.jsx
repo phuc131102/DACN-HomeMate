@@ -157,16 +157,15 @@ function Login() {
                             backgroundColor: "orange",
                             borderRadius: "10px",
                             padding: "5px",
-                            fontFamily: "Segoe Script",
                           }}
                         >
-                          <HomeIcon sx={{ fontSize: 50 }}></HomeIcon>Home Mate
+                          Home Mate
                         </Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
-                        <Typography variant="h1" sx={{ fontFamily: "fantasy" }}>
+                        <Typography variant="h2" sx={{ fontWeight: 700 }}>
                           SIGN IN
                         </Typography>
                       </Box>
