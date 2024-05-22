@@ -20,6 +20,7 @@ import { sign_up, verify_code } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { MuiOtpInput } from "mui-one-time-password-input";
 
 const finalTheme = createTheme({
   components: {
@@ -34,6 +35,17 @@ const finalTheme = createTheme({
   },
 });
 
+export function matchIsUppercaseLetterOrNumber(text) {
+  const isUppercaseLetter = /^[A-Z]$/.test(text);
+  const isNumber = /^[0-9]$/.test(text);
+  return isUppercaseLetter || isNumber;
+}
+
+const validateChar = (value, index) => {
+  const uppercasedValue = value.toUpperCase();
+  return matchIsUppercaseLetterOrNumber(uppercasedValue);
+};
+
 function Signup() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
@@ -46,6 +58,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState(null);
+  const [newValue, setNewValue] = useState("");
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -91,10 +104,6 @@ function Signup() {
     role: "",
   });
 
-  const [formData2, setFormData2] = useState({
-    verification_code: "",
-  });
-
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleConfirmPasswordChange = (e) => {
@@ -114,11 +123,9 @@ function Signup() {
     });
   };
 
-  const handleChange2 = (e) => {
-    setFormData2({
-      email: verifyEmail,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange2 = (newValue) => {
+    const uppercasedValue = newValue.toUpperCase();
+    setNewValue(uppercasedValue);
   };
 
   const handleSubmit = async (e) => {
@@ -164,7 +171,10 @@ function Signup() {
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(formData2);
+    const formData2 = {
+      email: verifyEmail,
+      verification_code: newValue,
+    };
     try {
       const response = await verify_code(formData2);
       if (response) {
@@ -466,19 +476,12 @@ function Signup() {
                         </Box>
                       </Grid>
                       <Grid item xs={12}>
-                        <TextField
-                          id="outlined-basic"
-                          sx={{
-                            width: "100%",
-                            [`& fieldset`]: { borderRadius: 8 },
-
-                            marginBottom: "15px",
-                          }}
-                          variant="outlined"
-                          label="Imput Code"
+                        <MuiOtpInput
+                          length={6}
+                          value={newValue}
                           name="verification_code"
-                          value={formData2.verification_code}
                           onChange={handleChange2}
+                          validateChar={validateChar}
                         />
                       </Grid>
 
