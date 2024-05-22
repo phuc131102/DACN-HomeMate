@@ -130,31 +130,9 @@ function EnterPassword() {
               >
                 <ThemeProvider theme={finalTheme}>
                   <form onSubmit={handleSubmit2}>
-                    <Grid item xs={12}>
-                      <Box className="HomeIcon">
-                        <Typography
-                          variant="h6"
-                          noWrap
-                          sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontWeight: 700,
-                            fontSize: 35,
-                            color: "black",
-                            textDecoration: "none",
-                            backgroundColor: "orange",
-                            borderRadius: "10px",
-                            padding: "5px",
-                            fontFamily: "cursive",
-                          }}
-                        >
-                          <HomeIcon sx={{ fontSize: 50 }}></HomeIcon>Home Mate
-                        </Typography>
-                      </Box>
-                    </Grid>
                     <Grid item xs={12} sx={{ marginTop: "2%" }}>
                       <Box className="HomeIcon">
-                        <Typography variant="h4">
+                        <Typography variant="h4" sx={{ fontFamily: "fantasy" }}>
                           Reset your password
                         </Typography>
                       </Box>

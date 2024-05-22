@@ -173,7 +173,7 @@ function TopBar() {
                   backgroundColor: "orange",
                   borderRadius: "10px",
                   padding: "5px",
-                  fontFamily: "cursive",
+                  fontFamily: "Segoe Script",
                   minWidth: "125px",
                 }}
               >
@@ -281,26 +281,6 @@ function TopBar() {
                   ) : null}
                 </Menu>
               </Box>
-              {/* <Typography
-                variant="h5"
-                noWrap
-                component={Link}
-                to="/home"
-                onClick={() => handleTabClick("home")}
-                sx={{
-                  mr: 2,
-                  display: { xs: "flex", md: "none" },
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  color: "black",
-                  backgroundColor: "orange",
-                  borderRadius: "10px",
-                  padding: "5px",
-                  fontFamily: "cursive",
-                }}
-              >
-                Home Mate
-              </Typography> */}
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <Box>
                   <Typography

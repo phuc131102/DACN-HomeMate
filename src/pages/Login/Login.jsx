@@ -149,8 +149,7 @@ function Login() {
                           variant="h6"
                           noWrap
                           sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
+                            display: { md: "flex" },
                             fontWeight: 700,
                             fontSize: 35,
                             color: "black",
@@ -158,7 +157,7 @@ function Login() {
                             backgroundColor: "orange",
                             borderRadius: "10px",
                             padding: "5px",
-                            fontFamily: "cursive",
+                            fontFamily: "Segoe Script",
                           }}
                         >
                           <HomeIcon sx={{ fontSize: 50 }}></HomeIcon>Home Mate
@@ -167,7 +166,9 @@ function Login() {
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
-                        <Typography variant="h1">Login</Typography>
+                        <Typography variant="h1" sx={{ fontFamily: "fantasy" }}>
+                          SIGN IN
+                        </Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
@@ -203,42 +204,13 @@ function Login() {
                         }}
                       />
                     </Grid>
-                    <Grid item container xs={12} className="remGrid">
-                      <Grid item xs={6}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={check}
-                              onClick={handleCheck}
-                              sx={{
-                                color: "black",
-                                "&.Mui-checked": {
-                                  color: "black",
-                                },
-                                "& .MuiSvgIcon-root": {
-                                  fontSize: 18,
-                                },
-
-                                height: "8px",
-                                width: "8px",
-                                marginLeft: "9px",
-                              }}
-                            />
-                          }
-                          label={
-                            <Typography
-                              variant="small"
-                              sx={{
-                                lineHeight: "15px",
-                                marginLeft: "3px",
-                              }}
-                            >
-                              Remember me
-                            </Typography>
-                          }
-                          className="remember"
-                        />
-                      </Grid>
+                    <Grid
+                      item
+                      container
+                      xs={12}
+                      className="remGrid"
+                      justifyContent="flex-end"
+                    >
                       <Grid item xs={6}>
                         <Box className="forgotBox">
                           <Typography

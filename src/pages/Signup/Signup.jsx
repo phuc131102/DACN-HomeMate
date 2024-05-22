@@ -270,7 +270,9 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h1">Sign up</Typography>
+                        <Typography variant="h1" sx={{ fontFamily: "fantasy" }}>
+                          Sign up
+                        </Typography>
                       </Box>
                     </Grid>
                     <Grid container spacing={2}>
