@@ -267,7 +267,14 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h2" sx={{ fontWeight: 700 }}>
+                        <Typography
+                          variant="h2"
+                          sx={{
+                            fontWeight: 700,
+                            cursor: "default",
+                            userSelect: "none",
+                          }}
+                        >
                           SIGN UP
                         </Typography>
                       </Box>

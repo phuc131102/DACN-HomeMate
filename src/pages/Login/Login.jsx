@@ -154,6 +154,8 @@ function Login() {
                             backgroundColor: "orange",
                             borderRadius: "10px",
                             padding: "5px",
+                            cursor: "default",
+                            userSelect: "none",
                           }}
                         >
                           Home Mate
@@ -162,7 +164,14 @@ function Login() {
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
-                        <Typography variant="h2" sx={{ fontWeight: 700 }}>
+                        <Typography
+                          variant="h2"
+                          sx={{
+                            fontWeight: 700,
+                            cursor: "default",
+                            userSelect: "none",
+                          }}
+                        >
                           SIGN IN
                         </Typography>
                       </Box>

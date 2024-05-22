@@ -36,6 +36,8 @@ export default function Footer() {
               fontWeight: 700,
               color: "black",
               textDecoration: "none",
+              cursor: "default",
+              userSelect: "none",
             }}
           >
             Home Mate
@@ -47,7 +49,14 @@ export default function Footer() {
             color: "black",
           }}
         >
-          <Typography variant="body1" style={{ textAlign: "center" }}>
+          <Typography
+            variant="body1"
+            style={{
+              textAlign: "center",
+              cursor: "default",
+              userSelect: "none",
+            }}
+          >
             Copyright © 2024 HomeMate Website, Inc.
           </Typography>
         </Box>

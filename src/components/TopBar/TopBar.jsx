@@ -438,6 +438,8 @@ function TopBar() {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        cursor: "default",
+                        userSelect: "none",
                       }}
                     >
                       <b>
