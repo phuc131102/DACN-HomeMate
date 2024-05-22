@@ -15,7 +15,7 @@ import {
   Modal,
 } from "@mui/material";
 import "./Signup.css";
-import videoBg from "../../assets/nightwall.webm";
+import videoBg from "../../assets/nightwall.gif";
 import { sign_up, verify_code } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useTheme } from "@mui/material/styles";
@@ -223,18 +223,15 @@ function Signup() {
           alignItems: "center",
         }}
       >
-        <video
+        <img
           src={videoBg}
-          autoPlay
-          loop
-          muted
           style={{
             position: "absolute",
             width: "100vw",
             height: "100vh",
             objectFit: "cover",
           }}
-        ></video>
+        />
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box
