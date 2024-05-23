@@ -112,7 +112,7 @@ function Signup() {
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -178,7 +178,7 @@ function Signup() {
     try {
       const response = await verify_code(formData2);
       if (response) {
-        navigate("/");
+        navigate("/signin");
         alert(
           "Your account is created successfully. Click OK to navigate to sign in."
         );
@@ -209,7 +209,7 @@ function Signup() {
 
   function handleSignIn(event) {
     event.preventDefault();
-    navigate("/");
+    navigate("/signin");
   }
 
   return (

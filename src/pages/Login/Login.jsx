@@ -60,6 +60,10 @@ function Login() {
     event.preventDefault();
     navigate("/signup");
   }
+  function handleHome(event) {
+    event.preventDefault();
+    navigate("/");
+  }
   function handleForgot(event) {
     event.preventDefault();
     navigate("/resetpwdstep1");
@@ -67,7 +71,7 @@ function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -93,7 +97,8 @@ function Login() {
         const userData = response.data;
         localStorage.setItem("userData", JSON.stringify(userData));
         localStorage.setItem("activeTab", "home");
-        navigate("/home");
+        navigate("/");
+        window.location.reload();
         console.log("User signed in:", response);
       }
     } catch (error) {

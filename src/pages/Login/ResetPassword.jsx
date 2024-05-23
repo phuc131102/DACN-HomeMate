@@ -61,7 +61,7 @@ function ResetPassword() {
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -87,7 +87,7 @@ function ResetPassword() {
       const response = await update_user_info(formData);
       if (response) {
         alert("Change password successfully !");
-        navigate("/");
+        navigate("/signin");
         console.log(response);
       }
     } catch (error) {

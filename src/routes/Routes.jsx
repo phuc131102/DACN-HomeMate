@@ -131,13 +131,13 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/signin" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/resetpwdstep1" element={<EnterPassword />} />
       <Route path="/resetpwdstep2" element={<ResetPassword />} />
-      <Route path="/home" element={<ProtectedHome />} />
-      <Route path="/job" element={<ProtectedJob />} />
-      <Route path="/job/:id" element={<ProtectedJobInfo />} />
+      <Route path="/job" element={<Job />} />
+      <Route path="/job/:id" element={<JobInfo />} />
 
       <Route path="/admin" element={<ProtectedUserList />} />
       <Route path="/add-user" element={<ProtectedAddUser />} />
@@ -145,8 +145,8 @@ function AppRoutes() {
 
       <Route path="/create-job" element={<ProtectedCreateJob />} />
 
-      <Route path="/worker" element={<ProtectedWorker />} />
-      <Route path="/worker/:id" element={<ProtectedWorkerInfo />} />
+      <Route path="/worker" element={<Worker />} />
+      <Route path="/worker/:id" element={<WorkerInfo />} />
       <Route path="/profile/:id" element={<ProtectedProfile />} />
 
       <Route path="/my-job" element={<ProtectedMyJob />} />

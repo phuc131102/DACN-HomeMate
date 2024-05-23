@@ -41,12 +41,12 @@ function EnterPassword() {
   }
   function handleSignIn(event) {
     event.preventDefault();
-    navigate("/");
+    navigate("/signin");
   }
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -70,7 +70,7 @@ function EnterPassword() {
         alert(
           "Reset link has been sent to your email address. Please follow the instruction to reset your password."
         );
-        navigate("/");
+        navigate("/signin");
         console.log(response);
       }
     } catch (error) {
