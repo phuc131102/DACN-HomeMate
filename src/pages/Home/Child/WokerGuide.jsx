@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Grid,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import {
   createTheme,
   ThemeProvider,
@@ -17,6 +12,7 @@ import Looks3Icon from "@mui/icons-material/Looks3";
 import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useNavigate } from "react-router-dom";
 const orangeBase = "#ffb978";
 const violetBase = "#7F00FF";
 const violetMain = alpha(violetBase, 0.7);
@@ -33,12 +29,24 @@ const theme = createTheme({
 });
 
 function WokerGuide() {
+  const navigate = useNavigate();
   const theme2 = useTheme();
   const isMd = useMediaQuery(theme2.breakpoints.up("md"));
   const transition = { duration: 5, type: "spring" };
+  const handleJob = () => {
+    navigate("/job");
+  };
   return (
     <Box
-      sx={{ width:isMd?"80%":"100%", margin: "auto", marginTop: "30px", display: "flex",background:"white", padding:"20px", borderRadius:"5px"}}
+      sx={{
+        width: isMd ? "80%" : "100%",
+        margin: "auto",
+        marginTop: "30px",
+        display: "flex",
+        background: "white",
+        padding: "20px",
+        borderRadius: "5px",
+      }}
       className="service"
     >
       <Grid container>
@@ -73,12 +81,17 @@ function WokerGuide() {
                 sx={{ color: "gray", marginTop: "20px" }}
                 variant="body1"
               >
-                If you want to find a job, just click a button below to
-                view jobs
+                If you want to find a job, just click a button below to view all
+                jobs
               </Typography>
               <Box sx={{ marginTop: "20px" }}>
                 <ThemeProvider theme={theme}>
-                  <Button variant="contained" size="medium" color="ochre">
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    color="ochre"
+                    onClick={handleJob}
+                  >
                     Find Job
                   </Button>
                 </ThemeProvider>
@@ -95,9 +108,15 @@ function WokerGuide() {
             justifyContent: "center",
             alignItems: "center",
           }}
-
         >
-          <Box className="Rightside" sx={{ width: "500px", margin: "auto", marginTop:isMd?"":"20px" }}>
+          <Box
+            className="Rightside"
+            sx={{
+              width: "500px",
+              margin: "auto",
+              marginTop: isMd ? "" : "20px",
+            }}
+          >
             <Box className="cards">
               <motion.div
                 whileInView={{ x: "0" }}
@@ -147,7 +166,7 @@ function WokerGuide() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft:isMd?"80px":"20px",
+                    marginLeft: isMd ? "80px" : "20px",
                     marginTop: "10px",
                   }}
                 >
@@ -180,7 +199,7 @@ function WokerGuide() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft: isMd?"160px":"40px",
+                    marginLeft: isMd ? "160px" : "40px",
                     marginTop: "10px",
                   }}
                 >
