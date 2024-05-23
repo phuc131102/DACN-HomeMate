@@ -26,7 +26,6 @@ function Job() {
   const [loading, setLoading] = useState(false);
   const [filterSalaryItems, setFilterSalaryItems] = useState([]);
   const [chooseSalary, setChooseSalary] = useState([]);
-  // const [userInfo, setUserInfo] = useState(null);
   const { userInfo } = useUserInfo(userData?.id);
 
   useEffect(() => {
@@ -94,7 +93,7 @@ function Job() {
     }
   }, []);
 
-  if (loadingJob || loading || userInfo===null) {
+  if (loadingJob || loading) {
     return <Loading />;
   }
 
@@ -121,7 +120,7 @@ function Job() {
         sx={{
           width: "95%",
           margin: "auto",
-          marginTop:isMd?"7%":"20%",
+          marginTop: isMd ? "7%" : "20%",
         }}
       >
         <Box sx={{ width: "80%", margin: "auto" }}>
@@ -163,7 +162,7 @@ function Job() {
               </Box>
             </Box>
             <Box>
-              {userData.role === "Homeowner" ? (
+              {userData?.role === "Homeowner" ? (
                 <Grid container sx={{ width: "100%", margin: "auto" }}>
                   <div>
                     <Button

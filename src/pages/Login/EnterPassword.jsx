@@ -13,7 +13,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import "./Login.css";
-import videoBg from "../../assets/nightwall.webm";
+import videoBg from "../../assets/nightwall.gif";
 import { reset_password } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 
@@ -41,12 +41,12 @@ function EnterPassword() {
   }
   function handleSignIn(event) {
     event.preventDefault();
-    navigate("/");
+    navigate("/signin");
   }
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -70,7 +70,7 @@ function EnterPassword() {
         alert(
           "Reset link has been sent to your email address. Please follow the instruction to reset your password."
         );
-        navigate("/");
+        navigate("/signin");
         console.log(response);
       }
     } catch (error) {
@@ -102,18 +102,15 @@ function EnterPassword() {
           alignItems: "center",
         }}
       >
-        <video
+        <img
           src={videoBg}
-          autoPlay
-          loop
-          muted
           style={{
             position: "absolute",
             width: "100vw",
             height: "100vh",
             objectFit: "cover",
           }}
-        ></video>
+        />
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box className="LoginBox">
@@ -130,32 +127,17 @@ function EnterPassword() {
               >
                 <ThemeProvider theme={finalTheme}>
                   <form onSubmit={handleSubmit2}>
-                    <Grid item xs={12}>
-                      <Box className="HomeIcon">
-                        <Typography
-                          variant="h6"
-                          noWrap
-                          sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontWeight: 700,
-                            fontSize: 35,
-                            color: "black",
-                            textDecoration: "none",
-                            backgroundColor: "orange",
-                            borderRadius: "10px",
-                            padding: "5px",
-                            fontFamily: "cursive",
-                          }}
-                        >
-                          <HomeIcon sx={{ fontSize: 50 }}></HomeIcon>Home Mate
-                        </Typography>
-                      </Box>
-                    </Grid>
                     <Grid item xs={12} sx={{ marginTop: "2%" }}>
                       <Box className="HomeIcon">
-                        <Typography variant="h4">
-                          Reset your password
+                        <Typography
+                          variant="h4"
+                          sx={{
+                            fontWeight: 700,
+                            cursor: "default",
+                            userSelect: "none",
+                          }}
+                        >
+                          RESET PASSWORD
                         </Typography>
                       </Box>
                     </Grid>

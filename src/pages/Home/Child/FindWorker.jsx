@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Grid,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import {
   createTheme,
   ThemeProvider,
@@ -17,6 +12,7 @@ import Looks3Icon from "@mui/icons-material/Looks3";
 import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useNavigate } from "react-router-dom";
 const orangeBase = "#ffb978";
 const violetBase = "#7F00FF";
 const violetMain = alpha(violetBase, 0.7);
@@ -33,12 +29,25 @@ const theme = createTheme({
 });
 
 function FindWorker() {
+  const navigate = useNavigate();
   const theme2 = useTheme();
   const isMd = useMediaQuery(theme2.breakpoints.up("md"));
   const transition = { duration: 5, type: "spring" };
+
+  const handleWorker = () => {
+    navigate("/worker");
+  };
   return (
     <Box
-      sx={{ width:isMd?"80%":"100%", margin: "auto", marginTop: "30px", display: "flex",background:"white", padding:"20px", borderRadius:"5px"}}
+      sx={{
+        width: isMd ? "80%" : "100%",
+        margin: "auto",
+        marginTop: "30px",
+        display: "flex",
+        background: "white",
+        padding: "20px",
+        borderRadius: "5px",
+      }}
       className="service"
     >
       <Grid container>
@@ -73,12 +82,17 @@ function FindWorker() {
                 sx={{ color: "gray", marginTop: "20px" }}
                 variant="body1"
               >
-                Looking for worker? Click button below to view Worker
+                Looking for worker? Click button below to view all workers
               </Typography>
               <Box sx={{ marginTop: "20px" }}>
                 <ThemeProvider theme={theme}>
-                  <Button variant="contained" size="medium" color="ochre">
-                    Find Job
+                  <Button
+                    onClick={handleWorker}
+                    variant="contained"
+                    size="medium"
+                    color="ochre"
+                  >
+                    Find Worker
                   </Button>
                 </ThemeProvider>
               </Box>
@@ -94,9 +108,15 @@ function FindWorker() {
             justifyContent: "center",
             alignItems: "center",
           }}
-
         >
-          <Box className="Rightside" sx={{ width: "500px", margin: "auto", marginTop:isMd?"":"20px" }}>
+          <Box
+            className="Rightside"
+            sx={{
+              width: "500px",
+              margin: "auto",
+              marginTop: isMd ? "" : "20px",
+            }}
+          >
             <Box className="cards">
               <motion.div
                 whileInView={{ x: "0" }}
@@ -146,7 +166,7 @@ function FindWorker() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft: isMd?"80px":"20px",
+                    marginLeft: isMd ? "80px" : "20px",
                     marginTop: "10px",
                   }}
                 >
@@ -179,7 +199,7 @@ function FindWorker() {
                     padding: "10px",
                     border: " 1px solid orange",
                     borderRadius: "5px",
-                    marginLeft: isMd?"160px":"40px",
+                    marginLeft: isMd ? "160px" : "40px",
                     marginTop: "10px",
                   }}
                 >

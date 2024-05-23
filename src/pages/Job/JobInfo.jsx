@@ -129,7 +129,7 @@ function JobInfo() {
       transform: "translate(-50%, -50%)",
       width: 400,
       bgcolor: "background.paper",
-      boxShadow: 24,  
+      boxShadow: 24,
       p: 4,
     },
     modalRating: {
@@ -137,7 +137,7 @@ function JobInfo() {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: isMd? 1000: "90%",
+      width: isMd ? 1000 : "90%",
       bgcolor: "background.paper",
       boxShadow: 24,
       p: 4,
@@ -609,7 +609,7 @@ function JobInfo() {
                   )}
                 </form>
 
-                {ownerInfo ? (
+                {ownerInfo && userData ? (
                   <>
                     <div
                       style={{
@@ -928,9 +928,9 @@ function JobInfo() {
                         color="error"
                         disabled={userInfo.block ? true : false}
                         sx={{
-                          width: isMd? "15%":"100px",
+                          width: isMd ? "15%" : "100px",
                           borderRadius: "15px",
-                          marginBottom: isMd?"2%": "20px",
+                          marginBottom: isMd ? "2%" : "20px",
                         }}
                         onClick={handleOpenRatingModal}
                       >

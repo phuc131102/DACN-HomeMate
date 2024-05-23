@@ -13,7 +13,7 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import videoBg from "../../assets/nightwall.webm";
+import videoBg from "../../assets/nightwall.gif";
 import { update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 
@@ -61,7 +61,7 @@ function ResetPassword() {
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -87,7 +87,7 @@ function ResetPassword() {
       const response = await update_user_info(formData);
       if (response) {
         alert("Change password successfully !");
-        navigate("/");
+        navigate("/signin");
         console.log(response);
       }
     } catch (error) {
@@ -119,18 +119,15 @@ function ResetPassword() {
           alignItems: "center",
         }}
       >
-        <video
+        <img
           src={videoBg}
-          autoPlay
-          loop
-          muted
           style={{
             position: "absolute",
             width: "100vw",
             height: "100vh",
             objectFit: "cover",
           }}
-        ></video>
+        />
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box

@@ -20,8 +20,8 @@ export default function Footer() {
         sx={{
           width: "100%",
           display: "flex",
-          flexDirection:isMd?"":"column",
-          justifyContent: isMd? "space-between":"center",
+          flexDirection: isMd ? "" : "column",
+          justifyContent: isMd ? "space-between" : "center",
           backgroundColor: "white",
           color: "black",
           alignItems: "center",
@@ -36,7 +36,8 @@ export default function Footer() {
               fontWeight: 700,
               color: "black",
               textDecoration: "none",
-              fontFamily: "cursive",
+              cursor: "default",
+              userSelect: "none",
             }}
           >
             Home Mate
@@ -48,7 +49,14 @@ export default function Footer() {
             color: "black",
           }}
         >
-          <Typography variant="body1" style={{ textAlign: "center" }}>
+          <Typography
+            variant="body1"
+            style={{
+              textAlign: "center",
+              cursor: "default",
+              userSelect: "none",
+            }}
+          >
             Copyright © 2024 HomeMate Website, Inc.
           </Typography>
         </Box>

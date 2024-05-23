@@ -12,13 +12,15 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
+  Modal,
 } from "@mui/material";
 import "./Signup.css";
-import videoBg from "../../assets/nightwall.webm";
-import { sign_up } from "../../services/userAPI";
+import videoBg from "../../assets/nightwall.gif";
+import { sign_up, verify_code } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { MuiOtpInput } from "mui-one-time-password-input";
 
 const finalTheme = createTheme({
   components: {
@@ -33,15 +35,30 @@ const finalTheme = createTheme({
   },
 });
 
+export function matchIsUppercaseLetterOrNumber(text) {
+  const isUppercaseLetter = /^[A-Z]$/.test(text);
+  const isNumber = /^[0-9]$/.test(text);
+  return isUppercaseLetter || isNumber;
+}
+
+const validateChar = (value, index) => {
+  const uppercasedValue = value.toUpperCase();
+  return matchIsUppercaseLetterOrNumber(uppercasedValue);
+};
+
 function Signup() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const [error, setError] = useState("");
+  const [error2, setError2] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState(null);
+  const [newValue, setNewValue] = useState("");
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -51,6 +68,27 @@ function Signup() {
     setShowConfirmPassword(
       (prevShowConfirmPassword) => !prevShowConfirmPassword
     );
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const styles = {
+    modal: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 500,
+      bgcolor: "background.paper",
+      boxShadow: 24,
+      p: 4,
+    },
   };
 
   const [age, setAge] = React.useState("");
@@ -74,7 +112,7 @@ function Signup() {
 
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate]);
 
@@ -83,6 +121,11 @@ function Signup() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleChange2 = (newValue) => {
+    const uppercasedValue = newValue.toUpperCase();
+    setNewValue(uppercasedValue);
   };
 
   const handleSubmit = async (e) => {
@@ -104,17 +147,48 @@ function Signup() {
     try {
       const response = await sign_up(formData);
       if (response) {
-        navigate("/");
-        console.log("User signed up:", response);
+        setVerifyEmail(formData.email);
+        handleOpenModal();
+        console.log(response);
       }
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
-        if (status === 404) {
+        if (status === 400) {
           setError("All field is required.");
           setLoading(false);
         } else if (status === 409) {
           setError("Email has been used.");
+          setLoading(false);
+        }
+      }
+      console.error("Sign up failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData2 = {
+      email: verifyEmail,
+      verification_code: newValue,
+    };
+    try {
+      const response = await verify_code(formData2);
+      if (response) {
+        navigate("/signin");
+        alert(
+          "Your account is created successfully. Click OK to navigate to sign in."
+        );
+        console.log(response);
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 409) {
+          setError2("Invalid verification code.");
           setLoading(false);
         }
       }
@@ -135,7 +209,7 @@ function Signup() {
 
   function handleSignIn(event) {
     event.preventDefault();
-    navigate("/");
+    navigate("/signin");
   }
 
   return (
@@ -149,23 +223,20 @@ function Signup() {
           alignItems: "center",
         }}
       >
-        <video
+        <img
           src={videoBg}
-          autoPlay
-          loop
-          muted
           style={{
             position: "absolute",
             width: "100vw",
             height: "100vh",
             objectFit: "cover",
           }}
-        ></video>
+        />
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box
               sx={{
-                maxWidth: isSm?"500px":"90%",
+                maxWidth: isSm ? "500px" : "90%",
                 margin: "auto",
                 border: "1px solid black",
                 borderRadius: "10px",
@@ -196,7 +267,16 @@ function Signup() {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h1">Sign up</Typography>
+                        <Typography
+                          variant="h2"
+                          sx={{
+                            fontWeight: 700,
+                            cursor: "default",
+                            userSelect: "none",
+                          }}
+                        >
+                          SIGN UP
+                        </Typography>
                       </Box>
                     </Grid>
                     <Grid container spacing={2}>
@@ -218,9 +298,10 @@ function Signup() {
                       </Grid>
                       <Grid item xs={4}>
                         <FormControl
-                          variant="standard"
+                          variant="outlined"
                           sx={{
                             width: "100%",
+                            [`& fieldset`]: { borderRadius: 8 },
                             marginTop: "30px",
                             marginBottom: "15px",
                           }}
@@ -315,7 +396,7 @@ function Signup() {
                           size="large"
                           variant="contained"
                           sx={{
-                            width:isSm? "30%":"110px",
+                            width: isSm ? "30%" : "110px",
                             margin: "auto",
                             marginBottom: "15px",
                             marginTop: "15px",
@@ -350,6 +431,106 @@ function Signup() {
           </Grid>
         </Grid>
       </Box>
+      <Modal
+        open={showModal}
+        onClose={handleCloseModal}
+        aria-labelledby="place-book-modal"
+        aria-describedby="place-book-modal-description"
+      >
+        <Box sx={styles.modal}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  maxWidth: isSm ? "500px" : "90%",
+                  margin: "auto",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  backgroundColor: "white",
+                  opacity: "90%",
+                  position: "relative",
+                }}
+              >
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    width: "90%",
+                    margin: "auto",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <ThemeProvider theme={finalTheme}>
+                    <form onSubmit={handleSubmit2}>
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            sx={{ textAlign: "center", marginBottom: "5%" }}
+                          >
+                            A verify code has been sent to your email. Please
+                            input the code to verify yourself.
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <MuiOtpInput
+                          length={6}
+                          value={newValue}
+                          name="verification_code"
+                          onChange={handleChange2}
+                          validateChar={validateChar}
+                        />
+                      </Grid>
+
+                      {error2 && (
+                        <Typography
+                          variant="body2"
+                          color="error"
+                          align="center"
+                        >
+                          {error2}
+                        </Typography>
+                      )}
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                          }}
+                        >
+                          <Button
+                            type="submit"
+                            size="large"
+                            variant="contained"
+                            sx={{
+                              width: isSm ? "30%" : "110px",
+                              margin: "auto",
+                              marginBottom: "15px",
+                              marginTop: "15px",
+                            }}
+                          >
+                            Confirm
+                          </Button>
+                        </Box>
+                      </Grid>
+                    </form>
+                  </ThemeProvider>
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
     </>
   );
 }

@@ -31,7 +31,7 @@ function App() {
 
 function ConditionalTopBar() {
   const location = useLocation();
-  const hideTopBarPaths = ["/", "/signup", "/resetpwdstep1", "/resetpwdstep2"];
+  const hideTopBarPaths = ["/resetpwdstep2"];
   const shouldHideTopBar = hideTopBarPaths.includes(location.pathname);
 
   return shouldHideTopBar ? null : <TopBar />;
@@ -39,7 +39,7 @@ function ConditionalTopBar() {
 
 function ConditionalFooter() {
   const location = useLocation();
-  const hideFooterPaths = ["/", "/signup", "/resetpwdstep1", "/resetpwdstep2"];
+  const hideFooterPaths = ["/resetpwdstep2"];
   const shouldHideFooter = hideFooterPaths.includes(location.pathname);
 
   return shouldHideFooter ? null : <Footer />;

@@ -129,8 +129,8 @@ function TopBar() {
     if (storedActiveTab) {
       setActiveTab(storedActiveTab);
     } else {
-      setActiveTab("home");
-      localStorage.setItem("activeTab", "home");
+      setActiveTab("");
+      localStorage.setItem("activeTab", "");
     }
     return () => {
       localStorage.removeItem("activeTab");
@@ -146,40 +146,42 @@ function TopBar() {
     handleCloseUserMenu();
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
-    navigate("/");
+    navigate("/signin");
+    window.location.reload();
   };
 
   return (
     <div>
-      {userInfo && userNoti && (
-        <AppBar
-          position="fixed"
-          style={{ top: 0, background: "white", zIndex: 999 }}
-        >
-          <Container maxWidth="100%">
-            <Toolbar disableGutters>
-              <Typography
-                variant="h6"
-                noWrap
-                component={Link}
-                to="/home"
-                onClick={() => handleTabClick("home")}
-                sx={{
-                  mr: 2,
-                  display: { xs: "none", md: "flex" },
-                  fontWeight: 700,
-                  color: "black",
-                  textDecoration: "none",
-                  backgroundColor: "orange",
-                  borderRadius: "10px",
-                  padding: "5px",
-                  fontFamily: "cursive",
-                  minWidth: "125px",
-                }}
-              >
-                Home Mate
-              </Typography>
+      {/* {userInfo && userNoti && ( */}
+      <AppBar
+        position="fixed"
+        style={{ top: 0, background: "white", zIndex: 999 }}
+      >
+        <Container maxWidth="100%">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component={Link}
+              to="/"
+              onClick={() => handleTabClick("")}
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: 700,
+                color: "black",
+                textDecoration: "none",
+                backgroundColor: "orange",
+                borderRadius: "10px",
+                padding: "5px",
+                fontFamily: "Segoe Script",
+                minWidth: "125px",
+              }}
+            >
+              Home Mate
+            </Typography>
 
+            <>
               <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                 <IconButton
                   size="large"
@@ -212,14 +214,14 @@ function TopBar() {
                   <MenuItem
                     onClick={handleCloseNavMenu}
                     component={Link}
-                    to="/home"
+                    to="/"
                   >
                     <Typography
-                      onClick={() => handleTabClick("home")}
+                      onClick={() => handleTabClick("")}
                       textAlign="center"
                       sx={{
                         fontWeight: 700,
-                        color: activeTab === "home" ? "blue" : "black",
+                        color: activeTab === "" ? "blue" : "black",
                         textDecoration: "none",
                       }}
                     >
@@ -260,7 +262,7 @@ function TopBar() {
                       Worker
                     </Typography>
                   </MenuItem>
-                  {userData.role === "Admin" ? (
+                  {userData?.role === "Admin" ? (
                     <MenuItem
                       onClick={handleCloseNavMenu}
                       component={Link}
@@ -279,48 +281,66 @@ function TopBar() {
                       </Typography>
                     </MenuItem>
                   ) : null}
+                  {!userInfo && (
+                    <MenuItem
+                      onClick={handleCloseNavMenu}
+                      component={Link}
+                      to="/signin"
+                    >
+                      <Typography
+                        onClick={() => handleTabClick("signin")}
+                        textAlign="center"
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "signin" ? "blue" : "black",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Sign in
+                      </Typography>
+                    </MenuItem>
+                  )}
+                  {!userInfo && (
+                    <MenuItem
+                      onClick={handleCloseNavMenu}
+                      component={Link}
+                      to="/signup"
+                    >
+                      <Typography
+                        onClick={() => handleTabClick("signup")}
+                        textAlign="center"
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "signup" ? "blue" : "black",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Sign up
+                      </Typography>
+                    </MenuItem>
+                  )}
                 </Menu>
               </Box>
-              {/* <Typography
-                variant="h5"
-                noWrap
-                component={Link}
-                to="/home"
-                onClick={() => handleTabClick("home")}
-                sx={{
-                  mr: 2,
-                  display: { xs: "flex", md: "none" },
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  color: "black",
-                  backgroundColor: "orange",
-                  borderRadius: "10px",
-                  padding: "5px",
-                  fontFamily: "cursive",
-                }}
-              >
-                Home Mate
-              </Typography> */}
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                 <Box>
                   <Typography
                     variant="h6"
                     noWrap
                     component={Link}
-                    to="/home"
-                    onClick={() => handleTabClick("home")}
+                    to="/"
+                    onClick={() => handleTabClick("")}
                     sx={{
                       mr: 4,
                       ml: 4,
                       display: { xs: "none", md: "flex" },
                       fontWeight: 700,
-                      color: activeTab === "home" ? "blue" : "black",
+                      color: activeTab === "" ? "blue" : "black",
                       textDecoration: "none",
                     }}
                   >
                     Home
                   </Typography>
-                  {activeTab === "home" ? (
+                  {activeTab === "" ? (
                     <div
                       style={{
                         bottom: "8px",
@@ -329,7 +349,7 @@ function TopBar() {
                         height: "3px",
                         backgroundColor: "orange",
                         transition: "left 0.1s ease-in-out",
-                        left: activeTab === "home" ? "0%" : "-100%",
+                        left: activeTab === "" ? "0%" : "-100%",
                       }}
                     ></div>
                   ) : null}
@@ -396,7 +416,7 @@ function TopBar() {
                     ></div>
                   ) : null}
                 </Box>
-                {userData.role === "Admin" && activeTab === "admin" ? (
+                {userData?.role === "Admin" && activeTab === "admin" ? (
                   <Box>
                     <Typography
                       variant="h6"
@@ -426,7 +446,7 @@ function TopBar() {
                       }}
                     ></div>
                   </Box>
-                ) : userData.role === "Admin" && activeTab !== "admin" ? (
+                ) : userData?.role === "Admin" && activeTab !== "admin" ? (
                   <Box>
                     <Typography
                       variant="h6"
@@ -447,136 +467,85 @@ function TopBar() {
                     </Typography>
                   </Box>
                 ) : null}
-              </Box>
+              </Box>{" "}
+            </>
 
-              {userInfo && (
-                <Box p={2}>
-                  {!isSmallScreen && (
-                    <Typography
-                      sx={{
-                        color: "black",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      <b>
-                        <ReactTyped
-                          strings={[`Hi, ${userInfo.name} !`]}
-                          typeSpeed={100}
-                          showCursor={false}
-                        />
-                      </b>
-                    </Typography>
-                  )}
-                </Box>
-              )}
-
-              <Box sx={{ marginRight: "2%" }}>
-                <Search />
-              </Box>
-              <Tooltip title="Open notification">
-                <IconButton
-                  onClick={handleOpenNotification}
-                  aria-label="notification"
-                >
-                  <Badge badgeContent={notiCount} color="primary">
-                    <NotificationsIcon color="black" />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{
-                  mt: "45px",
-                  "& .MuiPaper-root": {
-                    maxWidth: 500,
-                    maxHeight: 500,
-                  },
-                  "& .MuiMenuItem-root": {
-                    borderTop: "1px solid #e0e0e0",
-                  },
-                }}
-                id="menu-appbar"
-                anchorEl={anchorElNotification}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElNotification)}
-                onClose={handleCloseNotification}
-              >
-                {userNoti.length === 0 ? (
-                  <MenuItem
-                    style={{ cursor: "default" }}
-                    onClick={handleCloseNotification}
+            {userInfo ? (
+              <Box p={2}>
+                {!isSmallScreen && (
+                  <Typography
+                    sx={{
+                      color: "black",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      cursor: "default",
+                      userSelect: "none",
+                    }}
                   >
-                    There is no any notification.
-                  </MenuItem>
-                ) : (
-                  userNoti
-                    .slice()
-                    .reverse()
-                    .map((card, index) => (
-                      <MenuItem
-                        key={index}
-                        onClick={handleCloseNotification}
-                        component={Link}
-                        to={
-                          card.job_id
-                            ? `/job/${card.job_id}`
-                            : `/profile/${userData.id}`
-                        }
-                        sx={{
-                          whiteSpace: "normal",
-                          overflowWrap: "break-word",
-                          backgroundColor:
-                            card.status === "Read" ? "white" : "#C9B7B4",
-                        }}
-                      >
-                        <div>
-                          <Typography
-                            sx={{
-                              fontWeight: 700,
-                              fontSize: "15px",
-                              width: "100%",
-                            }}
-                          >
-                            {card.message}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              fontWeight: 200,
-                              fontSize: "13px",
-                              width: "100%",
-                            }}
-                          >
-                            - {card.datetime}
-                          </Typography>
-                        </div>
-                      </MenuItem>
-                    ))
+                    <b>
+                      <ReactTyped
+                        strings={[`Hi, ${userInfo.name} !`]}
+                        typeSpeed={100}
+                        showCursor={false}
+                      />
+                    </b>
+                  </Typography>
                 )}
-              </Menu>
+              </Box>
+            ) : (
+              <Box p={2}>
+                {!isSmallScreen && (
+                  <Typography
+                    sx={{
+                      color: "black",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      cursor: "default",
+                      userSelect: "none",
+                    }}
+                  >
+                    <b>
+                      <ReactTyped
+                        strings={[`Welcome to Home Mate website !`]}
+                        typeSpeed={100}
+                        showCursor={false}
+                      />
+                    </b>
+                  </Typography>
+                )}
+              </Box>
+            )}
 
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open profile">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    {userInfo.avatar !== "" ? (
-                      <Avatar src={userInfo.avatar} />
-                    ) : (
-                      <Avatar src="/broken-image.jpg" />
-                    )}
+            <Box sx={{ marginRight: "2%" }}>
+              <Search />
+            </Box>
+            {userInfo && userNoti && (
+              <>
+                <Tooltip title="Open notification">
+                  <IconButton
+                    onClick={handleOpenNotification}
+                    aria-label="notification"
+                  >
+                    <Badge badgeContent={notiCount} color="primary">
+                      <NotificationsIcon color="black" />
+                    </Badge>
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{
+                    mt: "45px",
+                    "& .MuiPaper-root": {
+                      maxWidth: 500,
+                      maxHeight: 500,
+                    },
+                    "& .MuiMenuItem-root": {
+                      borderTop: "1px solid #e0e0e0",
+                    },
+                  }}
                   id="menu-appbar"
-                  anchorEl={anchorElUser}
+                  anchorEl={anchorElNotification}
                   anchorOrigin={{
                     vertical: "top",
                     horizontal: "right",
@@ -586,45 +555,170 @@ function TopBar() {
                     vertical: "top",
                     horizontal: "right",
                   }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
+                  open={Boolean(anchorElNotification)}
+                  onClose={handleCloseNotification}
                 >
-                  <MenuItem
-                    onClick={handleCloseUserMenu}
-                    component={Link}
-                    to={`/profile/${userData.id}`}
-                  >
-                    <Typography
-                      onClick={() => handleTabClick("profile")}
-                      sx={{
-                        fontWeight: 700,
-                        color: activeTab === "profile" ? "red" : "inherit",
-                        textDecoration: "none",
-                        width: "100%",
-                      }}
+                  {userNoti.length === 0 ? (
+                    <MenuItem
+                      style={{ cursor: "default" }}
+                      onClick={handleCloseNotification}
                     >
-                      Profile
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>
-                    <Typography
-                      component="a"
-                      sx={{
-                        fontWeight: 700,
-                        color: "inherit",
-                        textDecoration: "none",
-                        width: "100%",
-                      }}
-                    >
-                      Sign out
-                    </Typography>
-                  </MenuItem>
+                      There is no any notification.
+                    </MenuItem>
+                  ) : (
+                    userNoti
+                      .slice()
+                      .reverse()
+                      .map((card, index) => (
+                        <MenuItem
+                          key={index}
+                          onClick={handleCloseNotification}
+                          component={Link}
+                          to={
+                            card.job_id
+                              ? `/job/${card.job_id}`
+                              : `/profile/${userData.id}`
+                          }
+                          sx={{
+                            whiteSpace: "normal",
+                            overflowWrap: "break-word",
+                            backgroundColor:
+                              card.status === "Read" ? "white" : "#C9B7B4",
+                          }}
+                        >
+                          <div>
+                            <Typography
+                              sx={{
+                                fontWeight: 700,
+                                fontSize: "15px",
+                                width: "100%",
+                              }}
+                            >
+                              {card.message}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontWeight: 200,
+                                fontSize: "13px",
+                                width: "100%",
+                              }}
+                            >
+                              - {card.datetime}
+                            </Typography>
+                          </div>
+                        </MenuItem>
+                      ))
+                  )}
                 </Menu>
-              </Box>
-            </Toolbar>
-          </Container>
-        </AppBar>
-      )}
+              </>
+            )}
+
+            <Box sx={{ flexGrow: 0 }}>
+              {userInfo ? (
+                <>
+                  <Tooltip title="Open profile">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      {userInfo.avatar !== "" ? (
+                        <Avatar src={userInfo.avatar} />
+                      ) : (
+                        <Avatar src="/broken-image.jpg" />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem
+                      onClick={handleCloseUserMenu}
+                      component={Link}
+                      to={`/profile/${userData.id}`}
+                    >
+                      <Typography
+                        onClick={() => handleTabClick("profile")}
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "profile" ? "red" : "inherit",
+                          textDecoration: "none",
+                          width: "100%",
+                        }}
+                      >
+                        Profile
+                      </Typography>
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>
+                      <Typography
+                        component="a"
+                        sx={{
+                          fontWeight: 700,
+                          color: "inherit",
+                          textDecoration: "none",
+                          width: "100%",
+                        }}
+                      >
+                        Sign out
+                      </Typography>
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <>
+                  <Box
+                    sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+                  >
+                    <Box>
+                      <Typography
+                        variant="h9"
+                        noWrap
+                        component={Link}
+                        to="/signin"
+                        onClick={() => handleTabClick("signin")}
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "signin" ? "blue" : "black",
+                          textDecoration: "none",
+                          mr: 2,
+                        }}
+                      >
+                        Sign in
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography
+                        variant="h9"
+                        noWrap
+                        component={Link}
+                        to="/signup"
+                        onClick={() => handleTabClick("signup")}
+                        sx={{
+                          fontWeight: 700,
+                          color: activeTab === "signup" ? "blue" : "black",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Sign up
+                      </Typography>
+                    </Box>
+                  </Box>
+                </>
+              )}
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      {/* )} */}
     </div>
   );
 }
