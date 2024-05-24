@@ -335,7 +335,7 @@ function Profile() {
                 sx={{ marginBottom: "20px" }}
               >
                 <Grid item xs={12} md={4}>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sx={{ marginBottom: "20px" }}>
                     <LeftSide
                       profile={userInfo}
                       handleChange={handleChange}
