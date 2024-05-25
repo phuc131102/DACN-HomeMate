@@ -18,6 +18,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ConstructionIcon from "@mui/icons-material/Construction";
+import jobEmpty from "../../../assets/job_empty.png";
 
 function JobDetail(prop) {
   const theme = useTheme();
@@ -28,7 +29,7 @@ function JobDetail(prop) {
         container
         // spacing={2}
         sx={{
-          width: isMd?"70%":"90%",
+          width: isMd ? "70%" : "90%",
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
@@ -224,35 +225,25 @@ function JobDetail(prop) {
           md={6}
           sx={{ marginTop: isMd ? "50px" : "", marginBottom: "10px" }}
         >
-          {prop.jobInfo.image === "" ? (
-            <Box
-              sx={{
-                width: "100%",
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              alt={prop.jobInfo.name}
+              src={prop.jobInfo.image === "" ? jobEmpty : prop.jobInfo.image}
+              style={{
+                width: "500px",
+                height: "300px",
                 display: "flex",
                 justifyContent: "center",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
               }}
-            ></Box>
-          ) : (
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                alt={prop.jobInfo.name}
-                src={prop.jobInfo.image}
-                style={{
-                  width: "80%",
-                  height: "auto",
-                  display: "flex",
-                  justifyContent: "center",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                }}
-              />
-            </Box>
-          )}
+            />
+          </Box>
         </Grid>
 
         <Grid item xs={12} sx={{ marginBottom: "50px" }}>
