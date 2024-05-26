@@ -60,9 +60,13 @@ function WorkerCard(prop) {
             <Box sx={{ padding: "20px" }}>
               <Button
                 variant="outlined"
-                onClick={() => navigate(`/worker/${prop.card._id.$oid}`)}
+                onClick={
+                  prop.userData
+                    ? () => navigate(`/worker/${prop.card._id.$oid}`)
+                    : () => navigate(`/signin`)
+                }
               >
-                more infor
+                more info
               </Button>
             </Box>
           </Box>

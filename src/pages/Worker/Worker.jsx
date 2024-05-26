@@ -49,7 +49,12 @@ function Worker() {
           <Grid container spacing={5}>
             {currentWorkers.map((card, index) => (
               <Grid item xs={12} sm={12} md={3} key={index}>
-                <WorkerCard card={card} />
+                <WorkerCard
+                  card={card}
+                  userData={
+                    localStorage.getItem("userData") === null ? false : true
+                  }
+                />
               </Grid>
             ))}
           </Grid>
