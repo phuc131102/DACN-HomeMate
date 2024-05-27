@@ -13,9 +13,11 @@ import {
   Badge,
   useMediaQuery,
   useTheme,
+  Grid,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
+import BlockIcon from "@mui/icons-material/Block";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
@@ -586,26 +588,47 @@ function TopBar() {
                               card.status === "Read" ? "white" : "#C9B7B4",
                           }}
                         >
-                          <div>
-                            <Typography
-                              sx={{
-                                fontWeight: 700,
-                                fontSize: "15px",
-                                width: "100%",
-                              }}
-                            >
-                              {card.message}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                fontWeight: 200,
-                                fontSize: "13px",
-                                width: "100%",
-                              }}
-                            >
-                              - {card.datetime}
-                            </Typography>
-                          </div>
+                          <Grid container spacing={!isSmallScreen ? 2 : 5}>
+                            <Grid item xs={2}>
+                              <Avatar
+                                sx={
+                                  !card.job_id
+                                    ? {
+                                        width: 56,
+                                        height: 56,
+                                        bgcolor: "red",
+                                      }
+                                    : {
+                                        width: 56,
+                                        height: 56,
+                                      }
+                                }
+                                src={card.job_id && card.data.avt}
+                              >
+                                {!card.job_id && <BlockIcon fontSize="large" />}
+                              </Avatar>
+                            </Grid>
+                            <Grid item xs={10}>
+                              <Typography
+                                sx={{
+                                  fontWeight: 700,
+                                  fontSize: "15px",
+                                  width: "100%",
+                                }}
+                              >
+                                {card.data.message}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontWeight: 200,
+                                  fontSize: "13px",
+                                  width: "100%",
+                                }}
+                              >
+                                - {card.datetime}
+                              </Typography>
+                            </Grid>
+                          </Grid>
                         </MenuItem>
                       ))
                   )}
