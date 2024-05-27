@@ -104,6 +104,9 @@ function Home() {
                     card={card}
                     rating={calculateAverage(card.rating)}
                     home={true}
+                    userData={
+                      localStorage.getItem("userData") === null ? false : true
+                    }
                   />
                 </Grid>
               ))}
