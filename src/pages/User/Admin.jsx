@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserListPage from "./UserList";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Avatar,
-  Paper,
-  Pagination,
-  Grid,
-  Button,
-  Typography,
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -25,12 +13,13 @@ import TabPanel from "@mui/lab/TabPanel";
 import Dashboard from "./Child/Dashboard";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import BlackListPage from "./BlackList";
+import JobList from "./JobList";
 
 function Admin() {
   const { users, loading } = useUsers();
   const { jobs, loadingJob } = useJobs();
   const [userData, setUserData] = useState([]);
-
+  console.log(jobs)
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -53,10 +42,11 @@ function Admin() {
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <TabList onChange={handleChange} aria-label="lab API tabs example" variant="scrollable" allowScrollButtonsMobile>
               <Tab label="Dashboard" value="1" />
               <Tab label="Users" value="2" />
               <Tab label="Black List" value="3" />
+              <Tab label="Jobs" value="4" />
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -67,6 +57,9 @@ function Admin() {
           </TabPanel>
           <TabPanel value="3">
             <BlackListPage users={users} userData={userData} />
+          </TabPanel>
+          <TabPanel value="4">
+            <JobList jobs={jobs} userData={userData} />
           </TabPanel>
         </TabContext>
       </Box>

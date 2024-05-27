@@ -18,6 +18,7 @@ import UserInfo from "../pages/User/UserInfo";
 import AddUser from "../pages/User/AddUser";
 import UpdateCV from "../pages/UpdateCV/UpdateCV";
 import ResetPassword from "../pages/Login/ResetPassword";
+import Chat from "../pages/Chat/Chat";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -53,6 +54,13 @@ function AppRoutes() {
   const ProtectedWorker = () => {
     return localStorage.getItem("userData") !== null ? (
       <Worker />
+    ) : (
+      <Navigate to="/" replace />
+    );
+  };
+  const ProtectedChat = () => {
+    return localStorage.getItem("userData") !== null ? (
+      <Chat />
     ) : (
       <Navigate to="/" replace />
     );
@@ -154,6 +162,7 @@ function AppRoutes() {
       <Route path="/cvlist" element={<ProtectedCvList />} />
       <Route path="/createCv" element={<ProtectedCreateCv />} />
       <Route path="/UpdateCv/:id" element={<ProtectedUpdateCv />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 }

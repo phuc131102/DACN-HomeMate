@@ -21,8 +21,25 @@ import HomeIcon from "@mui/icons-material/Home";
 import CountUp from "react-countup";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import moment from "moment";
 
 function InfoBox(prop) {
+  const countObjectsToday = (prop) => {
+    const now = moment().utc();
+    const today = now.clone().startOf("day");
+    let todayCount = 0;
+    prop.forEach((item) => {
+      const dateString = item.dt_created.$date;
+      const date = moment.utc(dateString);
+      if (date.isSame(today, "day")) {
+        todayCount += 1;
+      }
+    });
+
+    return todayCount;
+  };
+  let todayjobs = countObjectsToday(prop.jobs);
+  let todayuser = countObjectsToday(prop.users);
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   // console.log(prop.users)
@@ -30,14 +47,14 @@ function InfoBox(prop) {
   const homwOwner = prop.users.filter((item) => item.role === "Homeowner");
   return (
     <Box>
-      <Grid container xs={12}>
+      <Grid item container xs={12}>
         <Grid item container xs={12}>
           <Grid
             item
             xs={12}
             md={6}
             className="Users"
-            sx={{ marginBottom: "20px", marginTop: isMd?"20px":"" }}
+            sx={{ marginBottom: "20px", marginTop: isMd ? "20px" : "" }}
           >
             <Box
               sx={{
@@ -86,10 +103,10 @@ function InfoBox(prop) {
                   }}
                 >
                   <Typography variant="body1" gutterBottom>
-                    + 15%
+                    + {todayuser} users
                   </Typography>
                   <Typography variant="body1" gutterBottom>
-                    since last month
+                    today
                   </Typography>
                 </Box>
               </Box>
@@ -100,7 +117,7 @@ function InfoBox(prop) {
             xs={12}
             md={6}
             className="Jobs"
-            sx={{ marginBottom: "20px", marginTop: isMd?"20px":"" }}
+            sx={{ marginBottom: "20px", marginTop: isMd ? "20px" : "" }}
           >
             {" "}
             <Box
@@ -150,10 +167,10 @@ function InfoBox(prop) {
                   }}
                 >
                   <Typography variant="body1" gutterBottom>
-                    + 15%
+                    + {todayjobs} jobs
                   </Typography>
                   <Typography variant="body1" gutterBottom>
-                    since last month
+                    today
                   </Typography>
                 </Box>
               </Box>

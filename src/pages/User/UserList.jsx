@@ -52,6 +52,7 @@ const UserListPage = () => {
     } else {
       setFilterRoleItems(users);
     }
+    setCurrentPage(1)
   }, [chooseRole]);
 
   const navigate = useNavigate();
@@ -201,7 +202,7 @@ const UserListPage = () => {
         page={currentPage}
         onChange={handlePageChange}
         shape="rounded"
-        size="large"
+        size={isMd?"large":"small"}
         color="primary"
         showFirstButton
         showLastButton

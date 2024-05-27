@@ -19,8 +19,10 @@
     "axios": "^1.6.2",
     "caniuse-lite": "^1.0.30001612",
     "dayjs": "^1.11.10",
+    "firebase": "^10.12.1",
     "framer-motion": "^11.1.7",
     "js-sha256": "^0.11.0",
+    "moment": "^2.30.1",
     "mui-one-time-password-input": "^2.0.2",
     "react": "^18.2.0",
     "react-countup": "^6.5.3",
@@ -39,7 +41,8 @@
     "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4",
-    "webpack": "^5.89.0"
+    "webpack": "^5.89.0",
+    "zustand": "^4.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
