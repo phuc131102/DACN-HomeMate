@@ -13,8 +13,12 @@ import Loading from "../../../components/Loading/Loading";
 import { myJob } from "../../../services/jobAPI";
 import jobEmpty from "../../../assets/job_empty.png";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function MyJob(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const [userData, setUserData] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState([]);
@@ -163,7 +167,7 @@ function MyJob(prop) {
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
-          size="large"
+          size={isMd?"large":"small"}
           color="primary"
           showFirstButton
           showLastButton

@@ -7,8 +7,11 @@ import cvinfo from "./CVData";
 import userinfo from "./FakeUser";
 import { get_user_info } from "../../services/userAPI";
 import { useNavigate } from "react-router-dom";
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 export default function CvList() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const [cvList, setCvList] = useState(cvinfo);
   const [page, setPage] = useState(1);
@@ -105,7 +108,7 @@ export default function CvList() {
                     count={Math.ceil(cvList.length / 6)}
                     variant="outlined"
                     shape="rounded"
-                    size="large"
+                    size={isMd?"large":"small"}
                     onChange={handlePageChange}
                   />
                 </Box>

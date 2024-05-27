@@ -47,7 +47,7 @@ function InfoBox(prop) {
   const homwOwner = prop.users.filter((item) => item.role === "Homeowner");
   return (
     <Box>
-      <Grid container xs={12}>
+      <Grid item container xs={12}>
         <Grid item container xs={12}>
           <Grid
             item

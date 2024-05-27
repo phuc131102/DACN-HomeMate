@@ -215,7 +215,7 @@ function Job() {
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
-          size="large"
+          size={isMd?"large":"small"}
           color="primary"
           showFirstButton
           showLastButton

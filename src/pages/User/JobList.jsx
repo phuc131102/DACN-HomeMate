@@ -20,50 +20,88 @@ import Loading from "../../components/Loading/Loading";
 import UserFilter from "./Child/UserFilter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-const BlackListPage = () => {
+import { Salary } from "../Job/Child/Salary";
+import { get_skill } from "../../services/skillAPI";
+function JobList(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const { users, loading } = useUsers();
-  const [filterRoleItems, setFilterRoleItems] = useState([]);
+  const [chooseSkill, setChooseSkill] = useState([]);
+  const [filterItems, setFilterItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [filterSalaryItems, setFilterSalaryItems] = useState([]);
+  const [chooseSalary, setChooseSalary] = useState([]);
   const [chooseRole, setChooseRole] = useState([]);
   const role = [{ name: "Worker" }, { name: "Homeowner" }, { name: "Admin" }];
   const navigate = useNavigate();
-
+  const [skills, setSkills] = useState([]);
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
-    setFilterRoleItems(users);
-  }, [users]);
+    setFilterItems(prop.jobs);
+    setFilterSalaryItems(prop.jobs);
+  }, [prop.jobs]);
   useEffect(() => {
-    if (chooseRole.length > 0) {
-      let tempItems = chooseRole.map((selectedRole) => {
-        let temp = users.filter((jobItem) => {
-          let tempArray = jobItem.role === selectedRole;
+    if (chooseSalary.length > 0) {
+      let tempItems = chooseSalary.map((selectedSalary) => {
+        let tempSalary = Salary.filter((item) => item.name === selectedSalary);
+        let temp = prop.jobs.filter((jobItem) => {
+          if (selectedSalary >= "> 500000 VND/hour") {
+            let tempArray = tempSalary[0].min <= parseInt(jobItem.salary);
+            return tempArray;
+          }
+          let tempArray =
+            tempSalary[0].min <= parseInt(jobItem.salary) &&
+            parseInt(jobItem.salary) <= tempSalary[0].max;
           return tempArray;
         });
         return temp;
       });
-      setFilterRoleItems([...new Set(tempItems.flat())]);
+      setFilterSalaryItems(tempItems.flat());
     } else {
-      setFilterRoleItems(users);
+      setFilterSalaryItems(prop.jobs);
     }
-  }, [chooseRole]);
-  if (loading) {
-    return <Loading />;
-  }
+  }, [chooseSalary]);
 
+  useEffect(() => {
+    if (chooseSkill.length > 0) {
+      let tempItems = chooseSkill.map((selectedSkill) => {
+        let temp = prop.jobs.filter((jobItem) => {
+          let tempArray = jobItem.skill.includes(selectedSkill);
+          return tempArray;
+        });
+        return temp;
+      });
+      setFilterItems([...new Set(tempItems.flat())]);
+    } else {
+      setFilterItems(prop.jobs);
+    }
+  }, [chooseSkill]);
+  useEffect(() => {
+    const fetchSkill = async () => {
+      setLoading(true);
+      try {
+        const response = await get_skill();
+        setSkills(response.data);
+      } catch (error) {
+        console.error("Error fetching skill information:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSkill();
+  }, []);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentUsers = filterRoleItems
-    .filter((card) => card.block === true)
-    .slice(indexOfFirstItem, indexOfLastItem);
+  const jobArray = filterSalaryItems.filter((item) =>
+    filterItems.includes(item)
+  );
+  const currentJobs = jobArray.slice(indexOfFirstItem, indexOfLastItem);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
   const handleRowClick = (userId) => {
-    navigate(`/user/${userId}`);
+    navigate(`/job/${userId}`);
   };
 
   return (
@@ -89,15 +127,24 @@ const BlackListPage = () => {
             <Box
               sx={{
                 display: "flex",
-                gap: "50px",
+                flexDirection: isMd ? "" : "column",
+                gap: isMd ? "50px" : "10px",
               }}
             >
               <Box sx={{ width: "300px" }}>
                 <UserFilter
-                  option={role}
-                  chooseOption={chooseRole}
-                  setChooseOption={setChooseRole}
-                  label="Filter Role"
+                  option={Salary}
+                  chooseOption={chooseSalary}
+                  setChooseOption={setChooseSalary}
+                  label="Salary"
+                />
+              </Box>
+              <Box sx={{ width: "300px" }}>
+                <UserFilter
+                  option={skills}
+                  chooseOption={chooseSkill}
+                  setChooseOption={setChooseSkill}
+                  label="Skill"
                 />
               </Box>
             </Box>
@@ -122,18 +169,18 @@ const BlackListPage = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Avatar</TableCell>
+                <TableCell>Image</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Address</TableCell>
                 <TableCell>Phone Number</TableCell>
-                <TableCell>Role</TableCell>
+                <TableCell>Skill Requirement</TableCell>
               </TableRow>
             </TableHead>
-            {filterRoleItems.filter((card) => card.block === true).length !==
+            {currentJobs.length !==
             0 ? (
               <TableBody>
-                {currentUsers.map((user, index) => (
+                {currentJobs.map((user, index) => (
                   <TableRow
                     key={index}
                     onClick={() => handleRowClick(user._id.$oid)}
@@ -145,7 +192,7 @@ const BlackListPage = () => {
                     }}
                   >
                     <TableCell>
-                      <Avatar src={user.avatar} alt={user.name} />
+                      <img src={user.image} alt={user.name} style={{width:"60px"}}/>
                     </TableCell>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
@@ -155,7 +202,7 @@ const BlackListPage = () => {
                     <TableCell>
                       {user.phone_num === "" ? "N/A" : user.phone_num}
                     </TableCell>
-                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.skill.join(", ")}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -163,7 +210,7 @@ const BlackListPage = () => {
               <TableBody>
                 <TableRow>
                   <TableCell>
-                    <Typography>No User Found.</Typography>
+                    <Typography>No Job Found.</Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -171,10 +218,10 @@ const BlackListPage = () => {
           </Table>
         </TableContainer>
       </Box>
-      {users.filter((card) => card.block === true).length > 5 ? (
+      {jobArray.length > 5 ? (
         <Pagination
           count={Math.ceil(
-            users.filter((card) => card.block === true).length / itemsPerPage
+            jobArray.length / itemsPerPage
           )}
           page={currentPage}
           onChange={handlePageChange}
@@ -193,6 +240,6 @@ const BlackListPage = () => {
       <br />
     </>
   );
-};
+}
 
-export default BlackListPage;
+export default JobList;

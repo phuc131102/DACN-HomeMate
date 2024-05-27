@@ -10,7 +10,7 @@ import {
   duration,
 } from "@mui/material";
 import MessageContainer from "./Child/MessageContainer";
-import videoBg from "../../assets/nightwall.webm";
+// import videoBg from "../../assets/nightwall.webm";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
 
 function Chat() {

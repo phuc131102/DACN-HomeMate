@@ -349,7 +349,7 @@ function WorkerInfo() {
                               </>
                             )}
                           </Box>
-                        ) : (
+                        ) :userInfo.role === "Homeowner" ? (
                           <Grid container>
                             <Grid item xs={12} sx={{ marginTop: "15px" }}>
                               <ComponentDivider>Job</ComponentDivider>
@@ -365,7 +365,7 @@ function WorkerInfo() {
                               <MyJob id={id} />
                             </Box>
                           </Grid>
-                        )}
+                        ):<></>}
                       </Grid>
                     </Grid>
                   </BigCard>
