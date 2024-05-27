@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Rating } from "@mui/material";
 import "./WorkerCard.css";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useNavigate } from "react-router-dom";
@@ -23,21 +23,30 @@ function WorkerCard(prop) {
             {prop.card.name}
           </Typography>
           <Box sx={{ width: "90%", margin: "auto" }}>
-            <Typography
-              variant="body1"
-              sx={{
-                wordBreak: "break-word",
-              }}
-              gutterBottom
-            >
-              Email:{prop.card.email}
-            </Typography>
-            {prop.card.phone_num !== "" ? (
+            {!prop.home ? (
               <Typography
                 variant="body1"
                 sx={{
                   wordBreak: "break-word",
-                  display:"flex",
+                }}
+                gutterBottom
+              >
+                {prop.card.email}
+              </Typography>
+            ) : (
+              <Rating
+                name="read-only"
+                value={prop.rating}
+                precision={0.5}
+                readOnly
+              />
+            )}
+            {prop.card.phone_num !== "" && !prop.home ? (
+              <Typography
+                variant="body1"
+                sx={{
+                  wordBreak: "break-word",
+                  display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -51,9 +60,13 @@ function WorkerCard(prop) {
             <Box sx={{ padding: "20px" }}>
               <Button
                 variant="outlined"
-                onClick={() => navigate(`/worker/${prop.card._id.$oid}`)}
+                onClick={
+                  prop.userData
+                    ? () => navigate(`/worker/${prop.card._id.$oid}`)
+                    : () => navigate(`/signin`)
+                }
               >
-                more infor
+                more info
               </Button>
             </Box>
           </Box>

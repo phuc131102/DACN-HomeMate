@@ -8,6 +8,7 @@ import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import jobEmpty from "../../../assets/job_empty.png";
 
 function ApplyHistory(prop) {
   const theme = useTheme();
@@ -44,7 +45,7 @@ function ApplyHistory(prop) {
                   <CardMedia
                     component="img"
                     sx={{ width: 151, height: "151px", objectFit: "cover" }}
-                    image={item.job.image}
+                    image={item.job.image === "" ? jobEmpty : item.job.image}
                     alt="Live from space album cover"
                   />
                   <Box
@@ -59,9 +60,9 @@ function ApplyHistory(prop) {
                         sx={{
                           width: "100%",
                           display: "flex",
-                          flexDirection:isSm?"":"column",
-                          justifyContent: isSm?"space-between":"flex-start",
-                          alignItems: isSm?"center":"",
+                          flexDirection: isSm ? "" : "column",
+                          justifyContent: isSm ? "space-between" : "flex-start",
+                          alignItems: isSm ? "center" : "",
                         }}
                       >
                         <Typography component="div" variant="h5">

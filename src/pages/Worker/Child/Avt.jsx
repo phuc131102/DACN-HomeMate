@@ -21,6 +21,7 @@ function Avt(prop) {
               width: "55%",
               height: "55%",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+              border: "5px solid black",
             }}
           />
         </Box>
@@ -39,6 +40,7 @@ function Avt(prop) {
               width: "55%",
               height: "55%",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+              border: "5px solid black",
             }}
           />
         </Box>

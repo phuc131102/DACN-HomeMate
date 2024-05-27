@@ -179,9 +179,7 @@ function Signup() {
       const response = await verify_code(formData2);
       if (response) {
         navigate("/signin");
-        alert(
-          "Your account is created successfully. Click OK to navigate to sign in."
-        );
+        alert("Your account is created successfully. Navigate to sign in...");
         console.log(response);
       }
     } catch (error) {
@@ -433,7 +431,7 @@ function Signup() {
       </Box>
       <Modal
         open={showModal}
-        onClose={handleCloseModal}
+        // onClose={handleCloseModal}
         aria-labelledby="place-book-modal"
         aria-describedby="place-book-modal-description"
       >

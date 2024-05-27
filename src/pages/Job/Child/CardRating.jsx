@@ -45,10 +45,11 @@ function CardRating(prop) {
   }
   const [hover, setHover] = React.useState(-1);
   const [ratingSuccess, setRatingSuccess] = React.useState(false);
-  const handleRating = async (worker_id, job_id, rating) => {
+  const handleRating = async (worker_id, job_id, owner_id, rating) => {
     const updatedFormData = {
       workerId: worker_id,
       jobId: job_id,
+      ownerId: owner_id,
       star: rating,
     };
 
@@ -74,11 +75,10 @@ function CardRating(prop) {
             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
           }}
         >
-          
           <CardActionArea component={Link} to={`/worker/${prop.card._id.$oid}`}>
             <CardMedia
               component="img"
-              height={isMd?"150":"100"}
+              height={isMd ? "150" : "100"}
               image={prop.card.avatar === "" ? avt_empty : prop.card.avatar}
               alt={prop.card.name}
             />
@@ -107,7 +107,7 @@ function CardRating(prop) {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent:"center"
+                  justifyContent: "center",
                 }}
               >
                 <Rating
@@ -124,11 +124,13 @@ function CardRating(prop) {
                   }}
                   readOnly={ratingSuccess}
                 />
-                {isMd?(value !== null && (
-                  <Box sx={{ ml: 2 }}>
-                    {labels[hover !== -1 ? hover : value]}
-                  </Box>
-                )):""}
+                {isMd
+                  ? value !== null && (
+                      <Box sx={{ ml: 2 }}>
+                        {labels[hover !== -1 ? hover : value]}
+                      </Box>
+                    )
+                  : ""}
               </div>
               {!ratingSuccess ? (
                 <Button
@@ -140,7 +142,7 @@ function CardRating(prop) {
                     marginTop: "10px",
                   }}
                   onClick={() => {
-                    handleRating(prop.card._id.$oid, id, value);
+                    handleRating(prop.card._id.$oid, id, prop.owner_id, value);
                   }}
                   disabled={value === 0}
                 >

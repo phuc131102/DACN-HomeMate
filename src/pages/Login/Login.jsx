@@ -246,14 +246,14 @@ function Login() {
                           className="loginButton"
                           type="submit"
                         >
-                          Login
+                          Sign in
                         </Button>
                       </Box>
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
                         <Typography variant="small" sx={{ color: "black" }}>
-                          Didn't have an account?{" "}
+                          Do not have an account?{" "}
                           <Typography
                             onClick={(e) => handleSignUp(e)}
                             variant="small"

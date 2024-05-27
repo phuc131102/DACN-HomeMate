@@ -127,11 +127,26 @@ function Search() {
               <Avatar
                 sx={{
                   bgcolor:
-                    result.type === "job" ? "secondary.main" : "primary.main",
+                    result.type === "job" && result.image === ""
+                      ? "secondary.main"
+                      : result.type === "worker" && result.avatar === ""
+                      ? "primary.main"
+                      : null,
                   mr: 2,
                 }}
+                src={
+                  result.type === "job" && result.image !== ""
+                    ? result.image
+                    : result.type === "worker" && result.avatar !== ""
+                    ? result.avatar
+                    : null
+                }
               >
-                {result.type === "job" ? <WorkIcon /> : <PersonIcon />}
+                {result.type === "job" && result.image === "" ? (
+                  <WorkIcon />
+                ) : result.type === "worker" && result.avatar === "" ? (
+                  <PersonIcon />
+                ) : null}
               </Avatar>
               <Typography
                 key={index}

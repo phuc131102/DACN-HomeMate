@@ -85,6 +85,7 @@ function Avt(prop) {
                           marginTop: "3%",
                           marginBottom: "5%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                          border: "5px solid black",
                         }}
                       />
                     </Box>
@@ -105,6 +106,7 @@ function Avt(prop) {
                           marginTop: "3%",
                           marginBottom: "5%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                          border: "5px solid black",
                         }}
                       />
                     </Box>
@@ -125,6 +127,7 @@ function Avt(prop) {
                           marginTop: "3%",
                           marginBottom: "5%",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                          border: "5px solid black",
                         }}
                       />
                     </Box>
@@ -174,6 +177,7 @@ function Avt(prop) {
                       marginTop: "3%",
                       marginBottom: "5%",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                      border: "5px solid black",
                     }}
                   />
                 </Box>
@@ -185,7 +189,17 @@ function Avt(prop) {
             )}
           </Grid>
           {/* <Box><Button onClick={prop.handleEdit}>dasd</Button></Box> */}
-          <Grid item xs={12} md ={8} sx={{ display:isMd?"":"flex", flexDirection:isMd?"":"column",justifyContent: isMd?"":"center", alignItems:isMd?"":"center"}}>
+          <Grid
+            item
+            xs={12}
+            md={8}
+            sx={{
+              display: isMd ? "" : "flex",
+              flexDirection: isMd ? "" : "column",
+              justifyContent: isMd ? "" : "center",
+              alignItems: isMd ? "" : "center",
+            }}
+          >
             <Grid item xs={12}>
               <UserName userInfo={prop.userInfo} />
             </Grid>

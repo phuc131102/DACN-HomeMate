@@ -1000,7 +1000,12 @@ function JobInfo() {
                     <CardContent>
                       <Grid container spacing={2}>
                         {accept.map((card, index) => (
-                          <CardRating card={card} index={index} key={index} />
+                          <CardRating
+                            card={card}
+                            index={index}
+                            key={index}
+                            owner_id={userData.id}
+                          />
                         ))}
                       </Grid>
                     </CardContent>

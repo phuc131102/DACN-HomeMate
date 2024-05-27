@@ -13,6 +13,7 @@ import WorkerCard from "../Worker/Child/WorkerCard";
 import useOwners from "../../utils/userUtils/ownerUtils";
 import WokerGuide from "./Child/WokerGuide";
 import FindWorker from "./Child/FindWorker";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 function Home() {
   const { workers, loading } = useWorkers();
@@ -53,6 +54,13 @@ function Home() {
   const workerLength = workers.filter(
     (card) => card.status === "Available"
   ).length;
+
+  const calculateAverage = (ratings) => {
+    if (ratings.length === 0) return 0; // Handle empty rating arrays
+    const sum = ratings.reduce((acc, rating) => acc + rating, 0);
+    return sum / ratings.length;
+  };
+
   return (
     <>
       <br />
@@ -61,6 +69,60 @@ function Home() {
         workerLength={workerLength}
         ownerLength={owners}
       />
+
+      <Box
+        sx={{
+          width: "80%",
+          margin: "auto",
+          marginTop: "2%",
+        }}
+      >
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+            <AutoAwesomeIcon sx={{ color: "red" }} fontSize="large" />
+            &nbsp;<b>Hot Worker</b>&nbsp;
+            <AutoAwesomeIcon sx={{ color: "red" }} fontSize="large" />
+          </Typography>
+        </Grid>
+        {workers.length === 0 ? (
+          "No worker available"
+        ) : (
+          <Grid
+            container
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            {workers
+              .filter((card) => card.rating.length)
+              .sort(
+                (a, b) =>
+                  calculateAverage(b.rating) - calculateAverage(a.rating)
+              )
+              .slice(0, 4)
+              .map((card, index) => (
+                <Grid item key={index}>
+                  <WorkerCard
+                    card={card}
+                    rating={calculateAverage(card.rating)}
+                    home={true}
+                    userData={
+                      localStorage.getItem("userData") === null ? false : true
+                    }
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        )}
+      </Box>
+      <div
+        style={{
+          borderTop: "2px solid black",
+          width: "20%",
+          margin: "10px auto",
+          marginTop: "20px",
+          marginBottom: "10px",
+        }}
+      ></div>
+
       <WokerGuide />
       <Box
         sx={{
@@ -112,7 +174,7 @@ function Home() {
           marginBottom: "10px",
         }}
       ></div>
-      <FindWorker/>
+      <FindWorker />
       <Box
         sx={{
           width: "80%",
