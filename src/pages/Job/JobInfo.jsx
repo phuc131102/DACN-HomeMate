@@ -264,6 +264,14 @@ function JobInfo() {
   };
 
   const handleApply = async (e) => {
+    if (!userInfo.cv_created) {
+      alert(
+        "Please create CV before applying a job! Navigate to CV creation..."
+      );
+      navigate("/createCv");
+      return;
+    }
+
     e.preventDefault();
     setLoading(true);
 

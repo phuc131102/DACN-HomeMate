@@ -7,6 +7,11 @@ import avtEmpty from "../../../assets/avt_empty.png";
 import EmailIcon from "@mui/icons-material/Email";
 function WorkerCard(prop) {
   const navigate = useNavigate();
+  const handleGuest = () => {
+    alert("Please sign in to view this worker! Navigate to sign in...");
+    navigate("/signin");
+  };
+
   return (
     <Box className="container">
       <Box className="cardn">
@@ -63,7 +68,7 @@ function WorkerCard(prop) {
                 onClick={
                   prop.userData
                     ? () => navigate(`/worker/${prop.card._id.$oid}`)
-                    : () => navigate(`/signin`)
+                    : handleGuest
                 }
               >
                 more info
