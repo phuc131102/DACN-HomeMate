@@ -520,7 +520,7 @@ function TopBar() {
               </Box>
             )}
 
-            <Box sx={{ marginRight: "2%" }}>
+            <Box sx={{ marginRight: "1%" }}>
               <Search />
             </Box>
             {userInfo && userNoti && (
@@ -636,7 +636,7 @@ function TopBar() {
               </>
             )}
 
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, marginLeft: "1%" }}>
               {userInfo ? (
                 <>
                   <Tooltip title="Open profile">
