@@ -41,7 +41,8 @@
     "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4",
-    "webpack": "^5.89.0"
+    "webpack": "^5.89.0",
+    "zustand": "^4.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
