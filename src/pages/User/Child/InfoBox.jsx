@@ -29,7 +29,7 @@ function InfoBox(prop) {
     const today = now.clone().startOf("day");
     let todayCount = 0;
     prop.forEach((item) => {
-      const dateString = item.dt_created.$date;
+      const dateString = item.dt_created.$date; // Accessing $date property
       const date = moment.utc(dateString);
       if (date.isSame(today, "day")) {
         todayCount += 1;

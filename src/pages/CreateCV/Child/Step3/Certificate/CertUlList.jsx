@@ -6,14 +6,15 @@ import { useTheme } from "@mui/material/styles";
 const UlList = (prop) => {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
+  console.log(prop.comps)
   return (
     <>
       <Grid container spacing={1} justifyContent="center" alignItems="center">
-        {prop.comps.map((comp) => (
+        {prop.comps!==""?prop.comps.map((comp) => (
           <Grid key={comp.certificateId} item xs={isSm?3:6}>
               <SmallUlList comp={comp} handleDelete={prop.handleDelete} />
           </Grid>
-        ))}
+        )):<></>}
       </Grid>
     </>
   );

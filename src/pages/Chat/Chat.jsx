@@ -12,11 +12,15 @@ import {
 import MessageContainer from "./Child/MessageContainer";
 // import videoBg from "../../assets/nightwall.webm";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../lib/firebase";
+import useWorkers from "../../utils/userUtils/workerUtils";
 
 function Chat() {
   const [userData, setUserData] = useState(null);
   const { userInfo } = useUserInfo(userData?.id);
-  console.log(userInfo);
+  // console.log(userInfo);
+
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -49,8 +53,7 @@ function Chat() {
     //     }}
     //   ></video>
     <Box sx={{ height: "80vh", width: "70%", margin: "auto", marginTop: "5%" }}>
-      {userInfo&&<MessageContainer userInfo={userInfo}/>}
-      
+      {userInfo && <MessageContainer userInfo={userInfo} userData={userData} />}
     </Box>
     // </Box>
   );
