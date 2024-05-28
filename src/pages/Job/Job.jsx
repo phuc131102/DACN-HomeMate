@@ -162,7 +162,7 @@ function Job() {
               </Box>
             </Box>
             <Box>
-              {userData?.role === "Homeowner" ? (
+              {userData?.role === "Homeowner" && userInfo ? (
                 <Grid container sx={{ width: "100%", margin: "auto" }}>
                   <div>
                     <Button
@@ -215,7 +215,7 @@ function Job() {
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
-          size={isMd?"large":"small"}
+          size={isMd ? "large" : "small"}
           color="primary"
           showFirstButton
           showLastButton
