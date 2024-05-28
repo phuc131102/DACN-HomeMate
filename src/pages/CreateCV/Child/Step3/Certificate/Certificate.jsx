@@ -3,6 +3,7 @@ import UlList from "./CertUlList";
 import Box from "@mui/material/Box";
 
 const Certificate = (prop) => {
+  // console.log(prop.certs)
   return (
     <>
       <Box>

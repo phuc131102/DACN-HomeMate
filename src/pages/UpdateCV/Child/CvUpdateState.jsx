@@ -28,6 +28,7 @@ function CvUpdateState(prop) {
   const [experience, setExperience] = useState("");
   const [certs, setCerts] = useState([]);
   const [skills, setSkills] = useState([]);
+  console.log(certs)
   // CERTIFICATE COMPS
   const [Cid, setCid] = useState(0);
   const [Cname, setCName] = useState("");

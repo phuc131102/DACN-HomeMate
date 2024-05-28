@@ -32,7 +32,7 @@ function UserInfor(prop) {
         </Box>
         <Typography sx={{color:"white"}}>{prop.userInfo.name}</Typography>
       </Box>
-      <Box className="icons" sx={{display:"flex", gap:"20px"}}>
+      {/* <Box className="icons" sx={{display:"flex", gap:"20px"}}>
         <Box className="MoreIcon">
           {" "}
           <MoreHorizIcon fontSize="small" sx={{color:"white"}}/>
@@ -42,7 +42,7 @@ function UserInfor(prop) {
           <EditNoteIcon fontSize="small" sx={{color:"white"}}/>
         </Box>
         <img src="" alt="" />
-      </Box>
+      </Box> */}
     </Box>
   );
 }

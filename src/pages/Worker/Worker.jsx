@@ -13,7 +13,7 @@ function Worker() {
   const { workers, loading } = useWorkers();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-
+  console.log(workers)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentWorkers = workers

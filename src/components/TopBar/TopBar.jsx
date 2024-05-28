@@ -23,7 +23,7 @@ import { ReactTyped } from "react-typed";
 import Search from "../TopBar/Search";
 import { get_noti, seen_noti } from "../../services/jobAPI";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
-
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -45,7 +45,9 @@ function TopBar() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-
+  const handleMessage = () => {
+    navigate("/chat");
+  };
   useEffect(() => {
     if (userData && userData.id) {
       const fetchUserInfo = async () => {
@@ -473,28 +475,29 @@ function TopBar() {
             </>
 
             {userInfo ? (
-              <Box p={2}>
-                {!isSmallScreen && (
-                  <Typography
-                    sx={{
-                      color: "black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      cursor: "default",
-                      userSelect: "none",
-                    }}
-                  >
-                    <b>
-                      <ReactTyped
-                        strings={[`Hi, ${userInfo.name} !`]}
-                        typeSpeed={100}
-                        showCursor={false}
-                      />
-                    </b>
-                  </Typography>
-                )}
-              </Box>
+              // <Box p={2}>
+              //   {!isSmallScreen && (
+              //     <Typography
+              //       sx={{
+              //         color: "black",
+              //         whiteSpace: "nowrap",
+              //         overflow: "hidden",
+              //         textOverflow: "ellipsis",
+              //         cursor: "default",
+              //         userSelect: "none",
+              //       }}
+              //     >
+              //       <b>
+              //         <ReactTyped
+              //           strings={[`Hi, ${userInfo.name} !`]}
+              //           typeSpeed={100}
+              //           showCursor={false}
+              //         />
+              //       </b>
+              //     </Typography>
+              //   )}
+              // </Box>
+              <></>
             ) : (
               <Box p={2}>
                 {!isSmallScreen && (
@@ -520,7 +523,7 @@ function TopBar() {
               </Box>
             )}
 
-            <Box sx={{ marginRight: "1%" }}>
+            <Box sx={{ marginRight: "1%", width:isSmallScreen?"200px":"255px" }}>
               <Search />
             </Box>
             {userInfo && userNoti && (
@@ -534,6 +537,16 @@ function TopBar() {
                       <NotificationsIcon color="black" />
                     </Badge>
                   </IconButton>
+                  <IconButton aria-label="notification" onClick={handleMessage}>
+                <Badge
+                  // badgeContent={4}
+                  color="primary"
+                  // sx={{ marginLeft: "15px", marginRight: "15px" }}
+                  
+                >
+                  <ChatBubbleIcon  />
+                </Badge>
+              </IconButton>
                 </Tooltip>
                 <Menu
                   sx={{

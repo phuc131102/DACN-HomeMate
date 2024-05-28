@@ -20,15 +20,36 @@ import Loading from "../../components/Loading/Loading";
 import UserFilter from "./Child/UserFilter";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../lib/firebase";
 
 const UserListPage = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const { users, loading } = useUsers();
+  console.log(users)
   const [userData, setUserData] = useState([]);
   const [filterRoleItems, setFilterRoleItems] = useState([]);
   const [chooseRole, setChooseRole] = useState([]);
   const role = [{ name: "Worker" }, { name: "Homeowner" }, { name: "Admin" }];
+  // console.log(userData.id)
+  // const handleAddNewContact = async () => {
+  //   const AddNewContact = async (id) => {
+  //     await setDoc(doc(db, "contacts", id), {
+  //       chat: [],
+  //     });
+  //   };
+  //   users.forEach((element) => {
+  //     AddNewContact(element._id.$oid)
+  //   });
+  // };
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -52,7 +73,7 @@ const UserListPage = () => {
     } else {
       setFilterRoleItems(users);
     }
-    setCurrentPage(1)
+    setCurrentPage(1);
   }, [chooseRole]);
 
   const navigate = useNavigate();
@@ -90,15 +111,16 @@ const UserListPage = () => {
           margin: "auto",
         }}
       >
-        <Box sx={{ width: "100%", margin: "auto", }}>
+        <Box sx={{ width: "100%", margin: "auto" }}>
           <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
             &nbsp;<b>Filter</b>
           </Typography>
+          {/* <Button onClick={handleAddNewContact}> add</Button> */}
           <Box
             sx={{
-              display:"flex",
-              flexDirection:isMd?"":"column",
-              justifyContent: isMd?"space-between":"",
+              display: "flex",
+              flexDirection: isMd ? "" : "column",
+              justifyContent: isMd ? "space-between" : "",
               alignItems: "center",
               marginBottom: "30px",
             }}
@@ -119,20 +141,18 @@ const UserListPage = () => {
               </Box>
             </Box>
             {userData.role === "Admin" ? (
-          
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "300px",
-                    marginTop:isMd?"":"20px",
-                    // marginLeft: "auto",
-                    borderRadius: "15px",
-                  }}
-                  onClick={handleAddUser}
-                >
-                  Create New User
-                </Button>
-          
+              <Button
+                variant="contained"
+                sx={{
+                  width: "300px",
+                  marginTop: isMd ? "" : "20px",
+                  // marginLeft: "auto",
+                  borderRadius: "15px",
+                }}
+                onClick={handleAddUser}
+              >
+                Create New User
+              </Button>
             ) : null}
           </Box>
         </Box>
@@ -202,7 +222,7 @@ const UserListPage = () => {
         page={currentPage}
         onChange={handlePageChange}
         shape="rounded"
-        size={isMd?"large":"small"}
+        size={isMd ? "large" : "small"}
         color="primary"
         showFirstButton
         showLastButton

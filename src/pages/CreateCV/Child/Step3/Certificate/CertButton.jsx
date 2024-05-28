@@ -13,6 +13,7 @@ const CertButton = (prop) => {
         className="AddCompButton"
         sx={{
           margin: "auto",
+          marginTop:"20px"
         }}
         onClick={() => {
           prop.onPress();

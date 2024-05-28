@@ -18,6 +18,16 @@ import MyJob from "../Profile/Child/Myjob";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../lib/firebase";
+import { message } from "antd";
 
 function WorkerInfo() {
   const theme = useTheme();
@@ -130,6 +140,48 @@ function WorkerInfo() {
     }
   }, [id]);
 
+  const handleAddNewContact = async () => {
+    const chatRef = collection(db, "messages");
+    const userChatRef = collection(db, "contacts");
+
+    // await setDoc(doc(db, "contacts", userData.id), {
+    //   chat:[]
+    //   // userId: userData.id,
+    //   // contactId: id,
+    // });
+    try {
+      const newChatRef = doc(chatRef);
+
+      await setDoc(newChatRef, {
+        createAt: serverTimestamp(),
+        message: [],
+        // userId: userData.id,
+        // contactId: id,
+      });
+
+      await updateDoc(doc(userChatRef, userData.id), {
+        chat: arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: id,
+          updateAt: Date.now(),
+        }),
+      });
+      await updateDoc(doc(userChatRef, id), {
+        chat: arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: userData.id,
+          updateAt: Date.now(),
+        }),
+      });
+      console.log(newChatRef.id);
+    } catch (err) {
+      console.log(err);
+    }
+    navigate("/chat");
+  };
+
   const handleDeleteUser = async (id) => {
     try {
       const deletionMessage = await deleteUser(id);
@@ -232,6 +284,18 @@ function WorkerInfo() {
                             Role: {userInfo.role}
                           </Typography>
                         </Box>
+                        
+                      </Grid>
+                      <Grid item xs={isMd ? 4 : 12} sx={{marginBottom:"20px"}}>
+                        <Box sx={{ width: "100%", display:isMd?"":"flex", justifyContent:"center"}}>
+                        <Button
+                          
+                          variant="contained"
+                          onClick={handleAddNewContact}
+                        >
+                          Message
+                        </Button>
+                        </Box>
                       </Grid>
                       {userInfo.block ? (
                         <Grid item xs={12}>
@@ -246,6 +310,7 @@ function WorkerInfo() {
                           </Box>
                         </Grid>
                       ) : null}
+
                       {userData.role === "Admin" &&
                       userInfo.role !== "Admin" ? (
                         <Grid item xs={12}>
@@ -349,7 +414,7 @@ function WorkerInfo() {
                               </>
                             )}
                           </Box>
-                        ) :userInfo.role === "Homeowner" ? (
+                        ) : userInfo.role === "Homeowner" ? (
                           <Grid container>
                             <Grid item xs={12} sx={{ marginTop: "15px" }}>
                               <ComponentDivider>Job</ComponentDivider>
@@ -365,7 +430,9 @@ function WorkerInfo() {
                               <MyJob id={id} />
                             </Box>
                           </Grid>
-                        ):<></>}
+                        ) : (
+                          <></>
+                        )}
                       </Grid>
                     </Grid>
                   </BigCard>
