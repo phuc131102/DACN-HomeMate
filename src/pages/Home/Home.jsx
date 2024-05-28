@@ -158,7 +158,12 @@ function Home() {
               .reverse()
               .map((card, index) => (
                 <Grid item key={index}>
-                  <WorkerCard card={card} />
+                  <WorkerCard
+                    card={card}
+                    userData={
+                      localStorage.getItem("userData") === null ? false : true
+                    }
+                  />
                 </Grid>
               ))}
           </Grid>
