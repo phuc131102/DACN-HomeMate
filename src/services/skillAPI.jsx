@@ -23,7 +23,7 @@ export const create_skill = async (data) => {
     throw err;
   }
 };
-export const deleteSkill = async (data) => {
+export const delete_Skill = async (data) => {
   try {
     const response = await axios.delete(
       `https://projectapi-g9ba.onrender.com/delete_skill/${data}`
