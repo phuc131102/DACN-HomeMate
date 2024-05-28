@@ -523,7 +523,12 @@ function TopBar() {
               </Box>
             )}
 
-            <Box sx={{ marginRight: "1%", width:isSmallScreen?"200px":"255px" }}>
+            <Box
+              sx={{
+                marginRight: "1%",
+                width: isSmallScreen ? "200px" : "255px",
+              }}
+            >
               <Search />
             </Box>
             {userInfo && userNoti && (
@@ -537,16 +542,6 @@ function TopBar() {
                       <NotificationsIcon color="black" />
                     </Badge>
                   </IconButton>
-                  <IconButton aria-label="notification" onClick={handleMessage}>
-                <Badge
-                  // badgeContent={4}
-                  color="primary"
-                  // sx={{ marginLeft: "15px", marginRight: "15px" }}
-                  
-                >
-                  <ChatBubbleIcon  />
-                </Badge>
-              </IconButton>
                 </Tooltip>
                 <Menu
                   sx={{
@@ -646,6 +641,15 @@ function TopBar() {
                       ))
                   )}
                 </Menu>
+                <IconButton aria-label="notification" onClick={handleMessage}>
+                  <Badge
+                    // badgeContent={4}
+                    color="primary"
+                    // sx={{ marginLeft: "15px", marginRight: "15px" }}
+                  >
+                    <ChatBubbleIcon />
+                  </Badge>
+                </IconButton>
               </>
             )}
 

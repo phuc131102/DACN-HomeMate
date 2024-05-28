@@ -52,6 +52,7 @@ function JobInfo() {
   const [userData, setUserData] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showCVModal, setShowCVModal] = useState(false);
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
   const { userInfo } = useUserInfo(userData?.id);
@@ -96,6 +97,14 @@ function JobInfo() {
 
   const handleCloseRatingModal = () => {
     setShowRatingModal(false);
+  };
+
+  const handleOpenCVModal = () => {
+    setShowCVModal(true);
+  };
+
+  const handleCloseCVModal = () => {
+    setShowCVModal(false);
   };
 
   const styles = {
@@ -265,10 +274,7 @@ function JobInfo() {
 
   const handleApply = async (e) => {
     if (!userInfo.cv_created) {
-      alert(
-        "Please create CV before applying a job! Navigate to CV creation..."
-      );
-      navigate("/createCv");
+      handleOpenCVModal();
       return;
     }
 
@@ -376,6 +382,10 @@ function JobInfo() {
         item.status === "Active"
     );
   }
+
+  const handleCreateCV = () => {
+    navigate("/createCv");
+  };
 
   return (
     <>
@@ -1038,6 +1048,52 @@ function JobInfo() {
                         onClick={handleCloseRatingModal}
                       >
                         Cancel
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Modal>
+
+                <Modal
+                  open={showCVModal}
+                  onClose={handleCloseCVModal}
+                  aria-labelledby="place-book-modal"
+                  aria-describedby="place-book-modal-description"
+                >
+                  <Box sx={styles.modal}>
+                    <Typography
+                      id="place-book-modal"
+                      variant="h5"
+                      color="error"
+                      textAlign="center"
+                    >
+                      <b>CV Creation Required</b>
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      textAlign="center"
+                      marginTop={2}
+                    >
+                      Please create CV before applying for a job!
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      marginTop={4}
+                    >
+                      <Button
+                        variant="contained"
+                        sx={styles.buttonRemove}
+                        onClick={handleCloseCVModal}
+                      >
+                        Cancel
+                      </Button>
+
+                      <Button
+                        variant="contained"
+                        sx={styles.button}
+                        onClick={handleCreateCV}
+                      >
+                        Create CV
                       </Button>
                     </Stack>
                   </Box>
