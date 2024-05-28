@@ -45,6 +45,8 @@ function InfoBox(prop) {
   // console.log(prop.users)
   const worker = prop.users.filter((item) => item.role === "Worker");
   const homwOwner = prop.users.filter((item) => item.role === "Homeowner");
+  let todayworker = countObjectsToday(worker);
+  let todayhome = countObjectsToday(homwOwner);
   return (
     <Box>
       <Grid item container xs={12}>
@@ -233,10 +235,10 @@ function InfoBox(prop) {
                   }}
                 >
                   <Typography variant="body1" gutterBottom>
-                    + 15%
+                    + {todayworker}
                   </Typography>
                   <Typography variant="body1" gutterBottom>
-                    since last month
+                    today
                   </Typography>
                 </Box>
               </Box>
@@ -296,10 +298,10 @@ function InfoBox(prop) {
                   }}
                 >
                   <Typography variant="body1" gutterBottom>
-                    + 15%
+                    + {todayhome}
                   </Typography>
                   <Typography variant="body1" gutterBottom>
-                    since last month
+                    today
                   </Typography>
                 </Box>
               </Box>
