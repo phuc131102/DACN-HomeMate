@@ -3,7 +3,7 @@ import axios from "axios";
 export const get_skill = async (data) => {
   try {
     const response = await axios.get(
-      `https://projectapi-g9ba.onrender.com/skill`
+      `https://projectapi-72at.onrender.com/skill`
     );
     return response.data;
   } catch (err) {
@@ -14,7 +14,7 @@ export const get_skill = async (data) => {
 export const create_skill = async (data) => {
   try {
     const response = await axios.post(
-      "https://projectapi-g9ba.onrender.com/create_skill",
+      "https://projectapi-72at.onrender.com/create_skill",
       data
     );
     return response.data;
@@ -26,7 +26,7 @@ export const create_skill = async (data) => {
 export const deleteSkill = async (data) => {
   try {
     const response = await axios.delete(
-      `https://projectapi-g9ba.onrender.com/delete_skill/${data}`
+      `https://projectapi-72at.onrender.com/delete_skill/${data}`
     );
     return response.data.message;
   } catch (err) {
