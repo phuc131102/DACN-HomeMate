@@ -543,15 +543,6 @@ function TopBar() {
                     </Badge>
                   </IconButton>
                 </Tooltip>
-                <IconButton aria-label="notification" onClick={handleMessage}>
-                  <Badge
-                    // badgeContent={4}
-                    color="primary"
-                    // sx={{ marginLeft: "15px", marginRight: "15px" }}
-                  >
-                    <ChatBubbleIcon />
-                  </Badge>
-                </IconButton>
                 <Menu
                   sx={{
                     mt: "45px",
