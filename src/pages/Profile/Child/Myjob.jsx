@@ -51,9 +51,20 @@ function MyJob(prop) {
     }
   }, [userData, prop.id]);
 
+  const sortedJobs = jobs.sort((a, b) => {
+    const statusOrder = {
+      "In Progress": 1,
+      Full: 2,
+      Available: 3,
+      Closed: 4,
+    };
+
+    return statusOrder[a.status] - statusOrder[b.status];
+  });
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
+  const currentJobs = sortedJobs.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -163,11 +174,11 @@ function MyJob(prop) {
 
       {jobs.length > 4 ? (
         <Pagination
-          count={Math.ceil(jobs.length / itemsPerPage)}
+          count={Math.ceil(sortedJobs.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
-          size={isMd?"large":"small"}
+          size={isMd ? "large" : "small"}
           color="primary"
           showFirstButton
           showLastButton

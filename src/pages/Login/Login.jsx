@@ -19,6 +19,8 @@ import Loading from "../../components/Loading/Loading";
 import { sha256 } from "js-sha256";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const finalTheme = createTheme({
   components: {
@@ -34,6 +36,8 @@ const finalTheme = createTheme({
 });
 
 function Login() {
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -249,8 +253,12 @@ function Login() {
                         <Button
                           size="large"
                           variant="contained"
-                          className="loginButton"
                           type="submit"
+                          sx={{
+                            width: isSm ? "30%" : "110px",
+                            margin: "auto",
+                            marginBottom: "20px",
+                          }}
                         >
                           Sign in
                         </Button>

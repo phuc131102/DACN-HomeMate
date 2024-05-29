@@ -35,7 +35,6 @@ function JobDetail(prop) {
           margin: "auto",
           marginTop: "1%",
           marginBottom: "2%",
-          // border: "2px solid #000",
           borderRadius: "20px",
           color: "#000",
           fontWeight: "bold",
@@ -71,7 +70,7 @@ function JobDetail(prop) {
             }}
           >
             <Typography variant="h3" sx={{ textAlign: "center" }}>
-              {prop.jobInfo.name}
+              <b>{prop.jobInfo.name}</b>
             </Typography>
           </Box>
         </Grid>
@@ -90,12 +89,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <AttachMoneyIcon fontSize="small" />
-                  <Typography variant="body1">Salary</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Salary</Typography>
                 </Box>
                 <Typography variant="body1">
                   {prop.jobInfo.salary} VNĐ/hour
@@ -110,12 +113,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <EmailIcon fontSize="small" />
-                  <Typography variant="caption">Email</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Email</Typography>
                 </Box>
                 <Typography variant="body1">{prop.jobInfo.email}</Typography>
               </Box>
@@ -129,12 +136,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <LocalPhoneIcon fontSize="small" />
-                  <Typography variant="body1">Phone Number</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Phone Number</Typography>
                 </Box>
                 <Typography variant="body1">
                   {prop.jobInfo.phone_num}
@@ -149,12 +160,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <PersonIcon fontSize="small" />
-                  <Typography variant="body1">Required Worker</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Quantity</Typography>
                 </Box>
                 <Typography variant="body1">{prop.jobInfo.max_num}</Typography>
               </Box>
@@ -167,12 +182,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <HouseIcon fontSize="small" />
-                  <Typography variant="body1">Address</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Address</Typography>
                 </Box>
                 <Typography variant="body1">{prop.jobInfo.address}</Typography>
               </Box>
@@ -185,12 +204,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <CleaningServicesIcon fontSize="small" />
-                  <Typography variant="body1">Require Skill</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Skill</Typography>
                 </Box>
                 <Typography variant="body1">
                   {prop.chooseSkill.join(", ")}
@@ -205,12 +228,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <AccessTimeIcon fontSize="small" />
-                  <Typography variant="body1">Date Time</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Date Time</Typography>
                 </Box>
                 <Typography variant="body1">{prop.jobInfo.datetime}</Typography>
               </Box>
@@ -223,7 +250,7 @@ function JobDetail(prop) {
           item
           xs={12}
           md={6}
-          sx={{ marginTop: isMd ? "50px" : "", marginBottom: "10px" }}
+          sx={{ marginTop: isMd ? "30px" : "", marginBottom: "30px" }}
         >
           <Box
             sx={{
@@ -235,13 +262,23 @@ function JobDetail(prop) {
             <img
               alt={prop.jobInfo.name}
               src={prop.jobInfo.image === "" ? jobEmpty : prop.jobInfo.image}
-              style={{
-                width: "500px",
-                height: "300px",
-                display: "flex",
-                justifyContent: "center",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-              }}
+              style={
+                isMd
+                  ? {
+                      width: "500px",
+                      height: "300px",
+                      display: "flex",
+                      justifyContent: "center",
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                    }
+                  : {
+                      width: "300px",
+                      height: "180px",
+                      display: "flex",
+                      justifyContent: "center",
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                    }
+              }
             />
           </Box>
         </Grid>
@@ -256,12 +293,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <DescriptionIcon fontSize="small" />
-                  <Typography variant="body1">Description</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Description</Typography>
                 </Box>
                 <Typography variant="body1">{prop.jobInfo.desc}</Typography>
               </Box>
@@ -274,12 +315,16 @@ function JobDetail(prop) {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   textAlign: "left",
-                  borderBottom: "1px solid black",
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  padding: "5px",
+                  textAlign: "justify",
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <ConstructionIcon fontSize="small" />
-                  <Typography variant="body1">Requirement</Typography>
+                  &nbsp;
+                  <Typography variant="h5">Requirement</Typography>
                 </Box>
                 <Typography variant="body1">
                   {prop.jobInfo.requirement === ""

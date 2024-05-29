@@ -37,11 +37,6 @@
   margin-top: 15px;
 }
 
-.LoginBox .OutterGrid .loginButton {
-  width: 30%;
-  margin: auto;
-  margin-bottom: 20px;
-}
 .LoginBox .OutterGrid .remGrid {
   margin-top: 10px;
   margin-bottom: 30px;
@@ -66,8 +61,8 @@
   cursor: pointer;
 }
 
-@media (max-width:600px) {
-  .LoginBox{
+@media (max-width: 600px) {
+  .LoginBox {
     max-width: 90%;
   }
 }

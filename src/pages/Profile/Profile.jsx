@@ -114,6 +114,25 @@ function Profile() {
     }
   }, [userData]);
 
+  const sortedWorking = workingStatus.sort((a, b) => {
+    const statusOrder = {
+      Working: 1,
+      Waiting: 2,
+      Done: 3,
+    };
+
+    return statusOrder[a.status] - statusOrder[b.status];
+  });
+
+  const sortedApply = applyStatus.sort((a, b) => {
+    const statusOrder = {
+      Waiting: 1,
+      Accepted: 2,
+      Rejected: 3,
+    };
+    return statusOrder[a.status] - statusOrder[b.status];
+  });
+
   const navigate = useNavigate();
 
   const handleTogglePasswordVisibility = () => {
@@ -381,10 +400,10 @@ function Profile() {
                             />
                           </TabPanel>
                           <TabPanel value="2">
-                            <ApplyHistory applyInfo={applyStatus} />
+                            <ApplyHistory applyInfo={sortedApply} />
                           </TabPanel>
                           <TabPanel value="3">
-                            <ApplyHistory applyInfo={workingStatus} />
+                            <ApplyHistory applyInfo={sortedWorking} />
                           </TabPanel>
                         </TabContext>
                       ) : userInfo.role === "Homeowner" ? (
