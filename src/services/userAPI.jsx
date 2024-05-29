@@ -173,3 +173,16 @@ export const report_user = async (data1, data2) => {
     throw err;
   }
 };
+
+// GET ALL REPORT
+export const allReport = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-72at.onrender.com/report`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};

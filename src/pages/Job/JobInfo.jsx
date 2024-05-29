@@ -39,6 +39,10 @@ import CardRating from "./Child/CardRating";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 
 function JobInfo() {
   const theme = useTheme();
@@ -413,8 +417,7 @@ function JobInfo() {
                           color="success"
                           disabled={userInfo.block ? true : false}
                           sx={{
-                            width: isMd ? "15%" : "100px",
-                            marginRight: "5%",
+                            width: isMd ? "10%" : "150px",
                             borderRadius: "15px",
                           }}
                           onClick={() => {
@@ -425,14 +428,15 @@ function JobInfo() {
                             }
                           }}
                         >
-                          {editMode ? "Save" : "Update Job"}
+                          {editMode ? <SaveIcon /> : <TipsAndUpdatesIcon />}
+                          &nbsp;{editMode ? "Save" : "Update Job"}
                         </Button>
                         <Button
                           variant="contained"
                           color="error"
                           disabled={userInfo.block ? true : false}
                           sx={{
-                            width: isMd ? "15%" : "100px",
+                            width: isMd ? "10%" : "150px",
                             marginLeft: "5%",
                             borderRadius: "15px",
                           }}
@@ -444,6 +448,7 @@ function JobInfo() {
                             }
                           }}
                         >
+                          {editMode ? <ReplyAllIcon /> : <DeleteIcon />}&nbsp;
                           {editMode ? "Cancel" : "Delete Job"}
                         </Button>
                       </Box>
@@ -462,13 +467,12 @@ function JobInfo() {
                           variant="contained"
                           color="error"
                           sx={{
-                            width: "15%",
-                            marginLeft: "5%",
+                            width: isMd ? "10%" : "150px",
                             borderRadius: "15px",
                           }}
                           onClick={handleOpenModal}
                         >
-                          Delete Job
+                          <DeleteIcon /> &nbsp;Delete Job
                         </Button>
                       </Box>
                     </Grid>

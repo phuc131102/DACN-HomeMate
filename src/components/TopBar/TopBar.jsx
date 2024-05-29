@@ -24,6 +24,8 @@ import Search from "../TopBar/Search";
 import { get_noti, seen_noti } from "../../services/jobAPI";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import FlagIcon from "@mui/icons-material/Flag";
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -587,7 +589,9 @@ function TopBar() {
                           to={
                             card.job_id
                               ? `/job/${card.job_id}`
-                              : `/profile/${userData.id}`
+                              : card.type === "Block" || card.type === "Unblock"
+                              ? `/profile/${userData.id}`
+                              : `/admin/4`
                           }
                           sx={{
                             whiteSpace: "normal",
@@ -613,7 +617,15 @@ function TopBar() {
                                 }
                                 src={card.job_id && card.data.avt}
                               >
-                                {!card.job_id && <BlockIcon fontSize="large" />}
+                                {card.type === "Block" && (
+                                  <BlockIcon fontSize="large" />
+                                )}
+                                {card.type === "Unblock" && (
+                                  <LockOpenIcon fontSize="large" />
+                                )}
+                                {card.type === "Report" && (
+                                  <FlagIcon fontSize="large" />
+                                )}
                               </Avatar>
                             </Grid>
                             <Grid item xs={10}>

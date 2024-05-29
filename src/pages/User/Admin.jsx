@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserListPage from "./UserList";
-import {
-  Box,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
 import Loading from "../../components/Loading/Loading";
 import Tab from "@mui/material/Tab";
@@ -14,12 +12,12 @@ import Dashboard from "./Child/Dashboard";
 import useJobs from "../../utils/jobUtils/jobUtils";
 import BlackListPage from "./BlackList";
 import JobList from "./JobList";
+import ReportList from "./ReportList";
 
 function Admin() {
   const { users, loading } = useUsers();
   const { jobs, loadingJob } = useJobs();
   const [userData, setUserData] = useState([]);
-  console.log(jobs)
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 
@@ -29,7 +27,14 @@ function Admin() {
   }, []);
 
   const navigate = useNavigate();
-  const [value, setValue] = React.useState("1");
+  const { tabValue } = useParams();
+  const [value, setValue] = useState(tabValue || "1");
+
+  useEffect(() => {
+    if (tabValue) {
+      setValue(tabValue);
+    }
+  }, [tabValue]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -42,11 +47,17 @@ function Admin() {
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example" variant="scrollable" allowScrollButtonsMobile>
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              variant="scrollable"
+              allowScrollButtonsMobile
+            >
               <Tab label="Dashboard" value="1" />
               <Tab label="Users" value="2" />
               <Tab label="Black List" value="3" />
-              <Tab label="Jobs" value="4" />
+              <Tab label="Report" value="4" />
+              <Tab label="Jobs" value="5" />
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -59,6 +70,9 @@ function Admin() {
             <BlackListPage users={users} userData={userData} />
           </TabPanel>
           <TabPanel value="4">
+            <ReportList jobs={jobs} userData={userData} />
+          </TabPanel>
+          <TabPanel value="5">
             <JobList jobs={jobs} userData={userData} />
           </TabPanel>
         </TabContext>

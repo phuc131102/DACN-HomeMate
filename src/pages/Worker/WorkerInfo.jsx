@@ -22,7 +22,6 @@ import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info } from "../../services/cvAPI";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import avtEmpty from "../../assets/avt_empty.png";
-import { myJob } from "../../services/jobAPI";
 import Avt from "./Child/Avt";
 import LeftSide from "./Child/LeftSide";
 import Rate from "./Child/Rating";
@@ -42,6 +41,9 @@ import {
 import { db } from "../../lib/firebase";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import FlagIcon from "@mui/icons-material/Flag";
+import BlockIcon from "@mui/icons-material/Block";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { message } from "antd";
 
 function WorkerInfo() {
@@ -49,7 +51,6 @@ function WorkerInfo() {
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
@@ -120,25 +121,17 @@ function WorkerInfo() {
     if (userData && userData.id && id) {
       const fetchData = async () => {
         try {
-          const fetchedJobs = await myJob(userData.id);
-          setJobs(fetchedJobs);
+          const response = await get_cv_info(id);
+          setCvInfo(response);
         } catch (error) {
-          console.error("Error fetching jobs:", error);
-          setLoading(false);
+          console.error("Error fetching cv information:", error);
         } finally {
-          try {
-            const response = await get_cv_info(id);
-            setCvInfo(response);
-          } catch (error) {
-            console.error("Error fetching cv information:", error);
-          } finally {
-            setLoading(false);
-          }
+          setLoading(false);
         }
       };
       fetchData();
     }
-  }, [userData]);
+  }, [userData, id]);
 
   useEffect(() => {
     if (id) {
@@ -202,7 +195,7 @@ function WorkerInfo() {
   const handleDeleteUser = async (id) => {
     try {
       const deletionMessage = await deleteUser(id);
-      navigate("/admin");
+      navigate("/admin/2");
       console.log(deletionMessage);
     } catch (error) {
       console.error("Error:", error.message);
@@ -323,6 +316,7 @@ function WorkerInfo() {
                             width: "100%",
                             display: "flex",
                             justifyContent: isMd ? "flex-start" : "center",
+                            marginBottom: "20px",
                           }}
                         >
                           <Typography variant="h4">
@@ -346,29 +340,18 @@ function WorkerInfo() {
                             <ChatBubbleIcon />
                             &nbsp; Message
                           </Button>
-                          <Button
-                            variant="contained"
-                            color="error"
-                            onClick={handleOpenReportModal}
-                            sx={{ borderRadius: "20px", marginLeft: "10px" }}
-                          >
-                            <FlagIcon /> &nbsp;Report
-                          </Button>
+                          {userData.role !== "Admin" ? (
+                            <Button
+                              variant="contained"
+                              color="error"
+                              onClick={handleOpenReportModal}
+                              sx={{ borderRadius: "20px", marginLeft: "10px" }}
+                            >
+                              <FlagIcon /> &nbsp;Report
+                            </Button>
+                          ) : null}
                         </Box>
                       </Grid>
-                      {userInfo.block ? (
-                        <Grid item xs={12}>
-                          <Box
-                            sx={{
-                              textAlign: "center",
-                            }}
-                          >
-                            <Typography sx={{ fontSize: "20px", color: "red" }}>
-                              <b>USER IS BLOCKED</b>
-                            </Typography>
-                          </Box>
-                        </Grid>
-                      ) : null}
 
                       {userData.role === "Admin" &&
                       userInfo.role !== "Admin" ? (
@@ -376,37 +359,58 @@ function WorkerInfo() {
                           <Box
                             sx={{
                               width: "100%",
-                              display: "flex",
+                              display: isMd ? "" : "flex",
+                              justifyContent: "center",
+                              marginBottom: "20px",
                             }}
                           >
                             <Button
                               variant="contained"
                               color={!userInfo.block ? "warning" : "success"}
                               sx={{
-                                width: "40%",
-                                borderRadius: "15px",
-                                margin: "auto",
+                                borderRadius: "20px",
                               }}
                               onClick={() => {
                                 handleOpenModal2();
                               }}
                             >
+                              {!userInfo.block ? (
+                                <BlockIcon />
+                              ) : (
+                                <LockOpenIcon />
+                              )}
+                              &nbsp;
                               {!userInfo.block ? "Block User" : "Unblock User"}
                             </Button>
                             <Button
                               variant="contained"
                               color="error"
                               sx={{
-                                width: "40%",
-                                borderRadius: "15px",
-                                margin: "auto",
+                                borderRadius: "20px",
+                                marginLeft: "10px",
                               }}
                               onClick={() => {
                                 handleOpenModal();
                               }}
                             >
-                              Delete User
+                              <DeleteIcon />
+                              &nbsp;Delete User
                             </Button>
+                          </Box>
+                        </Grid>
+                      ) : null}
+                      {userInfo.block && userData.role === "Admin" ? (
+                        <Grid item xs={12}>
+                          <Box>
+                            <Typography
+                              sx={{
+                                fontSize: "20px",
+                                color: "red",
+                                textAlign: isMd ? "" : "center",
+                              }}
+                            >
+                              <b>USER IS BLOCKED</b>
+                            </Typography>
                           </Box>
                         </Grid>
                       ) : null}
