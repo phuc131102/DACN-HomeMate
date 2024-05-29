@@ -10,12 +10,14 @@ import WorkIcon from "@mui/icons-material/Work";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import { allJob } from "../../services/jobAPI";
-import { allWorker } from "../../services/userAPI";
+import { allWorker, allOwner } from "../../services/userAPI";
 import { useNavigate } from "react-router-dom";
+
 function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [jobs, setJobs] = useState([]);
   const [workers, setWorkers] = useState([]);
+  const [owners, setOwners] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const navigate = useNavigate();
 
@@ -45,8 +47,22 @@ function Search() {
       }
     };
 
+    const fetchOwners = async () => {
+      try {
+        const allOwners = await allOwner();
+        const ownersWithTypes = allOwners.map((owner) => ({
+          ...owner,
+          type: "owner",
+        }));
+        setOwners(ownersWithTypes);
+      } catch (error) {
+        console.error("Failed to fetch owners:", error);
+      }
+    };
+
     fetchJobs();
     fetchWorkers();
+    fetchOwners();
   }, []);
 
   const handleSearchInput = (event) => {
@@ -59,16 +75,22 @@ function Search() {
       const filteredWorkers = workers.filter((worker) =>
         worker.name.toLowerCase().includes(query)
       );
-      setFilteredResults([...filteredJobs, ...filteredWorkers]);
+      const filteredOwners = owners.filter((owner) =>
+        owner.name.toLowerCase().includes(query)
+      );
+      setFilteredResults([...filteredJobs, ...filteredWorkers, ...filteredOwners]);
     } else {
       setFilteredResults([]);
     }
   };
+
   const handleResultClick = (id, name, type) => {
     if (type === "job") {
       navigate(`/job/${id}`);
     } else if (type === "worker") {
       navigate(`/worker/${id}`);
+    } else if (type === "owner") {
+      navigate(`/user/${id}`);
     }
     setFilteredResults([]);
     setSearchQuery(name);
@@ -131,6 +153,8 @@ function Search() {
                       ? "secondary.main"
                       : result.type === "worker" && result.avatar === ""
                       ? "primary.main"
+                      : result.type === "owner" && result.avatar === ""
+                      ? "warning.main"
                       : null,
                   mr: 2,
                 }}
@@ -139,12 +163,16 @@ function Search() {
                     ? result.image
                     : result.type === "worker" && result.avatar !== ""
                     ? result.avatar
+                    : result.type === "owner" && result.avatar !== ""
+                    ? result.avatar
                     : null
                 }
               >
                 {result.type === "job" && result.image === "" ? (
                   <WorkIcon />
                 ) : result.type === "worker" && result.avatar === "" ? (
+                  <PersonIcon />
+                ) : result.type === "owner" && result.avatar === "" ? (
                   <PersonIcon />
                 ) : null}
               </Avatar>
@@ -160,7 +188,7 @@ function Search() {
                   handleResultClick(result._id.$oid, result.name, result.type)
                 }
               >
-                {result.name} ({result.type === "job" ? "Job" : "Worker"})
+                {result.name} ({result.type === "job" ? "Job" : result.type === "worker" ? "Worker" : "Homeowner"})
               </Typography>
             </Box>
           ))}
@@ -169,4 +197,5 @@ function Search() {
     </Box>
   );
 }
+
 export default Search;
