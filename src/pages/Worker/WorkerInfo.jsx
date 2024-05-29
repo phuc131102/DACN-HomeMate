@@ -414,6 +414,33 @@ function WorkerInfo() {
                           </Box>
                         </Grid>
                       ) : null}
+                      {(userData.role === "Admin" ||
+                        userData.role === "Homeowner") &&
+                      userInfo.role === "Worker" ? (
+                        <Grid item xs={12}>
+                          <Box>
+                            <Typography
+                              sx={{
+                                fontSize: "20px",
+                                textAlign: isMd ? "" : "center",
+                              }}
+                            >
+                              <b>
+                                Worker Status:{" "}
+                                <span
+                                  style={
+                                    userInfo.status === "Available"
+                                      ? { color: "green" }
+                                      : { color: "orange" }
+                                  }
+                                >
+                                  {userInfo.status}
+                                </span>
+                              </b>
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      ) : null}
                     </Grid>
                   </Grid>
                 </ThemeProvider>

@@ -193,14 +193,13 @@ function Job() {
               ) : null}
             </Box>
           </Box>
-          <Grid
-            container
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ marginBottom: "30px" }}
-          >
-            <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-              &nbsp;<b>Jobs</b>
+          <Grid sx={{ marginBottom: "30px" }}>
+            <Typography
+              sx={{ fontSize: 30, textAlign: "center" }}
+              color="text.primary"
+              gutterBottom
+            >
+              <b>All Jobs</b>
             </Typography>
           </Grid>
           <NewCard currentJobs={currentJobs} />

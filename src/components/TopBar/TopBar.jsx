@@ -477,29 +477,28 @@ function TopBar() {
             </>
 
             {userInfo ? (
-              // <Box p={2}>
-              //   {!isSmallScreen && (
-              //     <Typography
-              //       sx={{
-              //         color: "black",
-              //         whiteSpace: "nowrap",
-              //         overflow: "hidden",
-              //         textOverflow: "ellipsis",
-              //         cursor: "default",
-              //         userSelect: "none",
-              //       }}
-              //     >
-              //       <b>
-              //         <ReactTyped
-              //           strings={[`Hi, ${userInfo.name} !`]}
-              //           typeSpeed={100}
-              //           showCursor={false}
-              //         />
-              //       </b>
-              //     </Typography>
-              //   )}
-              // </Box>
-              <></>
+              <Box p={2}>
+                {!isSmallScreen && (
+                  <Typography
+                    sx={{
+                      color: "black",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      cursor: "default",
+                      userSelect: "none",
+                    }}
+                  >
+                    <b>
+                      <ReactTyped
+                        strings={[`Hi, ${userInfo.name} !`]}
+                        typeSpeed={100}
+                        showCursor={false}
+                      />
+                    </b>
+                  </Typography>
+                )}
+              </Box>
             ) : (
               <Box p={2}>
                 {!isSmallScreen && (

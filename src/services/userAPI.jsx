@@ -187,6 +187,19 @@ export const report_user = async (data1, data2) => {
   }
 };
 
+//DELETE REPORTS
+export const delete_report = async (data) => {
+  try {
+    const response = await axios.delete(
+      `https://projectapi-72at.onrender.com/delete_report/${data}`
+    );
+    return response.data.message;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // GET ALL REPORT
 export const allReport = async () => {
   try {

@@ -14,28 +14,17 @@ import {
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import useUsers from "../../utils/userUtils/userUtils";
 import Loading from "../../components/Loading/Loading";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { allReport } from "../../services/userAPI";
+import { allReport, delete_report } from "../../services/userAPI";
 import UserInfo from "../../utils/userUtils/getUserInfo";
 
 const UserListPage = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-  const { users, loading } = useUsers();
-  const [userData, setUserData] = useState([]);
-  const [filterRoleItems, setFilterRoleItems] = useState([]);
   const [reports, setReports] = useState([]);
-  const [loading2, setLoading] = useState(false);
-
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +45,7 @@ const UserListPage = () => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
-  if (loading || loading2) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -72,6 +61,16 @@ const UserListPage = () => {
 
   const handleRowClick = (userId) => {
     navigate(`/user/${userId}`);
+  };
+
+  const handleDeleteReport = async (id) => {
+    try {
+      const deletionMessage = await delete_report(id);
+      window.location.reload();
+      console.log(deletionMessage);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
   };
 
   return (
@@ -107,44 +106,57 @@ const UserListPage = () => {
                 <TableCell>Delete Report?</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {currentReports.map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell
-                    onClick={() => handleRowClick(user.reporter_id)}
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "#e0e0e0",
-                        cursor: "pointer",
-                      },
-                    }}
-                  >
-                    <UserInfo userId={user.reporter_id} />
-                  </TableCell>
-                  <TableCell
-                    onClick={() => handleRowClick(user.reported_id)}
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "#e0e0e0",
-                        cursor: "pointer",
-                      },
-                    }}
-                  >
-                    <UserInfo userId={user.reported_id} />
-                  </TableCell>
-                  <TableCell>{user.reason}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      sx={{ borderRadius: "15px" }}
+            {currentReports.length !== 0 ? (
+              <TableBody>
+                {currentReports.map((user, index) => (
+                  <TableRow key={index}>
+                    <TableCell
+                      onClick={() => handleRowClick(user.reporter_id)}
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: "#e0e0e0",
+                          cursor: "pointer",
+                        },
+                      }}
                     >
-                      Delete
-                    </Button>
+                      <UserInfo userId={user.reporter_id} />
+                    </TableCell>
+                    <TableCell
+                      onClick={() => handleRowClick(user.reported_id)}
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: "#e0e0e0",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      <UserInfo userId={user.reported_id} />
+                    </TableCell>
+                    <TableCell>{user.reason}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        sx={{ borderRadius: "15px" }}
+                        onClick={() => {
+                          handleDeleteReport(user._id.$oid);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                    <Typography>No Report Found.</Typography>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Box>

@@ -13,7 +13,7 @@ function Worker() {
   const { workers, loading } = useWorkers();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-  console.log(workers)
+  console.log(workers);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentWorkers = workers
@@ -34,8 +34,12 @@ function Worker() {
           marginTop: isMd ? "7%" : "20%",
         }}
       >
-        <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-          &nbsp;<b>All Worker</b>
+        <Typography
+          sx={{ fontSize: 30, textAlign: "center" }}
+          color="text.primary"
+          gutterBottom
+        >
+          <b>All Worker</b>
         </Typography>
 
         <Box
@@ -71,7 +75,7 @@ function Worker() {
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
-          size={isMd?"large":"small"}
+          size={isMd ? "large" : "small"}
           color="primary"
           showFirstButton
           showLastButton

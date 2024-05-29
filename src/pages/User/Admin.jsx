@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserListPage from "./UserList";
 import { Box } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useUsers from "../../utils/userUtils/userUtils";
 import Loading from "../../components/Loading/Loading";
 import Tab from "@mui/material/Tab";
@@ -27,6 +27,7 @@ function Admin() {
   }, []);
 
   const navigate = useNavigate();
+
   const { tabValue } = useParams();
   const [value, setValue] = useState(tabValue || "1");
 
@@ -38,6 +39,7 @@ function Admin() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    navigate(`/admin/${newValue}`);
   };
   if (loading && loadingJob) {
     return <Loading />;
