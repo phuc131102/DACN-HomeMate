@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, Typography, Box, Button, Modal, Stack } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Button,
+  Modal,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { block_user, deleteUser, unblock_user } from "../../services/userAPI";
+import {
+  block_user,
+  deleteUser,
+  report_user,
+  unblock_user,
+} from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import ViewCv from "../ViewCv/ViewCv";
@@ -27,6 +40,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import FlagIcon from "@mui/icons-material/Flag";
 import { message } from "antd";
 
 function WorkerInfo() {
@@ -37,8 +52,10 @@ function WorkerInfo() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
+  const [newValue, setNewValue] = useState("");
 
   const finalTheme = createTheme({
     components: {
@@ -212,12 +229,40 @@ function WorkerInfo() {
     }
   };
 
+  const handleChange = (event) => {
+    setNewValue(event.target.value);
+  };
+
+  const handleReportUser = async () => {
+    const data = {
+      userId: userData.id,
+      reason: newValue,
+    };
+    try {
+      const response = await report_user(id, data);
+      if (response) {
+        setShowReportModal(false);
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleOpenReportModal = () => {
+    setShowReportModal(true);
+  };
+
+  const handleCloseReportModal = () => {
+    setShowReportModal(false);
   };
 
   const handleOpenModal2 = () => {
@@ -284,17 +329,31 @@ function WorkerInfo() {
                             Role: {userInfo.role}
                           </Typography>
                         </Box>
-                        
                       </Grid>
-                      <Grid item xs={isMd ? 4 : 12} sx={{marginBottom:"20px"}}>
-                        <Box sx={{ width: "100%", display:isMd?"":"flex", justifyContent:"center"}}>
-                        <Button
-                          
-                          variant="contained"
-                          onClick={handleAddNewContact}
+                      <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: isMd ? "" : "flex",
+                            justifyContent: "center",
+                          }}
                         >
-                          Message
-                        </Button>
+                          <Button
+                            variant="contained"
+                            onClick={handleAddNewContact}
+                            sx={{ borderRadius: "20px" }}
+                          >
+                            <ChatBubbleIcon />
+                            &nbsp; Message
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            onClick={handleOpenReportModal}
+                            sx={{ borderRadius: "20px", marginLeft: "10px" }}
+                          >
+                            <FlagIcon /> &nbsp;Report
+                          </Button>
                         </Box>
                       </Grid>
                       {userInfo.block ? (
@@ -476,6 +535,57 @@ function WorkerInfo() {
           </Stack>
         </Box>
       </Modal>
+      <Modal
+        open={showReportModal}
+        onClose={handleCloseReportModal}
+        aria-labelledby="place-book-modal"
+        aria-describedby="place-book-modal-description"
+      >
+        <Box sx={styles.modal}>
+          <Typography id="place-book-modal" variant="h5" textAlign="center">
+            Confirm Report
+          </Typography>
+          <Typography variant="body1" textAlign="center" marginTop={2}>
+            Are you sure you want to report this user?
+            <br /> Please fill in the reason below:
+          </Typography>
+          <TextField
+            id="outlined-basic"
+            sx={{
+              width: "100%",
+              [`& fieldset`]: { borderRadius: 8 },
+              marginTop: "30px",
+              marginBottom: "15px",
+            }}
+            variant="outlined"
+            label="Please fill in the report reason..."
+            name="reason"
+            fullWidth
+            multiline
+            required
+            rows={8}
+            value={newValue}
+            onChange={handleChange}
+          />
+          <Stack direction="row" justifyContent="center" marginTop={4}>
+            <Button
+              variant="contained"
+              sx={styles.buttonRemove}
+              onClick={handleReportUser}
+            >
+              Report
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={styles.button}
+              onClick={handleCloseReportModal}
+            >
+              Cancel
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
       {userInfo ? (
         <Modal
           open={showModal2}
@@ -495,8 +605,9 @@ function WorkerInfo() {
               </Typography>
             ) : !userInfo.block && userInfo.role === "Worker" ? (
               <Typography variant="body1" textAlign="center" marginTop={2}>
-                This action will restrict <b>Worker</b> from <b>applying job</b>
-                . <br />
+                This action will restrict <b>Worker</b> from{" "}
+                <b>applying job.</b>
+                <br />
               </Typography>
             ) : null}
             <Typography variant="body1" textAlign="center" marginTop={2}>

@@ -159,3 +159,17 @@ export const unblock_user = async (data) => {
     throw err;
   }
 };
+
+// REPORT USER
+export const report_user = async (data1, data2) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-72at.onrender.com/report_user/${data1}`,
+      data2
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
