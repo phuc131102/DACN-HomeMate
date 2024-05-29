@@ -313,7 +313,7 @@ const CreateJobPage = () => {
                     required
                     fullWidth
                     type="number"
-                    label="Required Worker"
+                    label="Quantity"
                     name="max_num"
                     value={formData.max_num}
                     onChange={handleChange}
@@ -322,7 +322,7 @@ const CreateJobPage = () => {
               </Grid>
             </Grid>
 
-            <Grid item xs={12} md={6} sx={{ marginTop:"10px"}}>
+            <Grid item xs={12} md={6} sx={{ marginTop: "10px" }}>
               <Grid item xs={12}>
                 {avatarBase64 ? (
                   <Box
@@ -330,7 +330,6 @@ const CreateJobPage = () => {
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
-                     
                     }}
                   >
                     <img
@@ -361,7 +360,7 @@ const CreateJobPage = () => {
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    marginTop:"10px"
+                    marginTop: "10px",
                   }}
                 >
                   <label
@@ -453,7 +452,7 @@ const CreateJobPage = () => {
             )}
             <Grid item xs={12}>
               <Button
-                sx={{ marginBottom: "10px", marginTop:"10px" }}
+                sx={{ marginBottom: "10px", marginTop: "10px" }}
                 variant="contained"
                 type="submit"
               >

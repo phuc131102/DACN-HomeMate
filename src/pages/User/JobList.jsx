@@ -156,7 +156,7 @@ function JobList(prop) {
             color="text.primary"
             gutterBottom
           >
-            <b>Blocked User</b>
+            <b>All Jobs</b>
           </Typography>
         </Grid>
         <TableContainer
@@ -177,8 +177,7 @@ function JobList(prop) {
                 <TableCell>Skill Requirement</TableCell>
               </TableRow>
             </TableHead>
-            {currentJobs.length !==
-            0 ? (
+            {currentJobs.length !== 0 ? (
               <TableBody>
                 {currentJobs.map((user, index) => (
                   <TableRow
@@ -192,7 +191,11 @@ function JobList(prop) {
                     }}
                   >
                     <TableCell>
-                      <img src={user.image} alt={user.name} style={{width:"60px"}}/>
+                      <img
+                        src={user.image}
+                        alt={user.name}
+                        style={{ width: "60px" }}
+                      />
                     </TableCell>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
@@ -220,9 +223,7 @@ function JobList(prop) {
       </Box>
       {jobArray.length > 5 ? (
         <Pagination
-          count={Math.ceil(
-            jobArray.length / itemsPerPage
-          )}
+          count={Math.ceil(jobArray.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"

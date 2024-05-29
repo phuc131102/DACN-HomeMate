@@ -158,7 +158,12 @@ function Home() {
               .reverse()
               .map((card, index) => (
                 <Grid item key={index}>
-                  <WorkerCard card={card} />
+                  <WorkerCard
+                    card={card}
+                    userData={
+                      localStorage.getItem("userData") === null ? false : true
+                    }
+                  />
                 </Grid>
               ))}
           </Grid>
@@ -179,6 +184,7 @@ function Home() {
         sx={{
           width: "80%",
           margin: "auto",
+          marginTop: "2%",
         }}
       >
         <Grid container justifyContent="space-between" alignItems="center">
@@ -199,7 +205,7 @@ function Home() {
           "No job available"
         ) : (
           <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-            <Box sx={{ marginTop: "80px", width: "100%" }}>
+            <Box sx={{ width: "100%" }}>
               <NewCard currentJobs={jobArray} />
             </Box>
           </Grid>

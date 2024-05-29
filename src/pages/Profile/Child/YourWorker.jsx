@@ -51,9 +51,19 @@ function YourWorker() {
     }
   }, [userData]);
 
+  const sortedWorkers = workers.sort((a, b) => {
+    const statusOrder = {
+      Working: 1,
+      Waiting: 2,
+      Done: 3,
+    };
+
+    return statusOrder[a.status] - statusOrder[b.status];
+  });
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentWorker = workers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentWorker = sortedWorkers.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -81,13 +91,18 @@ function YourWorker() {
         <Box>
           <Grid container spacing={5}>
             {currentWorker.map((card, index) => (
-              <Grid item xs={6} key={index} sx={{display:"flex", justifyContent:"center"}}>
+              <Grid
+                item
+                xs={6}
+                key={index}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
                 <Card
                   sx={{
                     backgroundColor: "white",
                     borderRadius: "20px",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                    width: isMd?"250px":"125px",
+                    width: isMd ? "250px" : "125px",
                   }}
                 >
                   <Grid
@@ -101,7 +116,7 @@ function YourWorker() {
                   >
                     <CardMedia
                       component="img"
-                      height={isMd?"250":"125"}
+                      height={isMd ? "250" : "125"}
                       image={
                         card.worker.avatar === ""
                           ? avtEmpty
@@ -162,11 +177,11 @@ function YourWorker() {
       )}
       {workers.length > 4 ? (
         <Pagination
-          count={Math.ceil(workers.length / itemsPerPage)}
+          count={Math.ceil(sortedWorkers.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
-          size={isMd?"large":"small"}
+          size={isMd ? "large" : "small"}
           color="primary"
           showFirstButton
           showLastButton
