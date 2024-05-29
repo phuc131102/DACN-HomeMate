@@ -174,22 +174,6 @@ function Message(prop) {
               }}
             >
               {chat?.message?.map((mess) => (
-                <>
-                  {/* <Box className="message">
-                <img src={AvtCho} alt="avt" className="avtimgs" />
-                <Box className="texts">
-                  <Typography className="maintext">
-                    Chả là t đang vẽ truyện thiếu nhi cho Kim Đồng... Đến đoạn
-                    đặt tên credit họa sĩ minh họa thì t ko biết có nên lấy bút
-                    danh nước ngòai của bản thân không (Lemonate). Hay t có nên
-                    tạo ra hẳn 1 bút danh và 1 page khác dành cho vẽ minh họa
-                    truyện trẻ em và dùng bút danh đó đưa cho Kim
-                  </Typography>
-                  <span>1 min ago</span>
-                </Box>
-              </Box> */}
-                  {/*  */}
-
                   <Box className={mess.senderId===prop.userData.id?"message own" :"message"} key={mess?.createAt}>
                     <Box className="texts">
                       {mess.img && (
@@ -199,7 +183,6 @@ function Message(prop) {
                       {/* <span>1 min ago</span> */}
                     </Box>
                   </Box>
-                </>
               ))}
               {img.url && (
                 <Box className="message own">
@@ -236,6 +219,7 @@ function Message(prop) {
               className="textMessage"
               id="standard"
               placeholder="Type a message..."
+              value={text}
               sx={{
                 flex: "1",
                 outline: "none",

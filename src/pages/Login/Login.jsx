@@ -17,6 +17,8 @@ import videoBg from "../../assets/nightwall.gif";
 import { sign_in } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { sha256 } from "js-sha256";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 
 const finalTheme = createTheme({
   components: {
@@ -97,6 +99,10 @@ function Login() {
         const userData = response.data;
         localStorage.setItem("userData", JSON.stringify(userData));
         localStorage.setItem("activeTab", "home");
+        console.log(userData)
+        await setDoc(doc(db,"contacts" ,userData.id), {
+          chat:[]
+        });
         navigate("/");
         window.location.reload();
         console.log("User signed in:", response);
