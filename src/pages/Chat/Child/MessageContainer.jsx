@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -19,8 +19,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 function MessageContainer(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
-
-  const { chatId } = useChatStore();
+  // console.log(prop.userData)
+  const { chatId, ChangeCall } = useChatStore();
+  useEffect(()=>{
+    ChangeCall(prop.userInfo)
+  },[])
   return (
     <Box
       sx={{
@@ -51,7 +54,7 @@ function MessageContainer(prop) {
               <List userInfo={prop.userInfo} />
             </Grid>}
             {chatId && <Grid item xs={12}>
-              {chatId && <Message userData={prop.userData} />}
+              {chatId && <Message userData={prop.userData} userInfo={prop.userInfo}/>}
             </Grid>}
           </Grid>
         )}

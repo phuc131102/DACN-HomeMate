@@ -18,13 +18,13 @@ import useWorkers from "../../utils/userUtils/workerUtils";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+
 function Chat() {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const [userData, setUserData] = useState(null);
   const { userInfo } = useUserInfo(userData?.id);
   // console.log(userInfo);
-
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
 

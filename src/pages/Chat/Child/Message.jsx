@@ -32,13 +32,14 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CallIcon from "@mui/icons-material/Call";
+import UserInfor from "./List/UserInfor/UserInfor";
 function Message(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const endRef = useRef(null);
   const [chat, setChat] = useState();
-  const { chatId, user, ChangeChat } = useChatStore();
+  const { chatId, user, ChangeChat, ChangeCall, mainUser } = useChatStore();
   const [img, setImg] = useState({ file: null, url: "" });
   // console.log(chat)
   const [text, setText] = useState("");
@@ -77,8 +78,11 @@ function Message(prop) {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+  // console.log(prop.userInfo.name);
   const handleCall = () => {
-    window.open(`/call/${user._id.$oid}`);
+    // ChangeChat(chatId, user);
+    // ChangeCall(prop.userInfo);
+    window.open(`/call/${chatId}`);
   };
   const handleTurnBack = () => {
     ChangeChat(null, null);
@@ -99,6 +103,13 @@ function Message(prop) {
   }, [img]);
   const handleVIewProfile = () => {
     navigate(`/user/${user._id.$oid}`);
+  };
+
+  const handleAceptCall = (link) => {
+    console.log("changeCall");
+    // ChangeCall(prop.userInfo.name);
+    window.open(`${link}`);
+    // console.log("click")
   };
   const handleSend = async () => {
     console.log(text);
@@ -152,6 +163,7 @@ function Message(prop) {
     });
     setText("");
   };
+  console.log(chatId);
   return (
     <>
       {
@@ -246,7 +258,25 @@ function Message(prop) {
                 >
                   <Box className="texts">
                     {mess.img && <img src={mess.img} alt="" />}
-                    {mess.text === "Send an image" && mess.img ? (
+                    {mess.callLink && (
+                      <Box>
+                        <Typography
+                          className="maintext"
+                          sx={{
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          onClick={() => handleAceptCall(mess.callLink)}
+                        >
+                          {" "}
+                          <CallIcon sx={{ marginRight: "10px" }} />
+                          incoming call
+                        </Typography>
+                      </Box>
+                    )}
+                    {(mess.text === "Send an image" && mess.img) ||
+                    mess.callLink ? (
                       ""
                     ) : (
                       <Typography className="maintext" sx={{ color: "white" }}>
