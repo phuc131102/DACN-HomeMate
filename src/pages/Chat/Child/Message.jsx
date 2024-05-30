@@ -31,7 +31,7 @@ import uploadImg from "../../../lib/upload";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import CallIcon from "@mui/icons-material/Call";
 function Message(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -60,7 +60,7 @@ function Message(prop) {
     console.log(text);
   };
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth"});
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -77,6 +77,9 @@ function Message(prop) {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+  const handleCall = () => {
+    window.open(`/call/${user._id.$oid}`);
+  };
   const handleTurnBack = () => {
     ChangeChat(null, null);
   };
@@ -181,7 +184,12 @@ function Message(prop) {
                   <ArrowBackIosIcon />
                 </Box>
               )}
-              <img src={user.avatar} alt="avt" className="avtimgss" loading="lazy"/>
+              <img
+                src={user.avatar}
+                alt="avt"
+                className="avtimgss"
+                loading="lazy"
+              />
               <Box
                 className="UserText"
                 sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
@@ -198,11 +206,19 @@ function Message(prop) {
                 </Typography> */}
               </Box>
             </Box>
-            <Box
-              className="icons"
-              sx={{ color: "white", display: "flex", gap: "20px" }}
-            >
-              <InfoIcon onClick={handleVIewProfile} />
+            <Box sx={{ display: "flex", gap: "20px" }}>
+              <Box
+                className="icons"
+                sx={{ color: "white", display: "flex", gap: "20px" }}
+              >
+                <CallIcon onClick={handleCall} />
+              </Box>
+              <Box
+                className="icons"
+                sx={{ color: "white", display: "flex", gap: "20px" }}
+              >
+                <InfoIcon onClick={handleVIewProfile} />
+              </Box>
             </Box>
           </Box>
           {/*  */}

@@ -107,8 +107,10 @@ function Login() {
         let filterItem = [];
         const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
           const arrayMes = res.data();
+          console.log(arrayMes)
           // setChat(arrayMes.chat.filter((item) => item.receiverId === id));
-          if (arrayMes.length === 0){
+          if (arrayMes===undefined){
+            console.log("vao r")
             const createUser = async () => {
               try {
                 await setDoc(doc(db, "contacts", userData.id), {
