@@ -31,8 +31,7 @@ import uploadImg from "../../../lib/upload";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-
+import CallIcon from "@mui/icons-material/Call";
 function Message(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -43,6 +42,8 @@ function Message(prop) {
   const [img, setImg] = useState({ file: null, url: "" });
   // console.log(chat)
   const [text, setText] = useState("");
+  const buttonRef = useRef(null);
+  // const bottomRef = useRef(null)
   // console.log(user);
   // console.log(chatId)
   useEffect(() => {
@@ -51,12 +52,34 @@ function Message(prop) {
     });
     return () => {
       unSub();
+      // endRef.current?.scrollIntoView();
     };
   }, [chatId]);
+  const handleTextChange = (e) => {
+    setText(e.target.value);
+    console.log(text);
+  };
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  }, [chat]);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      // Trigger button click
+      buttonRef.current.click();
+    }
+  };
+  useEffect(() => {
+    // Add event listener for keypress when component mounts
+    window.addEventListener("keydown", handleKeyPress);
 
+    // Clean up event listener when component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+  const handleCall = () => {
+    window.open(`/call/${user._id.$oid}`);
+  };
   const handleTurnBack = () => {
     ChangeChat(null, null);
   };
@@ -66,7 +89,7 @@ function Message(prop) {
         file: e.target.files[0],
         url: URL.createObjectURL(e.target.files[0]),
       });
-      setText("Send an image");
+      // setText("Send an image");
     }
   };
   useEffect(() => {
@@ -78,8 +101,9 @@ function Message(prop) {
     navigate(`/user/${user._id.$oid}`);
   };
   const handleSend = async () => {
-    // console.log("send");
-    if (text === "" && img.file !== null) {
+    console.log(text);
+    console.log("send");
+    if (text === "" && img.file === null) {
       // console.log("return");
       return;
     }
@@ -160,7 +184,12 @@ function Message(prop) {
                   <ArrowBackIosIcon />
                 </Box>
               )}
-              <img src={user.avatar} alt="avt" className="avtimgss" />
+              <img
+                src={user.avatar}
+                alt="avt"
+                className="avtimgss"
+                loading="lazy"
+              />
               <Box
                 className="UserText"
                 sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
@@ -177,11 +206,19 @@ function Message(prop) {
                 </Typography> */}
               </Box>
             </Box>
-            <Box
-              className="icons"
-              sx={{ color: "white", display: "flex", gap: "20px" }}
-            >
-              <InfoIcon onClick={handleVIewProfile} />
+            <Box sx={{ display: "flex", gap: "20px" }}>
+              <Box
+                className="icons"
+                sx={{ color: "white", display: "flex", gap: "20px" }}
+              >
+                <CallIcon onClick={handleCall} />
+              </Box>
+              <Box
+                className="icons"
+                sx={{ color: "white", display: "flex", gap: "20px" }}
+              >
+                <InfoIcon onClick={handleVIewProfile} />
+              </Box>
             </Box>
           </Box>
           {/*  */}
@@ -266,13 +303,13 @@ function Message(prop) {
                 borderRadius: "4px",
                 fontSize: "16",
               }}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => handleTextChange(e)}
             />
             {/* <Box className="emoji" sx={{paddingRight:"10px", paddingLeft:"10px"}}>
           <EmojiEmotionsIcon sx={{ color: "white" }} />
         </Box> */}
             <Box sx={{ paddingLeft: "20px" }}>
-              <Button variant="contained" onClick={handleSend}>
+              <Button ref={buttonRef} variant="contained" onClick={handleSend}>
                 {" "}
                 send
               </Button>
