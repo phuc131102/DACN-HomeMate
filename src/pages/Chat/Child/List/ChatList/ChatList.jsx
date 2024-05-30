@@ -26,7 +26,7 @@ function ChatList() {
   const { userInfo } = useUserInfo(userData?.id);
   const { users, loading } = useUsers();
   const { ChangeChat } = useChatStore();
-  console.log(users);
+  // console.log(users);
   // console.log(chats);
   useEffect(() => {
     if (userData && userData.id) {
@@ -39,9 +39,9 @@ function ChatList() {
         (res) => {
           if (res.exists()) {
             const item = res.data();
-            console.log(item);
+            // console.log(item);
             const idList = item.chat.map((item) => item.receiverId);
-            console.log(idList);
+            // console.log(idList);
             const filteredData = users.filter((item) =>
               idList.includes(item._id.$oid)
             );
@@ -77,7 +77,7 @@ function ChatList() {
       // console.log(parsedUserData);
     }
   }, []);
-  console.log(chats);
+  // console.log(chats);
   const handleSelect = async (chat) => {
     // console.log(chat)
 

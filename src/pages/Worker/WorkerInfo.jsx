@@ -34,6 +34,7 @@ import {
   arrayUnion,
   collection,
   doc,
+  onSnapshot,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -45,7 +46,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { message } from "antd";
-
+import { useChatStore } from "../../lib/chatStore";
 function WorkerInfo() {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -56,7 +57,8 @@ function WorkerInfo() {
   const [showReportModal, setShowReportModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
-  const [newValue, setNewValue] = useState("");
+  const { ChangeChat, user } = useChatStore();
+  const { chat, setChat } = useState([]);  const [newValue, setNewValue] = useState("");
 
   const finalTheme = createTheme({
     components: {
@@ -150,46 +152,64 @@ function WorkerInfo() {
     }
   }, [id]);
 
-  const handleAddNewContact = async () => {
+  const handleAddNewContact = () => {
     const chatRef = collection(db, "messages");
     const userChatRef = collection(db, "contacts");
+    let filterItem = [];
+    const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
+      const arrayMes = res.data();
+      // setChat(arrayMes.chat.filter((item) => item.receiverId === id));
+      filterItem = arrayMes.chat.filter((item) => item.receiverId === id);
+      if (filterItem.length > 0) {
+        const mergedArray = { ...filterItem, ...userInfo }; // Merge properties of item1 and item2
+        ChangeChat(filterItem[0].chatId, mergedArray);
+        navigate("/chat");
+      } else {
+        const createUser = async () => {
+          try {
+            // console.log("cay vkl");
+            const newChatRef = doc(chatRef);
+            await setDoc(newChatRef, {
+              createAt: serverTimestamp(),
+              message: [],
+            });
 
-    // await setDoc(doc(db, "contacts", userData.id), {
-    //   chat:[]
-    //   // userId: userData.id,
-    //   // contactId: id,
-    // });
-    try {
-      const newChatRef = doc(chatRef);
+            await updateDoc(doc(userChatRef, userData.id), {
+              chat: arrayUnion({
+                chatId: newChatRef.id,
+                lastMessage: "",
+                receiverId: id,
+                updateAt: Date.now(),
+              }),
+            });
+            await updateDoc(doc(userChatRef, id), {
+              chat: arrayUnion({
+                chatId: newChatRef.id,
+                lastMessage: "",
+                receiverId: userData.id,
+                updateAt: Date.now(),
+              }),
+            });
+            const mergedArray = {
+              ...{
+                chatId: newChatRef.id,
+                lastMessage: "",
+                receiverId: userData.id,
+                updateAt: Date.now(),
+              },
+              ...userInfo,
+            };
+            console.log(newChatRef.id);
+            ChangeChat(newChatRef.id, mergedArray);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        createUser();
+      }
+    });
 
-      await setDoc(newChatRef, {
-        createAt: serverTimestamp(),
-        message: [],
-        // userId: userData.id,
-        // contactId: id,
-      });
-
-      await updateDoc(doc(userChatRef, userData.id), {
-        chat: arrayUnion({
-          chatId: newChatRef.id,
-          lastMessage: "",
-          receiverId: id,
-          updateAt: Date.now(),
-        }),
-      });
-      await updateDoc(doc(userChatRef, id), {
-        chat: arrayUnion({
-          chatId: newChatRef.id,
-          lastMessage: "",
-          receiverId: userData.id,
-          updateAt: Date.now(),
-        }),
-      });
-      console.log(newChatRef.id);
-    } catch (err) {
-      console.log(err);
-    }
-    navigate("/chat");
+    // navigate("/chat");
   };
 
   const handleDeleteUser = async (id) => {

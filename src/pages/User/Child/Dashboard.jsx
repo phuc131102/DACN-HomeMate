@@ -7,6 +7,8 @@ import RightSide from "./RightSide";
 import UserFilter from "./UserFilter";
 import { get_skill } from "../../../services/skillAPI";
 import { create_skill, delete_Skill } from "../../../services/skillAPI";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../../lib/firebase";
 function Dashboard(prop) {
   const [chooseSkill, setChooseSkill] = useState([]);
   console.log(chooseSkill);
@@ -29,6 +31,19 @@ function Dashboard(prop) {
     };
     fetchSkill();
   }, []);
+  // const handleChatButton=() =>{
+  //   console.log(prop.users)
+  //   prop.users.forEach((item)=> {
+  //     const createUser = async () => {
+  //     await setDoc(doc(db, "contacts", item._id.$oid), {
+  //       chat: [],
+  //     });
+  //   }
+  //   createUser()
+  //   // console.log(item)
+  // }
+  // )
+  // }
 
   // const handleDeleteSkill = async () => {
   //   let tempItems = chooseSkill.map((selectedSkill) => {
@@ -115,6 +130,11 @@ function Dashboard(prop) {
             </Grid>
           </Grid>
         </Grid> */}
+
+
+
+{/* for later user */}
+        {/* <Button onClick={handleChatButton}> Chat</Button> */}
       </Grid>
     </Box>
   );
