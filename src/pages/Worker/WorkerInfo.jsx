@@ -347,36 +347,41 @@ function WorkerInfo() {
                           </Typography>
                         </Box>
                       </Grid>
-                      <Grid item xs={12} sx={{ marginBottom: "20px" }}>
-                        <Box
-                          sx={{
-                            width: "100%",
-                            display: isMd ? "" : "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Button
-                            variant="contained"
-                            onClick={handleAddNewContact}
-                            sx={{ borderRadius: "20px" }}
-                            disabled={currentUserInfo?.block ? true : false}
+                      {userData.id !== userInfo._id.$oid && (
+                        <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              display: isMd ? "" : "flex",
+                              justifyContent: "center",
+                            }}
                           >
-                            <ChatBubbleIcon />
-                            &nbsp; Message
-                          </Button>
-                          {userData.role !== "Admin" ? (
                             <Button
                               variant="contained"
-                              color="error"
-                              onClick={handleOpenReportModal}
-                              sx={{ borderRadius: "20px", marginLeft: "10px" }}
+                              onClick={handleAddNewContact}
+                              sx={{ borderRadius: "20px" }}
                               disabled={currentUserInfo?.block ? true : false}
                             >
-                              <FlagIcon /> &nbsp;Report
+                              <ChatBubbleIcon />
+                              &nbsp; Message
                             </Button>
-                          ) : null}
-                        </Box>
-                      </Grid>
+                            {userData.role !== "Admin" ? (
+                              <Button
+                                variant="contained"
+                                color="error"
+                                onClick={handleOpenReportModal}
+                                sx={{
+                                  borderRadius: "20px",
+                                  marginLeft: "10px",
+                                }}
+                                disabled={currentUserInfo?.block ? true : false}
+                              >
+                                <FlagIcon /> &nbsp;Report
+                              </Button>
+                            ) : null}
+                          </Box>
+                        </Grid>
+                      )}
 
                       {userData.role === "Admin" &&
                       userInfo.role !== "Admin" ? (
