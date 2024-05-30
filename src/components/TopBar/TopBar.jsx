@@ -179,6 +179,7 @@ function TopBar() {
     handleCloseUserMenu();
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
+    localStorage.removeItem("chat-store");
     navigate("/signin");
     window.location.reload();
   };

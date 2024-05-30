@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import { useParams } from "react-router-dom";
 import { useChatStore } from "../../../lib/chatStore";
+import { useLocation } from "react-router-dom";
 function randomID(len) {
   let result = "";
   if (result) return result;
@@ -22,60 +24,75 @@ export function getUrlParams(url = window.location.href) {
 }
 
 export default function Call() {
-  const [userData, setUserData] = useState(null);
+  const location = useLocation();
+  const { chatId, user, isLoading, ChangeChat, mainUser } = useChatStore((state) => ({
+    chatId: state.chatId,
+    user: state.user,
+    isLoading: state.isLoading,
+    ChangeChat: state.ChangeChat,
+    mainUser:state.mainUser
+  }));
+  // console.log(mainUser)
+  const params = useParams();
+  const id = params.id.split("/").pop();
+  // const [userData, setUserData] = useState(null);
   const [text, setText] = useState("");
-  const { chatId, user, ChangeChat } = useChatStore();
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      const parsedUserData = JSON.parse(storedUserData);
-      setUserData(parsedUserData);
-      // console.log(parsedUserData);
-    }
-  }, []);
+  // const { chatId, user, ChangeChat } = useChatStore();
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("userData");
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setUserData(parsedUserData);
+  //     // console.log(parsedUserData);
+  //   }
+  // }, []);
   const handleSend = async (text) => {
     // useEffect((text) => {
-    if (userData && userData.id) {
+    
       if (text === "") {
         return;
       }
       console.log(text);
-      // try {
-      //   await updateDoc(doc(db, "messages", chatId), {
-      //     message: arrayUnion({
-      //       senderId: userData.id,
-      //       text: "call",
-      //       createAt: new Date(),
-      //       callLink:""
-      //     }),
-      //   });
-      //   const UserIds = [userData.id, user._id.$oid];
-      //   UserIds.forEach(async (id) => {
-      //     const userChatRef = doc(db, "contacts", id);
-      //     const userChatSnapshot = await getDoc(userChatRef);
+      try {
+        // console.log(chatId)
+        // console.log(id)
+        // console.log(user)
+        // console.log(mainUser)
+        await updateDoc(doc(db, "messages", chatId), {
+          message: arrayUnion({
+            senderId: mainUser._id.$oid,
+            text: "calling",
+            createAt: new Date(),
+            callLink: text,
+          }),
+        });
+        const UserIds = [mainUser._id.$oid, user._id.$oid];
+        UserIds.forEach(async (id) => {
+          const userChatRef = doc(db, "contacts", id);
+          const userChatSnapshot = await getDoc(userChatRef);
 
-      //     if (userChatSnapshot.exists()) {
-      //       const userChatsData = userChatSnapshot.data();
+          if (userChatSnapshot.exists()) {
+            const userChatsData = userChatSnapshot.data();
 
-      //       const chatIndex = userChatsData.chat.findIndex(
-      //         (c) => c.chatId === chatId
-      //       );
-      //       console.log(userChatsData.chat[chatIndex]);
-      //       userChatsData.chat[chatIndex].lastMessage = text;
-      //       userChatsData.chat[chatIndex].isSeen =
-      //         id === userData.id ? true : false;
-      //       userChatsData.chat[chatIndex].updateAt = Date.now();
+            const chatIndex = userChatsData.chat.findIndex(
+              (c) => c.chatId === chatId
+            );
+            console.log(userChatsData.chat[chatIndex]);
+            userChatsData.chat[chatIndex].lastMessage = "calling";
+            userChatsData.chat[chatIndex].isSeen =
+              id === mainUser._id.$oid ? true : false;
+            userChatsData.chat[chatIndex].updateAt = Date.now();
 
-      //       await updateDoc(userChatRef, {
-      //         chat: userChatsData.chat,
-      //       });
-      //     }
-      //   });
-      // } catch (err) {
-      //   console.log(err);
-      // }
+            await updateDoc(userChatRef, {
+              chat: userChatsData.chat,
+            });
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
       // setText("");
-    }
+    
   };
   // },[userData]);
 
@@ -89,7 +106,7 @@ export default function Call() {
       serverSecret,
       roomID,
       randomID(5),
-      randomID(5)
+      mainUser.name
     );
 
     // Create instance object from Kit Token.
@@ -113,14 +130,22 @@ export default function Call() {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
       },
     });
-    let text =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname +
-      "?roomID=" +
-      roomID;
-    handleSend(text)
+    let checkUrl = window.location.href;
+
+    // console.log(checkUrl)
+    if (!checkUrl.includes("?roomID="+ roomID)) {
+      console.log(roomID)
+      let text =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        window.location.pathname +
+        "?roomID=" +
+        roomID;
+
+      handleSend(text);
+    }
+
     // setText(window.location.protocol +"//" +window.location.host +window.location.pathname +"?roomID=" +roomID)
   };
 
