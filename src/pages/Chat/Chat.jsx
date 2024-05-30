@@ -27,7 +27,7 @@ function Chat() {
     if (storedUserData) {
       const parsedUserData = JSON.parse(storedUserData);
       setUserData(parsedUserData);
-      console.log(parsedUserData);
+      // console.log(parsedUserData);
     }
   }, []);
   return (

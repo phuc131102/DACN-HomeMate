@@ -34,9 +34,9 @@ function Message(prop) {
   const [chat, setChat] = useState();
   const { chatId, user } = useChatStore();
   const [img, setImg] = useState({ file: null, url: "" });
-  console.log(chat)
+  // console.log(chat)
   const [text, setText] = useState("");
-  console.log(user);
+  // console.log(user);
   // console.log(chatId)
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "messages", chatId), (res) => {

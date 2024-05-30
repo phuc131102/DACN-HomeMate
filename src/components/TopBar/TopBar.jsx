@@ -26,6 +26,9 @@ import useUserInfo from "../../utils/userUtils/useUserInfo";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FlagIcon from "@mui/icons-material/Flag";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../lib/firebase";
+import { useChatStore } from "../../lib/chatStore";
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -33,11 +36,13 @@ function TopBar() {
   const [userData, setUserData] = useState(null);
   const [userNoti, setUserNoti] = useState(null);
   const [notiCount, setNotiCount] = useState(null);
+  const [messCount, setMesCount] = useState(null);
+  const [chat, setChat] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { userInfo } = useUserInfo(userData?.id);
-
+  const {chatId} = useChatStore()
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -76,7 +81,8 @@ function TopBar() {
       setActiveTab("");
     }
   }, []);
-
+  // console.log(messCount)
+  // console.log(chatId)
   useEffect(() => {
     const pathname = location.pathname;
     const tab = pathname.split("/")[1];
@@ -89,6 +95,28 @@ function TopBar() {
       setNotiCount(0);
     }
   }, [anchorElNotification]);
+
+  useEffect(() => {
+    if (userData && userData.id) {
+      const messNoti = async () => {
+        const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
+          const arrayMes = res.data();
+          // console.log(arrayMes)
+          // console.log("change count")
+          let count = 0;
+          arrayMes.chat.forEach(item => item.isSeen===false ? count = count+1 :"")
+          // console.log(count)
+          if(count>0){
+            setMesCount(count)
+          }
+          else{
+            setMesCount(null)
+          }
+        });
+      };
+      messNoti();
+    }
+  },[userData, chatId]);
 
   const handleSeen = async () => {
     const data = {
@@ -654,7 +682,7 @@ function TopBar() {
                 </Menu>
                 <IconButton aria-label="notification" onClick={handleMessage}>
                   <Badge
-                    // badgeContent={4}
+                    badgeContent={messCount}
                     color="primary"
                     // sx={{ marginLeft: "15px", marginRight: "15px" }}
                   >
