@@ -36,34 +36,36 @@ function Avt(prop) {
       <ThemeProvider theme={prop.finalTheme}>
         <Grid container sx={{ marginTop: "5%", marginBottom: "5%" }}>
           <Grid item xs={12} md={4}>
-            <Box className="hero-title">
-              <Box
-                className="orange-circle"
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    backgroundColor: "rgba(110, 107, 107, 0.78)",
-                    borderColor: "#0062cc",
-                    boxShadow: "none",
-                  },
-                }}
-                onClick={handleClick}
-              >
-                <CameraAltIcon fontSize="large" />
-                <input
-                  id="avatar-upload"
-                  style={{
-                    display: "none",
+            {!prop.userInfo.block ? (
+              <Box className="hero-title">
+                <Box
+                  className="orange-circle"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      backgroundColor: "rgba(110, 107, 107, 0.78)",
+                      borderColor: "#0062cc",
+                      boxShadow: "none",
+                    },
                   }}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileInputChange}
-                />
+                  onClick={handleClick}
+                >
+                  <CameraAltIcon fontSize="large" />
+                  <input
+                    id="avatar-upload"
+                    style={{
+                      display: "none",
+                    }}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                  />
+                </Box>
               </Box>
-            </Box>
+            ) : null}
             {prop.editing ? (
               <>
                 <Grid item xs={12}>

@@ -19,6 +19,7 @@ function UserInfor(prop) {
             width: "100%",
             display: "flex",
             justifyContent: "flex-start",
+            marginTop:"5%"
           }}
         >
           <Typography color="error" variant="h5">

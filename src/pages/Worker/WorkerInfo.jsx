@@ -58,7 +58,10 @@ function WorkerInfo() {
   const [showModal2, setShowModal2] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
   const { ChangeChat, user } = useChatStore();
-  const { chat, setChat } = useState([]);  const [newValue, setNewValue] = useState("");
+  const { chat, setChat } = useState([]);
+  const [newValue, setNewValue] = useState("");
+  const { userInfo: currentUserInfo } = useUserInfo(userData?.id);
+  console.log(currentUserInfo);
 
   const finalTheme = createTheme({
     components: {
@@ -356,6 +359,7 @@ function WorkerInfo() {
                             variant="contained"
                             onClick={handleAddNewContact}
                             sx={{ borderRadius: "20px" }}
+                            disabled={currentUserInfo?.block ? true : false}
                           >
                             <ChatBubbleIcon />
                             &nbsp; Message
@@ -366,6 +370,7 @@ function WorkerInfo() {
                               color="error"
                               onClick={handleOpenReportModal}
                               sx={{ borderRadius: "20px", marginLeft: "10px" }}
+                              disabled={currentUserInfo?.block ? true : false}
                             >
                               <FlagIcon /> &nbsp;Report
                             </Button>
@@ -434,8 +439,7 @@ function WorkerInfo() {
                           </Box>
                         </Grid>
                       ) : null}
-                      {(userData.role === "Admin" ||
-                        userData.role === "Homeowner") &&
+                      {userData.role === "Homeowner" &&
                       userInfo.role === "Worker" ? (
                         <Grid item xs={12}>
                           <Box>

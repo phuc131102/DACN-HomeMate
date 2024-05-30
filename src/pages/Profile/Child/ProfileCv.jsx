@@ -82,6 +82,7 @@ function ProfileCv(prop) {
                     variant="contained"
                     onClick={prop.handleCreateCv}
                     sx={{ marginTop: "15px" }}
+                    disabled={prop.userInfo.block ? true : false}
                   >
                     {" "}
                     Create CV
@@ -113,6 +114,7 @@ function ProfileCv(prop) {
                 color="error"
                 onClick={handleOpenModal}
                 sx={{ marginTop: "15px" }}
+                disabled={prop.userInfo.block ? true : false}
               >
                 {" "}
                 Delete CV
@@ -124,6 +126,7 @@ function ProfileCv(prop) {
                 variant="contained"
                 onClick={prop.handleUpdateCv}
                 sx={{ marginTop: "15px" }}
+                disabled={prop.userInfo.block ? true : false}
               >
                 {" "}
                 Update CV

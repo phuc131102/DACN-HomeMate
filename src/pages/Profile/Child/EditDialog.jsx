@@ -24,7 +24,7 @@ export default function EditDialog(prop) {
   };
 
   const handleClose = () => {
-    prop.handleCancle()
+    prop.handleCancle();
     setOpen(false);
   };
 
@@ -42,6 +42,7 @@ export default function EditDialog(prop) {
           },
         }}
         onClick={handleClickOpen}
+        disabled={prop.block ? true : false}
       >
         Edit Profile
       </Button>
@@ -53,7 +54,7 @@ export default function EditDialog(prop) {
         aria-describedby="alert-dialog-slide-description"
         sx={{
           "& .MuiDialog-paper": {
-            width: isMd?"30%":"80%",
+            width: isMd ? "30%" : "80%",
             borderRadius: "15px",
           },
         }}

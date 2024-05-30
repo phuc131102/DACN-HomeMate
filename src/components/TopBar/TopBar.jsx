@@ -42,7 +42,7 @@ function TopBar() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { userInfo } = useUserInfo(userData?.id);
-  const {chatId} = useChatStore()
+  const { chatId } = useChatStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -104,19 +104,20 @@ function TopBar() {
           // console.log(arrayMes)
           // console.log("change count")
           let count = 0;
-          arrayMes.chat.forEach(item => item.isSeen===false ? count = count+1 :"")
+          arrayMes.chat.forEach((item) =>
+            item.isSeen === false ? (count = count + 1) : ""
+          );
           // console.log(count)
-          if(count>0){
-            setMesCount(count)
-          }
-          else{
-            setMesCount(null)
+          if (count > 0) {
+            setMesCount(count);
+          } else {
+            setMesCount(null);
           }
         });
       };
       messNoti();
     }
-  },[userData, chatId]);
+  }, [userData, chatId]);
 
   const handleSeen = async () => {
     const data = {
@@ -680,12 +681,12 @@ function TopBar() {
                       ))
                   )}
                 </Menu>
-                <IconButton aria-label="notification" onClick={handleMessage}>
-                  <Badge
-                    badgeContent={messCount}
-                    color="primary"
-                    // sx={{ marginLeft: "15px", marginRight: "15px" }}
-                  >
+                <IconButton
+                  aria-label="notification"
+                  onClick={handleMessage}
+                  disabled={userInfo?.block ? true : false}
+                >
+                  <Badge badgeContent={messCount} color="primary">
                     <ChatBubbleIcon />
                   </Badge>
                 </IconButton>
