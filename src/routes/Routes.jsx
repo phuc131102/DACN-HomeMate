@@ -147,7 +147,7 @@ function AppRoutes() {
       <Route path="/job" element={<Job />} />
       <Route path="/job/:id" element={<JobInfo />} />
 
-      <Route path="/admin" element={<ProtectedUserList />} />
+      <Route path="/admin/:tabValue?" element={<ProtectedUserList />} />
       <Route path="/add-user" element={<ProtectedAddUser />} />
       <Route path="/user/:id" element={<ProtectedUserInfo />} />
 

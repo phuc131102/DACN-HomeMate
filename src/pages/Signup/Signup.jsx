@@ -74,10 +74,6 @@ function Signup() {
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const styles = {
     modal: {
       position: "absolute",

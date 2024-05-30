@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, Typography, Box, Button, Modal, Stack } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Button,
+  Modal,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { block_user, deleteUser, unblock_user } from "../../services/userAPI";
+import {
+  block_user,
+  deleteUser,
+  report_user,
+  unblock_user,
+} from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import ViewCv from "../ViewCv/ViewCv";
 import { get_cv_info } from "../../services/cvAPI";
 import ComponentDivider from "../../components/ComponentDivider/ComponentDivider";
 import avtEmpty from "../../assets/avt_empty.png";
-import { myJob } from "../../services/jobAPI";
 import Avt from "./Child/Avt";
 import LeftSide from "./Child/LeftSide";
 import Rate from "./Child/Rating";
@@ -28,6 +40,11 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import FlagIcon from "@mui/icons-material/Flag";
+import BlockIcon from "@mui/icons-material/Block";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { message } from "antd";
 import { useChatStore } from "../../lib/chatStore";
 function WorkerInfo() {
@@ -35,13 +52,14 @@ function WorkerInfo() {
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [cvinfo, setCvInfo] = useState({});
   const { ChangeChat, user } = useChatStore();
-  const { chat, setChat } = useState([]);
+  const { chat, setChat } = useState([]);  const [newValue, setNewValue] = useState("");
+
   const finalTheme = createTheme({
     components: {
       MuiTextField: {
@@ -105,25 +123,17 @@ function WorkerInfo() {
     if (userData && userData.id && id) {
       const fetchData = async () => {
         try {
-          const fetchedJobs = await myJob(userData.id);
-          setJobs(fetchedJobs);
+          const response = await get_cv_info(id);
+          setCvInfo(response);
         } catch (error) {
-          console.error("Error fetching jobs:", error);
-          setLoading(false);
+          console.error("Error fetching cv information:", error);
         } finally {
-          try {
-            const response = await get_cv_info(id);
-            setCvInfo(response);
-          } catch (error) {
-            console.error("Error fetching cv information:", error);
-          } finally {
-            setLoading(false);
-          }
+          setLoading(false);
         }
       };
       fetchData();
     }
-  }, [userData]);
+  }, [userData, id]);
 
   useEffect(() => {
     if (id) {
@@ -198,7 +208,6 @@ function WorkerInfo() {
         createUser();
       }
     });
-    console.log(chat);
 
     // navigate("/chat");
   };
@@ -206,7 +215,7 @@ function WorkerInfo() {
   const handleDeleteUser = async (id) => {
     try {
       const deletionMessage = await deleteUser(id);
-      navigate("/admin");
+      navigate("/admin/2");
       console.log(deletionMessage);
     } catch (error) {
       console.error("Error:", error.message);
@@ -233,12 +242,40 @@ function WorkerInfo() {
     }
   };
 
+  const handleChange = (event) => {
+    setNewValue(event.target.value);
+  };
+
+  const handleReportUser = async () => {
+    const data = {
+      userId: userData.id,
+      reason: newValue,
+    };
+    try {
+      const response = await report_user(id, data);
+      if (response) {
+        setShowReportModal(false);
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleOpenReportModal = () => {
+    setShowReportModal(true);
+  };
+
+  const handleCloseReportModal = () => {
+    setShowReportModal(false);
   };
 
   const handleOpenModal2 = () => {
@@ -299,6 +336,7 @@ function WorkerInfo() {
                             width: "100%",
                             display: "flex",
                             justifyContent: isMd ? "flex-start" : "center",
+                            marginBottom: "20px",
                           }}
                         >
                           <Typography variant="h4">
@@ -306,11 +344,7 @@ function WorkerInfo() {
                           </Typography>
                         </Box>
                       </Grid>
-                      <Grid
-                        item
-                        xs={isMd ? 4 : 12}
-                        sx={{ marginBottom: "20px" }}
-                      >
+                      <Grid item xs={12} sx={{ marginBottom: "20px" }}>
                         <Box
                           sx={{
                             width: "100%",
@@ -321,24 +355,23 @@ function WorkerInfo() {
                           <Button
                             variant="contained"
                             onClick={handleAddNewContact}
+                            sx={{ borderRadius: "20px" }}
                           >
-                            Message
+                            <ChatBubbleIcon />
+                            &nbsp; Message
                           </Button>
+                          {userData.role !== "Admin" ? (
+                            <Button
+                              variant="contained"
+                              color="error"
+                              onClick={handleOpenReportModal}
+                              sx={{ borderRadius: "20px", marginLeft: "10px" }}
+                            >
+                              <FlagIcon /> &nbsp;Report
+                            </Button>
+                          ) : null}
                         </Box>
                       </Grid>
-                      {userInfo.block ? (
-                        <Grid item xs={12}>
-                          <Box
-                            sx={{
-                              textAlign: "center",
-                            }}
-                          >
-                            <Typography sx={{ fontSize: "20px", color: "red" }}>
-                              <b>USER IS BLOCKED</b>
-                            </Typography>
-                          </Box>
-                        </Grid>
-                      ) : null}
 
                       {userData.role === "Admin" &&
                       userInfo.role !== "Admin" ? (
@@ -346,37 +379,85 @@ function WorkerInfo() {
                           <Box
                             sx={{
                               width: "100%",
-                              display: "flex",
+                              display: isMd ? "" : "flex",
+                              justifyContent: "center",
+                              marginBottom: "20px",
                             }}
                           >
                             <Button
                               variant="contained"
                               color={!userInfo.block ? "warning" : "success"}
                               sx={{
-                                width: "40%",
-                                borderRadius: "15px",
-                                margin: "auto",
+                                borderRadius: "20px",
                               }}
                               onClick={() => {
                                 handleOpenModal2();
                               }}
                             >
+                              {!userInfo.block ? (
+                                <BlockIcon />
+                              ) : (
+                                <LockOpenIcon />
+                              )}
+                              &nbsp;
                               {!userInfo.block ? "Block User" : "Unblock User"}
                             </Button>
                             <Button
                               variant="contained"
                               color="error"
                               sx={{
-                                width: "40%",
-                                borderRadius: "15px",
-                                margin: "auto",
+                                borderRadius: "20px",
+                                marginLeft: "10px",
                               }}
                               onClick={() => {
                                 handleOpenModal();
                               }}
                             >
-                              Delete User
+                              <DeleteIcon />
+                              &nbsp;Delete User
                             </Button>
+                          </Box>
+                        </Grid>
+                      ) : null}
+                      {userInfo.block && userData.role === "Admin" ? (
+                        <Grid item xs={12}>
+                          <Box>
+                            <Typography
+                              sx={{
+                                fontSize: "20px",
+                                color: "red",
+                                textAlign: isMd ? "" : "center",
+                              }}
+                            >
+                              <b>USER IS BLOCKED</b>
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      ) : null}
+                      {(userData.role === "Admin" ||
+                        userData.role === "Homeowner") &&
+                      userInfo.role === "Worker" ? (
+                        <Grid item xs={12}>
+                          <Box>
+                            <Typography
+                              sx={{
+                                fontSize: "20px",
+                                textAlign: isMd ? "" : "center",
+                              }}
+                            >
+                              <b>
+                                Worker Status:{" "}
+                                <span
+                                  style={
+                                    userInfo.status === "Available"
+                                      ? { color: "green" }
+                                      : { color: "orange" }
+                                  }
+                                >
+                                  {userInfo.status}
+                                </span>
+                              </b>
+                            </Typography>
                           </Box>
                         </Grid>
                       ) : null}
@@ -505,6 +586,57 @@ function WorkerInfo() {
           </Stack>
         </Box>
       </Modal>
+      <Modal
+        open={showReportModal}
+        onClose={handleCloseReportModal}
+        aria-labelledby="place-book-modal"
+        aria-describedby="place-book-modal-description"
+      >
+        <Box sx={styles.modal}>
+          <Typography id="place-book-modal" variant="h5" textAlign="center">
+            Confirm Report
+          </Typography>
+          <Typography variant="body1" textAlign="center" marginTop={2}>
+            Are you sure you want to report this user?
+            <br /> Please fill in the reason below:
+          </Typography>
+          <TextField
+            id="outlined-basic"
+            sx={{
+              width: "100%",
+              [`& fieldset`]: { borderRadius: 8 },
+              marginTop: "30px",
+              marginBottom: "15px",
+            }}
+            variant="outlined"
+            label="Please fill in the report reason..."
+            name="reason"
+            fullWidth
+            multiline
+            required
+            rows={8}
+            value={newValue}
+            onChange={handleChange}
+          />
+          <Stack direction="row" justifyContent="center" marginTop={4}>
+            <Button
+              variant="contained"
+              sx={styles.buttonRemove}
+              onClick={handleReportUser}
+            >
+              Report
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={styles.button}
+              onClick={handleCloseReportModal}
+            >
+              Cancel
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
       {userInfo ? (
         <Modal
           open={showModal2}
@@ -524,8 +656,9 @@ function WorkerInfo() {
               </Typography>
             ) : !userInfo.block && userInfo.role === "Worker" ? (
               <Typography variant="body1" textAlign="center" marginTop={2}>
-                This action will restrict <b>Worker</b> from <b>applying job</b>
-                . <br />
+                This action will restrict <b>Worker</b> from{" "}
+                <b>applying job.</b>
+                <br />
               </Typography>
             ) : null}
             <Typography variant="body1" textAlign="center" marginTop={2}>

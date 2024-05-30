@@ -95,6 +95,19 @@ export const allWorker = async () => {
   }
 };
 
+// GET ALL OWNERS
+export const allOwner = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-72at.onrender.com/owner`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 // GET NUMBER OF OWNERS
 export const count_owner = async () => {
   try {
@@ -154,6 +167,46 @@ export const unblock_user = async (data) => {
       `https://projectapi-72at.onrender.com/unblock_user/${data}`
     );
     return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// REPORT USER
+export const report_user = async (data1, data2) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-72at.onrender.com/report_user/${data1}`,
+      data2
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//DELETE REPORTS
+export const delete_report = async (data) => {
+  try {
+    const response = await axios.delete(
+      `https://projectapi-72at.onrender.com/delete_report/${data}`
+    );
+    return response.data.message;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// GET ALL REPORT
+export const allReport = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-72at.onrender.com/report`
+    );
+    return response.data.data;
   } catch (err) {
     console.error(err);
     throw err;
