@@ -522,12 +522,20 @@ function JobInfo() {
                                       marginBottom: "2%",
                                     }}
                                     onClick={handleApply}
-                                    disabled={userInfo.block ? true : false}
+                                    disabled={
+                                      userInfo.block ||
+                                      userInfo.status === "Pending" ||
+                                      userInfo.status === "Rejected"
+                                        ? true
+                                        : false
+                                    }
                                   >
                                     Apply
                                   </Button>
                                 }
-                                {userInfo.block ? (
+                                {userInfo.block ||
+                                userInfo.status === "Pending" ||
+                                userInfo.status === "Rejected" ? (
                                   <Typography
                                     sx={{
                                       color: "red",

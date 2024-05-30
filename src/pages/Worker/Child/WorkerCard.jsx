@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, Box, Button, Rating, Modal, Stack } from "@mui/material";
 import "./WorkerCard.css";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import EmailIcon from "@mui/icons-material/Email";
 import { useNavigate } from "react-router-dom";
 import avtEmpty from "../../../assets/avt_empty.png";
 
@@ -69,7 +70,11 @@ function WorkerCard(prop) {
           <Box className="content">
             <Typography
               variant="h6"
-              sx={{ wordBreak: "break-word" }}
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
               gutterBottom
             >
               {prop.card.name}
@@ -79,10 +84,16 @@ function WorkerCard(prop) {
                 <Typography
                   variant="body1"
                   sx={{
-                    wordBreak: "break-word",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                   gutterBottom
                 >
+                  <EmailIcon />
                   {prop.card.email}
                 </Typography>
               ) : (
@@ -97,10 +108,12 @@ function WorkerCard(prop) {
                 <Typography
                   variant="body1"
                   sx={{
-                    wordBreak: "break-word",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                   gutterBottom
                 >
@@ -109,6 +122,26 @@ function WorkerCard(prop) {
               ) : (
                 <></>
               )}
+              <Typography
+                variant="body1"
+                sx={{
+                  wordBreak: "break-word",
+                }}
+                gutterBottom
+              >
+                Status:{" "}
+                <b>
+                  <span
+                    style={
+                      prop.card.status === "Available"
+                        ? { color: "green" }
+                        : { color: "orange" }
+                    }
+                  >
+                    {prop.card.status}
+                  </span>
+                </b>
+              </Typography>
               <Box sx={{ padding: "20px" }}>
                 <Button
                   variant="outlined"

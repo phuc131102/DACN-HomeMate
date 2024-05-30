@@ -59,6 +59,7 @@ function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState(null);
   const [newValue, setNewValue] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -98,6 +99,7 @@ function Signup() {
     email: "",
     password: "",
     role: "",
+    cccd_num: "",
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -124,6 +126,21 @@ function Signup() {
     setNewValue(uppercasedValue);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          cccd_image: reader.result,
+        });
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -141,6 +158,7 @@ function Signup() {
     formData.role = age;
 
     try {
+      console.log(formData);
       const response = await sign_up(formData);
       if (response) {
         setVerifyEmail(formData.email);
@@ -211,7 +229,7 @@ function Signup() {
       <Box
         sx={{
           width: "100vw",
-          height: "100vh",
+          height: "120vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -222,7 +240,7 @@ function Signup() {
           style={{
             position: "absolute",
             width: "100vw",
-            height: "100vh",
+            height: "120vh",
             objectFit: "cover",
           }}
         />
@@ -373,6 +391,50 @@ function Signup() {
                       />
                     </Grid>
 
+                    <Grid item xs={12}>
+                      <TextField
+                        id="outlined-basic"
+                        sx={{
+                          width: "100%",
+                          [`& fieldset`]: { borderRadius: 8 },
+
+                          marginBottom: "15px",
+                        }}
+                        variant="outlined"
+                        type="number"
+                        label="Indentity Number"
+                        name="cccd_num"
+                        value={formData.cccd_num}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                          width: "100%",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        Upload Identity Image
+                        <input
+                          type="file"
+                          hidden
+                          accept="image/*"
+                          onChange={handleImageChange}
+                        />
+                      </Button>
+                    </Grid>
+                    {imagePreview && (
+                      <img
+                        src={imagePreview}
+                        alt="CCCD Preview"
+                        style={{ width: "100%", marginBottom: "15px" }}
+                      />
+                    )}
+
                     {error && (
                       <Typography variant="body2" color="error" align="center">
                         {error}
@@ -427,7 +489,6 @@ function Signup() {
       </Box>
       <Modal
         open={showModal}
-        // onClose={handleCloseModal}
         aria-labelledby="place-book-modal"
         aria-describedby="place-book-modal-description"
       >

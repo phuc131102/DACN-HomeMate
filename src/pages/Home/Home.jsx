@@ -51,9 +51,7 @@ function Home() {
     .slice(-4)
     .reverse();
   const jobLength = jobs.filter((card) => card.status === "Available").length;
-  const workerLength = workers.filter(
-    (card) => card.status === "Available"
-  ).length;
+  const workerLength = workers.length;
 
   const calculateAverage = (ratings) => {
     if (ratings.length === 0) return 0; // Handle empty rating arrays

@@ -174,11 +174,19 @@ function Job() {
                         borderRadius: "15px",
                       }}
                       onClick={handleAddJob}
-                      disabled={userInfo.block ? true : false}
+                      disabled={
+                        userInfo.block ||
+                        userInfo.status === "Pending" ||
+                        userInfo.status === "Rejected"
+                          ? true
+                          : false
+                      }
                     >
                       Create New Job
                     </Button>
-                    {userInfo.block ? (
+                    {userInfo.block ||
+                    userInfo.status === "Pending" ||
+                    userInfo.status === "Rejected" ? (
                       <Typography
                         sx={{
                           color: "red",

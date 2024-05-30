@@ -13,6 +13,7 @@ import useJobs from "../../utils/jobUtils/jobUtils";
 import BlackListPage from "./BlackList";
 import JobList from "./JobList";
 import ReportList from "./ReportList";
+import VerifyPage from "./verifyList";
 
 function Admin() {
   const { users, loading } = useUsers();
@@ -60,6 +61,7 @@ function Admin() {
               <Tab label="Black List" value="3" />
               <Tab label="Report" value="4" />
               <Tab label="Jobs" value="5" />
+              <Tab label="Account Verification" value="6" />
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -72,10 +74,13 @@ function Admin() {
             <BlackListPage users={users} userData={userData} />
           </TabPanel>
           <TabPanel value="4">
-            <ReportList jobs={jobs} userData={userData} />
+            <ReportList />
           </TabPanel>
           <TabPanel value="5">
             <JobList jobs={jobs} userData={userData} />
+          </TabPanel>
+          <TabPanel value="6">
+            <VerifyPage jobs={jobs} userData={userData} />
           </TabPanel>
         </TabContext>
       </Box>

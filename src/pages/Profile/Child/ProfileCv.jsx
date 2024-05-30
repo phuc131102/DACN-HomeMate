@@ -82,7 +82,13 @@ function ProfileCv(prop) {
                     variant="contained"
                     onClick={prop.handleCreateCv}
                     sx={{ marginTop: "15px" }}
-                    disabled={prop.userInfo.block ? true : false}
+                    disabled={
+                      prop.userInfo.block ||
+                      prop.userInfo.status === "Pending" ||
+                      prop.userInfo.status === "Rejected"
+                        ? true
+                        : false
+                    }
                   >
                     {" "}
                     Create CV

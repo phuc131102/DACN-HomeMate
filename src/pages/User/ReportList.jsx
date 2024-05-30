@@ -20,7 +20,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { allReport, delete_report } from "../../services/userAPI";
 import UserInfo from "../../utils/userUtils/getUserInfo";
 
-const UserListPage = () => {
+const ReportPage = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const [reports, setReports] = useState([]);
@@ -51,9 +51,7 @@ const UserListPage = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentReports = reports
-    .filter((card) => card.block !== true)
-    .slice(indexOfFirstItem, indexOfLastItem);
+  const currentReports = reports.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -160,11 +158,9 @@ const UserListPage = () => {
           </Table>
         </TableContainer>
       </Box>
-      {reports.filter((card) => card.block !== true).length > 5 && (
+      {reports.length > 5 && (
         <Pagination
-          count={Math.ceil(
-            reports.filter((card) => card.block !== true).length / itemsPerPage
-          )}
+          count={Math.ceil(reports.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"
@@ -184,4 +180,4 @@ const UserListPage = () => {
   );
 };
 
-export default UserListPage;
+export default ReportPage;
