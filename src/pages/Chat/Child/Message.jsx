@@ -66,7 +66,7 @@ function Message(prop) {
         file: e.target.files[0],
         url: URL.createObjectURL(e.target.files[0]),
       });
-      setText("Send an image");
+      // setText("Send an image");
     }
   };
   useEffect(() => {
@@ -79,7 +79,7 @@ function Message(prop) {
   };
   const handleSend = async () => {
     // console.log("send");
-    if (text === "" && img.file !== null) {
+    if (text === "" && img.file === null) {
       // console.log("return");
       return;
     }
