@@ -28,11 +28,18 @@ import {
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 import uploadImg from "../../../lib/upload";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
+
 function Message(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const endRef = useRef(null);
   const [chat, setChat] = useState();
-  const { chatId, user } = useChatStore();
+  const { chatId, user, ChangeChat } = useChatStore();
   const [img, setImg] = useState({ file: null, url: "" });
   // console.log(chat)
   const [text, setText] = useState("");
@@ -49,19 +56,31 @@ function Message(prop) {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
+
+  const handleTurnBack = () => {
+    ChangeChat(null, null);
+  };
   const handleImg = (e) => {
     if (e.target.files[0]) {
       setImg({
         file: e.target.files[0],
         url: URL.createObjectURL(e.target.files[0]),
       });
+      setText("Send an image");
     }
   };
-  const handleVIewProfile=() => {
+  useEffect(() => {
+    if (img.file !== null) {
+      handleSend();
+    }
+  }, [img]);
+  const handleVIewProfile = () => {
     navigate(`/user/${user._id.$oid}`);
-  }
+  };
   const handleSend = async () => {
-    if (text === "") {
+    // console.log("send");
+    if (text === "" && img.file !== null) {
+      // console.log("return");
       return;
     }
     let imgURL = null;
@@ -69,10 +88,11 @@ function Message(prop) {
       if (img.file) {
         imgURL = await uploadImg(img.file);
       }
+      let pushText = img.file !== null ? "Send an image" : text;
       await updateDoc(doc(db, "messages", chatId), {
         message: arrayUnion({
           senderId: prop.userData.id,
-          text,
+          text: pushText,
           createAt: new Date(),
           ...(imgURL && { img: imgURL }),
         }),
@@ -135,7 +155,12 @@ function Message(prop) {
               className="user"
               sx={{ display: "flex", alignItems: "center", gap: "20px" }}
             >
-              <img src={user.avatar} alt="avt" className="avtimgs" />
+              {!isMd && (
+                <Box onClick={handleTurnBack}>
+                  <ArrowBackIosIcon />
+                </Box>
+              )}
+              <img src={user.avatar} alt="avt" className="avtimgss" />
               <Box
                 className="UserText"
                 sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
@@ -156,7 +181,7 @@ function Message(prop) {
               className="icons"
               sx={{ color: "white", display: "flex", gap: "20px" }}
             >
-              <InfoIcon onClick={handleVIewProfile}/>
+              <InfoIcon onClick={handleVIewProfile} />
             </Box>
           </Box>
           {/*  */}
@@ -174,21 +199,32 @@ function Message(prop) {
               }}
             >
               {chat?.message?.map((mess) => (
-                  <Box className={mess.senderId===prop.userData.id?"message own" :"message"} key={mess?.createAt}>
-                    <Box className="texts">
-                      {mess.img && (
-                        <img src={mess.img} alt=""/>
-                      )}
-                      <Typography className="maintext" sx={{ color: "white" }}>{mess.text}</Typography>
-                      {/* <span>1 min ago</span> */}
-                    </Box>
+                <Box
+                  className={
+                    mess.senderId === prop.userData.id
+                      ? "message own"
+                      : "message"
+                  }
+                  key={mess?.createAt}
+                >
+                  <Box className="texts">
+                    {mess.img && <img src={mess.img} alt="" />}
+                    {mess.text === "Send an image" && mess.img ? (
+                      ""
+                    ) : (
+                      <Typography className="maintext" sx={{ color: "white" }}>
+                        {mess.text}
+                      </Typography>
+                    )}
+                    {/* <span>1 min ago</span> */}
                   </Box>
-              ))}
-              {img.url && (
-                <Box className="message own">
-                  <img src={img.url} alt="avt" className="newImg"/>
                 </Box>
-              )}
+              ))}
+              {/* {img.url && (
+                <Box className="message own">
+                  <img src={img.url} alt="avt" className="newImg" />
+                </Box>
+              )} */}
               <Box ref={endRef}></Box>
             </Box>
           </Box>

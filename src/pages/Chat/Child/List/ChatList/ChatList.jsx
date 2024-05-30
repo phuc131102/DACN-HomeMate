@@ -145,10 +145,17 @@ function ChatList() {
                 onClick={() => handleSelect(chat)}
               >
                 <Box>
-                  <img src={chat.avatar} alt="avt" className="avtimg" />
+                  <img src={chat.avatar} alt="avt" className="avtimgs" />
                 </Box>
                 <Typography sx={{ color: "white" }}>{chat.name}</Typography>
-                <Typography sx={{ color: "white" }}>
+                <Typography
+                  sx={{
+                    color: "white",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace:"nowrap"
+                  }}
+                >
                   {chat.lastMessage}
                 </Typography>
               </Box>

@@ -15,8 +15,12 @@ import useUserInfo from "../../utils/userUtils/useUserInfo";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import useWorkers from "../../utils/userUtils/workerUtils";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Chat() {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const [userData, setUserData] = useState(null);
   const { userInfo } = useUserInfo(userData?.id);
   // console.log(userInfo);
@@ -52,7 +56,14 @@ function Chat() {
     //       objectFit: "cover",
     //     }}
     //   ></video>
-    <Box sx={{ height: "80vh", width: "70%", margin: "auto", marginTop: "5%" }}>
+    <Box
+      sx={{
+        height: "100%",
+        width: isMd ? "70%" : "100%",
+        margin: "auto",
+        marginTop: "5%",
+      }}
+    >
       {userInfo && <MessageContainer userInfo={userInfo} userData={userData} />}
     </Box>
     // </Box>
