@@ -16,7 +16,9 @@ function Worker() {
   console.log(workers);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentWorkers = workers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentWorkers = workers
+    .filter((card) => card.status === "Available" || card.status === "Working")
+    .slice(indexOfFirstItem, indexOfLastItem);
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -66,7 +68,11 @@ function Worker() {
       </Box>
       {workers.length > 8 ? (
         <Pagination
-          count={Math.ceil(workers.length / itemsPerPage)}
+          count={Math.ceil(
+            workers.filter(
+              (card) => card.status === "Available" || card.status === "Working"
+            ).length / itemsPerPage
+          )}
           page={currentPage}
           onChange={handlePageChange}
           shape="rounded"

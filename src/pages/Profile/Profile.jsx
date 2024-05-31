@@ -278,7 +278,7 @@ function Profile() {
 
       if (response) {
         console.log("User ID updated successfully");
-        setEditing(false);
+        setEditing2(false);
         window.location.reload();
       }
     } catch (error) {
@@ -329,6 +329,10 @@ function Profile() {
   const [editing, setEditing] = useState(false);
   const handleEdit = () => {
     setEditing(true);
+  };
+  const [editing2, setEditing2] = useState(false);
+  const handleEdit2 = () => {
+    setEditing2(true);
   };
   const finalTheme = createTheme({
     components: {
@@ -433,22 +437,24 @@ function Profile() {
                       <Rate rating={userInfo.rating} />
                     </Grid>
                   ) : null}
-                  <Grid item xs={12} sx={{ marginBottom: "20px" }}>
-                    <IDCard
-                      profile={userInfo}
-                      handleChange={handleChange2}
-                      formData={formID}
-                      setFormData={setFormID}
-                      handleUpdate={handleUpdate2}
-                      error={error}
-                      handleCancle={handleCancle}
-                      finalTheme={finalTheme}
-                      avatarBase64={newID}
-                      setAvatarBase64={setNewID}
-                      editing={editing}
-                      handleEdit={handleEdit}
-                    />
-                  </Grid>
+                  {userData.role !== "Admin" && (
+                    <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+                      <IDCard
+                        profile={userInfo}
+                        handleChange={handleChange2}
+                        formData={formID}
+                        setFormData={setFormID}
+                        handleUpdate={handleUpdate2}
+                        error={error}
+                        handleCancle={handleCancle}
+                        finalTheme={finalTheme}
+                        avatarBase64={newID}
+                        setAvatarBase64={setNewID}
+                        editing={editing2}
+                        handleEdit={handleEdit2}
+                      />
+                    </Grid>
+                  )}
                 </Grid>
 
                 <Grid item xs={12} md={8}>

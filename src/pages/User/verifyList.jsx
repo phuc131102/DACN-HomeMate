@@ -18,12 +18,11 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { reject_cccd, verify_list } from "../../services/userAPI";
-import UserInfo from "../../utils/userUtils/getUserInfo";
+import { accept_cccd, reject_cccd, verify_list } from "../../services/userAPI";
+import { useNavigate } from "react-router-dom";
 
 const VerifyPage = () => {
   const theme = useTheme();
@@ -31,6 +30,8 @@ const VerifyPage = () => {
   const [verify, setVerify] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,8 +53,6 @@ const VerifyPage = () => {
     };
     fetchData();
   }, []);
-
-  const navigate = useNavigate();
 
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,6 +77,20 @@ const VerifyPage = () => {
     } catch (error) {
       console.error("Error:", error.message);
     }
+  };
+
+  const handleAccept = async (id) => {
+    try {
+      const acceptMessage = await accept_cccd(id);
+      window.location.reload();
+      console.log(acceptMessage);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const handleRowClick = (userId) => {
+    navigate(`/user/${userId}`);
   };
 
   return (
@@ -120,15 +133,50 @@ const VerifyPage = () => {
               <TableBody>
                 {currentVerify.map((user, index) => (
                   <TableRow key={index}>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.cccd_num}</TableCell>
+                    <TableCell
+                      onClick={() => handleRowClick(user._id.$oid)}
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      {user.name}
+                    </TableCell>
+                    <TableCell
+                      onClick={() => handleRowClick(user._id.$oid)}
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      {user.role}
+                    </TableCell>
+                    <TableCell
+                      onClick={() => handleRowClick(user._id.$oid)}
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      {user.email}
+                    </TableCell>
+                    <TableCell
+                      onClick={() => handleRowClick(user._id.$oid)}
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      {user.cccd_num}
+                    </TableCell>
                     <TableCell
                       onClick={() => handleClickOpen()}
                       sx={{
                         "&:hover": {
-                          backgroundColor: "#e0e0e0",
                           cursor: "pointer",
                         },
                         display: "flex",
@@ -177,9 +225,9 @@ const VerifyPage = () => {
                         variant="contained"
                         color="success"
                         sx={{ borderRadius: "15px" }}
-                        // onClick={() => {
-                        //   handleDeleteReport(user._id.$oid);
-                        // }}
+                        onClick={() => {
+                          handleAccept(user._id.$oid);
+                        }}
                       >
                         Verify
                       </Button>

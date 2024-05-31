@@ -37,10 +37,14 @@ function Search() {
     const fetchWorkers = async () => {
       try {
         const allWorkers = await allWorker();
-        const workersWithTypes = allWorkers.map((worker) => ({
-          ...worker,
-          type: "worker",
-        }));
+        const workersWithTypes = allWorkers
+          .filter(
+            (card) => card.status === "Available" || card.status === "Working"
+          )
+          .map((worker) => ({
+            ...worker,
+            type: "worker",
+          }));
         setWorkers(workersWithTypes);
       } catch (error) {
         console.error("Failed to fetch workers:", error);
@@ -50,10 +54,12 @@ function Search() {
     const fetchOwners = async () => {
       try {
         const allOwners = await allOwner();
-        const ownersWithTypes = allOwners.map((owner) => ({
-          ...owner,
-          type: "owner",
-        }));
+        const ownersWithTypes = allOwners
+          .filter((card) => card.status === "Available")
+          .map((owner) => ({
+            ...owner,
+            type: "owner",
+          }));
         setOwners(ownersWithTypes);
       } catch (error) {
         console.error("Failed to fetch owners:", error);

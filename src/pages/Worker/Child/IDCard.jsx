@@ -32,31 +32,6 @@ function IDCard(prop) {
             <ComponentDivider>ID Information</ComponentDivider>
           </Grid>
 
-          {prop.profile.status === "Rejected" && (
-            <Grid item md={12} xs={12}>
-              <Box px={3}>
-                <Typography color="error">
-                  <b>
-                    * Your ID Information is invalid. Please update to access
-                    more website features.
-                  </b>
-                </Typography>
-              </Box>
-            </Grid>
-          )}
-
-          {prop.profile.status === "Pending" && (
-            <Grid item md={12} xs={12}>
-              <Box px={3}>
-                <Typography color="error">
-                  <b>
-                    * Your ID Information is reviewing by Admin. Please wait...
-                  </b>
-                </Typography>
-              </Box>
-            </Grid>
-          )}
-
           <Grid item md={12} xs={12}>
             <Box px={3}>
               <Box>
@@ -138,34 +113,6 @@ function IDCard(prop) {
             </Box>
           </Grid>
         </Grid>
-        {prop.profile.status === "Rejected" && (
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                width: "100%",
-                justifyContent: "center",
-                display: "flex",
-                marginBottom: "20px",
-              }}
-            >
-              <EditDialog
-                IDcard={true}
-                error={prop.error}
-                handleCancle={prop.handleCancle}
-                profile={prop.profile}
-                handleChange={prop.handleChange}
-                formData={prop.formData}
-                setFormData={prop.setFormData}
-                handleUpdate={prop.handleUpdate}
-                finalTheme={prop.finalTheme}
-                avatarBase64={prop.avatarBase64}
-                setAvatarBase64={prop.setAvatarBase64}
-                editing={prop.editing}
-                handleEdit={prop.handleEdit}
-              />
-            </Box>
-          </Grid>
-        )}
       </BigCard>
     </>
   );

@@ -58,7 +58,6 @@ function EditIDForm(prop) {
                   formData={prop.formData}
                   editing={prop.editing}
                   handleEdit={prop.handleEdit}
-                  handleUpdate={prop.handleUpdate}
                 />
               </Grid>
             </>

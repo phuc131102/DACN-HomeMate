@@ -36,7 +36,7 @@ function IDImage(prop) {
       <ThemeProvider theme={prop.finalTheme}>
         <Grid container sx={{ marginTop: "5%", marginBottom: "5%" }}>
           <Grid item xs={12}>
-            <Box className="hero-title">
+            <Box className="hero-title" ml={isMd ? 50 : 25}>
               <Box
                 className="orange-circle"
                 sx={{
@@ -79,10 +79,17 @@ function IDImage(prop) {
                       <img
                         alt={prop.avatarBase64}
                         src={prop.avatarBase64}
-                        style={{
-                          width: "500px",
-                          border: "5px solid black",
-                        }}
+                        style={
+                          isMd
+                            ? {
+                                width: "500px",
+                                border: "5px solid black",
+                              }
+                            : {
+                                width: "250px",
+                                border: "5px solid black",
+                              }
+                        }
                       />
                     </Box>
                   ) : (
@@ -96,10 +103,17 @@ function IDImage(prop) {
                       <img
                         alt={prop.userInfo.name}
                         src={prop.userInfo.cccd_image}
-                        style={{
-                          width: "500px",
-                          border: "5px solid black",
-                        }}
+                        style={
+                          isMd
+                            ? {
+                                width: "500px",
+                                border: "5px solid black",
+                              }
+                            : {
+                                width: "250px",
+                                border: "5px solid black",
+                              }
+                        }
                       />
                     </Box>
                   )}
@@ -117,10 +131,17 @@ function IDImage(prop) {
                   <img
                     alt={prop.userInfo.name}
                     src={prop.userInfo.cccd_image}
-                    style={{
-                      width: "500px",
-                      border: "5px solid black",
-                    }}
+                    style={
+                      isMd
+                        ? {
+                            width: "500px",
+                            border: "5px solid black",
+                          }
+                        : {
+                            width: "250px",
+                            border: "5px solid black",
+                          }
+                    }
                   />
                 </Box>
               </Grid>

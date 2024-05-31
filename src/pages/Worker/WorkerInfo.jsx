@@ -47,6 +47,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { message } from "antd";
 import { useChatStore } from "../../lib/chatStore";
+import IDCard from "./Child/IDCard";
 function WorkerInfo() {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -485,6 +486,11 @@ function WorkerInfo() {
                     <Rate rating={userInfo.rating} />
                   </Grid>
                 ) : null}
+                {userInfo.role !== "Admin" && userData.role === "Admin" && (
+                  <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+                    <IDCard profile={userInfo} />
+                  </Grid>
+                )}
               </Grid>
               <Grid item xs={12} md={8}>
                 <Box sx={{ marginBottom: "20px" }}>

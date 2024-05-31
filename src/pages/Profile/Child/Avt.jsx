@@ -186,11 +186,29 @@ function Avt(prop) {
               </Grid>
             ) : (
               <Grid item xs={12}>
-                <EmptyAvt avtEmpty={prop.avtEmpty} />
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    alt="Kisspng computer"
+                    src={prop.avtEmpty}
+                    style={{
+                      width: "55%",
+                      height: "55%",
+                      marginTop: "3%",
+                      marginBottom: "5%",
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
+                      border: "5px solid black",
+                    }}
+                  />
+                </Box>
               </Grid>
             )}
           </Grid>
-          {/* <Box><Button onClick={prop.handleEdit}>dasd</Button></Box> */}
           <Grid
             item
             xs={12}
