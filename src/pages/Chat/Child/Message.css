@@ -1,12 +1,13 @@
 .avtimgss {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .message {
-  max-width: 70%;
+  max-width: 75%;
   display: flex;
   gap: 20px;
   align-self: flex-start;
@@ -15,21 +16,22 @@
 
     .texts {
       .maintext {
-        background-color: #5183fe;
+        background-color: cyan;
+        color: black;
       }
     }
     img {
       width: 400px;
-      /* height: 200px; */
-      border-radius: 5px;
+      border-radius: 10px;
       object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   }
   img {
     width: 400px;
-    /* height: 200px; */
-    border-radius: 5px;
+    border-radius: 10px;
     object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   .texts {
     flex: 1;
@@ -39,48 +41,49 @@
 
     img {
       width: 400px;
-      /* height: 300px; */
       border-radius: 10px;
       object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .maintext {
-      background-color: rgba(17, 25, 40, 0.3);
+      background-color: rgba(17, 25, 40, 0.8);
+      color: cyan;
       padding: 20px;
       border-radius: 10px;
     }
     span {
-      font-size: 13px;
+      font-size: 14px;
+      color: #888;
     }
   }
 }
+
 .center::-webkit-scrollbar {
   width: 8px;
   background-color: transparent;
 }
 .center::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color of the scrollbar thumb */
-  border-radius: 4px; /* Border radius of the scrollbar thumb */
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
-/* Webkit browsers (Chrome, Safari) */
 .center::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Color of the scrollbar thumb on hover */
+  background-color: plum;
 }
-@media (max-width:800px) {
+
+@media (max-width: 800px) {
   .avtimgss {
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
   }
   .message {
     .texts {
       img {
         width: 200px;
-        /* height: 300px; */
         border-radius: 10px;
         object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
     }
   }
