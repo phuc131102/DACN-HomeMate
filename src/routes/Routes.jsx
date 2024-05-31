@@ -19,6 +19,7 @@ import AddUser from "../pages/User/AddUser";
 import UpdateCV from "../pages/UpdateCV/UpdateCV";
 import ResetPassword from "../pages/Login/ResetPassword";
 import Chat from "../pages/Chat/Chat";
+import Call from "../pages/Chat/Child/call";
 
 function AppRoutes() {
   const ProtectedHome = () => {
@@ -163,6 +164,7 @@ function AppRoutes() {
       <Route path="/createCv" element={<ProtectedCreateCv />} />
       <Route path="/UpdateCv/:id" element={<ProtectedUpdateCv />} />
       <Route path="/chat" element={<Chat />} />
+      <Route path="/Call/:id" element={<Call />} />
     </Routes>
   );
 }

@@ -24,13 +24,14 @@ function UserInfor(prop) {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        borderBottom:"solid 1px gray"
       }}
     >
       <Box className="user" sx={{display:"flex", alignItems:"center", gap:"20px"}}>
         <Box>
-          <img src={prop.userInfo.avatar} alt="avt" className="avtimg" />
+          <img src={prop.userInfo.avatar} alt="avt" className="avtimage" />
         </Box>
-        <Typography sx={{color:"white"}}>{prop.userInfo.name}</Typography>
+        <Typography variant="h5" sx={{color:"white"}}>{prop.userInfo.name}</Typography>
       </Box>
       {/* <Box className="icons" sx={{display:"flex", gap:"20px"}}>
         <Box className="MoreIcon">

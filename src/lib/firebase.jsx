@@ -8,7 +8,7 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-console.log(import.meta.env); 
+// console.log(import.meta.env); 
 const firebaseConfig = {
   apiKey: "AIzaSyCtgoS8nTNTzZCB0yuPuV0gDumYwRWvtaA",
   authDomain: "chatapp-b883f.firebaseapp.com",

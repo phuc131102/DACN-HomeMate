@@ -48,7 +48,15 @@ function NewCard(prop) {
                   title={card.name}
                 />
                 <figcaption>
-                  <Typography>{card.name}</Typography>
+                  <Typography
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {card.name}
+                  </Typography>
                   <Typography>{card.datetime}</Typography>
                 </figcaption>
               </Box>

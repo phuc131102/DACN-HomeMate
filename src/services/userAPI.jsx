@@ -14,6 +14,59 @@ export const sign_up = async (data) => {
   }
 };
 
+// GET ALL USER PENDING
+export const verify_list = async () => {
+  try {
+    const response = await axios.get(
+      `https://projectapi-72at.onrender.com/verify_list`
+    );
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//ACCEPT USER ID
+export const accept_cccd = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-72at.onrender.com/accept_cccd/${data}`
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+//REJECT USER ID
+export const reject_cccd = async (data) => {
+  try {
+    const response = await axios.post(
+      `https://projectapi-72at.onrender.com/reject_cccd/${data}`
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// UPDATE USER ID
+export const update_cccd = async (data) => {
+  try {
+    const response = await axios.post(
+      "https://projectapi-72at.onrender.com/update_cccd",
+      data
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 //VERIFY USERS
 export const verify_code = async (data) => {
   try {

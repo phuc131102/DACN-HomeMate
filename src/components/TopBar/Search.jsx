@@ -78,7 +78,11 @@ function Search() {
       const filteredOwners = owners.filter((owner) =>
         owner.name.toLowerCase().includes(query)
       );
-      setFilteredResults([...filteredJobs, ...filteredWorkers, ...filteredOwners]);
+      setFilteredResults([
+        ...filteredJobs,
+        ...filteredWorkers,
+        ...filteredOwners,
+      ]);
     } else {
       setFilteredResults([]);
     }
@@ -188,7 +192,13 @@ function Search() {
                   handleResultClick(result._id.$oid, result.name, result.type)
                 }
               >
-                {result.name} ({result.type === "job" ? "Job" : result.type === "worker" ? "Worker" : "Homeowner"})
+                {result.name} (
+                {result.type === "job"
+                  ? "Job"
+                  : result.type === "worker"
+                  ? "Worker"
+                  : "Homeowner"}
+                )
               </Typography>
             </Box>
           ))}

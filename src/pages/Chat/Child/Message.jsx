@@ -28,15 +28,24 @@ import {
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 import uploadImg from "../../../lib/upload";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CallIcon from "@mui/icons-material/Call";
+import UserInfor from "./List/UserInfor/UserInfor";
 function Message(prop) {
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const endRef = useRef(null);
   const [chat, setChat] = useState();
-  const { chatId, user } = useChatStore();
+  const { chatId, user, ChangeChat, ChangeCall, mainUser } = useChatStore();
   const [img, setImg] = useState({ file: null, url: "" });
-  console.log(chat)
+  // console.log(chat)
   const [text, setText] = useState("");
-  console.log(user);
+  const buttonRef = useRef(null);
+  // const bottomRef = useRef(null)
+  // console.log(user);
   // console.log(chatId)
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "messages", chatId), (res) => {
@@ -44,24 +53,69 @@ function Message(prop) {
     });
     return () => {
       unSub();
+      // endRef.current?.scrollIntoView();
     };
   }, [chatId]);
+  const handleTextChange = (e) => {
+    setText(e.target.value);
+    console.log(text);
+  };
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      // Trigger button click
+      buttonRef.current.click();
+    }
+  };
+  useEffect(() => {
+    // Add event listener for keypress when component mounts
+    window.addEventListener("keydown", handleKeyPress);
+
+    // Clean up event listener when component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
   }, []);
+  // console.log(prop.userInfo.name);
+  const handleCall = () => {
+    // ChangeChat(chatId, user);
+    // ChangeCall(prop.userInfo);
+    window.open(`/call/${chatId}`);
+  };
+  const handleTurnBack = () => {
+    ChangeChat(null, null);
+  };
   const handleImg = (e) => {
     if (e.target.files[0]) {
       setImg({
         file: e.target.files[0],
         url: URL.createObjectURL(e.target.files[0]),
       });
+      // setText("Send an image");
     }
   };
-  const handleVIewProfile=() => {
+  useEffect(() => {
+    if (img.file !== null) {
+      handleSend();
+    }
+  }, [img]);
+  const handleVIewProfile = () => {
     navigate(`/user/${user._id.$oid}`);
-  }
+  };
+
+  const handleAceptCall = (link) => {
+    console.log("changeCall");
+    // ChangeCall(prop.userInfo.name);
+    window.open(`${link}`);
+    // console.log("click")
+  };
   const handleSend = async () => {
-    if (text === "") {
+    console.log(text);
+    console.log("send");
+    if (text === "" && img.file === null) {
+      // console.log("return");
       return;
     }
     let imgURL = null;
@@ -69,10 +123,11 @@ function Message(prop) {
       if (img.file) {
         imgURL = await uploadImg(img.file);
       }
+      let pushText = img.file !== null ? "Send an image" : text;
       await updateDoc(doc(db, "messages", chatId), {
         message: arrayUnion({
           senderId: prop.userData.id,
-          text,
+          text: pushText,
           createAt: new Date(),
           ...(imgURL && { img: imgURL }),
         }),
@@ -108,6 +163,7 @@ function Message(prop) {
     });
     setText("");
   };
+  console.log(chatId);
   return (
     <>
       {
@@ -135,7 +191,17 @@ function Message(prop) {
               className="user"
               sx={{ display: "flex", alignItems: "center", gap: "20px" }}
             >
-              <img src={user.avatar} alt="avt" className="avtimgs" />
+              {!isMd && (
+                <Box onClick={handleTurnBack}>
+                  <ArrowBackIosIcon />
+                </Box>
+              )}
+              <img
+                src={user.avatar}
+                alt="avt"
+                className="avtimgss"
+                loading="lazy"
+              />
               <Box
                 className="UserText"
                 sx={{ display: "flex", flexDirection: "column", gap: "5px" }}
@@ -152,11 +218,19 @@ function Message(prop) {
                 </Typography> */}
               </Box>
             </Box>
-            <Box
-              className="icons"
-              sx={{ color: "white", display: "flex", gap: "20px" }}
-            >
-              <InfoIcon onClick={handleVIewProfile}/>
+            <Box sx={{ display: "flex", gap: "20px" }}>
+              <Box
+                className="icons"
+                sx={{ color: "white", display: "flex", gap: "20px" }}
+              >
+                <CallIcon onClick={handleCall} />
+              </Box>
+              <Box
+                className="icons"
+                sx={{ color: "white", display: "flex", gap: "20px" }}
+              >
+                <InfoIcon onClick={handleVIewProfile} />
+              </Box>
             </Box>
           </Box>
           {/*  */}
@@ -174,38 +248,50 @@ function Message(prop) {
               }}
             >
               {chat?.message?.map((mess) => (
-                <>
-                  {/* <Box className="message">
-                <img src={AvtCho} alt="avt" className="avtimgs" />
-                <Box className="texts">
-                  <Typography className="maintext">
-                    Chả là t đang vẽ truyện thiếu nhi cho Kim Đồng... Đến đoạn
-                    đặt tên credit họa sĩ minh họa thì t ko biết có nên lấy bút
-                    danh nước ngòai của bản thân không (Lemonate). Hay t có nên
-                    tạo ra hẳn 1 bút danh và 1 page khác dành cho vẽ minh họa
-                    truyện trẻ em và dùng bút danh đó đưa cho Kim
-                  </Typography>
-                  <span>1 min ago</span>
-                </Box>
-              </Box> */}
-                  {/*  */}
-
-                  <Box className={mess.senderId===prop.userData.id?"message own" :"message"} key={mess?.createAt}>
-                    <Box className="texts">
-                      {mess.img && (
-                        <img src={mess.img} alt=""/>
-                      )}
-                      <Typography className="maintext" sx={{ color: "white" }}>{mess.text}</Typography>
-                      {/* <span>1 min ago</span> */}
-                    </Box>
+                <Box
+                  className={
+                    mess.senderId === prop.userData.id
+                      ? "message own"
+                      : "message"
+                  }
+                  key={mess?.createAt}
+                >
+                  <Box className="texts">
+                    {mess.img && <img src={mess.img} alt="" />}
+                    {mess.callLink && (
+                      <Box>
+                        <Typography
+                          className="maintext"
+                          sx={{
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          onClick={() => handleAceptCall(mess.callLink)}
+                        >
+                          {" "}
+                          <CallIcon sx={{ marginRight: "10px" }} />
+                          incoming call
+                        </Typography>
+                      </Box>
+                    )}
+                    {(mess.text === "Send an image" && mess.img) ||
+                    mess.callLink ? (
+                      ""
+                    ) : (
+                      <Typography className="maintext" sx={{ color: "white" }}>
+                        {mess.text}
+                      </Typography>
+                    )}
+                    {/* <span>1 min ago</span> */}
                   </Box>
-                </>
-              ))}
-              {img.url && (
-                <Box className="message own">
-                  <img src={img.url} alt="avt" className="newImg"/>
                 </Box>
-              )}
+              ))}
+              {/* {img.url && (
+                <Box className="message own">
+                  <img src={img.url} alt="avt" className="newImg" />
+                </Box>
+              )} */}
               <Box ref={endRef}></Box>
             </Box>
           </Box>
@@ -236,6 +322,7 @@ function Message(prop) {
               className="textMessage"
               id="standard"
               placeholder="Type a message..."
+              value={text}
               sx={{
                 flex: "1",
                 outline: "none",
@@ -246,13 +333,13 @@ function Message(prop) {
                 borderRadius: "4px",
                 fontSize: "16",
               }}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => handleTextChange(e)}
             />
             {/* <Box className="emoji" sx={{paddingRight:"10px", paddingLeft:"10px"}}>
           <EmojiEmotionsIcon sx={{ color: "white" }} />
         </Box> */}
             <Box sx={{ paddingLeft: "20px" }}>
-              <Button variant="contained" onClick={handleSend}>
+              <Button ref={buttonRef} variant="contained" onClick={handleSend}>
                 {" "}
                 send
               </Button>

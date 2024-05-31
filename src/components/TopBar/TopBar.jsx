@@ -26,6 +26,10 @@ import useUserInfo from "../../utils/userUtils/useUserInfo";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FlagIcon from "@mui/icons-material/Flag";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../lib/firebase";
+import { useChatStore } from "../../lib/chatStore";
 function TopBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -33,11 +37,13 @@ function TopBar() {
   const [userData, setUserData] = useState(null);
   const [userNoti, setUserNoti] = useState(null);
   const [notiCount, setNotiCount] = useState(null);
+  const [messCount, setMesCount] = useState(null);
+  const [chat, setChat] = useState(null);
   const [activeTab, setActiveTab] = React.useState("home");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { userInfo } = useUserInfo(userData?.id);
-
+  const { chatId } = useChatStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -76,7 +82,8 @@ function TopBar() {
       setActiveTab("");
     }
   }, []);
-
+  // console.log(messCount)
+  // console.log(chatId)
   useEffect(() => {
     const pathname = location.pathname;
     const tab = pathname.split("/")[1];
@@ -89,6 +96,26 @@ function TopBar() {
       setNotiCount(0);
     }
   }, [anchorElNotification]);
+
+  useEffect(() => {
+    if (userData && userData.id) {
+      const messNoti = async () => {
+        const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
+          const arrayMes = res.data();
+          let count = 0;
+          arrayMes.chat.forEach((item) =>
+            item.isSeen === false ? (count = count + 1) : ""
+          );
+          if (count > 0) {
+            setMesCount(count);
+          } else {
+            setMesCount(null);
+          }
+        });
+      };
+      messNoti();
+    }
+  }, [userData, chatId]);
 
   const handleSeen = async () => {
     const data = {
@@ -152,6 +179,7 @@ function TopBar() {
     handleCloseUserMenu();
     localStorage.removeItem("userData");
     localStorage.removeItem("activeTab");
+    localStorage.removeItem("chat-store");
     navigate("/signin");
     window.location.reload();
   };
@@ -590,7 +618,12 @@ function TopBar() {
                               ? `/job/${card.job_id}`
                               : card.type === "Block" || card.type === "Unblock"
                               ? `/profile/${userData.id}`
-                              : `/admin/4`
+                              : card.type === "Report"
+                              ? `/admin/4`
+                              : card.type === "Verify" &&
+                                userInfo.role === "Admin"
+                              ? `/admin/6`
+                              : `/profile/${userData.id}`
                           }
                           sx={{
                             whiteSpace: "normal",
@@ -603,15 +636,27 @@ function TopBar() {
                             <Grid item xs={2}>
                               <Avatar
                                 sx={
-                                  !card.job_id
+                                  card.job_id
+                                    ? {
+                                        width: 56,
+                                        height: 56,
+                                      }
+                                    : card.type === "Block"
                                     ? {
                                         width: 56,
                                         height: 56,
                                         bgcolor: "red",
                                       }
+                                    : card.type === "Report"
+                                    ? {
+                                        width: 56,
+                                        height: 56,
+                                        bgcolor: "orange",
+                                      }
                                     : {
                                         width: 56,
                                         height: 56,
+                                        bgcolor: "green",
                                       }
                                 }
                                 src={card.job_id && card.data.avt}
@@ -624,6 +669,9 @@ function TopBar() {
                                 )}
                                 {card.type === "Report" && (
                                   <FlagIcon fontSize="large" />
+                                )}
+                                {card.type === "Verify" && (
+                                  <VerifiedIcon fontSize="large" />
                                 )}
                               </Avatar>
                             </Grid>
@@ -652,12 +700,12 @@ function TopBar() {
                       ))
                   )}
                 </Menu>
-                <IconButton aria-label="notification" onClick={handleMessage}>
-                  <Badge
-                    // badgeContent={4}
-                    color="primary"
-                    // sx={{ marginLeft: "15px", marginRight: "15px" }}
-                  >
+                <IconButton
+                  aria-label="notification"
+                  onClick={handleMessage}
+                  disabled={userInfo?.block ? true : false}
+                >
+                  <Badge badgeContent={messCount} color="primary">
                     <ChatBubbleIcon />
                   </Badge>
                 </IconButton>

@@ -99,6 +99,7 @@ function LeftSide(prop) {
                 prop.handleTogglePasswordVisibility
               }
               showPassword={prop.showPassword}
+              block={prop.profile.block}
             />
           </Box>
         </Grid>

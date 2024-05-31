@@ -17,6 +17,8 @@ import videoBg from "../../assets/nightwall.gif";
 import { sign_in } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { sha256 } from "js-sha256";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -101,6 +103,25 @@ function Login() {
         const userData = response.data;
         localStorage.setItem("userData", JSON.stringify(userData));
         localStorage.setItem("activeTab", "home");
+        console.log(userData);
+        let filterItem = [];
+        const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
+          const arrayMes = res.data();
+          console.log(arrayMes)
+          // setChat(arrayMes.chat.filter((item) => item.receiverId === id));
+          if (arrayMes===undefined){
+            console.log("vao r")
+            const createUser = async () => {
+              try {
+                await setDoc(doc(db, "contacts", userData.id), {
+                  chat: [],
+                });
+              } catch (err) {}
+            };
+            createUser();
+          }
+        });
+
         navigate("/");
         window.location.reload();
         console.log("User signed in:", response);
