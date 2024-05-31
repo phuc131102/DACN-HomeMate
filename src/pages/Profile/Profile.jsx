@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import Avt from "./Child/Avt";
 import { Grid, Box, Button } from "@mui/material";
-import { update_user_info } from "../../services/userAPI";
+import { update_cccd, update_user_info } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { get_cv_info, delete_cv } from "../../services/cvAPI";
 import avtEmpty from "../../assets/avt_empty.png";
@@ -24,6 +24,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
+import IDCard from "./Child/IDCard";
 
 function Profile() {
   const theme = useTheme();
@@ -35,6 +36,7 @@ function Profile() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [avatarBase64, setAvatarBase64] = useState("");
+  const [newID, setNewID] = useState("");
   const [value, setValue] = useState("1");
   const [cvinfo, setCvInfo] = useState({});
   const [applyStatus, setApplyStatus] = useState([]);
@@ -55,6 +57,11 @@ function Profile() {
     address: "",
     phone_num: "",
   });
+  const [formID, setFormID] = useState({
+    id: "",
+    cccd_num: "",
+  });
+
   const { userInfo } = useUserInfo(userData?.id);
 
   useEffect(() => {
@@ -68,6 +75,10 @@ function Profile() {
         phone_num: userInfo.phone_num,
       }));
 
+      setFormID((prevData) => ({
+        ...prevData,
+        cccd_num: userInfo.cccd_num,
+      }));
       setDefData((prevData) => ({
         ...prevData,
         name: userInfo.name,
@@ -152,6 +163,10 @@ function Profile() {
         ...prevData,
         id: parsedUserData.id || "",
       }));
+      setFormID((prevData) => ({
+        ...prevData,
+        id: parsedUserData.id || "",
+      }));
       setDefData((prevData) => ({
         ...prevData,
         id: parsedUserData.id || "",
@@ -164,6 +179,12 @@ function Profile() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleChange2 = (e) => {
+    setFormID({
+      ...formID,
       [e.target.name]: e.target.value,
     });
   };
@@ -218,6 +239,45 @@ function Profile() {
 
       if (response) {
         console.log("User information updated successfully");
+        setEditing(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 409) {
+          setError("New email has been used.");
+          setLoading(false);
+        }
+      }
+    } finally {
+    }
+  };
+
+  const handleUpdate2 = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updatedFormID = {
+      ...formID,
+      cccd_image: newID,
+    };
+
+    const finalData = {};
+    finalData.id = updatedFormID.id;
+    if (updatedFormID.cccd_num !== "") {
+      finalData.cccd_num = updatedFormID.cccd_num;
+    }
+
+    if (updatedFormID.cccd_image !== "") {
+      finalData.cccd_image = updatedFormID.cccd_image;
+    }
+
+    try {
+      const response = await update_cccd(finalData);
+
+      if (response) {
+        console.log("User ID updated successfully");
         setEditing(false);
         window.location.reload();
       }
@@ -373,6 +433,22 @@ function Profile() {
                       <Rate rating={userInfo.rating} />
                     </Grid>
                   ) : null}
+                  <Grid item xs={12} sx={{ marginBottom: "20px" }}>
+                    <IDCard
+                      profile={userInfo}
+                      handleChange={handleChange2}
+                      formData={formID}
+                      setFormData={setFormID}
+                      handleUpdate={handleUpdate2}
+                      error={error}
+                      handleCancle={handleCancle}
+                      finalTheme={finalTheme}
+                      avatarBase64={newID}
+                      setAvatarBase64={setNewID}
+                      editing={editing}
+                      handleEdit={handleEdit}
+                    />
+                  </Grid>
                 </Grid>
 
                 <Grid item xs={12} md={8}>

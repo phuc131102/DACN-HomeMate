@@ -9,6 +9,7 @@ import Slide from "@mui/material/Slide";
 import EditForm from "./EditForm";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import EditIDForm from "./EditIDForm";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,7 +45,7 @@ export default function EditDialog(prop) {
         onClick={handleClickOpen}
         disabled={prop.block ? true : false}
       >
-        Edit Profile
+        {prop.IDcard ? "Edit ID Info" : "Edit Profile"}
       </Button>
       <Dialog
         open={open}
@@ -60,19 +61,38 @@ export default function EditDialog(prop) {
         }}
       >
         <DialogTitle sx={{ textAlign: "center", fontSize: "25px" }}>
-          <b>Edit Profile</b>
+          <b>{prop.IDcard ? "Edit ID Information" : "Edit Profile"}</b>
         </DialogTitle>
         <DialogContent>
-          <EditForm
-            error={prop.error}
-            profile={prop.profile}
-            handleChange={prop.handleChange}
-            formData={prop.formData}
-            handleUpdate={prop.handleUpdate}
-            handleClose={handleClose}
-            handleTogglePasswordVisibility={prop.handleTogglePasswordVisibility}
-            showPassword={prop.showPassword}
-          />
+          {prop.IDcard ? (
+            <EditIDForm
+              error={prop.error}
+              profile={prop.profile}
+              handleChange={prop.handleChange}
+              formData={prop.formData}
+              setFormData={prop.setFormData}
+              handleUpdate={prop.handleUpdate}
+              handleClose={handleClose}
+              finalTheme={prop.finalTheme}
+              avatarBase64={prop.avatarBase64}
+              setAvatarBase64={prop.setAvatarBase64}
+              editing={prop.editing}
+              handleEdit={prop.handleEdit}
+            />
+          ) : (
+            <EditForm
+              error={prop.error}
+              profile={prop.profile}
+              handleChange={prop.handleChange}
+              formData={prop.formData}
+              handleUpdate={prop.handleUpdate}
+              handleClose={handleClose}
+              handleTogglePasswordVisibility={
+                prop.handleTogglePasswordVisibility
+              }
+              showPassword={prop.showPassword}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </React.Fragment>

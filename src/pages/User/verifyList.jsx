@@ -70,10 +70,6 @@ const VerifyPage = () => {
     setCurrentPage(value);
   };
 
-  const handleRowClick = (userId) => {
-    navigate(`/user/${userId}`);
-  };
-
   const handleReject = async (id) => {
     try {
       const deletionMessage = await reject_cccd(id);
