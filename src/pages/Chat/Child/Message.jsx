@@ -49,7 +49,6 @@ function Message(prop) {
     });
     return () => {
       unSub();
-      // endRef.current?.scrollIntoView();
     };
   }, [chatId]);
   const handleTextChange = (e) => {
@@ -238,7 +237,7 @@ function Message(prop) {
                 overflowY: "scroll",
                 display: "flex",
                 flexDirection: "column",
-                height: "550px",
+                height: "525px",
                 gap: "15px",
               }}
             >
@@ -282,11 +281,6 @@ function Message(prop) {
                   </Box>
                 </Box>
               ))}
-              {/* {img.url && (
-                <Box className="message own">
-                  <img src={img.url} alt="avt" className="newImg" />
-                </Box>
-              )} */}
               <Box ref={endRef}></Box>
             </Box>
           </Box>
@@ -313,17 +307,16 @@ function Message(prop) {
               />
             </Box>
             <Paper
-          component="form"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flex: 1,
-            borderRadius: 25,
-            boxShadow: 'none',
-            backgroundColor: '#f1f1f1',
-            padding: '0 10px',
-          }}
-        >
+              component="form"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flex: 1,
+                borderRadius: 25,
+                boxShadow: 'none',
+                backgroundColor: '#f1f1f1',
+              }}
+            >
           <InputBase
             sx={{ ml: 2, flex: 1 }}
             placeholder="Type a message..."

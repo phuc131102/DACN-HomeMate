@@ -1,13 +1,12 @@
 .avtimgss {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .message {
-  max-width: 75%;
+  max-width: 70%;
   display: flex;
   gap: 20px;
   align-self: flex-start;
@@ -76,6 +75,8 @@
   .avtimgss {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
   }
   .message {
     .texts {

@@ -1,20 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Box,
-  Grid,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  duration,
 } from "@mui/material";
-import myccImage from "./mycc.jpg";
 import "./UserInfor.css";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditNoteIcon from '@mui/icons-material/EditNote';
-
-
 function UserInfor(prop) {
   
   return (
@@ -33,17 +22,6 @@ function UserInfor(prop) {
         </Box>
         <Typography variant="h5" sx={{color:"white"}}>{prop.userInfo.name}</Typography>
       </Box>
-      {/* <Box className="icons" sx={{display:"flex", gap:"20px"}}>
-        <Box className="MoreIcon">
-          {" "}
-          <MoreHorizIcon fontSize="small" sx={{color:"white"}}/>
-        </Box>
-        <Box className="EditIcon">
-          {" "}
-          <EditNoteIcon fontSize="small" sx={{color:"white"}}/>
-        </Box>
-        <img src="" alt="" />
-      </Box> */}
     </Box>
   );
 }

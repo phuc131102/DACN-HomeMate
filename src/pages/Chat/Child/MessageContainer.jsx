@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import Message from "./Message";
 import List from "./List/List";
-import Detail from "./Detail";
 import { useChatStore } from "../../../lib/chatStore";
 
 function MessageContainer(prop) {
@@ -27,7 +26,6 @@ function MessageContainer(prop) {
         borderRadius: isMd ? "12px" : "",
         border: "1px solid rgba(255,255,255,0.125)",
         backdropFilter: "blur(19px) saturate(180%)",
-        padding: "20px",
       }}
     >
       <Box>

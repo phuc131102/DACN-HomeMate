@@ -2,11 +2,9 @@ import React from "react";
 import {
   Box,
   Typography,
-  Button,
 } from "@mui/material";
 import AvtCho from "./List/ChatList/avtCho.jpg";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownloadIcon from "@mui/icons-material/Download";
 import "./Detail.css";
 

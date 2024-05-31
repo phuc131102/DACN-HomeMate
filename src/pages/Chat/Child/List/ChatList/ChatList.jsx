@@ -18,7 +18,7 @@ function ChatList() {
   const [chats, setChats] = useState([]);
   const [filteredChats, setFilteredChats] = useState([]);
   const [userData, setUserData] = useState(null);
-  const { users, loading } = useUsers();
+  const { users} = useUsers();
   const { ChangeChat } = useChatStore();
 
   useEffect(() => {
@@ -88,14 +88,13 @@ function ChatList() {
   };
 
   return (
-    <Box className="list" sx={{ padding: "10px", backgroundColor: "#1E1E1E", borderRadius: "8px" }}>
+    <Box className="list" sx={{backgroundColor: "#1E1E1E", borderRadius: "8px" }}>
       <Box
         className="search"
         sx={{
           display: "flex",
           alignItems: "center",
           gap: "20px",
-          padding: "20px",
           borderBottom: "1px solid #444",
         }}
       >
@@ -128,16 +127,16 @@ function ChatList() {
           }}
         />
       </Box>
-      <Box className="items" sx={{ height: "520px", overflowY: "auto" }}>
+      <Box className="items" sx={{ height: "524px", overflowY: "auto" }}>
         {filteredChats.length > 0 ? (
           filteredChats.map((chat) => (
             <Box
               className="item"
               sx={{
                 display: "flex",
-                padding: "10px 15px",
+                padding: "20px",
                 alignItems: "center",
-                gap: "15px",
+                gap: "20px",
                 cursor: "pointer",
                 borderRadius: "8px",
                 backgroundColor: chat.isSeen ? "transparent" : "#5183fe",
