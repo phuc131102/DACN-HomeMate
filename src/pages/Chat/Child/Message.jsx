@@ -1,22 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
-  TextField,
-  Grid,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  duration,
-  Button,
+  Paper,
+  InputBase,
+  IconButton,
 } from "@mui/material";
-import AvtCho from "./List/ChatList/avtCho.jpg";
+import ImageIcon from "@mui/icons-material/Image";
+import SendIcon from "@mui/icons-material/Send";
 import "./Message.css";
 import InfoIcon from "@mui/icons-material/Info";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
-import ImageIcon from "@mui/icons-material/Image";
-import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import {
   onSnapshot,
@@ -29,31 +22,33 @@ import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 import uploadImg from "../../../lib/upload";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CallIcon from "@mui/icons-material/Call";
-import UserInfor from "./List/UserInfor/UserInfor";
+
+const HoverIconButton = styled(IconButton)(({ theme }) => ({
+  color: "white",
+  cursor: "pointer",
+  "&:hover": {
+    color: theme.palette.primary.main,
+  },
+}));
 function Message(prop) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
   const navigate = useNavigate();
   const endRef = useRef(null);
   const [chat, setChat] = useState();
-  const { chatId, user, ChangeChat, ChangeCall, mainUser } = useChatStore();
-  const [img, setImg] = useState({ file: null, url: "" });
-  // console.log(chat)
+  const { chatId, user, ChangeChat} = useChatStore();
+  const [img, setImg] = useState({ file: null, url: "" });  
   const [text, setText] = useState("");
   const buttonRef = useRef(null);
-  // const bottomRef = useRef(null)
-  // console.log(user);
-  // console.log(chatId)
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "messages", chatId), (res) => {
       setChat(res.data());
     });
     return () => {
       unSub();
-      // endRef.current?.scrollIntoView();
     };
   }, [chatId]);
   const handleTextChange = (e) => {
@@ -65,8 +60,8 @@ function Message(prop) {
   }, [chat]);
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      // Trigger button click
-      buttonRef.current.click();
+      e.preventDefault();
+      handleSend();
     }
   };
   useEffect(() => {
@@ -93,7 +88,7 @@ function Message(prop) {
         file: e.target.files[0],
         url: URL.createObjectURL(e.target.files[0]),
       });
-      // setText("Send an image");
+      e.target.value = null; // Reset input value to allow the same file to be selected again
     }
   };
   useEffect(() => {
@@ -211,11 +206,6 @@ function Message(prop) {
                 >
                   {user.name}
                 </Typography>
-                {/* <Typography
-                  sx={{ color: "#a5a5a5", fontSize: "14", fontWeight: "300" }}
-                >
-                  cai gi do
-                </Typography> */}
               </Box>
             </Box>
             <Box sx={{ display: "flex", gap: "20px" }}>
@@ -223,13 +213,17 @@ function Message(prop) {
                 className="icons"
                 sx={{ color: "white", display: "flex", gap: "20px" }}
               >
-                <CallIcon onClick={handleCall} />
+                <HoverIconButton onClick={handleCall}>
+                <CallIcon />
+                </HoverIconButton>
               </Box>
               <Box
                 className="icons"
                 sx={{ color: "white", display: "flex", gap: "20px" }}
               >
-                <InfoIcon onClick={handleVIewProfile} />
+                <HoverIconButton onClick={handleVIewProfile}>
+                  <InfoIcon />
+                </HoverIconButton>
               </Box>
             </Box>
           </Box>
@@ -244,7 +238,7 @@ function Message(prop) {
                 display: "flex",
                 flexDirection: "column",
                 height: "525px",
-                gap: "20px",
+                gap: "15px",
               }}
             >
               {chat?.message?.map((mess) => (
@@ -287,11 +281,6 @@ function Message(prop) {
                   </Box>
                 </Box>
               ))}
-              {/* {img.url && (
-                <Box className="message own">
-                  <img src={img.url} alt="avt" className="newImg" />
-                </Box>
-              )} */}
               <Box ref={endRef}></Box>
             </Box>
           </Box>
@@ -317,33 +306,33 @@ function Message(prop) {
                 onChange={handleImg}
               />
             </Box>
-            <TextField
-              size="small"
-              className="textMessage"
-              id="standard"
-              placeholder="Type a message..."
-              value={text}
+            <Paper
+              component="form"
               sx={{
-                flex: "1",
-                outline: "none",
-                color: "white",
-                backgroundColor: "white",
-                borderColor: "rgba(17,25,40,0.5)",
-                width: "auto",
-                borderRadius: "4px",
-                fontSize: "16",
+                display: 'flex',
+                alignItems: 'center',
+                flex: 1,
+                borderRadius: 25,
+                boxShadow: 'none',
+                backgroundColor: '#f1f1f1',
               }}
-              onChange={(e) => handleTextChange(e)}
-            />
-            {/* <Box className="emoji" sx={{paddingRight:"10px", paddingLeft:"10px"}}>
-          <EmojiEmotionsIcon sx={{ color: "white" }} />
-        </Box> */}
-            <Box sx={{ paddingLeft: "20px" }}>
-              <Button ref={buttonRef} variant="contained" onClick={handleSend}>
-                {" "}
-                send
-              </Button>
-            </Box>
+            >
+          <InputBase
+            sx={{ ml: 2, flex: 1 }}
+            placeholder="Type a message..."
+            value={text}
+            onChange={handleTextChange}
+          />
+          <IconButton
+            color="primary"
+            sx={{ p: '10px' }}
+            aria-label="send"
+            ref={buttonRef}
+            onClick={handleSend}
+          >
+            <SendIcon />
+          </IconButton>
+        </Paper>
           </Box>
         </Box>
       }

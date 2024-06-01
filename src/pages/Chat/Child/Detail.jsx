@@ -1,21 +1,13 @@
 import React from "react";
 import {
   Box,
-  TextField,
-  Grid,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  duration,
-  Button,
 } from "@mui/material";
 import AvtCho from "./List/ChatList/avtCho.jpg";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import DownloadIcon from "@mui/icons-material/Download";
 import "./Detail.css";
+
 function Detail() {
   return (
     <Box className="detail" sx={{ flex: 1 }}>
@@ -28,11 +20,13 @@ function Detail() {
           alignItems: "center",
           gap: "15px",
           borderBottom: "1px solid #dddddd35",
+          backgroundColor: "#fff",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <img src={AvtCho} alt="avt" />
-        <Typography sx={{ color: "white" }}>Con Cho</Typography>
-        <Typography sx={{ color: "white" }}>Hello</Typography>
+        <img src={AvtCho} alt="avt" style={{ borderRadius: "50%", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }} />
+        <Typography sx={{ color: "#333", fontWeight: "bold" }}>Con Cho</Typography>
+        <Typography sx={{ color: "#666" }}>Hello</Typography>
       </Box>
       <Box
         className="info"
@@ -44,159 +38,33 @@ function Detail() {
           gap: "25px",
           flex: 1,
           overflowY: "scroll",
-          height:"505px"
+          height: "505px",
+          backgroundColor: "#fafafa",
+          borderRadius: "8px",
         }}
       >
         <Box className="option">
           <Box className="title">
-            <Typography sx={{ color: "white" }}>Chat setting</Typography>
+            <Typography sx={{ color: "#333", fontWeight: "bold" }}>Chat setting</Typography>
             <Box sx={{ cursor: "pointer" }}>
-              <KeyboardArrowUpIcon sx={{ color: "white" }} />
-            </Box>
-          </Box>
-        </Box>
-
-        <Box className="option">
-          <Box className="title">
-            <Typography sx={{ color: "white" }}>Privacy & Help</Typography>
-            <Box sx={{ cursor: "pointer" }}>
-              <KeyboardArrowUpIcon sx={{ color: "white" }} />
-            </Box>
-          </Box>
-        </Box>
-
-        <Box className="option">
-          <Box className="title">
-            <Typography sx={{ color: "white" }}>Shared Photos</Typography>
-            <Box sx={{ cursor: "pointer" }}>
-              <KeyboardArrowDownIcon sx={{ color: "white" }} />
+              <KeyboardArrowDownIcon />
             </Box>
           </Box>
           <Box className="photos">
             <Box className="photoitem">
               <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png{" "}
-                </Typography>
+                <img src={AvtCho} alt="avt" />
+                <Typography sx={{ color: "#333" }}>Photo 1</Typography>
               </Box>
-              <DownloadIcon sx={{ color: "white" }} />
-            </Box>
-
-            <Box className="photoitem">
-              <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
-              </Box>
-              <DownloadIcon sx={{ color: "white" }} />
-            </Box>
-
-            <Box className="photoitem">
-              <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
-              </Box>
-              <DownloadIcon sx={{ color: "white" }} />
-            </Box>
-
-            <Box className="photoitem">
-              <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
-              </Box>
-              <DownloadIcon sx={{ color: "white" }} />
+              <DownloadIcon />
             </Box>
             <Box className="photoitem">
               <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
+                <img src={AvtCho} alt="avt" />
+                <Typography sx={{ color: "#333" }}>Photo 2</Typography>
               </Box>
-              <DownloadIcon sx={{ color: "white" }} />
+              <DownloadIcon />
             </Box>
-            <Box className="photoitem">
-              <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
-              </Box>
-              <DownloadIcon sx={{ color: "white" }} />
-            </Box>
-            <Box className="photoitem">
-              <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
-              </Box>
-              <DownloadIcon sx={{ color: "white" }} />
-            </Box>
-            <Box className="photoitem">
-              <Box className="photodetail">
-                <img src={AvtCho} alt="childphoto" />
-                <Typography
-                  sx={{
-                    color: "lightgray",
-                    fontSize: "14px",
-                    fontWeight: "300",
-                  }}
-                >
-                  photo_cho.png
-                </Typography>
-              </Box>
-              <DownloadIcon sx={{ color: "white" }} />
-            </Box>
-            
           </Box>
         </Box>
       </Box>
