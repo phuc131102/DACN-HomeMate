@@ -84,16 +84,12 @@ function WorkerCard(prop) {
                 <Typography
                   variant="body1"
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
                   }}
                   gutterBottom
                 >
-                  <EmailIcon />
                   {prop.card.email}
                 </Typography>
               ) : (
