@@ -44,6 +44,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 
+
 function JobInfo() {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -159,6 +160,8 @@ function JobInfo() {
 
   const navigate = useNavigate();
 
+  // console.log(chonQuan);
+  // console.log(jobInfo);
   useEffect(() => {
     if (id) {
       const fetchJobInfo = async () => {
@@ -167,7 +170,10 @@ function JobInfo() {
           const response = await get_job_info(id);
           const response2 = await waiting_list(id);
           const response3 = await accept_list(id);
+
           setJobInfo(response);
+          try {
+          } catch {}
           setChooseSkill(response.skill);
           setEditedValues({
             name: response.name,
@@ -177,6 +183,7 @@ function JobInfo() {
             address: response.address,
             desc: response.desc,
             requirement: response.requirement,
+            skill:response.skill,
             max_num: response.max_num,
             image: response.image,
             datetime: response.datetime,
@@ -244,7 +251,7 @@ function JobInfo() {
       "skill",
     ];
     const emptyFields = requiredFields.filter((field) => !editedValues[field]);
-
+    // console.log(emptyFields)
     if (emptyFields.length > 0) {
       setError("Please fill in all required fields.");
     } else {
@@ -264,7 +271,7 @@ function JobInfo() {
           skill: chooseSkill,
           image: editedValues.image,
         };
-        console.log(updatedValues);
+        // console.log(updatedValues);
         await update_job(updatedValues);
         setJobInfo(updatedValues);
         setEditMode(false);
@@ -345,6 +352,8 @@ function JobInfo() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    // console.log(name)
+    // console.log(value)
     setEditedValues((prevEditedValues) => ({
       ...prevEditedValues,
       [name]: value,

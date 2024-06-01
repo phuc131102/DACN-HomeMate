@@ -11,6 +11,7 @@ import "./Child/Newcard.css";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useUserInfo from "../../utils/userUtils/useUserInfo";
+import { addressTinh } from "../../services/addressAPI";
 function Job() {
   //////////////////////
   const theme = useTheme();
@@ -27,11 +28,29 @@ function Job() {
   const [filterSalaryItems, setFilterSalaryItems] = useState([]);
   const [chooseSalary, setChooseSalary] = useState([]);
   const { userInfo } = useUserInfo(userData?.id);
+  const [tinh, setTinh] = useState([]);
+  const [chooseTinh, setChooseTinh] = useState([]);
+  // console.log(tinh)
 
   useEffect(() => {
     setFilterItems(jobs);
     setFilterSalaryItems(jobs);
   }, [jobs]);
+  useEffect(() => {
+    if (chooseTinh.length > 0) {
+      let tempItems = chooseTinh.map((selectedTinh) => {
+        let temp = jobs.filter((jobItem) => {
+          let tempArray = jobItem.address.includes(selectedTinh);
+          return tempArray;
+        });
+        console.log(temp)
+        return temp;
+      });
+      setFilterItems([...new Set(tempItems.flat())]);
+    } else {
+      setFilterItems(jobs);
+    }
+  }, [chooseTinh]);
 
   useEffect(() => {
     if (chooseSalary.length > 0) {
@@ -79,7 +98,15 @@ function Job() {
       } catch (error) {
         console.error("Error fetching skill information:", error);
       } finally {
-        setLoading(false);
+        try {
+          const response = await addressTinh();
+          // console.log(response);
+          setTinh(response);
+        } catch (error) {
+          console.error("Error fetching skill information:", error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchSkill();
@@ -158,6 +185,14 @@ function Job() {
                   chooseOption={chooseSkill}
                   setChooseOption={setChooseSkill}
                   label="Skill"
+                />
+              </Box>
+              <Box sx={{ width: "300px" }}>
+                <JobFilter
+                  option={tinh}
+                  chooseOption={chooseTinh}
+                  setChooseOption={setChooseTinh}
+                  label="Province"
                 />
               </Box>
             </Box>
