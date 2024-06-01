@@ -98,7 +98,7 @@ function JobDetail(prop) {
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <AttachMoneyIcon fontSize="small" />
                   &nbsp;
-                  <Typography variant="h5">Salary</Typography>
+                  <Typography variant="h5">Wage</Typography>
                 </Box>
                 <Typography variant="body1">
                   {prop.jobInfo.salary} VNĐ/hour

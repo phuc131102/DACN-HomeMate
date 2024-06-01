@@ -133,7 +133,8 @@ const CreateJobPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    let newAddress = formData.address + ", " + chonQuan.name +", "+ chonTinh.name
+    let newAddress =
+      formData.address + ", " + chonQuan.name + ", " + chonTinh.name;
     const updatedFormData = {
       ...formData,
       address: newAddress,
@@ -246,7 +247,7 @@ const CreateJobPage = () => {
                     }}
                     required
                     fullWidth
-                    label="Salary"
+                    label="Wage"
                     name="salary"
                     type="number"
                     value={formData.salary}
@@ -320,7 +321,7 @@ const CreateJobPage = () => {
                     option={quan !== null ? quan : []}
                     setValue={setChonQuan}
                     value={chonQuan}
-                    name="Distric"
+                    name="District"
                     disab={quan !== null ? false : true}
                   />
                 </Grid>

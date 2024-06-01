@@ -69,7 +69,7 @@ function JobUpdate(prop) {
   }, [chonTinh]);
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
-    setAdrr(value)
+    setAdrr(value);
     prop.handleInputChange({
       target: {
         name: name,
@@ -168,7 +168,7 @@ function JobUpdate(prop) {
                 }}
                 variant={"outlined"}
                 fullWidth
-                label="Salary"
+                label="Wage"
                 name="salary"
                 value={prop.editedValues.salary}
                 onChange={prop.handleInputChange}

@@ -43,7 +43,7 @@ function Job() {
           let tempArray = jobItem.address.includes(selectedTinh);
           return tempArray;
         });
-        console.log(temp)
+        console.log(temp);
         return temp;
       });
       setFilterItems([...new Set(tempItems.flat())]);
@@ -176,7 +176,7 @@ function Job() {
                   option={Salary}
                   chooseOption={chooseSalary}
                   setChooseOption={setChooseSalary}
-                  label="Salary"
+                  label="Wage"
                 />
               </Box>
               <Box sx={{ width: "300px" }}>

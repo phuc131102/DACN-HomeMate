@@ -136,7 +136,7 @@ function JobList(prop) {
                   option={Salary}
                   chooseOption={chooseSalary}
                   setChooseOption={setChooseSalary}
-                  label="Salary"
+                  label="Wage"
                 />
               </Box>
               <Box sx={{ width: "300px" }}>
