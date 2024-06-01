@@ -15,6 +15,8 @@ import JobFilter from "./Child/Job_filter";
 import { get_skill } from "../../services/skillAPI";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { addressTinh, addressQuan } from "../../services/addressAPI";
+import AdressAutoComplete from "./Child/AdressAutoComplete";
 
 const CreateJobPage = () => {
   const theme = useTheme();
@@ -36,7 +38,15 @@ const CreateJobPage = () => {
       } catch (error) {
         console.error("Error fetching skill information:", error);
       } finally {
-        setLoading(false);
+        try {
+          const response = await addressTinh();
+          // console.log(response);
+          setTinh(response);
+        } catch (error) {
+          console.error("Error fetching skill information:", error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchSkill();
@@ -60,11 +70,44 @@ const CreateJobPage = () => {
   const [avatarBase64, setAvatarBase64] = useState("");
   const [skills, setSkills] = useState([]);
   const [chooseSkill, setChooseSkill] = useState([]);
+
+  const [tinh, setTinh] = useState([]);
+  const [chonTinh, setChonTinh] = useState(null);
+  // console.log(chonTinh);
+
+  const [quan, setQuan] = useState([]);
+  const [chonQuan, setChonQuan] = useState(null);
+  // console.log(chonQuan);
+  useEffect(() => {
+    if (chonTinh !== null) {
+      const handleAPI = async () => {
+        try {
+          // console.log(tinh.id)
+          const response = await addressQuan(chonTinh.id);
+          // console.log(response);
+          setQuan(response);
+        } catch (error) {
+          console.error("Error fetching quan information:", error);
+        }
+      };
+      handleAPI();
+    } else {
+      setChonQuan(null);
+      setQuan(null);
+    }
+  }, [chonTinh]);
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "address") {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    }
     // }
   };
 
@@ -90,9 +133,10 @@ const CreateJobPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    let newAddress = formData.address + ", " + chonQuan.name +", "+ chonTinh.name
     const updatedFormData = {
       ...formData,
+      address: newAddress,
       image: avatarBase64,
       owner_id: userData.id,
       skill: chooseSkill,
@@ -263,6 +307,24 @@ const CreateJobPage = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  <AdressAutoComplete
+                    option={tinh}
+                    setValue={setChonTinh}
+                    value={chonTinh}
+                    name="Province"
+                    disab={false}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <AdressAutoComplete
+                    option={quan !== null ? quan : []}
+                    setValue={setChonQuan}
+                    value={chonQuan}
+                    name="Distric"
+                    disab={quan !== null ? false : true}
+                  />
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     sx={{
                       [`& fieldset`]: {
@@ -276,6 +338,7 @@ const CreateJobPage = () => {
                     fullWidth
                     label="Address"
                     name="address"
+                    disabled={chonQuan !== null ? false : true}
                     value={formData.address}
                     onChange={handleChange}
                   />
