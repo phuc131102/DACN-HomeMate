@@ -107,14 +107,14 @@ function TopBar() {
     if (userData && userData.id) {
       const messNoti = async () => {
         const querySnapshot = await getDocs(collection(db, "contacts"));
-        console.log(querySnapshot);
+        // console.log(querySnapshot);
         const filtered = querySnapshot.docs.filter(
           (doc) => doc.id === userData.id
         );
-        console.log(filtered);
+        // console.log(filtered);
         if (filtered.length === 0) {
           const createUser = async () => {
-            console.log("vao r");
+            // console.log("vao r");
             try {
               await setDoc(doc(db, "contacts", userData.id), {
                 chat: [],
@@ -123,7 +123,7 @@ function TopBar() {
           };
           createUser();
         }
-        console.log(userData.id);
+        // console.log(userData.id);
         const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
           const arrayMes = res.data();
           let count = 0;

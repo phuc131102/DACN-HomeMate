@@ -91,14 +91,14 @@ function Login() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
-  const handleTest = async () => {
-    const querySnapshot = await getDocs(collection(db, "contacts"));
-    console.log(querySnapshot);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
-  };
+  // const handleTest = async () => {
+  //   const querySnapshot = await getDocs(collection(db, "contacts"));
+  //   console.log(querySnapshot);
+  //   querySnapshot.forEach((doc) => {
+  //     // doc.data() is never undefined for query doc snapshots
+  //     console.log(doc.id, " => ", doc.data());
+  //   });
+  // };
   const handleSubmit2 = async (e) => {
     const hashedPassword = sha256(password);
     const formData = { email: email, password: hashedPassword };
@@ -116,30 +116,30 @@ function Login() {
         const userData = response.data;
         localStorage.setItem("userData", JSON.stringify(userData));
         localStorage.setItem("activeTab", "home");
-        console.log(userData);
-        let filterItem = [];
-        const querySnapshot = await getDocs(collection(db, "contacts"));
-        console.log(querySnapshot);
-        const filtered = querySnapshot.docs.filter(
-          (doc) => doc.id === userData.id
-        );
-        console.log(filtered);
-        if (filtered.length === 0) {
-          const createUser = async () => {
-            console.log("vao r");
-            try {
-              await setDoc(doc(db, "contacts", userData.id), {
-                chat: [],
-              });
-            } catch (err) {
-            } finally {
-              navigate("/");
-              setLoading(false);
-              window.location.reload();
-            }
-          };
-          createUser();
-        }
+        // console.log(userData);
+        // let filterItem = [];
+        // const querySnapshot = await getDocs(collection(db, "contacts"));
+        // console.log(querySnapshot);
+        // const filtered = querySnapshot.docs.filter(
+        //   (doc) => doc.id === userData.id
+        // );
+        // console.log(filtered);
+        // if (filtered.length === 0) {
+        //   const createUser = async () => {
+        //     console.log("vao r");
+        //     try {
+        //       await setDoc(doc(db, "contacts", userData.id), {
+        //         chat: [],
+        //       });
+        //     } catch (err) {
+        //     } finally {
+        //       navigate("/");
+        //       setLoading(false);
+        //       window.location.reload();
+        //     }
+        //   };
+        //   createUser();
+        // }
         // onSnapshot(doc(db, "contacts", userData.id), (res) => {
         //   const arrayMes = res.data();
         //   console.log(arrayMes);
@@ -226,7 +226,7 @@ function Login() {
                           Home Mate
                         </Typography>
                       </Box>
-                      <Button onClick={handleTest}>test</Button>
+                      {/* <Button onClick={handleTest}>test</Button> */}
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">
