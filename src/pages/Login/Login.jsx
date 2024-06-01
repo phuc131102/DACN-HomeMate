@@ -17,7 +17,13 @@ import videoBg from "../../assets/nightwall.gif";
 import { sign_in } from "../../services/userAPI";
 import Loading from "../../components/Loading/Loading";
 import { sha256 } from "js-sha256";
-import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -85,7 +91,14 @@ function Login() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
-
+  const handleTest = async () => {
+    const querySnapshot = await getDocs(collection(db, "contacts"));
+    console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  };
   const handleSubmit2 = async (e) => {
     const hashedPassword = sha256(password);
     const formData = { email: email, password: hashedPassword };
@@ -105,26 +118,47 @@ function Login() {
         localStorage.setItem("activeTab", "home");
         console.log(userData);
         let filterItem = [];
-        const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
-          const arrayMes = res.data();
-          console.log(arrayMes)
-          // setChat(arrayMes.chat.filter((item) => item.receiverId === id));
-          if (arrayMes===undefined){
-            console.log("vao r")
-            const createUser = async () => {
-              try {
-                await setDoc(doc(db, "contacts", userData.id), {
-                  chat: [],
-                });
-              } catch (err) {}
-            };
-            createUser();
-          }
-        });
-
+        const querySnapshot = await getDocs(collection(db, "contacts"));
+        console.log(querySnapshot);
+        const filtered = querySnapshot.docs.filter(
+          (doc) => doc.id === userData.id
+        );
+        console.log(filtered);
+        if (filtered.length === 0) {
+          const createUser = async () => {
+            console.log("vao r");
+            try {
+              await setDoc(doc(db, "contacts", userData.id), {
+                chat: [],
+              });
+            } catch (err) {
+            } finally {
+              navigate("/");
+              setLoading(false);
+              window.location.reload();
+            }
+          };
+          createUser();
+        }
+        // onSnapshot(doc(db, "contacts", userData.id), (res) => {
+        //   const arrayMes = res.data();
+        //   console.log(arrayMes);
+        //   // setChat(arrayMes.chat.filter((item) => item.receiverId === id));
+        //   if (arrayMes === undefined) {
+        //     console.log("vao r");
+        //     const createUser = async () => {
+        //       try {
+        //         await setDoc(doc(db, "contacts", userData.id), {
+        //           chat: [],
+        //         });
+        //       } catch (err) {}
+        //     };
+        //     createUser();
+        //   }
+        // });
         navigate("/");
-        window.location.reload();
-        console.log("User signed in:", response);
+
+        // console.log("User signed in:", response);
       }
     } catch (error) {
       if (error.response) {
@@ -137,6 +171,7 @@ function Login() {
       console.error("Sign up failed:", error);
     } finally {
       setLoading(false);
+      window.location.reload();
     }
   };
 
@@ -191,6 +226,7 @@ function Login() {
                           Home Mate
                         </Typography>
                       </Box>
+                      <Button onClick={handleTest}>test</Button>
                     </Grid>
                     <Grid item xs={12}>
                       <Box className="HomeIcon">

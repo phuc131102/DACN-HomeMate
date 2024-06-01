@@ -27,7 +27,13 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FlagIcon from "@mui/icons-material/Flag";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import { doc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useChatStore } from "../../lib/chatStore";
 function TopBar() {
@@ -100,6 +106,24 @@ function TopBar() {
   useEffect(() => {
     if (userData && userData.id) {
       const messNoti = async () => {
+        const querySnapshot = await getDocs(collection(db, "contacts"));
+        console.log(querySnapshot);
+        const filtered = querySnapshot.docs.filter(
+          (doc) => doc.id === userData.id
+        );
+        console.log(filtered);
+        if (filtered.length === 0) {
+          const createUser = async () => {
+            console.log("vao r");
+            try {
+              await setDoc(doc(db, "contacts", userData.id), {
+                chat: [],
+              });
+            } catch (err) {}
+          };
+          createUser();
+        }
+        console.log(userData.id);
         const unSub = onSnapshot(doc(db, "contacts", userData.id), (res) => {
           const arrayMes = res.data();
           let count = 0;
