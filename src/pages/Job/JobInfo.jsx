@@ -44,7 +44,6 @@ import SaveIcon from "@mui/icons-material/Save";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 
-
 function JobInfo() {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
@@ -183,7 +182,7 @@ function JobInfo() {
             address: response.address,
             desc: response.desc,
             requirement: response.requirement,
-            skill:response.skill,
+            skill: response.skill,
             max_num: response.max_num,
             image: response.image,
             datetime: response.datetime,
@@ -424,7 +423,7 @@ function JobInfo() {
                         <Button
                           variant="contained"
                           color="success"
-                          disabled={userInfo.block ? true : false}
+                          disabled={userInfo?.block ? true : false}
                           sx={{
                             width: isMd ? "10%" : "150px",
                             borderRadius: "15px",
@@ -443,7 +442,7 @@ function JobInfo() {
                         <Button
                           variant="contained"
                           color="error"
-                          disabled={userInfo.block ? true : false}
+                          disabled={userInfo?.block ? true : false}
                           sx={{
                             width: isMd ? "10%" : "150px",
                             marginLeft: "5%",
@@ -532,7 +531,7 @@ function JobInfo() {
                                     }}
                                     onClick={handleApply}
                                     disabled={
-                                      userInfo.block ||
+                                      userInfo?.block ||
                                       userInfo.status === "Pending" ||
                                       userInfo.status === "Rejected"
                                         ? true
@@ -542,7 +541,7 @@ function JobInfo() {
                                     Apply
                                   </Button>
                                 }
-                                {userInfo.block ||
+                                {userInfo?.block ||
                                 userInfo.status === "Pending" ||
                                 userInfo.status === "Rejected" ? (
                                   <Typography
@@ -826,7 +825,7 @@ function JobInfo() {
                                           owner_id={userData.id}
                                           job_id={id}
                                           worker_id={card._id.$oid}
-                                          block={userInfo.block}
+                                          block={userInfo?.block}
                                         />
                                       </Box>
                                     </Grid>
@@ -848,7 +847,7 @@ function JobInfo() {
                                           owner_id={userData.id}
                                           job_id={id}
                                           worker_id={card._id.$oid}
-                                          block={userInfo.block}
+                                          block={userInfo?.block}
                                         />
                                       </Box>
                                     </Grid>
@@ -958,14 +957,14 @@ function JobInfo() {
                       <StartJobButton
                         owner_id={userData.id}
                         job_id={id}
-                        block={userInfo.block}
+                        block={userInfo?.block}
                       />
                     ) : null}
                     {jobInfo.status === "In Progress" ? (
                       <Button
                         variant="contained"
                         color="error"
-                        disabled={userInfo.block ? true : false}
+                        disabled={userInfo?.block ? true : false}
                         sx={{
                           width: isMd ? "15%" : "100px",
                           borderRadius: "15px",
